@@ -1,7 +1,7 @@
-# Predmetni projekat iz pretmeta USI
+# Predmetni projekat iz pretmeta USI - TIM 13
 
-Članovi tima:
-* ...
-* ...
-* ...
-* ...
+## Članovi tima:
+* Milan Arežina
+* Aleksa Vukomanović
+* Maša Ivanov
+* Dimitrije Gašić
