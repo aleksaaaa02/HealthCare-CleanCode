@@ -18,5 +18,11 @@ namespace HealthCare.Model
             Blocked = blocked;
             MedicalRecord = medicalRecord;
         }
+        public bool IsAvailable()
+        {
+            // TO-DO 
+         
+            return true;
+        }
     }
 }

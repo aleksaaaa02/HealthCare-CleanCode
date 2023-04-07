@@ -14,5 +14,6 @@ namespace HealthCare.Model
         public Doctor? Doctor;
         public TimeSlot? TimeSlot;
 
+        
     }
 }

@@ -32,5 +32,6 @@ namespace HealthCare.Model
             UserName = userName;
             Password = password;
         }
+
     }
 }
