@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using HealthCare.Model;
 
-namespace HealthCare.Users
+namespace HealthCare.Model
 {
     internal class Patient : User
     {

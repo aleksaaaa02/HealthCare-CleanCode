@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCare.Users
+namespace HealthCare.Model
 {
     internal class User
     {
