@@ -23,5 +23,11 @@ namespace HealthCare
             Name = name;
             Type = type;
         }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Room room &&
+                   Name == room.Name;
+        }
     }
 }
