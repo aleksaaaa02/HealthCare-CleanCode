@@ -6,21 +6,23 @@ using System.Threading.Tasks;
 
 namespace HealthCare
 {
+    public enum EquipmentType
+    {
+        Examinational,
+        Operational,
+        RoomFurniture,
+        HallwayFurniture
+    }
     class Equipment
     {
         public string Name { get; set; }
+        public EquipmentType Type { get; set; }
         public bool Dynamic { get; set; }
-        public enum Type
-        {
-            Examinational,
-            Operational,
-            RoomFurniture,
-            HallwayFurniture
-        }
 
-        public Equipment(string name, bool dynamic)
+        public Equipment(string name, EquipmentType type, bool dynamic)
         {
             Name = name;
+            Type = type;
             Dynamic = dynamic;
         }
     }
