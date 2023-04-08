@@ -16,11 +16,13 @@ namespace HealthCare.Model
             Start = start;
             Duration = duration;
         }
-
+        public DateTime GetEnd() 
+        {
+            return Start + Duration;
+        }
         public bool Overlaps(TimeSlot term)
         {
-            // TO-DO: Metoda za proveru preklapanja izemdju termina
-            return true;
+            return term.Start < GetEnd() && term.GetEnd() > Start;
         }
 
     }
