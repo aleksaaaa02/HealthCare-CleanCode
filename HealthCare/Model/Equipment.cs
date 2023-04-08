@@ -25,5 +25,11 @@ namespace HealthCare
             Type = type;
             Dynamic = dynamic;
         }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Equipment equipment &&
+                   Name == equipment.Name;
+        }
     }
 }
