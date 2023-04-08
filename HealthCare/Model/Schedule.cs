@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCare.Model
+namespace HealthCare
 {
-    static internal class Schedule
+    static class Schedule
     {
         public static List<Appointment> Appointments = new();
     

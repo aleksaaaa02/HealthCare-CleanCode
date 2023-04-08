@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using HealthCare.Model;
+using HealthCare;
 
-namespace HealthCare.Model
+namespace HealthCare
 {
-    internal class Patient : User
+    class Patient : User
     {
         public bool Blocked { get; set; }
         public MedicalRecord? MedicalRecord { get; set; }

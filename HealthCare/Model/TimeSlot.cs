@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCare.Model
+namespace HealthCare
 {
-    internal class TimeSlot
+    class TimeSlot
     {
         public DateTime Start { get; set; }
         public TimeSpan Duration { get; set; }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare
 {
-    internal class Appointment
+    class Appointment
     {
         public Patient Patient { get; set; }
         public Doctor Doctor { get; set; }

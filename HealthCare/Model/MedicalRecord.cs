@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCare.Model
+namespace HealthCare
 {
-    internal class MedicalRecord
+    class MedicalRecord
     {
         public float Height { get; set; }
         public float Weight { get; set; }
