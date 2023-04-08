@@ -10,8 +10,8 @@ namespace HealthCare
     {
         public Equipment Equipment { get; set; }
         public Room Room { get; set; }
-        public double Quantity { get; set; }
-        public InventoryItem(Equipment equipment, Room room, double quantity)
+        public int Quantity { get; set; }
+        public InventoryItem(Equipment equipment, Room room, int quantity)
         {
             Equipment = equipment;
             Room = room;
