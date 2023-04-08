@@ -10,11 +10,11 @@ namespace HealthCare.Model
     {
         public static List<Appointment> Appointments = new();
     
-        public static List<Appointment> GetDoctorAppointments()
+        public static List<Appointment> GetDoctorAppointments(Doctor Doctor)
         { 
             return Appointments; 
         }
-        public static List <Appointment> GetPatientAppointments() 
+        public static List <Appointment> GetPatientAppointments(Patient Patinet) 
         {
             return Appointments;
         }
