@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare
 {
-    public enum EquipmentType
+    enum EquipmentType
     {
         Examinational,
         Operational,
