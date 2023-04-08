@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCare.Model
+namespace HealthCare
 {
-    internal class User
+    class User
     {
         public string Name { get; set; }
         public string LastName { get; set; }

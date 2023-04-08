@@ -1,11 +1,11 @@
-﻿using HealthCare.Model;
+﻿using HealthCare;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCare.Model
+namespace HealthCare
 {
     internal class Doctor : User
     {
