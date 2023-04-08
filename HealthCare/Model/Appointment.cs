@@ -10,10 +10,18 @@ namespace HealthCare.Model
 {
     internal class Appointment
     {
-        public Patient? Patient;
-        public Doctor? Doctor;
-        public TimeSlot? TimeSlot;
+        public Patient Patient { get; set; }
+        public Doctor Doctor { get; set; }
+        public TimeSlot TimeSlot { get; set; }
+        public bool IsOperation { get; set; }
 
-        
+        public Appointment(Patient patient, Doctor doctor, TimeSlot timeSlot, bool isOperation)
+        {
+            Patient = patient;
+            Doctor = doctor;
+            TimeSlot = timeSlot;
+            IsOperation = isOperation;
+        }
+
     }
 }

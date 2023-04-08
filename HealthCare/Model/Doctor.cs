@@ -9,23 +9,26 @@ namespace HealthCare.Model
 {
     internal class Doctor : User
     {
-
-        public Doctor(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address, string userName, string password) : base(name, lastName, jMBG, birthDate, phoneNumber, address, userName, password)
+        public string Specialization { get; set; }
+        public Doctor(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address, string userName, string password, string specialization) : base(name, lastName, jMBG, birthDate, phoneNumber, address, userName, password)
         {
-
+            Specialization = specialization;
 
         }
 
 
         public bool IsAvailable()
         {
-
             // TO-DO 
             return true;
         }
-        public bool IsCapable()
+        public bool IsCapable(string NeededSpecialization)
         {
-            return true;
+            if (Specialization == NeededSpecialization)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

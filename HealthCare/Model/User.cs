@@ -8,14 +8,14 @@ namespace HealthCare.Model
 {
     internal class User
     {
-        public string Name;
-        public string LastName;
-        public string JMBG;
-        public DateTime BirthDate;
-        public string PhoneNumber;
-        public string Address;
-        public string UserName;
-        public string Password;
+        public string Name { get; set; }
+        public string LastName { get; set; }
+        public string JMBG { get; set; }
+        public DateTime BirthDate { get; set; }
+        public string PhoneNumber {get; set; }
+        public string Address { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
         public enum Gender{ 
             Male,
             Female

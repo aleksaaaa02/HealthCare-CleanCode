@@ -8,8 +8,8 @@ namespace HealthCare.Model
 {
     internal class MedicalRecord
     {
-        public float Height;
-        public float Weight;
+        public float Height { get; set; }
+        public float Weight { get; set; }
         public string[] MedicalHistory;
         public MedicalRecord(float height, float weight, string[] medicalHistory)
         {

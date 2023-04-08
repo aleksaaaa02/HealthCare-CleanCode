@@ -10,8 +10,8 @@ namespace HealthCare.Model
 {
     internal class Patient : User
     {
-        public bool Blocked;
-        public MedicalRecord? MedicalRecord;
+        public bool Blocked { get; set; }
+        public MedicalRecord? MedicalRecord { get; set; }
 
         public Patient(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address, string userName, string password,bool blocked, MedicalRecord? medicalRecord) : base(name, lastName, jMBG, birthDate, phoneNumber, address, userName,password)
         {
