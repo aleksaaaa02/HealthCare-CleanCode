@@ -53,6 +53,10 @@ namespace HealthCare
                 {
                     Appointments.Insert(appointmentIndex,updatedAppointment);
                 }
+                else
+                {
+                    Appointments.Insert(appointmentIndex, appointment);
+                }
 
             }
         }
