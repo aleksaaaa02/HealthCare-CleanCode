@@ -45,14 +45,21 @@ namespace HealthCare
 
         public  static void UpdateAppointment(Appointment updatedAppointment)
         {
-            Appointment appointment = Appointments.Find(x => x.AppointmentID == updatedAppointment.AppointmentID);
+            Appointment? appointment = Appointments.Find(x => x.AppointmentID == updatedAppointment.AppointmentID);
             int appointmentIndex = Appointments.IndexOf(appointment);
-            if (appointmentIndex == -1) Appointments[appointmentIndex] = updatedAppointment;
+            if (appointmentIndex != -1) {
+                Appointments.RemoveAt(appointmentIndex);
+                if (updatedAppointment.Patient.IsAvailable(updatedAppointment.TimeSlot) && updatedAppointment.Doctor.IsAvailable(updatedAppointment.TimeSlot))
+                {
+                    Appointments.Insert(appointmentIndex,updatedAppointment);
+                }
+
+            }
         }
 
         public static void DeleteAppointment(int appointmentID)
         {
-            Appointment appointment = Appointments.Find(x => x.AppointmentID == appointmentID);
+            Appointment? appointment = Appointments.Find(x => x.AppointmentID == appointmentID);
             if (appointment != null) Appointments.Remove(appointment);
         }
 
