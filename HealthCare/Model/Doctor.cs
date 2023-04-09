@@ -10,7 +10,7 @@ namespace HealthCare
     public class Doctor : User
     {
         public string Specialization { get; set; }
-        public Doctor(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address, string userName, string password, string specialization) : base(name, lastName, jMBG, birthDate, phoneNumber, address, userName, password)
+        public Doctor(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address, string userName, string password,Genders gender, string specialization) : base(name, lastName, jMBG, birthDate, phoneNumber, address, userName, password, gender)
         {
             Specialization = specialization;
 
