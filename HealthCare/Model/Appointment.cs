@@ -10,6 +10,7 @@ namespace HealthCare.Model
 {
     internal class Appointment
     {
+        public int AppointmentID {get;set;}
         public Patient Patient { get; set; }
         public Doctor Doctor { get; set; }
         public TimeSlot TimeSlot { get; set; }
