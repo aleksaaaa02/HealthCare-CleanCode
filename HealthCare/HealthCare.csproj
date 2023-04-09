@@ -8,13 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
     <Folder Include="Resources\" />
-=======
     <Folder Include="Repository\" />
     <Folder Include="Service\" />
     <Folder Include="ViewModel\" />
->>>>>>> origin/2-1-crud-pregledi-operacije
   </ItemGroup>
 
 </Project>
