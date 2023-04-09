@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using HealthCare.Model;
 using Microsoft.Win32;
 
-namespace HealthCare.Model
+namespace HealthCare
 {
     public class Patient : User
     {
