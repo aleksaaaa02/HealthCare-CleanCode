@@ -17,10 +17,14 @@ namespace HealthCare.Model
             Duration = duration;
         }
 
-        public bool isAvailable(TimeSlot term, Doctor doctor, Patient patient)
+        public DateTime GetEnd() 
         {
-            // TO-DO: Metoda za proveru preklapanja izemdju termina
-            return true;
+            return Start + Duration;
+        }
+        public bool Overlaps(TimeSlot term)
+
+        {
+            return term.Start < GetEnd() && term.GetEnd() > Start;
         }
 
     }
