@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
-    static internal class Schedule
+    public static class Schedule
     {
         public static List<Appointment> Appointments = new();
     
@@ -22,7 +22,7 @@ namespace HealthCare.Model
             }
             return DoctorAppointments; 
         }
-        public static List <Appointment> GetPatientAppointments(Patient Patinet) 
+        public static List<Appointment> GetPatientAppointments(Patient Patinet)
         {
             return Appointments;
         }

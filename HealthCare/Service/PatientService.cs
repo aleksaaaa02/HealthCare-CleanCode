@@ -8,7 +8,7 @@ using HealthCare.Model;
 
 namespace HealthCare.Service
 {
-	internal class PatientService
+	public class PatientService
 	{
 		public List<Patient> Patients = new List<Patient>();
 

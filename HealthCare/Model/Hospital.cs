@@ -9,6 +9,7 @@ namespace HealthCare.Model
     public class Hospital
     {
         public string Name { get; set; }
+        
 
         public Hospital(string name)
         {
