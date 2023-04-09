@@ -18,8 +18,16 @@ namespace HealthCare.Model
             Blocked = blocked;
             MedicalRecord = medicalRecord;
         }
-        public bool IsAvailable()
+        public bool IsAvailable(TimeSlot term)
         {
+            List<Appointment> PatientAppointments = Schedule.GetPatientAppointments(this);
+            foreach (Appointment appointment in PatientAppointments)
+            {
+                if (appointment.TimeSlot.Overlaps(term))
+                {
+                    return false;
+                }
+            }
             return true;
         }
     }

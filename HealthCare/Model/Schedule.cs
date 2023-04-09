@@ -22,14 +22,22 @@ namespace HealthCare.Model
             }
             return DoctorAppointments; 
         }
-        public static List<Appointment> GetPatientAppointments(Patient Patinet)
+        public static List<Appointment> GetPatientAppointments(Patient Patient)
         {
-            return Appointments;
+            List<Appointment> PatientAppointments = new List<Appointment>();
+            foreach (Appointment appointment in Appointments)
+            {
+                if (appointment.Patient == Patient)
+                {
+                    PatientAppointments.Add(appointment);
+                }
+            }
+            return PatientAppointments;
         }
  
         public static void CreateAppointment(Appointment appointment)
         {
-            if(appointment.Patient.IsAvailable() && appointment.Doctor.IsAvailable())
+            if(appointment.Patient.IsAvailable(appointment.TimeSlot) && appointment.Doctor.IsAvailable(appointment.TimeSlot))
             {
                 Appointments.Add(appointment);
             }
@@ -51,26 +59,6 @@ namespace HealthCare.Model
         public static Appointment GetAppointment(int appointmentID)
         {
             return Appointments.Find(x => x.AppointmentID == appointmentID);
-        }
-        
-
-        //iterate through appointments and check if the parameter appointment overlaps with any of them
-        public static bool IsAvailable(Appointment appointment)
-        {
-            foreach (Appointment a in Appointments)
-            {
-                if (a.DoctorID == appointment.DoctorID && a.PatientID == appointment.PatientID)
-                {
-                    if (a.StartTime < appointment.EndTime && a.EndTime > appointment.StartTime)
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
-
-          
+        }   
     }
 }
