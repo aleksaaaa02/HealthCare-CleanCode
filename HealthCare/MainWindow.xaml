@@ -18,7 +18,7 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBlock Name="WelcomeMessage" Text="EL HOSPITAL" FontWeight="Bold" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Name="WelcomeMessage" Text="Laza Lazarević" FontWeight="Bold" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition/>

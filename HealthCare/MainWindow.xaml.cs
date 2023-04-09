@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthCare.View.DoctorView;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,6 +43,8 @@ namespace HealthCare
                 if (UserName == "mamatvoja123" && Password == "mrs")
                 {
                     WelcomeMessage.Text = "sara jo";
+                   //FIX THIS
+
                 }
             }
 

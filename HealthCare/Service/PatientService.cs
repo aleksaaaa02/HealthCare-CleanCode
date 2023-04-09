@@ -26,7 +26,7 @@ namespace HealthCare.Service
 			if(patientIndex!= -1) Patients[patientIndex] = updatedPatient;
         }
 
-		/*
+        
 		public void DeleteAccount(int JMBG)
 		{
 			Patient patient = Patients.Find(x => x.JMBG == JMBG);
@@ -36,8 +36,9 @@ namespace HealthCare.Service
 		public Patient GetAccount(int JMBG)
 		{
 			Patient patient = Patients.Find(x => x.JMBG == JMBG);
-			if (patient != null) return patient;
+			return patient;
 		}
-		*/
-	}
+		
+
+    }
 }
