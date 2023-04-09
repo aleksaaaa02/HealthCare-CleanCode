@@ -17,7 +17,7 @@ namespace HealthCare.Model
             Duration = duration;
         }
 
-        public bool Overlaps(TimeSlot term)
+        public bool isAvailable(TimeSlot term, Doctor doctor, Patient patient)
         {
             // TO-DO: Metoda za proveru preklapanja izemdju termina
             return true;

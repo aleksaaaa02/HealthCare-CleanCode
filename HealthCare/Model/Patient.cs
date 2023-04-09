@@ -20,8 +20,6 @@ namespace HealthCare.Model
         }
         public bool IsAvailable()
         {
-            // TO-DO 
-         
             return true;
         }
     }
