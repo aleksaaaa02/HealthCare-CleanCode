@@ -8,7 +8,7 @@ using HealthCare.Model;
 
 namespace HealthCare.Service
 {
-	internal class PatientService
+	public class PatientService
 	{
 		public List<Patient> Patients = new List<Patient>();
 
@@ -26,16 +26,16 @@ namespace HealthCare.Service
 			if(patientIndex!= -1) Patients[patientIndex] = updatedPatient;
         }
 
-		public void DeleteAccount(int JMBG)
+		public void DeleteAccount(string JMBG)
 		{
 			Patient patient = Patients.Find(x => x.JMBG == JMBG);
 			if (patient != null) Patients.Remove(patient);
         }
 
-		public Patient GetAccount(int JMBG)
+		public Patient GetAccount(string JMBG)
 		{
 			Patient patient = Patients.Find(x => x.JMBG == JMBG);
-			if (patient != null) return patient;
+			return patient;
 		}
 		
 	}

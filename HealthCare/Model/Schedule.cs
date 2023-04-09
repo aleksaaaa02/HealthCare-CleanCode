@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
-    static internal class Schedule
+    static public class Schedule
     {
         public static List<Appointment> Appointments = new();
     

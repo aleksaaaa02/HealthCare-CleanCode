@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
-    internal class MedicalRecord
+    public class MedicalRecord
     {
         public float Height { get; set; }
         public float Weight { get; set; }

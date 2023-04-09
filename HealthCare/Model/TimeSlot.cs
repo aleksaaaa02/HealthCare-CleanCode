@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
-    internal class TimeSlot
+    public class TimeSlot
     {
         public DateTime Start { get; set; }
         public TimeSpan Duration { get; set; }
