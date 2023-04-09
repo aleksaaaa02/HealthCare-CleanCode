@@ -7,6 +7,38 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.6*"/>
+            <ColumnDefinition Width="0.4*"/>
+        </Grid.ColumnDefinitions>
 
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Name="WelcomeMessage" Text="EL HOSPITAL" FontWeight="Bold" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
+                    <Label Content="Korisnicko Ime:"/>
+                    <TextBox Name="txtUserName" Margin="10" Height="25"/>
+                </StackPanel>
+                <StackPanel Grid.Row="1">
+                    <Label Content="Lozinka:"/>
+                    <PasswordBox Name="txtPassword" Margin="10" Height="25"/>
+                </StackPanel>
+            </Grid>
+            <StackPanel Grid.Row ="3"  Orientation="Horizontal">
+                <Button Name="btnLogin"  Width="100" Height="40" Margin="25" VerticalAlignment="Center" Content="Uloguj se" Click="btnLogin_Click"/>
+                <Button Name="btnQuitApp" Width="100" Height="40" Margin="25" VerticalAlignment="Center" Content="Izadji" Click="btnQuitApp_Click"/>
+            </StackPanel>
+
+
+        </Grid>
     </Grid>
 </Window>

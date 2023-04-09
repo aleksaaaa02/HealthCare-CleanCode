@@ -20,9 +20,31 @@ namespace HealthCare
     /// </summary>
     public partial class MainWindow : Window
     {
+        
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void btnQuitApp_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        {
+            
+            string UserName = txtUserName.Text;
+            string Password = txtPassword.Password;
+            // SKLONI OVO!!
+            if (UserName != null && Password != null)
+            {
+                if (UserName == "mamatvoja123" && Password == "mrs")
+                {
+                    WelcomeMessage.Text = "sara jo";
+                }
+            }
+
         }
     }
 }

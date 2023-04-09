@@ -17,9 +17,16 @@ namespace HealthCare.Model
         }
 
 
-        public bool IsAvailable()
+        public bool IsAvailable(TimeSlot term)
         {
-            // TO-DO 
+            List<Appointment> DoctorAppointments = Schedule.GetDoctorAppointments(this);
+            foreach(Appointment appointment in DoctorAppointments) 
+            {
+                if (appointment.TimeSlot.Overlaps(term))
+                {
+                    return false;
+                }
+            }
             return true;
         }
         public bool IsCapable(string NeededSpecialization)

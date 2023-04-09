@@ -37,6 +37,6 @@ namespace HealthCare.Service
 			Patient patient = Patients.Find(x => x.JMBG == JMBG);
 			return patient;
 		}
-		
+		*/
 	}
 }
