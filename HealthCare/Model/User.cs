@@ -11,6 +11,10 @@ namespace HealthCare.Model
         Male,
         Female
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/2-1-crud-pregledi-operacije
     public class User
     {
         public string Name { get; set; }
@@ -22,7 +26,10 @@ namespace HealthCare.Model
         public string UserName { get; set; }
         public string Password { get; set; }
         
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/2-1-crud-pregledi-operacije
         public User(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address, string userName, string password)
         {
             Name = name;
