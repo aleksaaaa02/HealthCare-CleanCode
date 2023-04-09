@@ -6,15 +6,23 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
-    static internal class Schedule
+    public static class Schedule
     {
         public static List<Appointment> Appointments = new();
     
         public static List<Appointment> GetDoctorAppointments(Doctor Doctor)
         { 
-            return Appointments; 
+            List<Appointment> DoctorAppointments = new List<Appointment>();
+            foreach(Appointment appointment in Appointments)
+            {
+                if(appointment.Doctor == Doctor)
+                {
+                    DoctorAppointments.Add(appointment);
+                }
+            }
+            return DoctorAppointments; 
         }
-        public static List <Appointment> GetPatientAppointments(Patient Patinet) 
+        public static List<Appointment> GetPatientAppointments(Patient Patinet)
         {
             return Appointments;
         }

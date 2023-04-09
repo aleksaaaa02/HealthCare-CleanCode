@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
-    internal class Doctor : User
+    public class Doctor : User
     {
         public string Specialization { get; set; }
         public Doctor(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address, string userName, string password, string specialization) : base(name, lastName, jMBG, birthDate, phoneNumber, address, userName, password)
@@ -17,9 +17,16 @@ namespace HealthCare.Model
         }
 
 
-        public bool IsAvailable()
+        public bool IsAvailable(TimeSlot term)
         {
-            // TO-DO 
+            List<Appointment> DoctorAppointments = Schedule.GetDoctorAppointments(this);
+            foreach(Appointment appointment in DoctorAppointments) 
+            {
+                if (appointment.TimeSlot.Overlaps(term))
+                {
+                    return false;
+                }
+            }
             return true;
         }
         public bool IsCapable(string NeededSpecialization)

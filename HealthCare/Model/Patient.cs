@@ -8,7 +8,7 @@ using HealthCare.Model;
 
 namespace HealthCare.Model
 {
-    internal class Patient : User
+    public class Patient : User
     {
         public bool Blocked { get; set; }
         public MedicalRecord? MedicalRecord { get; set; }
