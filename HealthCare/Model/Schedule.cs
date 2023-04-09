@@ -12,7 +12,15 @@ namespace HealthCare.Model
     
         public static List<Appointment> GetDoctorAppointments(Doctor Doctor)
         { 
-            return Appointments; 
+            List<Appointment> DoctorAppointments = new List<Appointment>();
+            foreach(Appointment appointment in Appointments)
+            {
+                if(appointment.Doctor == Doctor)
+                {
+                    DoctorAppointments.Add(appointment);
+                }
+            }
+            return DoctorAppointments; 
         }
         public static List <Appointment> GetPatientAppointments(Patient Patinet) 
         {
