@@ -11,13 +11,13 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.2*"/>
-            <ColumnDefinition Width="0.8*"/>
+            <ColumnDefinition Width="0.25*"/>
+            <ColumnDefinition Width="0.75*"/>
         </Grid.ColumnDefinitions>
 
         <Grid>
             <StackPanel>
-                <Button Width="Auto" Height="40" Margin="10" Content="Pregledi" Click="Button_Click"/>
+                <Button Width="Auto" Height="40" Margin="10" Content="Zakazi Pregled/Operaciju" Click="Button_Click"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="TO-DO"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="TO-DO"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="TO-DO"/>
@@ -27,11 +27,56 @@
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition/>
-                <RowDefinition Height="20"/>
+                <RowDefinition Height="0.05*"/>
+                <RowDefinition Height="0.9*"/>
+                <RowDefinition Height="0.05*"/>
             </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <ListView>
+                    <ListItem/>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="ID">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
 
+                                        <TextBlock Padding="0 0 20 0" Text="1"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Doktor">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Padding="0 0 20 0" Text="Aleksa"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Pacijent">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Padding="0 0 20 0" Text="Dimitrije"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Datum i vreme">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Padding="0 0 20 0" Text="10.04.2022. 10:15"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="Trajanje u minutima">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Padding="0 0 20 0" Text="15"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
             <Rectangle Grid.Row="2" Fill="Azure"/>
         </Grid>
         

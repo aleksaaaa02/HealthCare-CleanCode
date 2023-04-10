@@ -27,13 +27,13 @@ namespace HealthCare.Service
         }
 
         
-		public void DeleteAccount(int JMBG)
+		public void DeleteAccount(string JMBG)
 		{
 			Patient patient = Patients.Find(x => x.JMBG == JMBG);
 			if (patient != null) Patients.Remove(patient);
         }
 
-		public Patient GetAccount(int JMBG)
+		public Patient GetAccount(string JMBG)
 		{
 			Patient patient = Patients.Find(x => x.JMBG == JMBG);
 			return patient;
