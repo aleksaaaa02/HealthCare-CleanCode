@@ -17,5 +17,24 @@ namespace HealthCare
             Weight = weight;
             MedicalHistory = medicalHistory;
         }
+
+        public MedicalRecord() 
+        { 
+            MedicalHistory = new string[0];
+        }
+
+        public string[] toCSV()
+        {
+            string medicalRecord = string.Join("\\|",MedicalHistory);
+            string[] csvValues = {Height.ToString(), Weight.ToString(),medicalRecord};
+            return csvValues;
+        }
+
+        public void fromCSV(string[] values)
+        {
+            Height = float.Parse(values[0]);
+            Weight = float.Parse(values[1]);
+            MedicalHistory = values[2].Split("\\|");
+        }
     }
 }
