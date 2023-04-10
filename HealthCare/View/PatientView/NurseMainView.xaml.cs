@@ -1,7 +1,12 @@
-﻿using HealthCare.Service;
+﻿using HealthCare.Model;
+using HealthCare.Observer;
+using HealthCare.Service;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,16 +24,27 @@ namespace HealthCare.View.PatientView
     /// <summary>
     /// Interaction logic for NurseMainView.xaml
     /// </summary>
-    public partial class NurseMainView : Window
+    public partial class NurseMainView : Window,IObserver,INotifyPropertyChanged
     {
         private PatientService patientService;
+        public ObservableCollection<Patient> Patients { get; set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public NurseMainView()
         {
             InitializeComponent();
+            DataContext = this;
             patientService = new PatientService("..\\..\\..\\da.csv");
             patientService.Load();
+            patientService.Subscribe(this);
             lvPatients.ItemsSource = patientService.Patients;
+            Patients = new ObservableCollection<Patient>(patientService.Patients);
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -62,6 +78,15 @@ namespace HealthCare.View.PatientView
 
             lvPatients.ItemsSource = patientService.Patients;
 
+        }
+
+        public void Update()
+        {
+            Patients.Clear();
+            foreach(var patient in patientService.Patients)
+            {
+                Patients.Add(patient);
+            }
         }
     }
 }

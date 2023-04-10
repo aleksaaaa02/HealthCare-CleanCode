@@ -6,18 +6,22 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Markup;
 using HealthCare.Model;
+using HealthCare.Observer;
 using HealthCare.Storage;
+using HealthCare.View.PatientView;
 
 namespace HealthCare.Service
 {
-	public class PatientService
+	public class PatientService : ISubject
 	{
 		public List<Patient> Patients = new List<Patient>();
 		private CsvStorage<Patient> csvStorage;
+		private List<IObserver> observers;
 
 		public PatientService(string filepath)
 		{
 			csvStorage = new CsvStorage<Patient> (filepath);
+            observers = new List<IObserver>();
         }
 
 		public void CreateAccount(Patient newPatient)
@@ -57,5 +61,23 @@ namespace HealthCare.Service
 		{
 			csvStorage.Save(Patients);
 		}
+
+        public void Subscribe(IObserver observer)
+        {
+			observers.Add(observer);
+        }
+
+        public void Unsubscribe(IObserver observer)
+        {
+			observers.Remove(observer);
+        }
+
+        public void NotifyObservers()
+        {
+            foreach(var observer in observers)
+			{
+				observer.Update();
+			}
+        }
     }
 }

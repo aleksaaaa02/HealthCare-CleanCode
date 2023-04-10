@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Printing;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -12,9 +14,10 @@ using Microsoft.Win32;
 
 namespace HealthCare.Model
 {
-    public class Patient : User, ISerializable
+    public class Patient : User, ISerializable, INotifyPropertyChanged
     {
-        public bool Blocked { get; set; }
+        private bool blkd;
+        public bool Blocked { get=>blkd; set { blkd = value; OnPropertyChanged(); } }
         public MedicalRecord? MedicalRecord { get; set; }
 
         public Patient(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address, string userName, string password, Gender gender, bool blocked, MedicalRecord? medicalRecord) : base(name, lastName, jMBG, birthDate, phoneNumber, address, userName,password,gender)
@@ -25,7 +28,14 @@ namespace HealthCare.Model
         
         
         public Patient() { }
-        
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         public bool IsAvailable(TimeSlot term)
         {
             List<Appointment> PatientAppointments = Schedule.GetPatientAppointments(this);
