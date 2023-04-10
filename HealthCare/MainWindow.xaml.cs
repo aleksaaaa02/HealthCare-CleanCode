@@ -1,4 +1,6 @@
-﻿using HealthCare.View.DoctorView;
+﻿using HealthCare.Model;
+using HealthCare.Service;
+using HealthCare.View.DoctorView;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,9 @@ namespace HealthCare
         public MainWindow()
         {
             InitializeComponent();
+            PatientService ps = new PatientService("../../../Resources/patients.csv");
+            ps.Load();
+            ps.Save();
         }
 
         private void btnQuitApp_Click(object sender, RoutedEventArgs e)
@@ -36,7 +41,6 @@ namespace HealthCare
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            
             string UserName = txtUserName.Text;
             string Password = txtPassword.Password;
             // SKLONI OVO!!

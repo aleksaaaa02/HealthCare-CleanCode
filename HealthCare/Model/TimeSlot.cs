@@ -37,5 +37,12 @@ namespace HealthCare.Model
             return Start.ToString() + " " + Duration.ToString();
         }
 
+        public static TimeSlot Parse(string s)
+        {
+            string[] tokens = s.Split(' ');
+            return new TimeSlot(
+                DateTime.Parse(string.Join(" ", new string[] { tokens[0], tokens[1], tokens[2] })),
+                TimeSpan.Parse(tokens[3]));
+        }
     }
 }

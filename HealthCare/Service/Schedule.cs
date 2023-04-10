@@ -11,7 +11,7 @@ namespace HealthCare.Service
     static public class Schedule
     {
         public static List<Appointment> Appointments = new();
-        private static string _filePath = "../../Resources/appointments.csv";
+        private static string _filePath = "../../../Resources/appointments.csv";
         public static List<Appointment> GetDoctorAppointments(Doctor Doctor)
         {
             List<Appointment> DoctorAppointments = new List<Appointment>();
