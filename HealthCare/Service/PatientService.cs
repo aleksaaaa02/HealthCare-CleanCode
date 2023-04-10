@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Windows.Markup;
 using HealthCare.Model;
 
 namespace HealthCare.Service
@@ -11,6 +12,12 @@ namespace HealthCare.Service
 	public class PatientService
 	{
 		public List<Patient> Patients = new List<Patient>();
+		private CsvStorage<Patient> csvStorage;
+
+		public PatientService(string filepath)
+		{
+			csvStorage = new CsvStorage<Patient> (filepath);
+        }
 
 		public void CreateAccount(Patient newPatient)
 		{
@@ -39,7 +46,15 @@ namespace HealthCare.Service
 			Patient? patient = Patients.Find(x => x.JMBG == JMBG);
             return patient;
 		}
-		
 
+		public void Load()
+		{
+			Patients = csvStorage.Load();
+		}
+		
+		public void Save() 
+		{
+			csvStorage.Save(Patients);
+		}
     }
 }
