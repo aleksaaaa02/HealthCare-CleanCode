@@ -10,7 +10,7 @@ using Microsoft.Win32;
 
 namespace HealthCare
 {
-    public class Patient : User
+    public class Patient : User, ISerializable
     {
         public bool Blocked { get; set; }
         public MedicalRecord? MedicalRecord { get; set; }
@@ -37,18 +37,18 @@ namespace HealthCare
             return true;
         }
 
-        public new string[] toCSV()
+        public new string[] ToCSV()
         {
-            string[] userValues = base.toCSV();
+            string[] userValues = base.ToCSV();
             string[] patientValues = {Blocked.ToString()};
             string[] medicalRecordValues = {""};
             if (MedicalRecord != null)
-                medicalRecordValues = MedicalRecord.toCSV();
+                medicalRecordValues = MedicalRecord.ToCSV();
             string[] csvValues = userValues.Concat(patientValues).Concat(medicalRecordValues).ToArray();
             return csvValues;
         }
 
-        public new void fromCSV(string[] values)
+        public new void FromCSV(string[] values)
         {
             Name = values[0];
             LastName = values[1];
@@ -63,7 +63,7 @@ namespace HealthCare
             Blocked = bool.Parse(values[8]);
             MedicalRecord = new MedicalRecord();
             if (values[9] != "")
-                MedicalRecord.fromCSV(values[9].Split("\\|"));
+                MedicalRecord.FromCSV(values[9].Split("\\|"));
         }
 
     }

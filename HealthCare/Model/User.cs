@@ -11,7 +11,7 @@ namespace HealthCare
         Male,
         Female
     }
-    public class User
+    public class User:ISerializable
     {
         public string Name { get; set; }
         public string LastName { get; set; }
@@ -38,13 +38,13 @@ namespace HealthCare
         public User()
         {
         }
-        public string[] toCSV()
+        public string[] ToCSV()
         {
             string[] csvValues = { Name, LastName, JMBG, BirthDate.ToString(), PhoneNumber, Address, UserName, Password, Gender.ToString() };
             return csvValues;
         }
 
-        public void fromCSV(string[] values)
+        public void FromCSV(string[] values)
         {
             Name = values[0];
             LastName = values[1];

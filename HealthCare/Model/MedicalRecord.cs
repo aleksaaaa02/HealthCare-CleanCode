@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare
 {
-    public class MedicalRecord
+    public class MedicalRecord:ISerializable
     {
         public float Height { get; set; }
         public float Weight { get; set; }
@@ -23,14 +23,14 @@ namespace HealthCare
             MedicalHistory = new string[0];
         }
 
-        public string[] toCSV()
+        public string[] ToCSV()
         {
             string medicalRecord = string.Join("\\|",MedicalHistory);
             string[] csvValues = {Height.ToString(), Weight.ToString(),medicalRecord};
             return csvValues;
         }
 
-        public void fromCSV(string[] values)
+        public void FromCSV(string[] values)
         {
             Height = float.Parse(values[0]);
             Weight = float.Parse(values[1]);
