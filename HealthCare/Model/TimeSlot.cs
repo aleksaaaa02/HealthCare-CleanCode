@@ -27,5 +27,10 @@ namespace HealthCare
             return term.Start < GetEnd() && term.GetEnd() > Start;
         }
 
+        public override string ToString()
+        {
+            return Start.ToString() + " " + Duration.ToString();
+        }
+
     }
 }

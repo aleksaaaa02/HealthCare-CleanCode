@@ -18,6 +18,10 @@ namespace HealthCare
             Blocked = blocked;
             MedicalRecord = medicalRecord;
         }
+        
+        
+        public Patient() { }
+        
         public bool IsAvailable(TimeSlot term)
         {
             List<Appointment> PatientAppointments = Schedule.GetPatientAppointments(this);

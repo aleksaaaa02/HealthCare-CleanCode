@@ -35,6 +35,9 @@ namespace HealthCare
             Password = password;
             Gender = gender;
         }
+        public User()
+        {
 
+        }
     }
 }
