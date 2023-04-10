@@ -22,6 +22,21 @@ namespace HealthCare
             }
             return DoctorAppointments; 
         }
+
+        public static List<Appointment> GetDoctorAppointmentsForDays(Doctor doctor, DateTime start, int days)
+        {
+            List<Appointment> appointments = new List<Appointment>();
+            DateTime end = start.AddDays(days);
+            foreach(Appointment appointment in Appointments)
+            {
+                if(appointment.TimeSlot.InBetweenDates(start, end))
+                {
+                    appointments.Add(appointment);
+                }
+            }
+            return appointments;
+
+        }
         public static List<Appointment> GetPatientAppointments(Patient Patient)
         {
             List<Appointment> PatientAppointments = new List<Appointment>();
