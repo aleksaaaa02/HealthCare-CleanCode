@@ -25,9 +25,9 @@ namespace HealthCare
             return _serializer.FromCSV(_filepath);
         }
 
-        public void Save(List<T> students)
+        public void Save(List<T> objects)
         {
-            _serializer.ToCSV(_filepath, students);
+            _serializer.ToCSV(_filepath, objects);
         }
     }
 }
