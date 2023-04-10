@@ -24,27 +24,23 @@ namespace HealthCare.View.PatientView
     /// <summary>
     /// Interaction logic for NurseMainView.xaml
     /// </summary>
-    public partial class NurseMainView : Window,IObserver,INotifyPropertyChanged
+    /// 
+    public partial class NurseMainView : Window
     {
         private PatientService patientService;
-        public ObservableCollection<Patient> Patients { get; set; }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        private PatientViewModel vm;
 
         public NurseMainView()
         {
             InitializeComponent();
-            DataContext = this;
-            patientService = new PatientService("..\\..\\..\\da.csv");
+
+            vm = new PatientViewModel();
+            DataContext = vm;
+
+            patientService = new PatientService("../../../Resources/patients.csv");
             patientService.Load();
-            patientService.Subscribe(this);
-            lvPatients.ItemsSource = patientService.Patients;
-            Patients = new ObservableCollection<Patient>(patientService.Patients);
+
+            UpdateViewModel();
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -61,7 +57,8 @@ namespace HealthCare.View.PatientView
             patient.BirthDate = DateTime.Parse(tbBirthDate.Text);
             patient.PhoneNumber = tbPhoneNumber.Text;
             patient.Address = tbAddress.Text;
-            if (cbMale.IsChecked is bool Checked && Checked){
+            if (cbMale.IsChecked is bool Checked && Checked)
+            {
                 patient.Gender = Gender.Male;
             }
             else patient.Gender = Gender.Female;
@@ -75,18 +72,11 @@ namespace HealthCare.View.PatientView
             patient.MedicalRecord = new MedicalRecord();
             patientService.CreateAccount(patient);
             patientService.Save();
-
-            lvPatients.ItemsSource = patientService.Patients;
-
         }
 
-        public void Update()
+        public void UpdateViewModel()
         {
-            Patients.Clear();
-            foreach(var patient in patientService.Patients)
-            {
-                Patients.Add(patient);
-            }
+            vm.Patients = new ObservableCollection<Patient>(patientService.Patients);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Printing;
@@ -14,10 +15,9 @@ using Microsoft.Win32;
 
 namespace HealthCare.Model
 {
-    public class Patient : User, ISerializable, INotifyPropertyChanged
+    public class Patient : User, ISerializable
     {
-        private bool blkd;
-        public bool Blocked { get=>blkd; set { blkd = value; OnPropertyChanged(); } }
+        public bool Blocked { get; set; }
         public MedicalRecord? MedicalRecord { get; set; }
 
         public Patient(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address, string userName, string password, Gender gender, bool blocked, MedicalRecord? medicalRecord) : base(name, lastName, jMBG, birthDate, phoneNumber, address, userName,password,gender)
@@ -26,15 +26,7 @@ namespace HealthCare.Model
             MedicalRecord = medicalRecord;
         }
         
-        
         public Patient() { }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         public bool IsAvailable(TimeSlot term)
         {
@@ -76,6 +68,5 @@ namespace HealthCare.Model
             MedicalRecord = new MedicalRecord();
             MedicalRecord.FromCSV(new string[] {values[10],values[11],values[12]});
         }
-
     }
 }

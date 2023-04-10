@@ -31,7 +31,7 @@ namespace HealthCare.Model
 
         public string[] ToCSV()
         {
-            string medicalHistory = string.Join("\\|",MedicalHistory);
+            string medicalHistory = string.Join("|",MedicalHistory);
             string[] csvValues = {Height.ToString(), Weight.ToString(), medicalHistory};
             return csvValues;
         }
@@ -40,7 +40,7 @@ namespace HealthCare.Model
         {
             Height = float.Parse(values[0]);
             Weight = float.Parse(values[1]);
-            MedicalHistory = values[2].Split("\\|");
+            MedicalHistory = values[2].Split("|");
         }
     }
 }

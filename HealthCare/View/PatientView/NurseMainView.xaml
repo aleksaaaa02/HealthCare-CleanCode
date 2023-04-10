@@ -41,7 +41,7 @@
         
         <Button Content="Zdravsteni karton" HorizontalAlignment="Left" Margin="110,430,0,0" Width="120" Height="30"  VerticalAlignment="Top"/>
 
-        <ListView Margin="280,30,10,70" Name="lvPatients" ItemsSource="{Binding Path=Patients, UpdateSourceTrigger=PropertyChanged}">
+        <ListView Margin="280,30,10,70" Name="lvPatients" ItemsSource="{Binding Patients}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="60" Header="Ime" DisplayMemberBinding="{Binding Name}"/>
