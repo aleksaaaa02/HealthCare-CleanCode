@@ -1,4 +1,4 @@
-﻿using HealthCare.Model;
+﻿using HealthCare;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace HealthCare.Model
+namespace HealthCare
 {
     public class Appointment
     {
+        public int AppointmentID {get;set;}
         public Patient Patient { get; set; }
         public Doctor Doctor { get; set; }
         public TimeSlot TimeSlot { get; set; }

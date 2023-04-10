@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCare.Model
+namespace HealthCare
 {
     public class TimeSlot
     {
@@ -16,11 +16,13 @@ namespace HealthCare.Model
             Start = start;
             Duration = duration;
         }
+
         public DateTime GetEnd() 
         {
             return Start + Duration;
         }
         public bool Overlaps(TimeSlot term)
+
         {
             return term.Start < GetEnd() && term.GetEnd() > Start;
         }

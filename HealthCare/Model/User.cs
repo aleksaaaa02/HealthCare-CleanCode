@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCare.Model
+namespace HealthCare
 {
-    public enum Gender
+    public enum Genders
     {
         Male,
         Female
     }
-
     public class User
     {
         public string Name { get; set; }
@@ -22,8 +21,9 @@ namespace HealthCare.Model
         public string Address { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        
-        public User(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address, string userName, string password)
+        public Genders Gender { get; set; }
+
+        public User(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address, string userName, string password, Genders gender)
         {
             Name = name;
             LastName = lastName;
@@ -33,6 +33,7 @@ namespace HealthCare.Model
             Address = address;
             UserName = userName;
             Password = password;
+            Gender = gender;
         }
 
     }
