@@ -51,10 +51,12 @@
                 <RowDefinition Height="0.8*"/>
             </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Text="Izaberite pregled" VerticalAlignment="Center" FontSize="16"/>
-            <ListView Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}">
+            <ListView x:Name="appListView" Grid.Row="1">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn/>
+                        <GridViewColumn  Header="Ime pacijenta" DisplayMemberBinding="{Binding Patient.Name}"/>
+                        <GridViewColumn  Header="Ime doktora" DisplayMemberBinding="{Binding Doctor.Name}"/>
+                        <GridViewColumn  Header="Datum pregleda" DisplayMemberBinding="{Binding TimeSlot.Start}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
