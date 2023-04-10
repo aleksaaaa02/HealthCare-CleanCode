@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HealthCare.Serializer;
 
-namespace HealthCare
+namespace HealthCare.Model
 {
     public class Appointment : ISerializable
     {

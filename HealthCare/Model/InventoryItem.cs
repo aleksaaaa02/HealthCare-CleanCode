@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCare
+namespace HealthCare.Model
 {
     class InventoryItem
     {

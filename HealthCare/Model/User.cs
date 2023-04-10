@@ -1,17 +1,18 @@
-﻿using System;
+﻿using HealthCare.Serializer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCare
+namespace HealthCare.Model
 {
     public enum Gender
     {
         Male,
         Female
     }
-    public class User:ISerializable
+    public class User : ISerializable
     {
         public string Name { get; set; }
         public string LastName { get; set; }

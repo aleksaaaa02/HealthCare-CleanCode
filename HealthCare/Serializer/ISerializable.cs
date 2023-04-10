@@ -1,4 +1,4 @@
-﻿namespace HealthCare
+﻿namespace HealthCare.Serializer
 {
     public interface ISerializable
     {
