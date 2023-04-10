@@ -11,13 +11,13 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.25*"/>
-            <ColumnDefinition Width="0.75*"/>
+            <ColumnDefinition Width="0.2*"/>
+            <ColumnDefinition Width="0.8*"/>
         </Grid.ColumnDefinitions>
 
         <Grid>
             <StackPanel>
-                <Button Width="Auto" Height="40" Margin="10" Content="Zakazi Pregled/Operaciju" Click="Button_Click"/>
+                <Button Width="Auto" Height="40" Margin="10" Content="Zakazi Pregled/Operaciju"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="Izmeni Pregled/Operaciju"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="Ukloni Pregled/Operaciju"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="TO-DO"/>
@@ -35,50 +35,57 @@
                     <ColumnDefinition Width="293*"/>
                     <ColumnDefinition Width="7*"/>
                 </Grid.ColumnDefinitions>
-                <ListView Grid.ColumnSpan="2">
-                    <ListItem/>
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="ID">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
+                <Grid Grid.Row="2">
+                    <ListView x:Name="AppointmentsListView" Grid.ColumnSpan="2">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="ID" DisplayMemberBinding="{Binding AppointmentID}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Padding="0 0 20 0" Text="1"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Doktor" DisplayMemberBinding="{Binding Doctor.Name}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Padding="0 0 20 0"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Pacijent" DisplayMemberBinding="{Binding Patient.Name}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Padding="0 0 20 0"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Datum i vreme" DisplayMemberBinding="{Binding TimeSlot.Start}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Padding="0 0 20 0" Text="10.04.2022. 10:15"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
 
-                                        <TextBlock Padding="0 0 20 0" Text="1"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Doktor">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Padding="0 0 20 0" Text="Aleksa"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Pacijent">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Padding="0 0 20 0" Text="Dimitrije"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Datum i vreme">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Padding="0 0 20 0" Text="10.04.2022. 10:15"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="Trajanje u minutima">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Padding="0 0 20 0" Text="15"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                                <GridViewColumn Header="Trajanje u minutima" DisplayMemberBinding="{Binding TimeSlot.Duration}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Padding="0 0 20 0" Text="15"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Operacija?" DisplayMemberBinding="{Binding IsOperation}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Padding="0 0 20 0" Text="True"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
             </Grid>
             <Rectangle Grid.Row="2" Fill="Azure"/>
         </Grid>
