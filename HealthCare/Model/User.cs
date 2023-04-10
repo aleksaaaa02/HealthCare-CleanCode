@@ -15,7 +15,7 @@ namespace HealthCare
     {
         public string Name { get; set; }
         public string LastName { get; set; }
-        public int JMBG { get; set; }
+        public string JMBG { get; set; }
         public DateTime BirthDate { get; set; }
         public string PhoneNumber {get; set; }
         public string Address { get; set; }
