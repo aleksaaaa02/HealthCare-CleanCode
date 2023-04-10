@@ -12,7 +12,6 @@
     <Folder Include="Serializer\" />
     <Folder Include="Resources\" />
     <Folder Include="Repository\" />
-    <Folder Include="Service\" />
     <Folder Include="ViewModel\" />
   </ItemGroup>
 
