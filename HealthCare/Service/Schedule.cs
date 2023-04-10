@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HealthCare.Model;
+using HealthCare.Storage;
 
 namespace HealthCare.Service
 {
     static public class Schedule
     {
         public static List<Appointment> Appointments = new();
-
+        private static string _filePath = "../../../Resources/appointments.csv";
         public static List<Appointment> GetDoctorAppointments(Doctor Doctor)
         {
             List<Appointment> DoctorAppointments = new List<Appointment>();
@@ -87,6 +88,18 @@ namespace HealthCare.Service
         public static Appointment GetAppointment(int appointmentID)
         {
             return Appointments.Find(x => x.AppointmentID == appointmentID);
+        }
+
+
+        public static void Load()
+        {
+            CsvStorage<Appointment> csvStorage = new CsvStorage<Appointment>(_filePath);
+            Appointments = csvStorage.Load();
+        }
+        public static void Save() 
+        {
+            CsvStorage<Appointment> csvStorage = new CsvStorage<Appointment>(_filePath);
+            csvStorage.Save(Appointments);
         }
     }
 }
