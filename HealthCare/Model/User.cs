@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare
 {
-    public enum Genders
+    public enum Gender
     {
         Male,
         Female
@@ -21,9 +21,9 @@ namespace HealthCare
         public string Address { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        public Genders Gender { get; set; }
+        public Gender Gender { get; set; }
 
-        public User(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address, string userName, string password, Genders gender)
+        public User(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address, string userName, string password, Gender gender)
         {
             Name = name;
             LastName = lastName;
@@ -34,6 +34,25 @@ namespace HealthCare
             UserName = userName;
             Password = password;
             Gender = gender;
+        }
+
+        public string[] toCSV()
+        {
+            string[] csvValues = { Name, LastName, JMBG, BirthDate.ToString(), PhoneNumber, Address, UserName, Password, Gender.ToString() };
+            return csvValues;
+        }
+
+        public void fromCSV(string[] values)
+        {
+            Name = values[0];
+            LastName = values[1];
+            JMBG = values[2];
+            BirthDate = DateTime.Parse(values[3]);
+            PhoneNumber = values[4];
+            Address = values[5];
+            UserName = values[6];
+            Password = values[7];
+            Gender = (Gender) Enum.Parse(typeof(Gender), values[8]);
         }
 
     }
