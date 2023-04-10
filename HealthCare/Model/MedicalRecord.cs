@@ -18,6 +18,11 @@ namespace HealthCare
             MedicalHistory = medicalHistory;
         }
 
+        public MedicalRecord() 
+        { 
+            MedicalHistory = new string[0];
+        }
+
         public string[] toCSV()
         {
             string medicalRecord = string.Join("\\|",MedicalHistory);

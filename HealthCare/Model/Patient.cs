@@ -37,7 +37,7 @@ namespace HealthCare
         {
             string[] userValues = base.toCSV();
             string[] patientValues = {Blocked.ToString()};
-            string[] medicalRecordValues = {};
+            string[] medicalRecordValues = {""};
             if (MedicalRecord != null)
                 medicalRecordValues = MedicalRecord.toCSV();
             string[] csvValues = userValues.Concat(patientValues).Concat(medicalRecordValues).ToArray();
@@ -54,11 +54,12 @@ namespace HealthCare
             Address = values[5];
             UserName = values[6];
             Password = values[7];
-
             Gender = (Gender)Enum.Parse(typeof(Gender), values[8]);
+
             Blocked = bool.Parse(values[8]);
-            if (MedicalRecord != null)
-                MedicalRecord.fromCSV(values[9].Split(","));
+            MedicalRecord = new MedicalRecord();
+            if (values[9] != "")
+                MedicalRecord.fromCSV(values[9].Split("\\|"));
         }
 
     }
