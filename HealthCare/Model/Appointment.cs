@@ -31,17 +31,15 @@ namespace HealthCare
 
         public string[] ToCSV()
         {
-            
             string[] csvValues = {AppointmentID.ToString(), Patient.JMBG.ToString(), Doctor.JMBG.ToString(), TimeSlot.ToString(), IsOperation.ToString()};
             return csvValues;
-        
         }
 
         public void FromCSV(string[] values)
         {
             AppointmentID = Convert.ToInt32(values[0]);
             Patient = new Patient();
-            Patinet.JMBG = values[1];
+            Patient.JMBG = values[1];
             
             Doctor = new Doctor();
             Doctor.JMBG = values[2];
@@ -49,7 +47,7 @@ namespace HealthCare
             string date = values[3].Split(' ')[0];
             string timeSpan = values[3].Split(' ')[1];
             TimeSlot = new TimeSlot(DateTime.Parse(date), TimeSpan.Parse(timeSpan));
-            
+            IsOperation = Convert.ToBoolean(values[4]);
         }
     }
 }

@@ -27,6 +27,11 @@ namespace HealthCare
             return term.Start < GetEnd() && term.GetEnd() > Start;
         }
 
+        public bool InBetweenDates(DateTime start, DateTime end)
+        {
+            return start < GetEnd() && end > Start;
+        }
+
         public override string ToString()
         {
             return Start.ToString() + " " + Duration.ToString();
