@@ -8,12 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\" />
+    <Folder Include="Model\" />
     <Folder Include="Serializer\" />
-    <Folder Include="Resources\" />
-    <Folder Include="Repository\" />
     <Folder Include="Service\" />
-    <Folder Include="ViewModel\" />
+    <Folder Include="Storage\" />
+    <Folder Include="View\" />
   </ItemGroup>
 
 </Project>

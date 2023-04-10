@@ -29,8 +29,8 @@ namespace HealthCare
 
         private void btnQuitApp_Click(object sender, RoutedEventArgs e)
         {
-            MakeAppointmentView makeAppointmentView = new MakeAppointmentView();
-            makeAppointmentView.Show();
+            DoctorMainView doctorMainView = new DoctorMainView();
+            doctorMainView.Show();
                 
         }
 
