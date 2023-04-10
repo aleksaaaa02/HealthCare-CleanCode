@@ -11,13 +11,23 @@ namespace HealthCare.Model
     {   
         public string Name { get; set; }
         public DoctorService DoctorService;
-        
+        public PatientService PatientService;
+            
 
         public Hospital(string name)
         {
             Name = name;
-            DoctorService = new DoctorService();
+            DoctorService = new DoctorService("path");
+            PatientService = new PatientService("path");
         }
 
+        private void FillAppointmentDetails()
+        {
+            foreach(Appointment appointment in Schedule.Appointments)
+            {
+                appointment.Doctor = DoctorService.GetAccount(appointment.Doctor.JMBG);
+                appointment.Patient = PatientService.GetAccount(appointment.Patient.JMBG);
+            }
+        }
     }
 }

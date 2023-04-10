@@ -1,4 +1,5 @@
 ﻿using HealthCare.Model;
+using HealthCare.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +10,32 @@ namespace HealthCare.Service
 {
     public class DoctorService
     {
-        public List<Doctor> Doctors;
-
+        public List<Doctor> Doctors = new List<Doctor>();
+        private CsvStorage<Doctor> csvStorage;
         
 
-        public DoctorService() 
+        public DoctorService(string filePath) 
         { 
-            Doctors = new List<Doctor>();   
+            csvStorage = new CsvStorage<Doctor>(filePath);
         }  
 
-        public Doctor GetDoctorByJMBG(string JMBG)
+        public Doctor GetAccount(string JMBG)
         {
             return Doctors.Find(x => x.JMBG == JMBG);
+        }
+
+        public void Load()
+        {
+            Doctors = csvStorage.Load();
+        }
+        public void Save() 
+        {
+            csvStorage.Save(Doctors);
+        }  
+
+        public List<Doctor> GetAccounts() 
+        {
+            return Doctors;
         }
 
     }
