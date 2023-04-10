@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthCare.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,14 @@ namespace HealthCare.View.PatientView
         public NurseMainView()
         {
             InitializeComponent();
+            PatientService patientService = new PatientService("..\\..\\..\\da.csv");
+            patientService.Load();
+            lvPatients.ItemsSource = patientService.Patients;
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

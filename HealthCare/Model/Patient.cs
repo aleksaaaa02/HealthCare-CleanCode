@@ -60,10 +60,9 @@ namespace HealthCare
             Password = values[7];
             Gender = (Gender)Enum.Parse(typeof(Gender), values[8]);
 
-            Blocked = bool.Parse(values[8]);
+            Blocked = bool.Parse(values[9]);
             MedicalRecord = new MedicalRecord();
-            if (values[9] != "")
-                MedicalRecord.FromCSV(values[9].Split("\\|"));
+            MedicalRecord.FromCSV(new string[] {values[10],values[11],values[12]});
         }
 
     }

@@ -23,10 +23,15 @@ namespace HealthCare
             MedicalHistory = new string[0];
         }
 
+        public override string? ToString()
+        {
+            return "Visina: " + Height.ToString() + "\nTezina: "+ Weight.ToString() + "\nIstorija: " +string.Join(", ", MedicalHistory);
+        }
+
         public string[] ToCSV()
         {
-            string medicalRecord = string.Join("\\|",MedicalHistory);
-            string[] csvValues = {Height.ToString(), Weight.ToString(),medicalRecord};
+            string medicalHistory = string.Join("\\|",MedicalHistory);
+            string[] csvValues = {Height.ToString(), Weight.ToString(), medicalHistory};
             return csvValues;
         }
 

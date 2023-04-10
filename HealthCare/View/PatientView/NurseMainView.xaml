@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.PatientView"
         mc:Ignorable="d"
-        Title="NurseMainView" Height="550" Width="820">
+        Title="NurseMainView" Height="570" Width="1020" ResizeMode="NoResize">
     <Grid Height="NaN" Margin="0,0,0,0" Width="NaN">
+        <Label Content="Pacijenti" Name="lblTitle" HorizontalAlignment="Left" Margin="10,00,0,0" FontSize="17" FontWeight="Bold" VerticalAlignment="Top"/>
+        
         <Label Content="Ime:" Name="lblName" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Name="tbName" Margin="110,35,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         
@@ -40,10 +42,19 @@
         
         <Button Content="Zdravsteni karton" HorizontalAlignment="Left" Margin="110,430,0,0" Width="120" Height="30"  VerticalAlignment="Top"/>
         
-        <ListView d:ItemsSource="{d:SampleData ItemCount=5}" Margin="280,30,10,70">
+        <ListView Margin="280,30,10,70" Name="lvPatients">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn Width="60" Header="Ime" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Width="60" Header="Prezime" DisplayMemberBinding="{Binding LastName}" />
+                    <GridViewColumn Width="70" Header="JMBG" DisplayMemberBinding="{Binding JMBG}" />
+                    <GridViewColumn Width="75" Header="DatRodj" DisplayMemberBinding="{Binding BirthDate}" />
+                    <GridViewColumn Width="60" Header="Telefon" DisplayMemberBinding="{Binding PhoneNumber}" />
+                    <GridViewColumn Width="60" Header="Adresa" DisplayMemberBinding="{Binding Address}" />
+                    <GridViewColumn Width="60" Header="KorIme" DisplayMemberBinding="{Binding UserName}" />
+                    <GridViewColumn Width="60" Header="Loz" DisplayMemberBinding="{Binding Password}" />
+                    <GridViewColumn Width="45" Header="Blokiran" DisplayMemberBinding="{Binding Blocked}" />
+                    <GridViewColumn Width="150" Header="ZdrKarton" DisplayMemberBinding="{Binding MedicalRecord}" />
                 </GridView>
             </ListView.View>
         </ListView>
@@ -51,7 +62,7 @@
         <Button Content="Kreiraj nalog" HorizontalAlignment="Left" Height="35" Margin="10,480,0,0" VerticalAlignment="Top" Width="130"/>
         <Button Content="Izmeni nalog" HorizontalAlignment="Left" Height="35" Margin="150,480,0,0" VerticalAlignment="Top" Width="130"/>
         <Button Content="Obrisi nalog" HorizontalAlignment="Left" Height="35" Margin="290,480,0,0" VerticalAlignment="Top" Width="130"/>
-        <Button Content="Izadji" HorizontalAlignment="Right" Height="35" Margin="0,480,10,0" VerticalAlignment="Top" Width="130"/>
+        <Button Content="Izadji" HorizontalAlignment="Right" Height="35" Margin="0,480,10,10" VerticalAlignment="Top" Width="130" Click="Exit_Click"/>
 
     </Grid>
 </Window>

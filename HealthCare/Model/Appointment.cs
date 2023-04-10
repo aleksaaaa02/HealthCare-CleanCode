@@ -41,7 +41,7 @@ namespace HealthCare
         {
             AppointmentID = Convert.ToInt32(values[0]);
             Patient = new Patient();
-            Patinet.JMBG = values[1];
+            Patient.JMBG = values[1];
             
             Doctor = new Doctor();
             Doctor.JMBG = values[2];

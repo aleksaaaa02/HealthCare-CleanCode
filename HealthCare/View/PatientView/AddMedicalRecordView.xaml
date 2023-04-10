@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="AddMedicalRecordView" Height="350" Width="500">
     <Grid>
+        <Label Content="Zdravstveni karton" Name="lblTitle" HorizontalAlignment="Left" Margin="10,00,0,0" FontSize="15" FontWeight="Bold" VerticalAlignment="Top"/>
+
         <Label Content="Visina:" Name="lblHeight" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Name="tbHeight" Margin="70,35,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
 
