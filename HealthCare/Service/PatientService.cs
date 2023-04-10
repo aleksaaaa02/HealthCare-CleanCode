@@ -4,40 +4,58 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Windows.Markup;
 using HealthCare.Model;
+using HealthCare.Storage;
 
 namespace HealthCare.Service
 {
 	public class PatientService
 	{
 		public List<Patient> Patients = new List<Patient>();
+		private CsvStorage<Patient> csvStorage;
+
+		public PatientService(string filepath)
+		{
+			csvStorage = new CsvStorage<Patient> (filepath);
+        }
 
 		public void CreateAccount(Patient newPatient)
 		{
-			Patient patient = Patients.Find(x => x.JMBG == newPatient.JMBG);
+			Patient? patient = Patients.Find(x => x.JMBG == newPatient.JMBG);
 			if(patient == null) Patients.Add(newPatient);
 		}
 
 		public void UpdateAccount(Patient updatedPatient)
 		{
-            Patient patient = Patients.Find(x => x.JMBG == updatedPatient.JMBG);
-            int patientIndex = Patients.IndexOf(patient);
-
-			if(patientIndex!= -1) Patients[patientIndex] = updatedPatient;
+            Patient? patient = Patients.Find(x => x.JMBG == updatedPatient.JMBG);
+            if (patient != null)
+			{ 
+				int patientIndex = Patients.IndexOf(patient);
+				Patients[patientIndex] = updatedPatient;
+			}
         }
 
 		public void DeleteAccount(string JMBG)
 		{
-			Patient patient = Patients.Find(x => x.JMBG == JMBG);
+			Patient? patient = Patients.Find(x => x.JMBG == JMBG);
 			if (patient != null) Patients.Remove(patient);
         }
 
 		public Patient GetAccount(string JMBG)
 		{
-			Patient patient = Patients.Find(x => x.JMBG == JMBG);
-			return patient;
+			Patient? patient = Patients.Find(x => x.JMBG == JMBG);
+            return patient;
+		}
+
+		public void Load()
+		{
+			Patients = csvStorage.Load();
 		}
 		
-
+		public void Save() 
+		{
+			csvStorage.Save(Patients);
+		}
     }
 }

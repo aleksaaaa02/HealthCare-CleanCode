@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Commands\" />
+    <Folder Include="Serializer\" />
     <Folder Include="Resources\" />
     <Folder Include="Repository\" />
     <Folder Include="Service\" />

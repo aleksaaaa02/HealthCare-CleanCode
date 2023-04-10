@@ -1,0 +1,68 @@
+﻿<Window x:Class="HealthCare.View.DoctorView.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HealthCare.View.DoctorView"
+        mc:Ignorable="d"
+        Title="PatinentInformationWindow" Height="550" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.40*"/>
+            <RowDefinition Height="0.50*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Informacije o pacijentu" FontSize="24" Margin="40 10 0 0"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="40 10 50 0">
+                <Label Content="Ime"/>
+                <TextBox Text="Aleksa"/>
+                <Label Content="Prezime"/>
+                <TextBox Text="Vukomanovic"/>
+                <Label Content="JMBG"/>
+                <TextBox Text="12345"/>
+                <TextBlock Text="Medicinksi karton" FontSize="24" Margin="0 30 0 0"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="50 10 40 0">
+                <Label Content="Datum Rodjenja"/>
+                <TextBox Text="22.04.2002."/>
+                <Label Content="Pol"/>
+                <TextBox Text="Musko"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.9*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="40 0 0 0">
+                <Label Content="Visina (cm):"/>
+                <TextBox Text="120" VerticalContentAlignment="Center" Width="30" TextAlignment="Center"/>
+                <Label Content="Tezina (kg):" Margin="80 0  0 0"/>
+                <TextBox Text="120" VerticalContentAlignment="Center" Width="30" TextAlignment="Center"/>
+            </StackPanel>
+            <Grid Grid.Row="1">
+                <ListView Margin="40 10 40 10">
+                    <ListViewItem HorizontalAlignment="Stretch"/>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Naziv Bolesti">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Padding="0 0 20 0"  Text="Dijabetes 1"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

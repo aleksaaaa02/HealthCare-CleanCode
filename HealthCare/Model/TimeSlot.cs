@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCare
+namespace HealthCare.Model
 {
     public class TimeSlot
     {
@@ -25,6 +25,16 @@ namespace HealthCare
 
         {
             return term.Start < GetEnd() && term.GetEnd() > Start;
+        }
+
+        public bool InBetweenDates(DateTime start, DateTime end)
+        {
+            return start < GetEnd() && end > Start;
+        }
+
+        public override string ToString()
+        {
+            return Start.ToString() + " " + Duration.ToString();
         }
 
     }

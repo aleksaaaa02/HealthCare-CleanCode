@@ -3,24 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HealthCare.Model;
 
-namespace HealthCare
+namespace HealthCare.Service
 {
     static public class Schedule
     {
         public static List<Appointment> Appointments = new();
-    
+
         public static List<Appointment> GetDoctorAppointments(Doctor Doctor)
-        { 
+        {
             List<Appointment> DoctorAppointments = new List<Appointment>();
-            foreach(Appointment appointment in Appointments)
+            foreach (Appointment appointment in Appointments)
             {
-                if(appointment.Doctor == Doctor)
+                if (appointment.Doctor == Doctor)
                 {
                     DoctorAppointments.Add(appointment);
                 }
             }
-            return DoctorAppointments; 
+            return DoctorAppointments;
+        }
+
+        public static List<Appointment> GetDoctorAppointmentsForDays(Doctor doctor, DateTime start, int days)
+        {
+            List<Appointment> appointments = new List<Appointment>();
+            DateTime end = start.AddDays(days);
+            foreach (Appointment appointment in Appointments)
+            {
+                if (appointment.TimeSlot.InBetweenDates(start, end))
+                {
+                    appointments.Add(appointment);
+                }
+            }
+            return appointments;
+
         }
         public static List<Appointment> GetPatientAppointments(Patient Patient)
         {
@@ -34,24 +50,25 @@ namespace HealthCare
             }
             return PatientAppointments;
         }
- 
+
         public static void CreateAppointment(Appointment appointment)
         {
-            if(appointment.Patient.IsAvailable(appointment.TimeSlot) && appointment.Doctor.IsAvailable(appointment.TimeSlot))
+            if (appointment.Patient.IsAvailable(appointment.TimeSlot) && appointment.Doctor.IsAvailable(appointment.TimeSlot))
             {
                 Appointments.Add(appointment);
             }
         }
 
-        public  static void UpdateAppointment(Appointment updatedAppointment)
+        public static void UpdateAppointment(Appointment updatedAppointment)
         {
             Appointment? appointment = Appointments.Find(x => x.AppointmentID == updatedAppointment.AppointmentID);
             int appointmentIndex = Appointments.IndexOf(appointment);
-            if (appointmentIndex != -1) {
+            if (appointmentIndex != -1)
+            {
                 Appointments.RemoveAt(appointmentIndex);
                 if (updatedAppointment.Patient.IsAvailable(updatedAppointment.TimeSlot) && updatedAppointment.Doctor.IsAvailable(updatedAppointment.TimeSlot))
                 {
-                    Appointments.Insert(appointmentIndex,updatedAppointment);
+                    Appointments.Insert(appointmentIndex, updatedAppointment);
                 }
                 else
                 {
@@ -70,6 +87,6 @@ namespace HealthCare
         public static Appointment GetAppointment(int appointmentID)
         {
             return Appointments.Find(x => x.AppointmentID == appointmentID);
-        }   
+        }
     }
 }
