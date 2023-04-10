@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Printing;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -30,6 +31,34 @@ namespace HealthCare
                 }
             }
             return true;
+        }
+
+        public new string[] toCSV()
+        {
+            string[] userValues = base.toCSV();
+            string[] patientValues = {Blocked.ToString()};
+            string[] medicalRecordValues = {};
+            if (MedicalRecord != null)
+                medicalRecordValues = MedicalRecord.toCSV();
+            string[] csvValues = userValues.Concat(patientValues).Concat(medicalRecordValues).ToArray();
+            return csvValues;
+        }
+
+        public new void fromCSV(string[] values)
+        {
+            Name = values[0];
+            LastName = values[1];
+            JMBG = values[2];
+            BirthDate = DateTime.Parse(values[3]);
+            PhoneNumber = values[4];
+            Address = values[5];
+            UserName = values[6];
+            Password = values[7];
+
+            Gender = (Gender)Enum.Parse(typeof(Gender), values[8]);
+            Blocked = bool.Parse(values[8]);
+            if (MedicalRecord != null)
+                MedicalRecord.fromCSV(values[9].Split(","));
         }
 
     }
