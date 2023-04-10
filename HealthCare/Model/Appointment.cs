@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HealthCare.Serializer;
 
-namespace HealthCare
+namespace HealthCare.Model
 {
     public class Appointment : ISerializable
     {
@@ -31,10 +31,8 @@ namespace HealthCare
 
         public string[] ToCSV()
         {
-            
             string[] csvValues = {AppointmentID.ToString(), Patient.JMBG.ToString(), Doctor.JMBG.ToString(), TimeSlot.ToString(), IsOperation.ToString()};
             return csvValues;
-        
         }
 
         public void FromCSV(string[] values)
@@ -49,7 +47,7 @@ namespace HealthCare
             string date = values[3].Split(' ')[0];
             string timeSpan = values[3].Split(' ')[1];
             TimeSlot = new TimeSlot(DateTime.Parse(date), TimeSpan.Parse(timeSpan));
-            
+            IsOperation = Convert.ToBoolean(values[4]);
         }
     }
 }

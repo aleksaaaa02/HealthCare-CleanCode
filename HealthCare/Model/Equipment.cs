@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCare
+namespace HealthCare.Model
 {
     enum EquipmentType
     {
@@ -24,12 +24,6 @@ namespace HealthCare
             Name = name;
             Type = type;
             Dynamic = dynamic;
-        }
-
-        public override bool Equals(object? obj)
-        {
-            return obj is Equipment equipment &&
-                   Name == equipment.Name;
         }
     }
 }

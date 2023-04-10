@@ -1,17 +1,18 @@
-﻿using System;
+﻿using HealthCare.Serializer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCare
+namespace HealthCare.Model
 {
     public enum Gender
     {
         Male,
         Female
     }
-    public class User:ISerializable
+    public class User : ISerializable
     {
         public string Name { get; set; }
         public string LastName { get; set; }
@@ -35,9 +36,11 @@ namespace HealthCare
             Password = password;
             Gender = gender;
         }
+
         public User()
         {
         }
+
         public string[] ToCSV()
         {
             string[] csvValues = { Name, LastName, JMBG, BirthDate.ToString(), PhoneNumber, Address, UserName, Password, Gender.ToString() };
