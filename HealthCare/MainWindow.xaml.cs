@@ -29,7 +29,9 @@ namespace HealthCare
 
         private void btnQuitApp_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            MakeAppointmentView makeAppointmentView = new MakeAppointmentView();
+            makeAppointmentView.Show();
+                
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
@@ -43,8 +45,7 @@ namespace HealthCare
                 if (UserName == "mamatvoja123" && Password == "mrs")
                 {
                     WelcomeMessage.Text = "sara jo";
-                   //FIX THIS
-
+                   
                 }
             }
 

@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace HealthCare
+namespace HealthCare.Serializer
 {
-    class Serializer<T> where T: ISerializable, new()
+    public class Serializer<T> where T : ISerializable, new()
     {
         private const char Delimiter = ',';
 
@@ -11,7 +15,7 @@ namespace HealthCare
         {
             StreamWriter streamWriter = new StreamWriter(fileName);
 
-            foreach(T obj in objects)
+            foreach (T obj in objects)
             {
                 string line = string.Join(Delimiter.ToString(), obj.ToCSV());
                 streamWriter.WriteLine(line);
@@ -23,7 +27,7 @@ namespace HealthCare
         {
             List<T> objects = new List<T>();
 
-            foreach(string line in File.ReadLines(fileName))
+            foreach (string line in File.ReadLines(fileName))
             {
                 string[] csvValues = line.Split(Delimiter);
                 T obj = new T();
