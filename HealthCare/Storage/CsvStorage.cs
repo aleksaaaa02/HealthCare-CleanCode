@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCare.Storage
+namespace HealthCare
 {
     public class CsvStorage<T> where T : ISerializable, new()
     {
@@ -25,9 +25,9 @@ namespace HealthCare.Storage
             return _serializer.FromCSV(_filepath);
         }
 
-        public void Save(List<T> students)
+        public void Save(List<T> objects)
         {
-            _serializer.ToCSV(_filepath, students);
+            _serializer.ToCSV(_filepath, objects);
         }
     }
 }
