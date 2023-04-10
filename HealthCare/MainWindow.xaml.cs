@@ -1,4 +1,5 @@
-﻿using HealthCare.View.DoctorView;
+﻿using HealthCare.View.AppointmentView;
+using HealthCare.View.DoctorView;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,8 +30,10 @@ namespace HealthCare
 
         private void btnQuitApp_Click(object sender, RoutedEventArgs e)
         {
-            MakeAppointmentView makeAppointmentView = new MakeAppointmentView();
-            makeAppointmentView.Show();
+            //MakeAppointmentView makeAppointmentView = new MakeAppointmentView();
+            //makeAppointmentView.Show();
+            AppointmentMainView appointmentMainView = new AppointmentMainView();
+            appointmentMainView.Show();
                 
         }
 

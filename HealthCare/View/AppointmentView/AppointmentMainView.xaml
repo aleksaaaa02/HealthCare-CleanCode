@@ -5,8 +5,70 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.AppointmentView"
         mc:Ignorable="d"
-        Title="AppointmentMainView" Height="450" Width="800">
-    <Grid>
+        Title="AppointmentMainView" Height="500" Width="800">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="0.5*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.15*"/>
+        </Grid.RowDefinitions>
+        <TextBlock HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Zakazivanje pregleda" VerticalAlignment="Top" FontSize="20"/>
+
+        <Grid Grid.Row="1">
+            <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Unesite datum i vreme pregleda" VerticalAlignment="Top" Width="259" FontSize="16"/>
+            <TextBlock HorizontalAlignment="Left" Margin="21,62,0,0" TextWrapping="Wrap" Text="Izaberite datum" VerticalAlignment="Top"/>
+            <DatePicker HorizontalAlignment="Left" Margin="125,62,0,0" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Left" Margin="21,116,0,0" TextWrapping="Wrap" Text="Sati" VerticalAlignment="Top"/>
+            <TextBox HorizontalAlignment="Left" Margin="56,116,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="48"/>
+            <TextBlock HorizontalAlignment="Left" Margin="140,116,0,0" TextWrapping="Wrap" Text="Minuti" VerticalAlignment="Top"/>
+            <TextBox HorizontalAlignment="Left" Margin="195,116,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="47"/>
+
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.15*"/>
+                <RowDefinition Height="0.8*"/>
+            </Grid.RowDefinitions>
+            <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Izaberite doktora" VerticalAlignment="Top" FontSize="16"/>
+            <ListView Grid.Row="1" Margin="10" d:ItemsSource="{d:SampleData ItemCount=5}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.2*"/>
+                <RowDefinition Height="0.8*"/>
+            </Grid.RowDefinitions>
+            <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Text="Izaberite pregled" VerticalAlignment="Center" FontSize="16"/>
+            <ListView Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+
+        <Grid Grid.Row="3" Grid.ColumnSpan="2">
+            <Button Content="Kreiraj" HorizontalAlignment="Left" Margin="27,0,0,0" VerticalAlignment="Center"/>
+            <Button Content="Azuriraj" HorizontalAlignment="Left" Margin="111,0,0,0" VerticalAlignment="Center"/>
+            <Button Content="Obrisi" HorizontalAlignment="Left" Margin="187,0,0,0" VerticalAlignment="Center"/>
+
+        </Grid>
+        <Button Grid.Column="1" Content="Otkazi" HorizontalAlignment="Left" Margin="340,0,0,0" Grid.Row="3" VerticalAlignment="Center"/>
+
+
 
     </Grid>
 </Window>
