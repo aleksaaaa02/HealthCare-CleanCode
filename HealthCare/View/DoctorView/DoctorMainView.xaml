@@ -18,9 +18,8 @@
         <Grid>
             <StackPanel>
                 <Button Width="Auto" Height="40" Margin="10" Content="Zakazi Pregled/Operaciju" Click="Button_Click"/>
-                <Button Width="Auto" Height="40" Margin="10" Content="TO-DO"/>
-                <Button Width="Auto" Height="40" Margin="10" Content="TO-DO"/>
-                <Button Width="Auto" Height="40" Margin="10" Content="TO-DO"/>
+                <Button Width="Auto" Height="40" Margin="10" Content="Izmeni Pregled/Operaciju"/>
+                <Button Width="Auto" Height="40" Margin="10" Content="Ukloni Pregled/Operaciju"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="TO-DO"/>
                 <TextBlock x:Name="Moris"/>
             </StackPanel>
@@ -32,7 +31,11 @@
                 <RowDefinition Height="0.05*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="1">
-                <ListView>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="293*"/>
+                    <ColumnDefinition Width="7*"/>
+                </Grid.ColumnDefinitions>
+                <ListView Grid.ColumnSpan="2">
                     <ListItem/>
                     <ListView.View>
                         <GridView>
@@ -79,6 +82,6 @@
             </Grid>
             <Rectangle Grid.Row="2" Fill="Azure"/>
         </Grid>
-        
+
     </Grid>
 </Window>

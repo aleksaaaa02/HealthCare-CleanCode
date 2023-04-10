@@ -35,6 +35,7 @@
                 <CheckBox VerticalAlignment="Center" Margin="0 0 10 0"/>
                 <Label Content="Duzina trajanje(u minutima): "/>
                 <TextBox Width="150"/>
+                
             </StackPanel>
         </Grid>
         <Grid Grid.Row="3">
