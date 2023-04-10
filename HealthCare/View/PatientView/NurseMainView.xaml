@@ -1,0 +1,57 @@
+﻿<Window x:Class="HealthCare.View.PatientView.NurseMainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HealthCare.View.PatientView"
+        mc:Ignorable="d"
+        Title="NurseMainView" Height="550" Width="820">
+    <Grid Height="NaN" Margin="0,0,0,0" Width="NaN">
+        <Label Content="Ime:" Name="lblName" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Name="tbName" Margin="110,35,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        
+        <Label Content="Prezime:" Name="lblLastName" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Name="tbLastName" Margin="110,75,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+
+        <Label Content="JMBG:" Name="lblJMBG" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Name="tbJMBG" Margin="110,115,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+
+        <Label Content="Datum rodjenja:" Name="lblBirthDate" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Name="tbBirthDate" Margin="110,155,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+
+        <Label Content="Telefon:" Name="lblPhoneNumber" HorizontalAlignment="Left" Margin="10,190,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Name="tbPhoneNumber" Margin="110,195,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+
+        <Label Content="Adresa:" Name="lblAddress" HorizontalAlignment="Left" Margin="10,230,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Name="tbAddress" Margin="110,235,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+
+        <Label Content="Pol:" Name="lblGender" HorizontalAlignment="Left" Margin="10,270,0,0" VerticalAlignment="Top"/>
+        <RadioButton Margin="110,35,0,0" Width="60" Height="20" HorizontalAlignment="Left">Muski</RadioButton>
+        <RadioButton Margin="175,35,0,0" Width="60" Height="20" HorizontalAlignment="Left">Zenski</RadioButton>
+
+        <Label Content="Korisnicko ime:" Name="lblUsername" HorizontalAlignment="Left" Margin="10,310,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Name="tbUsername" Margin="110,315,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+
+        <Label Content="Lozinka:" Name="lblPassword" HorizontalAlignment="Left" Margin="10,350,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Name="tbPassword" Margin="110,355,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+
+        <Label Content="Blokiran:" Name="lblBlocked" HorizontalAlignment="Left" Margin="10,390,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="110,395,0,0" VerticalAlignment="Top"/>
+        
+        <Button Content="Zdravsteni karton" HorizontalAlignment="Left" Margin="110,430,0,0" Width="120" Height="30"  VerticalAlignment="Top"/>
+        
+        <ListView d:ItemsSource="{d:SampleData ItemCount=5}" Margin="280,30,10,70">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
+        <Button Content="Kreiraj nalog" HorizontalAlignment="Left" Height="35" Margin="10,480,0,0" VerticalAlignment="Top" Width="130"/>
+        <Button Content="Izmeni nalog" HorizontalAlignment="Left" Height="35" Margin="150,480,0,0" VerticalAlignment="Top" Width="130"/>
+        <Button Content="Obrisi nalog" HorizontalAlignment="Left" Height="35" Margin="290,480,0,0" VerticalAlignment="Top" Width="130"/>
+        <Button Content="Izadji" HorizontalAlignment="Right" Height="35" Margin="0,480,10,0" VerticalAlignment="Top" Width="130"/>
+
+    </Grid>
+</Window>
