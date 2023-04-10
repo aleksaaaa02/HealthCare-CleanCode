@@ -28,8 +28,8 @@
         <TextBox HorizontalAlignment="Left" Name="tbAddress" Margin="110,235,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
 
         <Label Content="Pol:" Name="lblGender" HorizontalAlignment="Left" Margin="10,270,0,0" VerticalAlignment="Top"/>
-        <RadioButton Margin="110,35,0,0" Width="60" Height="20" HorizontalAlignment="Left">Muski</RadioButton>
-        <RadioButton Margin="175,35,0,0" Width="60" Height="20" HorizontalAlignment="Left">Zenski</RadioButton>
+        <RadioButton Margin="110,35,0,0" Name="cbMale" IsChecked="True" Width="60" Height="20" HorizontalAlignment="Left">Muski</RadioButton>
+        <RadioButton Margin="175,35,0,0" Name="cnFemale"  Width="60" Height="20" HorizontalAlignment="Left">Zenski</RadioButton>
 
         <Label Content="Korisnicko ime:" Name="lblUsername" HorizontalAlignment="Left" Margin="10,310,0,0" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Name="tbUsername" Margin="110,315,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
@@ -37,8 +37,7 @@
         <Label Content="Lozinka:" Name="lblPassword" HorizontalAlignment="Left" Margin="10,350,0,0" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Name="tbPassword" Margin="110,355,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
 
-        <Label Content="Blokiran:" Name="lblBlocked" HorizontalAlignment="Left" Margin="10,390,0,0" VerticalAlignment="Top"/>
-        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="110,395,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="Blokiran" Name="chbBlocked" HorizontalAlignment="Left" Margin="110,395,0,0" VerticalAlignment="Top"/>
         
         <Button Content="Zdravsteni karton" HorizontalAlignment="Left" Margin="110,430,0,0" Width="120" Height="30"  VerticalAlignment="Top"/>
         
@@ -59,7 +58,7 @@
             </ListView.View>
         </ListView>
         
-        <Button Content="Kreiraj nalog" HorizontalAlignment="Left" Height="35" Margin="10,480,0,0" VerticalAlignment="Top" Width="130"/>
+        <Button Content="Kreiraj nalog" HorizontalAlignment="Left" Height="35" Margin="10,480,0,0" VerticalAlignment="Top" Width="130" Click="Add_Click"/>
         <Button Content="Izmeni nalog" HorizontalAlignment="Left" Height="35" Margin="150,480,0,0" VerticalAlignment="Top" Width="130"/>
         <Button Content="Obrisi nalog" HorizontalAlignment="Left" Height="35" Margin="290,480,0,0" VerticalAlignment="Top" Width="130"/>
         <Button Content="Izadji" HorizontalAlignment="Right" Height="35" Margin="0,480,10,10" VerticalAlignment="Top" Width="130" Click="Exit_Click"/>
