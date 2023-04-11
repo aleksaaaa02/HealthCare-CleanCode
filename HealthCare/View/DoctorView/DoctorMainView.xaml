@@ -21,7 +21,8 @@
                 <Button Width="Auto" Height="40" Margin="10" Content="Izmeni Pregled/Operaciju" Command="{Binding EditAppointmentCommand}"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="Ukloni Pregled/Operaciju" Command="{Binding DeleteAppointmentCommand}"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="Prikazi pacijenta" Command="{Binding ShowDetailedPatientInfoCommand}"/>
-                <TextBlock x:Name="Moris"/>
+                <Label Margin="0 15"/>
+                <Button x:Name="LogOut" Width="Auto" Height="40" Margin="10" Content="Odjava" Click="LogOut_Click"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Column="1">

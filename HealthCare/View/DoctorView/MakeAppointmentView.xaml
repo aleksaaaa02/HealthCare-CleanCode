@@ -20,12 +20,12 @@
         <Grid Grid.Row="1" Margin="0 10">
             <StackPanel>
                 <Label Content="Termin: "/>
-                <DatePicker Width="300" HorizontalAlignment="Left" SelectedDate="{Binding StartDate}"/>
+                <DatePicker Width="300" HorizontalAlignment="Left" SelectedDate="{Binding StartDate}" Focusable="False"/>
                 <StackPanel Orientation="Horizontal" Margin="0 5">
                     <Label Content="Sat: "/>
-                    <TextBox Width="50" Text="{Binding Hours}"/>
+                    <TextBox Width="50" Text="{Binding Hours}" PreviewTextInput="NumberValidationTextBox"/>
                     <Label Content="Minuti: "/>
-                    <TextBox Width="50" Text="{Binding Minutes}"/>
+                    <TextBox Width="50" Text="{Binding Minutes}" PreviewTextInput="NumberValidationTextBox"/>
                 </StackPanel>
             </StackPanel>
         </Grid>
@@ -34,7 +34,7 @@
                 <Label Content="Operacija?"/>
                 <CheckBox VerticalAlignment="Center" Margin="0 0 10 0" IsChecked="{Binding IsOperation}"/>
                 <Label Content="Duzina trajanje(u minutima): "/>
-                <TextBox Width="150" Text="{Binding Duration}"/>
+                <TextBox Width="150" Text="{Binding Duration}" PreviewTextInput="NumberValidationTextBox"/>
                 
             </StackPanel>
         </Grid>
@@ -42,8 +42,7 @@
             <TextBlock Text="ODABERI PACIJENTA:"/>
         </Grid>
         <Grid Grid.Row="4">
-            <ListView Height="225" ItemsSource="{Binding}">
-                <ListViewItem/>
+            <ListView Height="225" ItemsSource="{Binding Patients}" SelectedItem="{Binding SelectedPatient}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="JMBG" DisplayMemberBinding="{Binding JMBG}">

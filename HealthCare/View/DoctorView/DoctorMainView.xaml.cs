@@ -24,10 +24,11 @@ namespace HealthCare.View.DoctorView
     /// </summary>
     public partial class DoctorMainView : Window
     {
-        
-        public DoctorMainView(Hospital hospital)
+        private Window _loginWindow;
+
+        public DoctorMainView(Hospital hospital, Window loginWindow)
         {
-           
+            _loginWindow = loginWindow;
             InitializeComponent();
             // Treba Hospital Model
             DataContext = new DoctorMainViewModel(hospital);
@@ -35,5 +36,11 @@ namespace HealthCare.View.DoctorView
            
         }
 
+        private void LogOut_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+            _loginWindow.Show();
+            
+        }
     }
 }

@@ -29,7 +29,7 @@
             </StackPanel>
             <StackPanel Grid.Column="1" Margin="50 10 40 0">
                 <Label Content="Datum Rodjenja"/>
-                <DatePicker Text="{Binding Birthday}" Focusable="False" />
+                <DatePicker Text="{Binding Birthday}" Focusable="False" IsHitTestVisible="False"/>
                 <Label Content="Pol"/>
                 <TextBox Text="{Binding Genderr}" IsReadOnly="True"/>
             </StackPanel>
