@@ -22,11 +22,11 @@
         <Grid Grid.Row="1">
             <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Unesite datum i vreme pregleda" VerticalAlignment="Top" Width="259" FontSize="16"/>
             <TextBlock HorizontalAlignment="Left" Margin="21,62,0,0" TextWrapping="Wrap" Text="Izaberite datum" VerticalAlignment="Top"/>
-            <DatePicker HorizontalAlignment="Left" Margin="125,62,0,0" VerticalAlignment="Top"/>
+            <DatePicker x:Name="tbDate" HorizontalAlignment="Left" Margin="125,62,0,0" VerticalAlignment="Top"/>
             <TextBlock HorizontalAlignment="Left" Margin="21,116,0,0" TextWrapping="Wrap" Text="Sati" VerticalAlignment="Top"/>
-            <TextBox HorizontalAlignment="Left" Margin="56,116,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="48"/>
+            <TextBox x:Name="tbHours" HorizontalAlignment="Left" Margin="56,116,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="48" TextChanged="tbHours_TextChanged"/>
             <TextBlock HorizontalAlignment="Left" Margin="140,116,0,0" TextWrapping="Wrap" Text="Minuti" VerticalAlignment="Top"/>
-            <TextBox HorizontalAlignment="Left" Margin="195,116,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="47"/>
+            <TextBox x:Name="tbMinutes" HorizontalAlignment="Left" Margin="195,116,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="47" TextChanged="tbMinutes_TextChanged"/>
 
         </Grid>
 

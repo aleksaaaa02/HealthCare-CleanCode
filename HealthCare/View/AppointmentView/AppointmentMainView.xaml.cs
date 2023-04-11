@@ -45,5 +45,38 @@ namespace HealthCare.View.AppointmentView
             appointments.Add(appointment2);
             appListView.ItemsSource = new ObservableCollection<Appointment>(appointments);
         }
+
+        private void tbMinutes_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string text = tbMinutes.Text;
+            if(int.TryParse(text, out int minutes))
+            {
+                if(minutes > 59 || minutes < 0)
+                {
+                    tbMinutes.Text = "0";
+                }
+
+            }
+            else
+            {
+                tbMinutes.Text = "0";
+            }
+        }
+
+        private void tbHours_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string text = tbHours.Text;
+            if(int.TryParse(text, out int hours))
+            {
+                if(hours > 23 || hours < 0)
+                {
+                    tbHours.Text = "0";
+                }
+            }
+            else
+            {
+                tbHours.Text = "0";
+            }
+        }
     }
 }
