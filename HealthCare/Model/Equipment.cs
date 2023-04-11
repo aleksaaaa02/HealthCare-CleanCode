@@ -47,5 +47,21 @@ namespace HealthCare.Model
             Type = equipment.Type;
             Dynamic = equipment.Dynamic;
         }
+
+        public string TranslateType()
+        {
+            switch(Type)
+            {
+                case EquipmentType.Examinational:
+                    return "za preglede";
+                case EquipmentType.Operational:
+                    return "operaciona";
+                case EquipmentType.RoomFurniture:
+                    return "sobni namestaj";
+                case EquipmentType.HallwayFurniture:
+                    return "oprema za hodnike";
+            }
+            return "";
+        }
     }
 }

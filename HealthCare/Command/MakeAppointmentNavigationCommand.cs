@@ -1,4 +1,5 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Context;
+using HealthCare.Model;
 using HealthCare.View.DoctorView;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
@@ -13,15 +14,17 @@ namespace HealthCare.Command
     public class MakeAppointmentNavigationCommand : CommandBase   {
 
         private DoctorMainViewModel _viewModel;
-        public MakeAppointmentNavigationCommand(DoctorMainViewModel viewModel) 
+        private readonly Hospital _hospital;
+        public MakeAppointmentNavigationCommand(Hospital hospital,DoctorMainViewModel viewModel) 
         {
             _viewModel = viewModel;
+            _hospital = hospital;
         }
 
         public override void Execute(object parameter)
         {
             
-            MakeAppointmentView makeAppointmentView = new MakeAppointmentView(_viewModel);
+            MakeAppointmentView makeAppointmentView = new MakeAppointmentView(_hospital, _viewModel);
             makeAppointmentView.ShowDialog();
 
         }

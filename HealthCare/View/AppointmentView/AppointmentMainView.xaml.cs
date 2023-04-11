@@ -39,13 +39,13 @@ namespace HealthCare.View.AppointmentView
         public void writeAction(string action)
         {
             string stringtocsv = _hospital.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
-            File.AppendAllText("../../../log/PatientLogs.csv",stringtocsv);
+            File.AppendAllText("../../../Resource/PatientLogs.csv",stringtocsv);
         }
 
         public void checkIfBlock()
         {
             Patient patient = (Patient)_hospital.Current;
-            using (var reader = new StreamReader("../../../log/PatientLogs.csv", Encoding.Default))
+            using (var reader = new StreamReader("../../../Resource/PatientLogs.csv", Encoding.Default))
             {
                 string line;
                 int updateDeleteCounter = 0;

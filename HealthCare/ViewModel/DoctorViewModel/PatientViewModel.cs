@@ -1,4 +1,5 @@
 ﻿using HealthCare.Model;
+using HealthCare.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare.ViewModels.DoctorViewModel
 {
-    public class PatientViewModel : BaseViewModel
+    public class PatientViewModel : ViewModelBase
     {
         private Patient _patient;
         public string JMBG => _patient.JMBG;

@@ -1,4 +1,5 @@
 ﻿using HealthCare.Model;
+using HealthCare.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare.ViewModels.DoctorViewModel
 {
-    public class AppointmentViewModel : BaseViewModel
+    public class AppointmentViewModel : ViewModelBase
     {
         private readonly Appointment _appointment;
         public string AppointmentID => _appointment.AppointmentID.ToString();
@@ -16,7 +17,7 @@ namespace HealthCare.ViewModels.DoctorViewModel
         public string StartingTime => _appointment.TimeSlot.Start.ToString();
         public string Duration => _appointment.TimeSlot.Duration.ToString();
         public bool IsOperation => _appointment.IsOperation;
-
+        public string JMBG => _appointment.Patient.JMBG;
 
         public AppointmentViewModel(Appointment appointment)
         {

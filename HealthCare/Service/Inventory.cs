@@ -2,6 +2,7 @@
 using HealthCare.Model;
 using HealthCare.Storage;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace HealthCare.Service
     public class Inventory
     {
         public List<InventoryItem> Items { get; set; }
+
         private CsvStorage<InventoryItem> csvStorage;
 
         public Inventory(string filepath)

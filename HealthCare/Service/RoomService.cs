@@ -55,6 +55,7 @@ namespace HealthCare.Service
         {
             Rooms = csvStorage.Load();
         }
+
         public void Save()
         {
             csvStorage.Save(Rooms);
