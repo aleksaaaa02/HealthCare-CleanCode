@@ -197,5 +197,10 @@ namespace HealthCare.View.PatientView
             MessageBoxButton button = MessageBoxButton.OK;
             MessageBox.Show(messageBoxText, content, button, icon);
         }
+
+        private void Clear_Click(object sender, RoutedEventArgs e)
+        {
+            ClearBoxes();
+        }
     }
 }
