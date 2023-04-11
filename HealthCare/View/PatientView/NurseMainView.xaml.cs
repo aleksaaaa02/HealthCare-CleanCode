@@ -60,18 +60,25 @@ namespace HealthCare.View.PatientView
             if (ValidateFields())
             {
                 CreatePatient();
-                patientService.CreateAccount(patient);
+                if (!patientService.CreateAccount(patient))
+                    ShowErrorMessageBox("Pacijent sa unetim JMBG vec postoji");
                 patientService.Save();
                 Record = null;
                 vm.Update();
             }
             else
-                ShowErrorMessageBox();
+                ShowErrorMessageBox("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
    
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
+            if (patient == null)
+            {
+                ShowErrorMessageBox("Nije selektovan nalog.");
+                return;
+            }
+
             string messageBoxText = "Da li ste sigurni da zelite da obrisete pacijenta?";
             string caption = "Potvrda";
             MessageBoxImage icon = MessageBoxImage.Warning;
@@ -82,7 +89,10 @@ namespace HealthCare.View.PatientView
             if(result == MessageBoxResult.Yes)
             {
                 patient = (Patient) lvPatients.SelectedItem;
-                patientService.DeleteAccount(patient.JMBG);
+                if (!patientService.DeleteAccount(patient.JMBG))
+                {
+                    ShowErrorMessageBox("Pacijent sa unetim JMBG ne postoji");
+                }
                 patientService.Save();
                 ClearBoxes();
                 vm.Update();
@@ -121,13 +131,14 @@ namespace HealthCare.View.PatientView
             if (ValidateFields())
             {
                 CreatePatient();
-                patientService.UpdateAccount(patient);
+                if(!patientService.UpdateAccount(patient))
+                    ShowErrorMessageBox("Pacijent sa unetim JMBG ne postoji");
                 patientService.Save();
                 Record = null;
                 vm.Update();
             }
             else
-                ShowErrorMessageBox();
+                ShowErrorMessageBox("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
         }
 
         public void CreatePatient()
@@ -179,9 +190,8 @@ namespace HealthCare.View.PatientView
             return false;
         }
 
-        public void ShowErrorMessageBox()
+        public void ShowErrorMessageBox(string messageBoxText)
         {
-            string messageBoxText = "Unesite sva polja. Datum je u formatu dd-MM-YYYY";
             string content = "Greska";
             MessageBoxImage icon = MessageBoxImage.Error;
             MessageBoxButton button = MessageBoxButton.OK;

@@ -24,26 +24,38 @@ namespace HealthCare.Service
             observers = new List<IObserver>();
         }
 
-		public void CreateAccount(Patient newPatient)
+		public bool CreateAccount(Patient newPatient)
 		{
 			Patient? patient = Patients.Find(x => x.JMBG == newPatient.JMBG);
-			if(patient == null) Patients.Add(newPatient);
+			if(patient == null)
+			{
+                Patients.Add(newPatient);
+				return true;
+            }
+			return false;
 		}
 
-		public void UpdateAccount(Patient updatedPatient)
+		public bool UpdateAccount(Patient updatedPatient)
 		{
             Patient? patient = Patients.Find(x => x.JMBG == updatedPatient.JMBG);
             if (patient != null)
 			{ 
 				int patientIndex = Patients.IndexOf(patient);
 				Patients[patientIndex] = updatedPatient;
+				return true;
 			}
+			return false;
         }
 
-		public void DeleteAccount(string JMBG)
+		public bool DeleteAccount(string JMBG)
 		{
 			Patient? patient = Patients.Find(x => x.JMBG == JMBG);
-			if (patient != null) Patients.Remove(patient);
+			if (patient != null)
+			{
+                Patients.Remove(patient);
+                return true;
+			}
+			return false;
         }
 
 		public Patient GetAccount(string JMBG)
