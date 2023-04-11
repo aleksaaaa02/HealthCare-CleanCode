@@ -43,14 +43,8 @@ namespace HealthCare
 
         private void btnQuitApp_Click(object sender, RoutedEventArgs e)
         {
-
-            //MakeAppointmentView makeAppointmentView = new MakeAppointmentView();
-            //makeAppointmentView.Show();
-                
-
             _hospital.SaveAll();
             Close();
-
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
