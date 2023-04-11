@@ -101,7 +101,7 @@ namespace HealthCare.View.DoctorView
                 _height = patient.MedicalRecord.Height;
                 if (patient.MedicalRecord.MedicalHistory != null)
                 {
-                    previousDiseases = new ObservableCollection<string>(patient.MedicalRecord.MedicalHistory.ToList());
+                    previousDiseases = new ObservableCollection<string>(patient.MedicalRecord.MedicalHistory);
                 }
                 else
                 {

@@ -5,6 +5,7 @@ using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,6 +42,11 @@ namespace HealthCare.View.DoctorView
             Close();
             _loginWindow.Show();
             
+        }
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = true;
+            System.Windows.Application.Current.Shutdown();
         }
     }
 }
