@@ -30,6 +30,12 @@
                 <RowDefinition Height="0.9*"/>
                 <RowDefinition Height="0.05*"/>
             </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="Pocetni datum filtriranja: " VerticalAlignment="Center"/>
+                <DatePicker Margin="20 0"/>
+                <TextBlock Text="Broj Dana:" VerticalAlignment="Center"/>
+                <TextBox Width="75" Margin="20 0"/>
+            </StackPanel>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="293*"/>

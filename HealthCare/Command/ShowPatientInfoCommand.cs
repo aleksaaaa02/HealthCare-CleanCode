@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Command
 {
-    internal class ShowPatientInfoCommand
+    public class ShowPatientInfoCommand : CommandBase
     {
+
+        public ShowPatientInfoCommand() { }
+
+        public override void Execute(object parameter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

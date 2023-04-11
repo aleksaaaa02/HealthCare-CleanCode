@@ -1,4 +1,5 @@
 ﻿using HealthCare.Command;
+using HealthCare.Context;
 using HealthCare.Model;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace HealthCare.ViewModels.DoctorViewModel
     public class DoctorMainViewModel : BaseViewModel
     {
         private Hospital _hospital;
+
+        private Patient _patient;
 
         public ObservableCollection<AppointmentViewModel> Appointments;
 
@@ -37,12 +40,16 @@ namespace HealthCare.ViewModels.DoctorViewModel
             CreateAppointmentViewCommand = new MakeAppointmentNavigationCommand(this);
             EditAppointmentCommand = new EditAppointmentDoctorCommand();
             // DeleteAppointmentCommand = new ...
-            // ShowDetailedPatientInfoCommand = new 
+            ShowDetailedPatientInfoCommand = new ShowPatientInfoCommand();
             
         
         }
         public void Update()
         {
+            // foreach(var appointment in Schedule.getDoctorAppointments())
+            //{
+            //      Appointments.add(new AppointmnetViewModel(appointment));
+            //}
             // ovde Mozemo Dobaviti podatke i prebaciti ih u viewmodel
         }
     }
