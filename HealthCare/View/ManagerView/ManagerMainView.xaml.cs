@@ -2,6 +2,7 @@
 using HealthCare.ViewModel.ManagerViewModel;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,6 +53,12 @@ namespace HealthCare.View.ManagerView
             searchBar.Text = string.Empty;
 
             _model.LoadAll();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = true;
+            Application.Current.Shutdown();
         }
 
         private void LogoutClick(object sender, RoutedEventArgs e)
