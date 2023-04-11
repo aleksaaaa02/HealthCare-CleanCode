@@ -1,4 +1,5 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Exceptions;
+using HealthCare.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,30 +17,34 @@ namespace HealthCare.Service
             Items = new List<InventoryItem>();
         }
 
-        public InventoryItem? GetInventoryItem(Equipment equipment, Room room)
+        public InventoryItem Get(InventoryItem item)
         {
-            return Items.Find(x => x.Room == room && x.Equipment == equipment);
+            InventoryItem? found = Items.Find(x => x == item);
+            if (found is not null) { return found; }
+            else { throw new NonExistingObjectException(); }
         }
 
-        public void AddEquipment(Equipment equipment, Room room, int quantity)
+        public void Add(InventoryItem item)
         {
-            InventoryItem? found = GetInventoryItem(equipment, room);
-
-            if (found != null)
-            {
-                found.Quantity += quantity;
-                return;
-            }
-            Items.Add(new InventoryItem(equipment, room, quantity));
+            if (Contains(item)) { throw new DuplicateObjectException(); }
+            Items.Add(item);
         }
 
-        public void RemoveEquipment(Equipment equipment, Room room, int quantity)
+        public void Remove(InventoryItem item)
         {
-            InventoryItem? found = GetInventoryItem(equipment, room);
+            if (!Contains(item)) { throw new NonExistingObjectException(); }
+            Items.Remove(item);
+        }
 
-            if (found == null) throw new Exception(); // TODO: specify exceptions
-            if (found.Quantity < quantity) throw new Exception();
-            found.Quantity -= quantity;
+        public void Update(InventoryItem item)
+        {
+            InventoryItem current = Get(item);
+            current.Quantity = item.Quantity;
+        }
+
+        public bool Contains(InventoryItem item) 
+        {
+            return Items.Find(x => x == item) is not null;
         }
     }
 }

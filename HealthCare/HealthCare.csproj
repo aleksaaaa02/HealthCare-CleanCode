@@ -8,9 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Model\" />
-    <Folder Include="Exceptions\" />
-    <Folder Include="Service\" />
     <Folder Include="Storage\" />
     <Folder Include="Serializer\" />
     <Folder Include="Observer\" />
