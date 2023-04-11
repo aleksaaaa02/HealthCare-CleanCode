@@ -1,4 +1,5 @@
 ﻿using HealthCare.Model;
+using HealthCare.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,10 +12,19 @@ namespace HealthCare.ViewModel
     public class PatientViewModel
     {
         public ObservableCollection<Patient> Patients { get; set; }
+        private PatientService _patientService;
 
-        public PatientViewModel()
+        public PatientViewModel(PatientService patientService)
         {
             Patients = new ObservableCollection<Patient>();
+            _patientService = patientService;
+        }
+
+        public void Update()
+        {
+            Patients.Clear();
+            foreach (var patient in _patientService.Patients)
+                Patients.Add(patient);
         }
     }
 }

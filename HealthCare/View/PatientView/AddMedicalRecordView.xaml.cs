@@ -21,19 +21,21 @@ namespace HealthCare.View.PatientView
     /// </summary>
     public partial class AddMedicalRecordView : Window
     {
-        private Patient? patient;
         private PatientService? patientService;
-        public AddMedicalRecordView(Patient patient,PatientService patientService)
+        private NurseMainView _window;
+        public AddMedicalRecordView(NurseMainView window, PatientService patientService)
         {
+            _window = window;
             InitializeComponent();
-            if (patient != null)
+            if (_window.Record != null)
             {
-                this.patient = patient;
-                this.patientService = patientService;
-                tbHeight.Text = patient.MedicalRecord.Height.ToString();
-                tbWidth.Text = patient.MedicalRecord.Weight.ToString();
-                rtbMedicalHistory.AppendText(string.Join(",",patient.MedicalRecord.MedicalHistory));
-            }   
+                tbHeight.Text = _window.Record.Height.ToString();
+                tbWidth.Text = _window.Record.Weight.ToString();
+                rtbMedicalHistory.AppendText(string.Join(",", _window.Record.MedicalHistory));
+            }
+            else {
+                _window.Record = new MedicalRecord();
+            }
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
@@ -53,9 +55,7 @@ namespace HealthCare.View.PatientView
                     rtbMedicalHistory.Document.ContentEnd
                 );
                 medicalRecord.MedicalHistory = textRange.Text.Trim().Split(",");
-                patient.MedicalRecord = medicalRecord;
-                patientService.UpdateAccount(patient);
-                patientService.Save();
+                _window.Record = medicalRecord;
                 Close();
             }
             else

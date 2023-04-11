@@ -32,18 +32,22 @@ namespace HealthCare.View.PatientView
         private PatientService patientService;
         private PatientViewModel vm;
         private Patient? patient;
+        public MedicalRecord? Record;
 
         public NurseMainView()
         {
             InitializeComponent();
 
-            vm = new PatientViewModel();
+            patientService = new PatientService("../../../Resources/patients.csv");
+
+            vm = new PatientViewModel(patientService);
             DataContext = vm;
 
-            patientService = new PatientService("../../../Resources/patients.csv");
             patientService.Load();
 
-            UpdateViewModel();
+            vm.Update();
+            patient = null;
+            Record = null;
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -58,15 +62,12 @@ namespace HealthCare.View.PatientView
                 CreatePatient();
                 patientService.CreateAccount(patient);
                 patientService.Save();
+                Record = null;
+                vm.Update();
             }
             else
                 ShowErrorMessageBox();
    
-        }
-
-        public void UpdateViewModel()
-        {
-            vm.Patients = new ObservableCollection<Patient>(patientService.Patients);
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
@@ -82,13 +83,16 @@ namespace HealthCare.View.PatientView
             {
                 patient = (Patient) lvPatients.SelectedItem;
                 patientService.DeleteAccount(patient.JMBG);
+                patientService.Save();
                 ClearBoxes();
+                vm.Update();
             }
         }
 
         private void lvPatients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             patient = (Patient) lvPatients.SelectedItem;
+            if (patient is null) { return; }
             tbName.Text = patient.Name;
             tbLastName.Text = patient.LastName;
             tbJMBG.Text = patient.JMBG;
@@ -103,12 +107,11 @@ namespace HealthCare.View.PatientView
             if (patient.Blocked == true)
                 chbBlocked.IsChecked = true;
             else chbBlocked.IsChecked = false;
-
-
+            Record = patient.MedicalRecord;
         }
         private void MedicalRecord_Click(object sender, RoutedEventArgs e)
         {
-            AddMedicalRecordView medicalRecordView = new AddMedicalRecordView(patient,patientService);
+            AddMedicalRecordView medicalRecordView = new AddMedicalRecordView(this, patientService);
             medicalRecordView.ShowDialog();
             
         }
@@ -119,6 +122,9 @@ namespace HealthCare.View.PatientView
             {
                 CreatePatient();
                 patientService.UpdateAccount(patient);
+                patientService.Save();
+                Record = null;
+                vm.Update();
             }
             else
                 ShowErrorMessageBox();
@@ -126,7 +132,8 @@ namespace HealthCare.View.PatientView
 
         public void CreatePatient()
         {
-            patient = new Patient();
+            if (patient == null)
+                patient = new Patient();
             patient.Name = tbName.Text;
             patient.LastName = tbLastName.Text;
             patient.JMBG = tbJMBG.Text;
@@ -145,7 +152,9 @@ namespace HealthCare.View.PatientView
                 patient.Blocked = true;
             }
             else patient.Blocked = false;
-            patient.MedicalRecord = new MedicalRecord();
+            if (Record is null)
+                Record = new MedicalRecord();
+            patient.MedicalRecord = Record;
         }
 
         public void ClearBoxes()
