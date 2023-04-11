@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCare.ViewModels
+namespace HealthCare.ViewModels.DoctorViewModel
 {
     public class AppointmentViewModel : BaseViewModel
     {
@@ -17,7 +17,7 @@ namespace HealthCare.ViewModels
         public string Duration => _appointment.TimeSlot.Duration.ToString();
         public bool IsOperation => _appointment.IsOperation;
 
-            
+
         public AppointmentViewModel(Appointment appointment)
         {
             _appointment = appointment;

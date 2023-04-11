@@ -1,5 +1,5 @@
 ﻿using HealthCare.Model;
-using HealthCare.ViewModels;
+using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

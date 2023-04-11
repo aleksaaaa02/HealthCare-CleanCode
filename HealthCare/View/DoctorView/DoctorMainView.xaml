@@ -17,10 +17,10 @@
 
         <Grid>
             <StackPanel>
-                <Button Width="Auto" Height="40" Margin="10" Content="Zakazi Pregled/Operaciju" Command="{Binding MakeAppointmentViewCommand}"/>
-                <Button Width="Auto" Height="40" Margin="10" Content="Izmeni Pregled/Operaciju"/>
-                <Button Width="Auto" Height="40" Margin="10" Content="Ukloni Pregled/Operaciju"/>
-                <Button Width="Auto" Height="40" Margin="10" Content="TO-DO" Command="{Binding MakeAppointmentCommand}"/>
+                <Button Width="Auto" Height="40" Margin="10" Content="Zakazi Pregled/Operaciju" Command="{Binding CreateAppointmentViewCommand}"/>
+                <Button Width="Auto" Height="40" Margin="10" Content="Izmeni Pregled/Operaciju" Command="{Binding EditAppointmentCommand}"/>
+                <Button Width="Auto" Height="40" Margin="10" Content="Ukloni Pregled/Operaciju" Command="{Binding DeleteAppointmentCommand}"/>
+                <Button Width="Auto" Height="40" Margin="10" Content="Prikazi pacijenta" Command="{Binding ShowDetailedPatientInfoCommand}"/>
                 <TextBlock x:Name="Moris"/>
             </StackPanel>
         </Grid>
