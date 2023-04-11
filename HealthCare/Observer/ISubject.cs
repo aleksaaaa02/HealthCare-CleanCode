@@ -1,4 +1,4 @@
-﻿namespace Validation.Observer
+﻿namespace HealthCare.Observer
 {
     interface ISubject
     {

@@ -1,8 +1,12 @@
-﻿using HealthCare.View.AppointmentView;
+﻿using HealthCare.Context;
+using HealthCare.Exceptions;
+using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.View.DoctorView;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,23 +26,24 @@ namespace HealthCare
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+        private readonly Hospital _hospital;
         public MainWindow()
         {
             InitializeComponent();
+
+            _hospital = new Hospital("Poslednji trzaj");
+            _hospital.LoadAll();
         }
 
         private void btnQuitApp_Click(object sender, RoutedEventArgs e)
         {
-            //MakeAppointmentView makeAppointmentView = new MakeAppointmentView();
-            //makeAppointmentView.Show();
-            AppointmentMainView appointmentMainView = new AppointmentMainView();
-            appointmentMainView.Show();
-                
+            _hospital.SaveAll();
+            Close();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
+
             
             string UserName = txtUserName.Text;
             string Password = txtPassword.Password;
@@ -54,6 +59,32 @@ namespace HealthCare
                 }
             }
 
+            string username = txtUserName.Text;
+            string password = txtPassword.Password;
+
+
+            try
+            {
+                switch(_hospital.LoginRole(username, password))
+                {
+                    case UserRole.Manager:
+                        // new View
+                        break;
+                    case UserRole.Doctor:
+                        // new View
+                        break;
+                    case UserRole.Nurse:
+                        // new View
+                        break;
+                    case UserRole.Patient:
+                        // new View
+                        break;
+                }
+            } catch (IncorrectPasswordException e1) {
+
+            } catch (UsernameNotFoundException e2) {
+
+            }
         }
     }
 }

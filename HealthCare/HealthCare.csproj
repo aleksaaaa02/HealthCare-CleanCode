@@ -9,9 +9,10 @@
 
   <ItemGroup>
     <Folder Include="Model\" />
-    <Folder Include="Serializer\" />
-    <Folder Include="Service\" />
+    <Folder Include="ViewModel\" />
     <Folder Include="Storage\" />
+    <Folder Include="Observer\" />
+    <Folder Include="ViewModel\" />
     <Folder Include="View\" />
   </ItemGroup>
 

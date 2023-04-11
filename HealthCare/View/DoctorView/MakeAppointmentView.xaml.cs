@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HealthCare.Model;
+using HealthCare.ViewModels.DoctorViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,15 @@ namespace HealthCare.View.DoctorView
     /// </summary>
     public partial class MakeAppointmentView : Window
     {
-        public MakeAppointmentView()
+        public MakeAppointmentView(DoctorMainViewModel viewModel)
         {
             InitializeComponent();
+            DataContext = new MakeAppointmentViewModel(viewModel, this);
+        }
+        public MakeAppointmentView(DoctorMainViewModel viewModel, Appointment appointment)
+        {
+            InitializeComponent();
+            DataContext = new MakeAppointmentViewModel(appointment, viewModel, this);
         }
     }
 }

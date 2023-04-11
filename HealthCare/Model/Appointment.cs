@@ -44,9 +44,7 @@ namespace HealthCare.Model
             Doctor = new Doctor();
             Doctor.JMBG = values[2];
 
-            string date = values[3].Split(' ')[0];
-            string timeSpan = values[3].Split(' ')[1];
-            TimeSlot = new TimeSlot(DateTime.Parse(date), TimeSpan.Parse(timeSpan));
+            TimeSlot = TimeSlot.Parse(values[3]);
             IsOperation = Convert.ToBoolean(values[4]);
         }
     }
