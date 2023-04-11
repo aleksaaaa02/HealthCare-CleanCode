@@ -31,12 +31,16 @@ namespace HealthCare.Service
         public void Save() 
         {
             csvStorage.Save(Doctors);
-        }  
+        }
 
         public List<Doctor> GetAccounts() 
         {
             return Doctors;
         }
 
+        public Doctor? GetByUsername(string username)
+        {
+            return Doctors.Find(x => x.UserName == username);
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Exceptions;
+using HealthCare.Model;
+using HealthCare.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,39 +9,61 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
-    class Inventory
+    public class Inventory
     {
-        public List<InventoryItem> Items { get; }
+        public List<InventoryItem> Items { get; set; }
+        private CsvStorage<InventoryItem> csvStorage;
 
-        public Inventory()
+        public Inventory(string filepath)
         {
             Items = new List<InventoryItem>();
+            csvStorage = new CsvStorage<InventoryItem>(filepath);
         }
 
-        public InventoryItem? GetInventoryItem(Equipment equipment, Room room)
+        public InventoryItem Get(string equipmentName, string roomName)
         {
-            return Items.Find(x => x.Room == room && x.Equipment == equipment);
+            InventoryItem? found = Items.Find(x => 
+                x.Equipment.Name == equipmentName && 
+                x.Room.Name == roomName);
+            if (found != null) { return found; }
+            throw new ObjectNotFoundException();
         }
 
-        public void AddEquipment(Equipment equipment, Room room, int quantity)
+        public void Add(InventoryItem item)
         {
-            InventoryItem? found = GetInventoryItem(equipment, room);
-
-            if (found != null)
-            {
-                found.Quantity += quantity;
-                return;
-            }
-            Items.Add(new InventoryItem(equipment, room, quantity));
+            if (Contains(item.Equipment.Name, item.Room.Name)) throw new ObjectAlreadyExistException();
+            Items.Add(item);
         }
 
-        public void RemoveEquipment(Equipment equipment, Room room, int quantity)
+        public void Remove(string equipmentName, string roomName)
         {
-            InventoryItem? found = GetInventoryItem(equipment, room);
+            if (!Contains(equipmentName, roomName)) throw new ObjectNotFoundException();
+            Items.RemoveAll(x =>
+                x.Equipment.Name == equipmentName &&
+                x.Room.Name == roomName);
+        }
 
-            if (found == null) throw new Exception(); // TODO: specify exceptions
-            if (found.Quantity < quantity) throw new Exception();
-            found.Quantity -= quantity;
+        public void Update(InventoryItem item)
+        {
+            if (!Contains(item.Equipment.Name, item.Room.Name)) throw new ObjectNotFoundException();
+            InventoryItem current = Get(item.Equipment.Name, item.Room.Name);
+            current.Copy(item);
+        }
+
+        public bool Contains(string equipmentName, string roomName)
+        {
+            return Items.FindIndex(x => 
+                x.Equipment.Name == equipmentName && 
+                x.Room.Name == roomName) >= 0;
+        }
+
+        public void Load()
+        {
+            Items = csvStorage.Load();
+        }
+        public void Save()
+        {
+            csvStorage.Save(Items);
         }
     }
 }
