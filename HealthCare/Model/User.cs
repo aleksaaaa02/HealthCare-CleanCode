@@ -37,7 +37,7 @@ namespace HealthCare.Model
             Gender = gender;
         }
 
-        public User()
+        public User() : this("", "", "", DateTime.Now, "", "", "", "", Gender.Female)
         {
         }
 
