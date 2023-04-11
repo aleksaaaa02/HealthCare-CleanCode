@@ -33,12 +33,51 @@ namespace HealthCare.View.AppointmentView
             InitializeComponent();
             _hospital = hospital;
             loadData();
+            checkIfBlock();
         }
 
         public void writeAction(string action)
         {
             string stringtocsv = _hospital.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
             File.AppendAllText("../../../log/PatientLogs.csv",stringtocsv);
+        }
+
+        public void checkIfBlock()
+        {
+            Patient patient = (Patient)_hospital.Current;
+            using (var reader = new StreamReader("../../../log/PatientLogs.csv", Encoding.Default))
+            {
+                string line;
+                int updateDeleteCounter = 0;
+                int createCounter = 0;
+                while ((line = reader.ReadLine()) != null)
+                {
+
+                    string[] values = line.Split('|');
+                    if (values[0] == patient.JMBG)
+                    {
+                        DateTime inputDate = DateTime.Parse(values[2]);
+                        DateTime currentDate = DateTime.Now;
+                        int daysDifference = (currentDate - inputDate).Days;
+                        if (daysDifference < 30)
+                        {
+                            if (values[1] == "CREATE") createCounter++;
+                            if (values[1] == "UPDATE" || values[1] == "DELETE") updateDeleteCounter++;
+                        }
+                    }
+
+
+                }
+                if(updateDeleteCounter >= 5 || createCounter > 8)
+                {
+                    patient.Blocked = true;
+                }
+                else
+                {
+                    patient.Blocked = false;
+                }
+                _hospital.PatientService.UpdateAccount(patient);
+            }
         }
         public void loadData()
         {
@@ -124,6 +163,7 @@ namespace HealthCare.View.AppointmentView
             MessageBox.Show("Uspesno dodat pregled", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
             writeAction("CREATE");
             loadData();
+            checkIfBlock();
         }
 
         private void appListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -154,6 +194,7 @@ namespace HealthCare.View.AppointmentView
                 writeAction("DELETE");
                 MessageBox.Show("Uspesno obrisan pregled", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
                 loadData();
+                checkIfBlock();
             }
             else
             {
@@ -218,6 +259,7 @@ namespace HealthCare.View.AppointmentView
             MessageBox.Show("Uspesno azuriran pregled", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
             writeAction("UPDATE");
             loadData();
+            checkIfBlock();
 
         }
     }

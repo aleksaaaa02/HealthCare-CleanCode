@@ -68,11 +68,6 @@
             <Button x:Name="btnCreate" Content="Kreiraj" HorizontalAlignment="Left" Margin="27,0,0,0" VerticalAlignment="Center" Click="btnCreate_Click"/>
             <Button x:Name="btnUpdate" Content="Azuriraj" HorizontalAlignment="Left" Margin="111,0,0,0" VerticalAlignment="Center" Click="btnUpdate_Click"/>
             <Button x:Name="btnDelete" Content="Obrisi" HorizontalAlignment="Left" Margin="187,0,0,0" VerticalAlignment="Center" Click="btnDelete_Click"/>
-
         </Grid>
-        <Button x:Name="btnExit" Grid.Column="1" Content="Izadji" HorizontalAlignment="Left" Margin="340,0,0,0" Grid.Row="3" VerticalAlignment="Center"/>
-
-
-
     </Grid>
 </Window>
