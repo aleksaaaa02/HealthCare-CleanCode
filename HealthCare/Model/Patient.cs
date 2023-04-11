@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Printing;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -23,9 +26,8 @@ namespace HealthCare.Model
             MedicalRecord = medicalRecord;
         }
         
-        
         public Patient() { }
-        
+
         public bool IsAvailable(TimeSlot term)
         {
             List<Appointment> PatientAppointments = Schedule.GetPatientAppointments(this);
@@ -64,8 +66,7 @@ namespace HealthCare.Model
 
             Blocked = bool.Parse(values[9]);
             MedicalRecord = new MedicalRecord();
-            MedicalRecord.FromCSV(new string[] { values[10], values[11], values[12] });
+            MedicalRecord.FromCSV(new string[] {values[10],values[11],values[12]});
         }
-
     }
 }
