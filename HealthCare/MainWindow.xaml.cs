@@ -44,32 +44,15 @@ namespace HealthCare
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-
-            
-            string UserName = txtUserName.Text;
-            string Password = txtPassword.Password;
-            // SKLONI OVO!!
-            if (UserName != null && Password != null)
-            {
-                if (UserName == "mamatvoja123" && Password == "mrs")
-                {
-                    WelcomeMessage.Text = "sara jo";
-                   //FIX THIS
-
-
-                }
-            }
-
             string username = txtUserName.Text;
             string password = txtPassword.Password;
 
-            
             try
             {
                 switch(_hospital.LoginRole(username, password))
                 {
                     case UserRole.Manager:
-                        new ManagerView(_hospital).Show();
+                        new ManagerMainView(this, _hospital).Show();
                         break;
                     case UserRole.Doctor:
                         // new View
@@ -81,7 +64,10 @@ namespace HealthCare
                         // new View
                         break;
                 }
-                Close();
+
+                txtUserName.Clear();
+                txtPassword.Clear();
+                Hide();
             } catch (IncorrectPasswordException e1) {
 
             } catch (UsernameNotFoundException e2) {
