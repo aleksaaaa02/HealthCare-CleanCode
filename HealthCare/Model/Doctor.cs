@@ -1,14 +1,16 @@
 ﻿using HealthCare;
+using HealthCare.Serializer;
 using HealthCare.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace HealthCare.Model
 {
-    public class Doctor : User
+    public class Doctor : User, ISerializable
     {
         public string Specialization { get; set; }
         
@@ -19,6 +21,7 @@ namespace HealthCare.Model
         }
         public Doctor() : base()
         {
+            Specialization = "";
         }
 
 
@@ -41,6 +44,27 @@ namespace HealthCare.Model
                 return true;
             }
             return false;
+        }
+
+        public new string[] ToCSV()
+        {
+            string[] userValues = base.ToCSV();
+            return userValues.Concat(new string[] { Specialization }).ToArray();
+        }
+
+        public new void FromCSV(string[] values)
+        {
+            Name = values[0];
+            LastName = values[1];
+            JMBG = values[2];
+            BirthDate = DateTime.Parse(values[3]);
+            PhoneNumber = values[4];
+            Address = values[5];
+            UserName = values[6];
+            Password = values[7];
+            Gender = (Gender)Enum.Parse(typeof(Gender), values[8]);
+
+            Specialization = values[9];
         }
     }
 }
