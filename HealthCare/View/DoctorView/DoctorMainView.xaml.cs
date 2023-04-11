@@ -1,9 +1,11 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Context;
+using HealthCare.Model;
 using HealthCare.ViewModels;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,16 +25,28 @@ namespace HealthCare.View.DoctorView
     /// </summary>
     public partial class DoctorMainView : Window
     {
-        
-        public DoctorMainView()
+        private Window _loginWindow;
+
+        public DoctorMainView(Hospital hospital, Window loginWindow)
         {
-           
+            _loginWindow = loginWindow;
             InitializeComponent();
             // Treba Hospital Model
-            DataContext = new DoctorMainViewModel(null);
-
-           
+            DataContext = new DoctorMainViewModel(hospital);
         }
 
+        private void LogOut_Click(object sender, RoutedEventArgs e)
+        {
+            _loginWindow.Show();
+            Close();
+        }
+
+        /*
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = true;
+            Application.Current.Shutdown();
+        }
+        */
     }
 }

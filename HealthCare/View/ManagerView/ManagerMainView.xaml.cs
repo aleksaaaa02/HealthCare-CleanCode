@@ -54,13 +54,13 @@ namespace HealthCare.View.ManagerView
 
             _model.LoadAll();
         }
-
+        /*
         protected override void OnClosing(CancelEventArgs e)
         {
             e.Cancel = true;
             Application.Current.Shutdown();
         }
-
+        */
         private void LogoutClick(object sender, RoutedEventArgs e)
         {
             _loginWindow.Show();

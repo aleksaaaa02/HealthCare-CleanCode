@@ -21,7 +21,8 @@
                 <Button Width="Auto" Height="40" Margin="10" Content="Izmeni Pregled/Operaciju" Command="{Binding EditAppointmentCommand}"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="Ukloni Pregled/Operaciju" Command="{Binding DeleteAppointmentCommand}"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="Prikazi pacijenta" Command="{Binding ShowDetailedPatientInfoCommand}"/>
-                <TextBlock x:Name="Moris"/>
+                <Label Margin="0 15"/>
+                <Button x:Name="LogOut" Width="Auto" Height="40" Margin="10" Content="Odjava" Click="LogOut_Click"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Column="1">
@@ -32,9 +33,10 @@
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <TextBlock Text="Pocetni datum filtriranja: " VerticalAlignment="Center"/>
-                <DatePicker Margin="20 0"/>
+                <DatePicker Margin="20 0" SelectedDate="{Binding StartDate}"/>
                 <TextBlock Text="Broj Dana:" VerticalAlignment="Center"/>
-                <TextBox Width="75" Margin="20 0"/>
+                <TextBox Width="75" Margin="20 0" Text="{Binding Days}"/>
+                <Button Width="75" Content="Primeni" Command="{Binding ApplyFilterCommand}"/>
             </StackPanel>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -42,7 +44,7 @@
                     <ColumnDefinition Width="7*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Row="2">
-                    <ListView x:Name="AppointmentsListView" Grid.ColumnSpan="2" ItemsSource="{Binding Appointmentss}">
+                    <ListView x:Name="AppointmentsListView" Grid.ColumnSpan="2" SelectedItem="{Binding SelectedPatient}" ItemsSource="{Binding Appointmentss}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="ID" DisplayMemberBinding="{Binding AppointmentID}">

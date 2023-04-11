@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthCare.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +18,13 @@ namespace HealthCare.View.DoctorView
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class PatientInformationView : Window
     {
-        public Window1()
+        public PatientInformationView(Patient patient)
         {
             InitializeComponent();
+
+            DataContext = new PatientInforamtionViewModel(patient);            
         }
     }
 }

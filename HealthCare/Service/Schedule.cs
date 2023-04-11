@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Storage;
 
@@ -11,6 +12,11 @@ namespace HealthCare.Service
     static public class Schedule
     {
         public static List<Appointment> Appointments = new();
+
+        public static int NextId()
+        {
+            return Appointments.Max(s => s.AppointmentID) + 1;
+        }
         public static List<Appointment> GetDoctorAppointments(Doctor Doctor)
         {
             List<Appointment> DoctorAppointments = new List<Appointment>();
@@ -28,7 +34,7 @@ namespace HealthCare.Service
         {
             List<Appointment> appointments = new List<Appointment>();
             DateTime end = start.AddDays(days);
-            foreach (Appointment appointment in Appointments)
+            foreach (Appointment appointment in GetDoctorAppointments(doctor))
             {
                 if (appointment.TimeSlot.InBetweenDates(start, end))
                 {
@@ -51,12 +57,16 @@ namespace HealthCare.Service
             return PatientAppointments;
         }
 
-        public static void CreateAppointment(Appointment appointment)
+        public static bool CreateAppointment(Appointment appointment)
         {
             if (appointment.Patient.IsAvailable(appointment.TimeSlot) && appointment.Doctor.IsAvailable(appointment.TimeSlot))
             {
+                appointment.AppointmentID = NextId();
                 Appointments.Add(appointment);
+                Save(Global.appointmentPath);
+                return true;
             }
+            return false;
         }
 
         public static void UpdateAppointment(Appointment updatedAppointment)
@@ -75,6 +85,7 @@ namespace HealthCare.Service
                     Appointments.Insert(appointmentIndex, appointment);
                 }
 
+                Save(Global.appointmentPath);
             }
         }
 

@@ -55,7 +55,7 @@ namespace HealthCare
                         new ManagerMainView(this, _hospital).Show();
                         break;
                     case UserRole.Doctor:
-                        // new View
+                        new DoctorMainView(_hospital, this).Show();
                         break;
                     case UserRole.Nurse:
                         // new View
@@ -69,9 +69,9 @@ namespace HealthCare
                 txtPassword.Clear();
                 Hide();
             } catch (IncorrectPasswordException e1) {
-
+                MessageBox.Show("Pogresna lozinka. Pokusajte ponovo.", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
             } catch (UsernameNotFoundException e2) {
-
+                MessageBox.Show("Nepostojece korisnicko ime.", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }
