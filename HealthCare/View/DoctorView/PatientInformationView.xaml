@@ -1,4 +1,4 @@
-﻿<Window x:Class="HealthCare.View.DoctorView.Window1"
+﻿<Window x:Class="HealthCare.View.DoctorView.PatientInformationView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -20,18 +20,18 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Margin="40 10 50 0">
                 <Label Content="Ime"/>
-                <TextBox Text="Aleksa"/>
+                <TextBox Text="{Binding Name}" IsReadOnly="True"/>
                 <Label Content="Prezime"/>
-                <TextBox Text="Vukomanovic"/>
+                <TextBox Text="{Binding LastName}" IsReadOnly="True"/>
                 <Label Content="JMBG"/>
-                <TextBox Text="12345"/>
+                <TextBox Text="{Binding JMBG}" IsReadOnly="True"/>
                 <TextBlock Text="Medicinksi karton" FontSize="24" Margin="0 30 0 0"/>
             </StackPanel>
             <StackPanel Grid.Column="1" Margin="50 10 40 0">
                 <Label Content="Datum Rodjenja"/>
-                <TextBox Text="22.04.2002."/>
+                <DatePicker Text="{Binding Birthday}" Focusable="False" />
                 <Label Content="Pol"/>
-                <TextBox Text="Musko"/>
+                <TextBox Text="{Binding Genderr}" IsReadOnly="True"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="2">
@@ -41,19 +41,19 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="40 0 0 0">
                 <Label Content="Visina (cm):"/>
-                <TextBox Text="120" VerticalContentAlignment="Center" Width="30" TextAlignment="Center"/>
+                <TextBox Text="{Binding Height}" VerticalContentAlignment="Center" IsReadOnly="True" Width="40" TextAlignment="Center"/>
                 <Label Content="Tezina (kg):" Margin="80 0  0 0"/>
-                <TextBox Text="120" VerticalContentAlignment="Center" Width="30" TextAlignment="Center"/>
+                <TextBox Text="{Binding Weight}" VerticalContentAlignment="Center" IsReadOnly="True" Width="40" TextAlignment="Center"/>
             </StackPanel>
             <Grid Grid.Row="1">
-                <ListView Margin="40 10 40 10">
-                    <ListViewItem HorizontalAlignment="Stretch"/>
+                <ListView Margin="40 10 40 10" ItemsSource="{Binding PreviousDisease}">
+                    
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Naziv Bolesti">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Padding="0 0 20 0"  Text="Dijabetes 1"/>
+                                        <TextBlock Padding="0 0 20 0"  Text="{Binding}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

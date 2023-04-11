@@ -37,9 +37,18 @@ namespace HealthCare.ViewModels.DoctorViewModel
         }
 
 
-        private Hospital _hospital;
+        private AppointmentViewModel _selectedPatient;
+        public AppointmentViewModel SelectedPatient
+        {
+            get { return _selectedPatient; }
+            set
+            {
+                _selectedPatient = value;
+                OnPropertyChanged(nameof(SelectedPatient));
+            }
+        }
 
-        private Patient _patient;
+        private Hospital _hospital;
         
         public ObservableCollection<AppointmentViewModel> Appointments;
 
@@ -63,7 +72,8 @@ namespace HealthCare.ViewModels.DoctorViewModel
             CreateAppointmentViewCommand = new MakeAppointmentNavigationCommand(this);
             EditAppointmentCommand = new EditAppointmentDoctorCommand();
             // DeleteAppointmentCommand = new ...
-            ShowDetailedPatientInfoCommand = new ShowPatientInfoCommand();
+            ShowDetailedPatientInfoCommand = new ShowPatientInfoCommand(_hospital, this);
+
             ApplyFilterCommand = new ApplyFilterCommand(this, _hospital);
         
         }

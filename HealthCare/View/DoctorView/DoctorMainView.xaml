@@ -43,7 +43,7 @@
                     <ColumnDefinition Width="7*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Row="2">
-                    <ListView x:Name="AppointmentsListView" Grid.ColumnSpan="2" ItemsSource="{Binding Appointmentss}">
+                    <ListView x:Name="AppointmentsListView" Grid.ColumnSpan="2" SelectedItem="{Binding SelectedPatient}" ItemsSource="{Binding Appointmentss}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="ID" DisplayMemberBinding="{Binding AppointmentID}">

@@ -16,7 +16,7 @@ namespace HealthCare.ViewModels.DoctorViewModel
         public string StartingTime => _appointment.TimeSlot.Start.ToString();
         public string Duration => _appointment.TimeSlot.Duration.ToString();
         public bool IsOperation => _appointment.IsOperation;
-
+        public string JMBG => _appointment.Patient.JMBG;
 
         public AppointmentViewModel(Appointment appointment)
         {
