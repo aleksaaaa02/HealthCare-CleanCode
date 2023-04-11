@@ -5,15 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCare.ViewModel.InventoryItemModel
+namespace HealthCare.ViewModel.ManagerViewModel
 {
-    public class InventoryItemViewModel : ViewModelBase
+    public class InventoryItemViewModel
     {
         private readonly InventoryItem _item;
-        public string EquipmentId => _item.Equipment.Name;
-        public string RoomId => _item.Room.Name;
+        public string EquipmentName => _item.Equipment.Name;
+        public string RoomName => _item.Room.Name;
         public string Quantity => _item.Quantity.ToString();
-
         public InventoryItemViewModel(InventoryItem item)
         {
             _item = item;

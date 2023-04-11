@@ -1,6 +1,7 @@
 ﻿using HealthCare.Command;
 using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,7 +13,7 @@ using System.Windows.Input;
 
 namespace HealthCare.ViewModels.DoctorViewModel
 {
-    public class DoctorMainViewModel : BaseViewModel
+    public class DoctorMainViewModel : ViewModelBase
     {
         private Hospital _hospital;
 

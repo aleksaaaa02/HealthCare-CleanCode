@@ -1,5 +1,6 @@
 ﻿using HealthCare.Command;
 using HealthCare.Model;
+using HealthCare.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,7 +12,7 @@ using System.Windows.Input;
 
 namespace HealthCare.ViewModels.DoctorViewModel
 {
-    public class MakeAppointmentViewModel : BaseViewModel
+    public class MakeAppointmentViewModel : ViewModelBase
     {
         private DateTime _startDate;
         public DateTime StartDate { 
