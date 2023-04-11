@@ -28,7 +28,7 @@ namespace HealthCare.Service
         {
             List<Appointment> appointments = new List<Appointment>();
             DateTime end = start.AddDays(days);
-            foreach (Appointment appointment in Appointments)
+            foreach (Appointment appointment in GetDoctorAppointments(doctor))
             {
                 if (appointment.TimeSlot.InBetweenDates(start, end))
                 {

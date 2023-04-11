@@ -1,4 +1,5 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Context;
+using HealthCare.Model;
 using HealthCare.ViewModels;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
@@ -24,12 +25,12 @@ namespace HealthCare.View.DoctorView
     public partial class DoctorMainView : Window
     {
         
-        public DoctorMainView()
+        public DoctorMainView(Hospital hospital)
         {
            
             InitializeComponent();
             // Treba Hospital Model
-            DataContext = new DoctorMainViewModel(null);
+            DataContext = new DoctorMainViewModel(hospital);
 
            
         }
