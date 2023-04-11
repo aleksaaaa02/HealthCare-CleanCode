@@ -20,21 +20,21 @@
         <Grid Grid.Row="1" Margin="0 10">
             <StackPanel>
                 <Label Content="Termin: "/>
-                <DatePicker Width="300" HorizontalAlignment="Left"/>
+                <DatePicker Width="300" HorizontalAlignment="Left" SelectedDate="{Binding StartDate}"/>
                 <StackPanel Orientation="Horizontal" Margin="0 5">
                     <Label Content="Sat: "/>
-                    <TextBox Width="50"/>
+                    <TextBox Width="50" Text="{Binding Hours}"/>
                     <Label Content="Minuti: "/>
-                    <TextBox Width="50"/>
+                    <TextBox Width="50" Text="{Binding Minutes}"/>
                 </StackPanel>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="2" Margin="0 10">
             <StackPanel Orientation="Horizontal">
                 <Label Content="Operacija?"/>
-                <CheckBox VerticalAlignment="Center" Margin="0 0 10 0"/>
+                <CheckBox VerticalAlignment="Center" Margin="0 0 10 0" IsChecked="{Binding IsOperation}"/>
                 <Label Content="Duzina trajanje(u minutima): "/>
-                <TextBox Width="150"/>
+                <TextBox Width="150" Text="{Binding Duration}"/>
                 
             </StackPanel>
         </Grid>
@@ -42,38 +42,38 @@
             <TextBlock Text="ODABERI PACIJENTA:"/>
         </Grid>
         <Grid Grid.Row="4">
-            <ListView Height="225">
+            <ListView Height="225" ItemsSource="{Binding}">
                 <ListViewItem/>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="JMBG">
+                        <GridViewColumn Header="JMBG" DisplayMemberBinding="{Binding JMBG}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Padding="0 0 20 0"  Text="12345"/>
+                                    <TextBlock Padding="0 0 20 0"  Text=""/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         
-                        <GridViewColumn Header="Ime">
+                        <GridViewColumn Header="Ime" DisplayMemberBinding="{Binding NameAndLastName}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="Aleksa"/>
+                                    <TextBlock Text=""/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Header="Prezime">
+                        <GridViewColumn Header="Pol" DisplayMemberBinding="{Binding Gender}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="Vukomanovic"/>
+                                    <TextBlock Text=""/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Header="Datum Rodjenja">
+                        <GridViewColumn Header="Datum Rodjenja" DisplayMemberBinding="{Binding Birthday}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="22.04.2002."/>
+                                    <TextBlock Text=""/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -83,8 +83,8 @@
         </Grid>
         <Grid Grid.Row="5">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="Odustani" Width="100" Padding="10" Margin="10"/>
-                <Button Content="Potvrdi" Width="100" Padding="10" Margin="10"/>
+                <Button Content="Odustani" Width="100" Padding="10" Margin="10" Command="{Binding CancelCommand}"/>
+                <Button Content="Potvrdi" Width="100" Padding="10" Margin="10" Command="{Binding SubmitCommand}"/>
             </StackPanel>
         </Grid>
 

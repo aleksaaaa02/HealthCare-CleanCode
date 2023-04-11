@@ -17,10 +17,10 @@
 
         <Grid>
             <StackPanel>
-                <Button Width="Auto" Height="40" Margin="10" Content="Zakazi Pregled/Operaciju"/>
-                <Button Width="Auto" Height="40" Margin="10" Content="Izmeni Pregled/Operaciju"/>
-                <Button Width="Auto" Height="40" Margin="10" Content="Ukloni Pregled/Operaciju"/>
-                <Button Width="Auto" Height="40" Margin="10" Content="TO-DO"/>
+                <Button Width="Auto" Height="40" Margin="10" Content="Zakazi Pregled/Operaciju" Command="{Binding CreateAppointmentViewCommand}"/>
+                <Button Width="Auto" Height="40" Margin="10" Content="Izmeni Pregled/Operaciju" Command="{Binding EditAppointmentCommand}"/>
+                <Button Width="Auto" Height="40" Margin="10" Content="Ukloni Pregled/Operaciju" Command="{Binding DeleteAppointmentCommand}"/>
+                <Button Width="Auto" Height="40" Margin="10" Content="Prikazi pacijenta" Command="{Binding ShowDetailedPatientInfoCommand}"/>
                 <TextBlock x:Name="Moris"/>
             </StackPanel>
         </Grid>
@@ -30,13 +30,19 @@
                 <RowDefinition Height="0.9*"/>
                 <RowDefinition Height="0.05*"/>
             </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="Pocetni datum filtriranja: " VerticalAlignment="Center"/>
+                <DatePicker Margin="20 0"/>
+                <TextBlock Text="Broj Dana:" VerticalAlignment="Center"/>
+                <TextBox Width="75" Margin="20 0"/>
+            </StackPanel>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="293*"/>
                     <ColumnDefinition Width="7*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Row="2">
-                    <ListView x:Name="AppointmentsListView" Grid.ColumnSpan="2">
+                    <ListView x:Name="AppointmentsListView" Grid.ColumnSpan="2" ItemsSource="{Binding Appointmentss}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="ID" DisplayMemberBinding="{Binding AppointmentID}">
@@ -46,29 +52,28 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Header="Doktor" DisplayMemberBinding="{Binding Doctor.Name}">
+                                <GridViewColumn Header="Doktor" DisplayMemberBinding="{Binding Doctor}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Padding="0 0 20 0"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Header="Pacijent" DisplayMemberBinding="{Binding Patient.Name}">
+                                <GridViewColumn Header="Pacijent" DisplayMemberBinding="{Binding Patient}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Padding="0 0 20 0"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Header="Datum i vreme" DisplayMemberBinding="{Binding TimeSlot.Start}">
+                                <GridViewColumn Header="Datum Pocetka" DisplayMemberBinding="{Binding StartingTime}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Padding="0 0 20 0" Text="10.04.2022. 10:15"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-
-                                <GridViewColumn Header="Trajanje u minutima" DisplayMemberBinding="{Binding TimeSlot.Duration}">
+                                <GridViewColumn Header="Trajanje u minutima" DisplayMemberBinding="{Binding Duration}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Padding="0 0 20 0" Text="15"/>

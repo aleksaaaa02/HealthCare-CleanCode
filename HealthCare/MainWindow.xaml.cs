@@ -3,6 +3,7 @@ using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View.DoctorView;
+using HealthCare.View.ManagerView;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,15 +44,32 @@ namespace HealthCare
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
+
+            
+            string UserName = txtUserName.Text;
+            string Password = txtPassword.Password;
+            // SKLONI OVO!!
+            if (UserName != null && Password != null)
+            {
+                if (UserName == "mamatvoja123" && Password == "mrs")
+                {
+                    WelcomeMessage.Text = "sara jo";
+                   //FIX THIS
+
+
+                }
+            }
+
             string username = txtUserName.Text;
             string password = txtPassword.Password;
+
 
             try
             {
                 switch(_hospital.LoginRole(username, password))
                 {
                     case UserRole.Manager:
-                        // new View
+                        new ManagerView(_hospital);
                         break;
                     case UserRole.Doctor:
                         // new View
