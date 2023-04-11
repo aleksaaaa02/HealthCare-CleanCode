@@ -42,5 +42,23 @@ namespace HealthCare.Model
             Name = room.Name;
             Type = room.Type;
         }
+
+        public string TranslateType()
+        {
+            switch (Type)
+            {
+                case RoomType.Examinational:
+                    return "za preglede";
+                case RoomType.Operational:
+                    return "operaciona";
+                case RoomType.PatientCare:
+                    return "smestaj bolesnika";
+                case RoomType.Reception:
+                    return "recepcija";
+                case RoomType.Warehouse:
+                    return "magacin";
+            }
+            return "";
+        }
     }
 }
