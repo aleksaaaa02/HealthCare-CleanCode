@@ -4,6 +4,7 @@ using HealthCare.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -21,37 +22,35 @@ namespace HealthCare.Service
             csvStorage = new CsvStorage<Equipment>(filepath);
         }
 
-        public Equipment Get(Equipment equipment)
+        public Equipment Get(string equipmentName)
         {
-            Equipment? found = Equipment.Find(x => x == equipment);
-            if (found is not null) { return found; }
-            else { throw new NonExistingObjectException(); }
+            Equipment? found = Equipment.Find(x => x.Name == equipmentName);
+            if (found != null) { return found; }
+            throw new ObjectNotFoundException();
         }
 
         public void Add(Equipment equipment)
         {
-            if (Contains(equipment)) { throw new DuplicateObjectException(); }
+            if (Contains(equipment.Name)) throw new ObjectAlreadyExistException();
             Equipment.Add(equipment);
         }
 
-        public void Remove(Equipment equipment)
+        public void Remove(string equipmentName)
         {
-            if (!Contains(equipment)) { throw new NonExistingObjectException(); }
-            Equipment.Remove(equipment);
+            if (!Contains(equipmentName)) throw new ObjectNotFoundException();
+            Equipment.RemoveAll(x => x.Name == equipmentName);
         }
 
         public void Update(Equipment equipment)
         {
-            Equipment current = Get(equipment);
-            current.Id = equipment.Id;
-            current.Name = equipment.Name;
-            current.Type = equipment.Type;
-            current.Dynamic = equipment.Dynamic;
+            if (!Contains(equipment.Name)) throw new ObjectNotFoundException();
+            Equipment current = Get(equipment.Name);
+            current.Copy(equipment);
         }
 
-        public bool Contains(Equipment equipment)
+        public bool Contains(string equipmentName)
         {
-            return Equipment.Find(x => x.Id == equipment.Id) is not null;
+            return Equipment.FindIndex(x => x.Name == equipmentName) >= 0;
         }
 
         public void Load()

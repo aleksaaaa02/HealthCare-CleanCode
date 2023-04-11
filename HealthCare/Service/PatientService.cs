@@ -57,5 +57,10 @@ namespace HealthCare.Service
 		{
 			csvStorage.Save(Patients);
 		}
+
+        public Patient? GetByUsername(string username)
+        {
+            return Patients.Find(x => x.UserName == username);
+        }
     }
 }

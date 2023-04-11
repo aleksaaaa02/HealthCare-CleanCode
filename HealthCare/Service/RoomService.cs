@@ -9,58 +9,56 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
-    internal class RoomService
+    public class RoomService
     {
-        public List<Room> Room { get; set; }
+        public List<Room> Rooms { get; set; }
         private CsvStorage<Room> csvStorage;
 
         public RoomService(string filepath)
         {
-            Room = new List<Room>();
+            Rooms = new List<Room>();
             csvStorage = new CsvStorage<Room>(filepath);
         }
 
-        public Room Get(Room Room)
+        public Room Get(string roomName)
         {
-            Room? found = Room.Find(x => x == Room);
-            if (found is not null) { return found; }
-            else { throw new NonExistingObjectException(); }
+            Room? found = Rooms.Find(x => x.Name == roomName);
+            if (found != null) { return found; }
+            throw new ObjectNotFoundException();
         }
 
-        public void Add(Room Room)
+        public void Add(Room room)
         {
-            if (Contains(Room)) { throw new DuplicateObjectException(); }
-            Room.Add(Room);
+            if (Contains(room.Name)) throw new ObjectAlreadyExistException();
+            Rooms.Add(room);
         }
 
-        public void Remove(Room Room)
+        public void Remove(string roomName)
         {
-            if (!Contains(Room)) { throw new NonExistingObjectException(); }
-            Room.Remove(Room);
+            if (!Contains(roomName)) throw new ObjectNotFoundException();
+            Rooms.RemoveAll(x => x.Name == roomName);
         }
 
-        public void Update(Room Room)
+        public void Update(Room room)
         {
-            Room current = Get(Room);
-            current.Id = Room.Id;
-            current.Name = Room.Name;
-            current.Type = Room.Type;
-            current.Dynamic = Room.Dynamic;
+            if (!Contains(room.Name)) throw new ObjectNotFoundException();
+            Room current = Get(room.Name);
+            current.Copy(room);
         }
 
-        public bool Contains(Room Room)
+        public bool Contains(string roomName)
         {
-            return Room.Find(x => x.Id == Room.Id) is not null;
+            return Rooms.FindIndex(x => x.Name == roomName) >= 0;
         }
 
         public void Load()
         {
-            Room = csvStorage.Load();
+            Rooms = csvStorage.Load();
         }
 
         public void Save()
         {
-            csvStorage.Save(Room);
+            csvStorage.Save(Rooms);
         }
     }
 }

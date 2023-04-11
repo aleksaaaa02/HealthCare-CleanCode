@@ -8,8 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Model\" />
+    <Folder Include="ViewModel\" />
     <Folder Include="Storage\" />
-    <Folder Include="Serializer\" />
     <Folder Include="Observer\" />
     <Folder Include="View\" />
   </ItemGroup>

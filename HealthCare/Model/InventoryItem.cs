@@ -1,5 +1,4 @@
-﻿using HealthCare.Exceptions;
-using HealthCare.Serializer;
+﻿using HealthCare.Serializer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,43 +13,32 @@ namespace HealthCare.Model
         public int EquipmentId { get; set; }
         public int RoomId { get; set; }
         public int Quantity { get; set; }
-
-        public InventoryItem() { }
-
-        public InventoryItem(int equipmentId, int roomId, int quantity=0)
+        public InventoryItem() : this(new Equipment(), new Room(), 0) { }
+        public InventoryItem(Equipment equipment, Room room, int quantity)
         {
             EquipmentId = equipmentId;
             RoomId = roomId;
             Quantity = quantity;
         }
 
-        public void Add(int quantity)
-        {
-            Quantity += quantity;
-        }
-
-        public void Remove(int quantity)
-        {
-            if (Quantity >= quantity)
-            {
-                Quantity -= quantity;
-            }
-            else
-            {
-                throw new NotEnoughEquipmentException();
-            }
-        }
-
         public string[] ToCSV()
         {
-            return new string[] { EquipmentId.ToString(), RoomId.ToString(), Quantity.ToString() };
+            return new string[] { Equipment.Name, Room.Name, Quantity.ToString() };
         }
 
         public void FromCSV(string[] values)
         {
-            EquipmentId = int.Parse(values[0]);
-            RoomId = int.Parse(values[1]);
+            Equipment = new Equipment();
+            Room = new Room();
+
+            Equipment.Name = values[0];
+            Room.Name = values[1];
             Quantity = int.Parse(values[2]);
+        }
+
+        internal void Copy(InventoryItem item)
+        {
+            Quantity = item.Quantity;
         }
     }
 }
