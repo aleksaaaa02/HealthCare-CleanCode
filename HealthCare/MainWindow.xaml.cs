@@ -54,7 +54,8 @@ namespace HealthCare
                         // new View
                         break;
                     case UserRole.Doctor:
-                        DoctorMainView doctorMainView = new DoctorMainView(_hospital);
+                        DoctorMainView doctorMainView = new DoctorMainView(_hospital, this);
+                        Hide();
                         doctorMainView.Show();
                         break;
                     case UserRole.Nurse:
