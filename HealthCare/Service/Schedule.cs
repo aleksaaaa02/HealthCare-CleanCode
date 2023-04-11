@@ -92,8 +92,6 @@ namespace HealthCare.Service
                     return false;
 
                 }
-
-                Save(Global.appointmentPath);
             }
             else
             {

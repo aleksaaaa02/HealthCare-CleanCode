@@ -141,8 +141,8 @@ namespace HealthCare.View.AppointmentView
             { 
                 DateTime currentDate = DateTime.Now;
                 DateTime selectedDate = tbDate.SelectedDate.Value;
-                selectedDate.AddHours(hours);
-                selectedDate.AddMinutes(minutes);
+                selectedDate = selectedDate.AddHours(hours);
+                selectedDate = selectedDate.AddMinutes(minutes);
                 int difference = (selectedDate - currentDate).Days;
                 if (difference < 1)
                 {
@@ -249,8 +249,8 @@ namespace HealthCare.View.AppointmentView
                 return;
             }
             DateTime date = tbDate.SelectedDate.Value;
-            date.AddHours(hours);
-            date.AddMinutes(minutes);    
+            date = date.AddHours(hours);
+            date = date.AddMinutes(minutes);    
             if(appListView.SelectedItems.Count != 1)
             {
                 MessageBox.Show("Molimo Vas izaberite pregled", "Greska prilikom azuriranja", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -262,6 +262,7 @@ namespace HealthCare.View.AppointmentView
             if (!Schedule.UpdateAppointment(appointment))
             {
                 MessageBox.Show("Doktor ili pacijent je zauzet u unetom terminu", "Greska prilikom azuriranja", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
             }
             MessageBox.Show("Uspesno azuriran pregled", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
             writeAction("UPDATE");
