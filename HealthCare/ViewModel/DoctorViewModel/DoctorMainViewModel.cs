@@ -69,11 +69,10 @@ namespace HealthCare.ViewModels.DoctorViewModel
             _hospital = hospital;
             Appointments = new ObservableCollection<AppointmentViewModel>();
             Update();
-            CreateAppointmentViewCommand = new MakeAppointmentNavigationCommand(this);
-            EditAppointmentCommand = new EditAppointmentDoctorCommand();
-            // DeleteAppointmentCommand = new ...
+            CreateAppointmentViewCommand = new MakeAppointmentNavigationCommand(_hospital, this);
+            EditAppointmentCommand = new EditAppointmentDoctorCommand(hospital, this);
+            DeleteAppointmentCommand = new DeleteAppointmentCommand(_hospital, this);
             ShowDetailedPatientInfoCommand = new ShowPatientInfoCommand(_hospital, this);
-
             ApplyFilterCommand = new ApplyFilterCommand(this, _hospital);
         
         }
