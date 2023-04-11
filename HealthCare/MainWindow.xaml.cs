@@ -3,6 +3,7 @@ using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View.DoctorView;
+using HealthCare.View.ManagerView;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,7 +69,7 @@ namespace HealthCare
                 switch(_hospital.LoginRole(username, password))
                 {
                     case UserRole.Manager:
-                        // new View
+                        new ManagerView(_hospital);
                         break;
                     case UserRole.Doctor:
                         // new View
