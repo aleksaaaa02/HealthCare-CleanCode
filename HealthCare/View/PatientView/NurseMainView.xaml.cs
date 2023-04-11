@@ -53,9 +53,15 @@ namespace HealthCare.View.PatientView
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            CreatePatient();
-            patientService.CreateAccount(patient);
-            patientService.Save();
+            if (ValidateFields())
+            {
+                CreatePatient();
+                patientService.CreateAccount(patient);
+                patientService.Save();
+            }
+            else
+                ShowErrorMessageBox();
+   
         }
 
         public void UpdateViewModel()
@@ -65,9 +71,19 @@ namespace HealthCare.View.PatientView
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            patient = (Patient) lvPatients.SelectedItem;
-            patientService.DeleteAccount(patient.JMBG);
-            ClearBoxes();
+            string messageBoxText = "Da li ste sigurni da zelite da obrisete pacijenta?";
+            string caption = "Potvrda";
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            MessageBoxButton button = MessageBoxButton.YesNo;
+            MessageBoxResult result;
+            result = MessageBox.Show(messageBoxText, caption, button, icon);
+
+            if(result == MessageBoxResult.Yes)
+            {
+                patient = (Patient) lvPatients.SelectedItem;
+                patientService.DeleteAccount(patient.JMBG);
+                ClearBoxes();
+            }
         }
 
         private void lvPatients_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -99,8 +115,13 @@ namespace HealthCare.View.PatientView
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
-            CreatePatient();
-            patientService.UpdateAccount(patient);
+            if (ValidateFields())
+            {
+                CreatePatient();
+                patientService.UpdateAccount(patient);
+            }
+            else
+                ShowErrorMessageBox();
         }
 
         public void CreatePatient()
@@ -138,6 +159,25 @@ namespace HealthCare.View.PatientView
             tbJMBG.Clear();
             tbPhoneNumber.Clear();
             patient = null;
+        }
+
+        public bool ValidateFields()
+        {
+            DateTime parsed;
+            if (tbName.Text != "" && tbLastName.Text != "" && tbAddress.Text!="" && tbBirthDate.Text!="" && 
+                DateTime.TryParse(tbBirthDate.Text,out parsed) && tbJMBG.Text!="" && tbPhoneNumber.Text!="" &&
+                tbUsername.Text!="" && tbPassword.Text!="")
+                return true;
+            return false;
+        }
+
+        public void ShowErrorMessageBox()
+        {
+            string messageBoxText = "Unesite sva polja. Datum je u formatu dd-MM-YYYY";
+            string content = "Greska";
+            MessageBoxImage icon = MessageBoxImage.Error;
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBox.Show(messageBoxText, content, button, icon);
         }
     }
 }
