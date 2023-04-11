@@ -10,11 +10,11 @@ namespace HealthCare.ViewModel.InventoryItemModel
 {
     public class InventoryListingViewModel
     {
-        private readonly ObservableCollection<InventoryItemViewModel> _inventoryItems;
+        private readonly ObservableCollection<InventoryItemViewModel> InventoryItems;
 
         public InventoryListingViewModel(List<InventoryItem> items)
         {
-            _inventoryItems = new ObservableCollection<InventoryItemViewModel>();
+            InventoryItems = new ObservableCollection<InventoryItemViewModel>();
 
             // TODO
         }
