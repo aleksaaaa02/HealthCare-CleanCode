@@ -17,6 +17,7 @@ namespace HealthCare.ViewModels
 
         public IEnumerable<AppointmentViewModel> Appointmentss => Appointments;
         public ICommand MakeAppointmentCommand { get; }
+        public ICommand MakeAppointmentViewCommand { get; }
 
         public DoctorMainViewModel(List<Appointment> appointments)
         {
@@ -31,6 +32,7 @@ namespace HealthCare.ViewModels
             Appointments.Add(new AppointmentViewModel(new Appointment(patient, doc, new TimeSlot(DateTime.Now, TimeSpan.FromMinutes(15)), false)));
 
             MakeAppointmentCommand = new TestCommandModelView(Appointments);
+            MakeAppointmentViewCommand = new MakeAppointmentNavigationCommand();
         }
 
     }

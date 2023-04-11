@@ -17,7 +17,7 @@
 
         <Grid>
             <StackPanel>
-                <Button Width="Auto" Height="40" Margin="10" Content="Zakazi Pregled/Operaciju"/>
+                <Button Width="Auto" Height="40" Margin="10" Content="Zakazi Pregled/Operaciju" Command="{Binding MakeAppointmentViewCommand}"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="Izmeni Pregled/Operaciju"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="Ukloni Pregled/Operaciju"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="TO-DO" Command="{Binding MakeAppointmentCommand}"/>
