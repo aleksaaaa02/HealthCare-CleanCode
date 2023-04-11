@@ -16,7 +16,6 @@ namespace HealthCare.Model
     }
     public class Equipment : ISerializable
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public EquipmentType Type { get; set; }
         public bool Dynamic { get; set; }
@@ -25,7 +24,6 @@ namespace HealthCare.Model
 
         public Equipment(string name, EquipmentType type, bool dynamic)
         {
-            Id = id;
             Name = name;
             Type = type;
             Dynamic = dynamic;
