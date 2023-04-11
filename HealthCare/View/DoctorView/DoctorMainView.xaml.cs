@@ -1,4 +1,5 @@
 ﻿using HealthCare.Model;
+using HealthCare.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -34,9 +35,9 @@ namespace HealthCare.View.DoctorView
             Patient patient = new Patient("Dimitrije", "Gasic", "234567891", DateTime.Now, "06213214", "Trg Dositeja Obradovica 6", "gasara123", "123123", Gender.Male, false, record);
             appointments.Add(new Appointment(patient, doc, new TimeSlot(DateTime.Now, TimeSpan.FromMinutes(15)), false));
 
+            DataContext = new DoctorMainViewModel(null);
 
-            AppointmentsListView.ItemsSource = new ObservableCollection<Appointment>(appointments);
-
+           
         }
 
     }
