@@ -9,10 +9,8 @@
 
   <ItemGroup>
     <Folder Include="Model\" />
-    <Folder Include="ViewModel\" />
     <Folder Include="Storage\" />
     <Folder Include="Observer\" />
-    <Folder Include="ViewModel\" />
   </ItemGroup>
 
 </Project>
