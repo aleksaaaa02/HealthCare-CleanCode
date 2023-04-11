@@ -63,13 +63,13 @@ namespace HealthCare
             string username = txtUserName.Text;
             string password = txtPassword.Password;
 
-
+            
             try
             {
                 switch(_hospital.LoginRole(username, password))
                 {
                     case UserRole.Manager:
-                        new ManagerView(_hospital);
+                        new ManagerView(_hospital).Show();
                         break;
                     case UserRole.Doctor:
                         // new View
@@ -81,6 +81,7 @@ namespace HealthCare
                         // new View
                         break;
                 }
+                Close();
             } catch (IncorrectPasswordException e1) {
 
             } catch (UsernameNotFoundException e2) {
