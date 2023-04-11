@@ -1,7 +1,11 @@
+
+﻿using HealthCare.View.AppointmentView;
+
 ﻿using HealthCare.Context;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
+
 using HealthCare.View.DoctorView;
 using HealthCare.View.ManagerView;
 using HealthCare.View.PatientView;
@@ -39,8 +43,14 @@ namespace HealthCare
 
         private void btnQuitApp_Click(object sender, RoutedEventArgs e)
         {
+
+            //MakeAppointmentView makeAppointmentView = new MakeAppointmentView();
+            //makeAppointmentView.Show();
+                
+
             _hospital.SaveAll();
             Close();
+
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
@@ -62,7 +72,8 @@ namespace HealthCare
                         new NurseMainView(this).Show();
                         break;
                     case UserRole.Patient:
-                        // new View
+                        AppointmentMainView appointmentMainView = new AppointmentMainView(_hospital);
+                        appointmentMainView.Show();
                         break;
                 }
 
