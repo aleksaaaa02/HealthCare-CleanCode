@@ -132,8 +132,7 @@ namespace HealthCare.View.PatientView
 
         public void CreatePatient()
         {
-            if (patient == null)
-                patient = new Patient();
+            patient = new Patient();
             patient.Name = tbName.Text;
             patient.LastName = tbLastName.Text;
             patient.JMBG = tbJMBG.Text;
