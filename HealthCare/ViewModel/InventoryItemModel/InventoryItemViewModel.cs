@@ -10,8 +10,8 @@ namespace HealthCare.ViewModel.InventoryItemModel
     public class InventoryItemViewModel : ViewModelBase
     {
         private readonly InventoryItem _item;
-        public string EquipmentId => _item.EquipmentId.ToString();
-        public string RoomId => _item.RoomId.ToString();
+        public string EquipmentId => _item.Equipment.Name;
+        public string RoomId => _item.Room.Name;
         public string Quantity => _item.Quantity.ToString();
 
         public InventoryItemViewModel(InventoryItem item)

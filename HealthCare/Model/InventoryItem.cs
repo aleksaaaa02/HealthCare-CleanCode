@@ -10,14 +10,14 @@ namespace HealthCare.Model
 {
     public class InventoryItem : ISerializable
     {
-        public int EquipmentId { get; set; }
-        public int RoomId { get; set; }
+        public Equipment Equipment { get; set; }
+        public Room Room { get; set; }
         public int Quantity { get; set; }
         public InventoryItem() : this(new Equipment(), new Room(), 0) { }
         public InventoryItem(Equipment equipment, Room room, int quantity)
         {
-            EquipmentId = equipmentId;
-            RoomId = roomId;
+            Equipment = equipment;
+            Room = room;
             Quantity = quantity;
         }
 

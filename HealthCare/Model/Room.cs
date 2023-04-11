@@ -17,13 +17,11 @@ namespace HealthCare.Model
     }
     public class Room : ISerializable
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public RoomType Type { get; set; }
         public Room() : this("", RoomType.Warehouse) { }
         public Room(string name, RoomType type)
         {
-            Id = id;
             Name = name;
             Type = type;
         }
