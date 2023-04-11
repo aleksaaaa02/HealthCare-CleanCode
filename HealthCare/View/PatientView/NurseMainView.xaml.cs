@@ -134,7 +134,6 @@ namespace HealthCare.View.PatientView
                 if(!patientService.UpdateAccount(patient))
                     ShowErrorMessageBox("Pacijent sa unetim JMBG ne postoji");
                 patientService.Save();
-                Record = null;
                 vm.Update();
             }
             else
@@ -178,6 +177,7 @@ namespace HealthCare.View.PatientView
             tbJMBG.Clear();
             tbPhoneNumber.Clear();
             patient = null;
+            Record = null;
         }
 
         public bool ValidateFields()
