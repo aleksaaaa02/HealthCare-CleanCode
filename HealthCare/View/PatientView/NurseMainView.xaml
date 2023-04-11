@@ -28,8 +28,8 @@
         <TextBox HorizontalAlignment="Left" Name="tbAddress" Margin="110,235,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
 
         <Label Content="Pol:" Name="lblGender" HorizontalAlignment="Left" Margin="10,270,0,0" VerticalAlignment="Top"/>
-        <RadioButton Margin="110,35,0,0" Name="cbMale" IsChecked="True" Width="60" Height="20" HorizontalAlignment="Left">Muski</RadioButton>
-        <RadioButton Margin="175,35,0,0" Name="cnFemale"  Width="60" Height="20" HorizontalAlignment="Left">Zenski</RadioButton>
+        <RadioButton Margin="110,35,0,0" Name="cbMale" GroupName="gender" IsChecked="True" Width="60" Height="20" HorizontalAlignment="Left">Muski</RadioButton>
+        <RadioButton Margin="175,35,0,0" Name="cbFemale"  GroupName="gender" Width="60" Height="20" HorizontalAlignment="Left">Zenski</RadioButton>
 
         <Label Content="Korisnicko ime:" Name="lblUsername" HorizontalAlignment="Left" Margin="10,310,0,0" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Name="tbUsername" Margin="110,315,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
@@ -39,29 +39,29 @@
 
         <CheckBox Content="Blokiran" Name="chbBlocked" HorizontalAlignment="Left" Margin="110,395,0,0" VerticalAlignment="Top"/>
         
-        <Button Content="Zdravsteni karton" HorizontalAlignment="Left" Margin="110,430,0,0" Width="120" Height="30"  VerticalAlignment="Top"/>
+        <Button Name="btnMedicalRecord" Content="Zdravsteni karton" HorizontalAlignment="Left" Margin="110,430,0,0" Width="120" Height="30"  VerticalAlignment="Top" Click="MedicalRecord_Click"/>
 
-        <ListView Margin="280,30,10,70" Name="lvPatients" ItemsSource="{Binding Patients}">
+        <ListView Margin="280,30,10,70" Name="lvPatients" ItemsSource="{Binding Patients}" SelectionChanged="lvPatients_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="60" Header="Ime" DisplayMemberBinding="{Binding Name}"/>
-                    <GridViewColumn Width="60" Header="Prezime" DisplayMemberBinding="{Binding LastName}" />
-                    <GridViewColumn Width="70" Header="JMBG" DisplayMemberBinding="{Binding JMBG}" />
-                    <GridViewColumn Width="75" Header="DatRodj" DisplayMemberBinding="{Binding BirthDate}" />
-                    <GridViewColumn Width="60" Header="Telefon" DisplayMemberBinding="{Binding PhoneNumber}" />
-                    <GridViewColumn Width="60" Header="Adresa" DisplayMemberBinding="{Binding Address}" />
-                    <GridViewColumn Width="60" Header="KorIme" DisplayMemberBinding="{Binding UserName}" />
-                    <GridViewColumn Width="60" Header="Loz" DisplayMemberBinding="{Binding Password}" />
-                    <GridViewColumn Width="45" Header="Blokiran" DisplayMemberBinding="{Binding Blocked}" />
-                    <GridViewColumn Width="150" Header="ZdrKarton" DisplayMemberBinding="{Binding MedicalRecord}" />
+                    <GridViewColumn Width="Auto" Header="Ime" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Width="Auto" Header="Prezime" DisplayMemberBinding="{Binding LastName}" />
+                    <GridViewColumn Width="Auto" Header="JMBG" DisplayMemberBinding="{Binding JMBG}" />
+                    <GridViewColumn Width="Auto" Header="DatRodj" DisplayMemberBinding="{Binding BirthDate}" />
+                    <GridViewColumn Width="Auto" Header="Telefon" DisplayMemberBinding="{Binding PhoneNumber}" />
+                    <GridViewColumn Width="Auto" Header="Adresa" DisplayMemberBinding="{Binding Address}" />
+                    <GridViewColumn Width="Auto" Header="KorIme" DisplayMemberBinding="{Binding UserName}" />
+                    <GridViewColumn Width="Auto" Header="Loz" DisplayMemberBinding="{Binding Password}" />
+                    <GridViewColumn Width="Auto" Header="Blokiran" DisplayMemberBinding="{Binding Blocked}" />
+                    <GridViewColumn Width="Auto" Header="ZdrKarton" DisplayMemberBinding="{Binding MedicalRecord}" />
                 </GridView>
             </ListView.View>
         </ListView>
         
-        <Button Content="Kreiraj nalog" HorizontalAlignment="Left" Height="35" Margin="10,480,0,0" VerticalAlignment="Top" Width="130" Click="Add_Click"/>
-        <Button Content="Izmeni nalog" HorizontalAlignment="Left" Height="35" Margin="150,480,0,0" VerticalAlignment="Top" Width="130"/>
-        <Button Content="Obrisi nalog" HorizontalAlignment="Left" Height="35" Margin="290,480,0,0" VerticalAlignment="Top" Width="130"/>
-        <Button Content="Izadji" HorizontalAlignment="Right" Height="35" Margin="0,480,10,10" VerticalAlignment="Top" Width="130" Click="Exit_Click"/>
+        <Button Content="Kreiraj nalog" Name="btnAdd" HorizontalAlignment="Left" Height="35" Margin="10,480,0,0" VerticalAlignment="Top" Width="130" Click="Add_Click"/>
+        <Button Content="Izmeni nalog" Name="btnUpdate" HorizontalAlignment="Left" Height="35" Margin="150,480,0,0" VerticalAlignment="Top" Width="130" Click="Update_Click"/>
+        <Button Content="Obrisi nalog" Name="btnDelete" HorizontalAlignment="Left" Height="35" Margin="290,480,0,0" VerticalAlignment="Top" Width="130" Click="Delete_Click"/>
+        <Button Content="Izadji" Name="btnClose"  HorizontalAlignment="Right" Height="35" Margin="0,480,10,10" VerticalAlignment="Top" Width="130" Click="Exit_Click"/>
 
     </Grid>
 </Window>
