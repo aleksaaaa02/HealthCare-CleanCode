@@ -4,6 +4,7 @@ using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View.DoctorView;
 using HealthCare.View.ManagerView;
+using HealthCare.View.PatientView;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,7 +59,7 @@ namespace HealthCare
                         new DoctorMainView(_hospital, this).Show();
                         break;
                     case UserRole.Nurse:
-                        // new View
+                        new NurseMainView(this).Show();
                         break;
                     case UserRole.Patient:
                         // new View

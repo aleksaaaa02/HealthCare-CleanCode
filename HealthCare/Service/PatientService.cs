@@ -91,5 +91,10 @@ namespace HealthCare.Service
 				observer.Update();
 			}
         }
+
+        public User? GetByUsername(string username)
+        {
+            return Patients.Find(x => x.UserName == username);
+        }
     }
 }
