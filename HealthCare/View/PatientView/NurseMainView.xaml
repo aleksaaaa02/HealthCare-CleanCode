@@ -63,5 +63,6 @@
         <Button Content="Obrisi nalog" Name="btnDelete" HorizontalAlignment="Left" Height="35" Margin="290,480,0,0" VerticalAlignment="Top" Width="130" Click="Delete_Click"/>
         <Button Content="Izadji" Name="btnClose"  HorizontalAlignment="Right" Height="35" Margin="0,480,10,10" VerticalAlignment="Top" Width="130" Click="Exit_Click"/>
         <Button Content="Osvezi" Name="btnClear"  HorizontalAlignment="Left" Height="35" Margin="430,480,0,0" VerticalAlignment="Top" Width="130" Click="Clear_Click"/>
+        <Button Content="Logout" Name="btnLogout"  HorizontalAlignment="Left" Height="35" Margin="570,480,0,0" VerticalAlignment="Top" Width="130" Click="Logout_Click"/>
     </Grid>
 </Window>

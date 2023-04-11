@@ -1,6 +1,7 @@
 ﻿using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View.DoctorView;
+using HealthCare.View.PatientView;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,16 +44,8 @@ namespace HealthCare
         {
             string UserName = txtUserName.Text;
             string Password = txtPassword.Password;
-            // SKLONI OVO!!
-            if (UserName != null && Password != null)
-            {
-                if (UserName == "mamatvoja123" && Password == "mrs")
-                {
-                    WelcomeMessage.Text = "sara jo";
-                   
-                }
-            }
-
+            new NurseMainView(this).Show();
+            Hide();
         }
     }
 }

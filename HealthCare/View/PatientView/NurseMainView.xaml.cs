@@ -33,10 +33,13 @@ namespace HealthCare.View.PatientView
         private PatientViewModel vm;
         private Patient? patient;
         public MedicalRecord? Record;
+        private Window _loginWindow;
 
-        public NurseMainView()
+        public NurseMainView(Window loginWindow)
         {
             InitializeComponent();
+
+            _loginWindow = loginWindow;
 
             patientService = new PatientService("../../../Resources/patients.csv");
 
@@ -201,6 +204,12 @@ namespace HealthCare.View.PatientView
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
             ClearBoxes();
+        }
+
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            _loginWindow.Show();
+            Close();
         }
     }
 }
