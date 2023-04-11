@@ -32,7 +32,7 @@ namespace HealthCare.Command
             }
             else
             {
-                MessageBox.Show("Mora te odabrati pregled/operaciju iz tabele!", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Morate odabrati pregled/operaciju iz tabele!", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
