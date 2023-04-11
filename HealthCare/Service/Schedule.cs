@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using HealthCare.Model;
 using HealthCare.Storage;
+using HealthCare.Context;
+using System.Windows;
 
 namespace HealthCare.Service
 {
@@ -56,12 +58,13 @@ namespace HealthCare.Service
             if (appointment.Patient.IsAvailable(appointment.TimeSlot) && appointment.Doctor.IsAvailable(appointment.TimeSlot))
             {
                 Appointments.Add(appointment);
+                Save(Global.appointmentPath);
             }
         }
 
         public static void UpdateAppointment(Appointment updatedAppointment)
         {
-            Appointment? appointment = Appointments.Find(x => x.AppointmentID == updatedAppointment.AppointmentID);
+            Appointment appointment = Appointments.Find(x => x.AppointmentID == updatedAppointment.AppointmentID);
             int appointmentIndex = Appointments.IndexOf(appointment);
             if (appointmentIndex != -1)
             {
@@ -69,11 +72,16 @@ namespace HealthCare.Service
                 if (updatedAppointment.Patient.IsAvailable(updatedAppointment.TimeSlot) && updatedAppointment.Doctor.IsAvailable(updatedAppointment.TimeSlot))
                 {
                     Appointments.Insert(appointmentIndex, updatedAppointment);
+                    Save(Global.appointmentPath);
+
                 }
                 else
                 {
                     Appointments.Insert(appointmentIndex, appointment);
+                    Save(Global.appointmentPath);
+
                 }
+                
 
             }
         }
@@ -81,7 +89,12 @@ namespace HealthCare.Service
         public static void DeleteAppointment(int appointmentID)
         {
             Appointment? appointment = Appointments.Find(x => x.AppointmentID == appointmentID);
-            if (appointment != null) Appointments.Remove(appointment);
+            if (appointment != null) 
+            {
+                Appointments.Remove(appointment);
+                Save(Global.appointmentPath);
+            }
+
         }
 
         public static Appointment GetAppointment(int appointmentID)

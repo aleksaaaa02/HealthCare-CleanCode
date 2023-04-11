@@ -1,4 +1,6 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Context;
+using HealthCare.Model;
+using HealthCare.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,6 +15,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using HealthCare.Context;
+using HealthCare.Command;
+using System.IO;
 
 namespace HealthCare.View.AppointmentView
 {
@@ -21,29 +26,27 @@ namespace HealthCare.View.AppointmentView
     /// </summary>
     public partial class AppointmentMainView : Window
     {
-        public AppointmentMainView()
+        Hospital _hospital;
+        Appointment selectedAppointment;
+        public AppointmentMainView(Hospital hospital)
         {
             InitializeComponent();
-            Doctor doc = new Doctor("Aleksa", "Vukomanovic", "123456789", DateTime.Now, "062173224", "Vuka Karadzica", "aleksa123", "radi", Gender.Male, "Hirurg");
-            string[] bolesti = { "dijabetes", "sizofrenija" };
-            MedicalRecord record = new MedicalRecord(185, 80, bolesti);
-            Patient patient = new Patient("Dimitrije", "Gasic", "234567891", DateTime.Now, "06213214", "Trg Dositeja Obradovica 6", "gasara123", "123123", Gender.Male, false, record);
-            TimeSlot nemamIdeju = new TimeSlot(DateTime.Now, new TimeSpan(0,30,0));
-            Appointment appointment = new Appointment(patient, doc, nemamIdeju, false);
+            _hospital = hospital;
+            loadData();
+        }
 
-            Doctor doc2 = new Doctor("Jelena", "Karleusa", "123456789", DateTime.Now, "062173224", "Vuka Karadzica", "aleksa123", "radi", Gender.Male, "Hirurg");
-            string[] bolesti2 = { "Insomnia" };
-            MedicalRecord record2 = new MedicalRecord(185, 80, bolesti2);
-            Patient patient2 = new Patient("Marija", "Serifovic", "234567891", DateTime.Now, "06213214", "Trg Dositeja Obradovica 6", "gasara123", "123123", Gender.Male, false, record2);
-            TimeSlot nemamIdeju2 = new TimeSlot(DateTime.Now, new TimeSpan(0, 30, 0));
-            Appointment appointment2 = new Appointment(patient2, doc2, nemamIdeju2, false);
-
-
-
-            List<Appointment> appointments = new List<Appointment>();
-            appointments.Add(appointment);
-            appointments.Add(appointment2);
+        public void writeAction(string action)
+        {
+            string stringtocsv = _hospital.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
+            File.AppendAllText("../../../log/PatientLogs.csv",stringtocsv);
+        }
+        public void loadData()
+        {
+            List<Appointment> appointments = Schedule.GetPatientAppointments((Patient)_hospital.Current);
+            List<Doctor> doctors = _hospital.DoctorService.Doctors;
             appListView.ItemsSource = new ObservableCollection<Appointment>(appointments);
+            doctorListView.ItemsSource = new ObservableCollection<Doctor>(doctors);
+
         }
 
         private void tbMinutes_TextChanged(object sender, TextChangedEventArgs e)
@@ -77,6 +80,145 @@ namespace HealthCare.View.AppointmentView
             {
                 tbHours.Text = "0";
             }
+        }
+
+        private void btnCreate_Click(object sender, RoutedEventArgs e)
+        {
+            Patient patient = (Patient)_hospital.Current;
+            if (patient.Blocked)
+            {
+                MessageBox.Show("Zao nam je, ali vas profil je blokiran", "Greska prilikom unosa", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            Doctor doctor = (Doctor)doctorListView.SelectedItem;
+            int hours = int.Parse(tbHours.Text);
+            int minutes = int.Parse(tbMinutes.Text);
+            if (!tbDate.SelectedDate.HasValue)
+            {
+                MessageBox.Show("Molimo Vas izaberite datum", "Greska prilikom unosa", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            else
+            { 
+                DateTime currentDate = DateTime.Now;
+                DateTime selectedDate = tbDate.SelectedDate.Value;
+                selectedDate.AddHours(hours);
+                selectedDate.AddMinutes(minutes);
+                int difference = (selectedDate - currentDate).Days;
+                if (difference < 1)
+                {
+                    MessageBox.Show("Datum pregleda mora biti barem 1 dan od danasnjeg pregleda", "Greska prilikom unosa", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+            }
+            if(doctorListView.SelectedItems.Count != 1)
+            {
+                MessageBox.Show("Molimo Vas izaberite doktora", "Greska prilikom unosa", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            DateTime date = tbDate.SelectedDate.Value;
+            date.AddHours(hours);
+            date.AddMinutes(minutes);
+            Appointment appointment = new Appointment(patient, doctor, new TimeSlot(date,new TimeSpan(0,15,0)), false);
+            Schedule.CreateAppointment(appointment);
+            MessageBox.Show("Uspesno dodat pregled", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+            writeAction("CREATE");
+            loadData();
+        }
+
+        private void appListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (appListView.SelectedItems.Count == 1)
+            {
+                Appointment appointment = (Appointment)appListView.SelectedItem;
+                tbDate.SelectedDate = appointment.TimeSlot.Start;
+                tbHours.Text = appointment.TimeSlot.Start.Hour.ToString();
+                tbMinutes.Text = appointment.TimeSlot.Start.Minute.ToString();
+            }
+            
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            Patient patient = (Patient)_hospital.Current;
+            if (patient.Blocked)
+            {
+                MessageBox.Show("Zao nam je, ali vas profil je blokiran", "Greska prilikom brisanja", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            if (appListView.SelectedItems.Count == 1) 
+            {
+                Appointment appointment = (Appointment)appListView.SelectedItem;
+                int idForDeleting = appointment.AppointmentID;
+                Schedule.DeleteAppointment(idForDeleting);
+                writeAction("DELETE");
+                MessageBox.Show("Uspesno obrisan pregled", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+                loadData();
+            }
+            else
+            {
+                MessageBox.Show("Molimo Vas izaberite pregled", "Greska prilikom brisanja", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+           
+        }
+
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+
+            Patient patient = (Patient)_hospital.Current;
+            if (patient.Blocked)
+            {
+                MessageBox.Show("Zao nam je, ali vas profil je blokiran", "Greska prilikom azuriranja", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            Doctor doctor = (Doctor)doctorListView.SelectedItem;
+            int hours = int.Parse(tbHours.Text);
+            int minutes = int.Parse(tbMinutes.Text);
+            if (!tbDate.SelectedDate.HasValue)
+            {
+                MessageBox.Show("Molimo Vas izaberite datum", "Greska prilikom azuriranja", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            else
+            {
+                DateTime currentDate = DateTime.Now;
+                DateTime selectedDate = tbDate.SelectedDate.Value;
+                selectedDate.AddHours(hours);
+                selectedDate.AddMinutes(minutes);
+                int difference = (selectedDate - currentDate).Days;
+                if (difference < 1)
+                {
+                    MessageBox.Show("Datum pregleda mora biti barem 1 dan od danasnjeg pregleda", "Greska prilikom azuriranja", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+                else
+                {
+
+                }
+            }
+            if (doctorListView.SelectedItems.Count != 1)
+            {
+                MessageBox.Show("Molimo Vas izaberite doktora", "Greska prilikom azuriranja", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            DateTime date = tbDate.SelectedDate.Value;
+            date.AddHours(hours);
+            date.AddMinutes(minutes);    
+            if(appListView.SelectedItems.Count != 1)
+            {
+                MessageBox.Show("Molimo Vas izaberite pregled", "Greska prilikom azuriranja", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            Appointment appointment = new Appointment(patient, doctor, new TimeSlot(date, new TimeSpan(0, 15, 0)), false);
+            Appointment appointment2 = (Appointment)appListView.SelectedItem;
+            appointment.AppointmentID = appointment2.AppointmentID;
+            Schedule.UpdateAppointment(appointment);
+            MessageBox.Show("Uspesno azuriran pregled", "Potvrda", MessageBoxButton.OK, MessageBoxImage.Information);
+            writeAction("UPDATE");
+            loadData();
+
         }
     }
 }

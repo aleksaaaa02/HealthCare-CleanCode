@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Folder Include="Model\" />
+    <Folder Include="Log\" />
     <Folder Include="ViewModel\" />
     <Folder Include="Storage\" />
     <Folder Include="Observer\" />

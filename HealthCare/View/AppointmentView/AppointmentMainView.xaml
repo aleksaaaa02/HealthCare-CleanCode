@@ -24,9 +24,9 @@
             <TextBlock HorizontalAlignment="Left" Margin="21,62,0,0" TextWrapping="Wrap" Text="Izaberite datum" VerticalAlignment="Top"/>
             <DatePicker x:Name="tbDate" HorizontalAlignment="Left" Margin="125,62,0,0" VerticalAlignment="Top"/>
             <TextBlock HorizontalAlignment="Left" Margin="21,116,0,0" TextWrapping="Wrap" Text="Sati" VerticalAlignment="Top"/>
-            <TextBox x:Name="tbHours" HorizontalAlignment="Left" Margin="56,116,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="48" TextChanged="tbHours_TextChanged"/>
+            <TextBox x:Name="tbHours" HorizontalAlignment="Left" Margin="56,116,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="48" TextChanged="tbHours_TextChanged" FontSize="12"/>
             <TextBlock HorizontalAlignment="Left" Margin="140,116,0,0" TextWrapping="Wrap" Text="Minuti" VerticalAlignment="Top"/>
-            <TextBox x:Name="tbMinutes" HorizontalAlignment="Left" Margin="195,116,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="47" TextChanged="tbMinutes_TextChanged"/>
+            <TextBox x:Name="tbMinutes" HorizontalAlignment="Left" Margin="195,116,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="47" TextChanged="tbMinutes_TextChanged"/>
 
         </Grid>
 
@@ -36,10 +36,11 @@
                 <RowDefinition Height="0.8*"/>
             </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Izaberite doktora" VerticalAlignment="Top" FontSize="16"/>
-            <ListView Grid.Row="1" Margin="10" d:ItemsSource="{d:SampleData ItemCount=5}">
+            <ListView x:Name="doctorListView" Grid.Row="1" Margin="10" d:ItemsSource="{d:SampleData ItemCount=5}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn/>
+                        <GridViewColumn  Header="Ime" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn  Header="Prezime" DisplayMemberBinding="{Binding LastName}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -51,9 +52,10 @@
                 <RowDefinition Height="0.8*"/>
             </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Text="Izaberite pregled" VerticalAlignment="Center" FontSize="16"/>
-            <ListView x:Name="appListView" Grid.Row="1">
+            <ListView x:Name="appListView" Grid.Row="1" SelectionChanged="appListView_SelectionChanged" SelectionMode="Single">
                 <ListView.View>
                     <GridView>
+                        <GridViewColumn  Header="Appointment ID" DisplayMemberBinding="{Binding AppointmentID}"/>
                         <GridViewColumn  Header="Ime pacijenta" DisplayMemberBinding="{Binding Patient.Name}"/>
                         <GridViewColumn  Header="Ime doktora" DisplayMemberBinding="{Binding Doctor.Name}"/>
                         <GridViewColumn  Header="Datum pregleda" DisplayMemberBinding="{Binding TimeSlot.Start}"/>
@@ -63,12 +65,12 @@
         </Grid>
 
         <Grid Grid.Row="3" Grid.ColumnSpan="2">
-            <Button Content="Kreiraj" HorizontalAlignment="Left" Margin="27,0,0,0" VerticalAlignment="Center"/>
-            <Button Content="Azuriraj" HorizontalAlignment="Left" Margin="111,0,0,0" VerticalAlignment="Center"/>
-            <Button Content="Obrisi" HorizontalAlignment="Left" Margin="187,0,0,0" VerticalAlignment="Center"/>
+            <Button x:Name="btnCreate" Content="Kreiraj" HorizontalAlignment="Left" Margin="27,0,0,0" VerticalAlignment="Center" Click="btnCreate_Click"/>
+            <Button x:Name="btnUpdate" Content="Azuriraj" HorizontalAlignment="Left" Margin="111,0,0,0" VerticalAlignment="Center" Click="btnUpdate_Click"/>
+            <Button x:Name="btnDelete" Content="Obrisi" HorizontalAlignment="Left" Margin="187,0,0,0" VerticalAlignment="Center" Click="btnDelete_Click"/>
 
         </Grid>
-        <Button Grid.Column="1" Content="Otkazi" HorizontalAlignment="Left" Margin="340,0,0,0" Grid.Row="3" VerticalAlignment="Center"/>
+        <Button x:Name="btnExit" Grid.Column="1" Content="Izadji" HorizontalAlignment="Left" Margin="340,0,0,0" Grid.Row="3" VerticalAlignment="Center"/>
 
 
 
