@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
-    public class MedicalRecord:ISerializable
+    public class MedicalRecord : ISerializable
     {
         public float Height { get; set; }
         public float Weight { get; set; }
-        public string[] MedicalHistory;
+        public string[] MedicalHistory { get; set; }
         public MedicalRecord(float height, float weight, string[] medicalHistory)
         {
             Height = height;

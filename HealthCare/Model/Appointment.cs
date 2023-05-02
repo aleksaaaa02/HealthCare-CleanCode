@@ -15,6 +15,7 @@ namespace HealthCare.Model
         public Doctor Doctor { get; set; }
         public TimeSlot TimeSlot { get; set; }
         public bool IsOperation { get; set; }
+        public int AnamnesisID { get; set; }
 
         public Appointment()
         {
@@ -27,11 +28,21 @@ namespace HealthCare.Model
             Doctor = doctor;
             TimeSlot = timeSlot;
             IsOperation = isOperation;
+            AnamnesisID = 0;
+        }
+
+        public Appointment(Patient patient, Doctor doctor, TimeSlot timeSlot, bool isOperation, int anamnesisID)
+        {
+            Patient = patient;
+            Doctor = doctor;
+            TimeSlot = timeSlot;
+            IsOperation = isOperation;
+            AnamnesisID = anamnesisID;
         }
 
         public string[] ToCSV()
         {
-            string[] csvValues = {AppointmentID.ToString(), Patient.JMBG.ToString(), Doctor.JMBG.ToString(), TimeSlot.ToString(), IsOperation.ToString()};
+            string[] csvValues = {AppointmentID.ToString(), Patient.JMBG.ToString(), Doctor.JMBG.ToString(), TimeSlot.ToString(), IsOperation.ToString(),AnamnesisID.ToString()};
             return csvValues;
         }
 
@@ -46,6 +57,7 @@ namespace HealthCare.Model
 
             TimeSlot = TimeSlot.Parse(values[3]);
             IsOperation = Convert.ToBoolean(values[4]);
+            AnamnesisID = int.Parse(values[5]);
         }
     }
 }
