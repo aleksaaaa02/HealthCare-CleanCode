@@ -1,4 +1,5 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Context;
+using HealthCare.Model;
 using HealthCare.Observer;
 using HealthCare.Service;
 using HealthCare.ViewModel;
@@ -35,13 +36,13 @@ namespace HealthCare.View.PatientView
         public MedicalRecord? Record;
         private Window _loginWindow;
 
-        public NurseMainView(Window loginWindow)
+        public NurseMainView(Window loginWindow, Hospital hospital)
         {
             InitializeComponent();
 
             _loginWindow = loginWindow;
 
-            patientService = new PatientService("../../../Resources/patients.csv");
+            patientService = hospital.PatientService;
 
             vm = new PatientViewModel(patientService);
             DataContext = vm;
