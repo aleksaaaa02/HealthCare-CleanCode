@@ -3,27 +3,11 @@
 
 ﻿using HealthCare.Context;
 using HealthCare.Exceptions;
-using HealthCare.Model;
-using HealthCare.Service;
 
 using HealthCare.View.DoctorView;
 using HealthCare.View.ManagerView;
 using HealthCare.View.PatientView;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace HealthCare
 {
@@ -60,10 +44,10 @@ namespace HealthCare
                         new ManagerMainView(this, _hospital).Show();
                         break;
                     case UserRole.Doctor:
-                        new DoctorMainView(_hospital, this).Show();
+                        new DoctorMainView(this, _hospital).Show();
                         break;
                     case UserRole.Nurse:
-                        new NurseMainView(this).Show();
+                        new NurseMainView(this, _hospital).Show();
                         break;
                     case UserRole.Patient:
                         AppointmentMainView appointmentMainView = new AppointmentMainView(_hospital);
