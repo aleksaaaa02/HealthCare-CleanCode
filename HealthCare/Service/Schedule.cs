@@ -71,7 +71,7 @@ namespace HealthCare.Service
             return false;
         }
 
-        public static void UpdateAppointment(Appointment updatedAppointment)
+        public static bool UpdateAppointment(Appointment updatedAppointment)
         {
             Appointment appointment = Appointments.Find(x => x.AppointmentID == updatedAppointment.AppointmentID);
             int appointmentIndex = Appointments.IndexOf(appointment);
@@ -82,16 +82,20 @@ namespace HealthCare.Service
                 {
                     Appointments.Insert(appointmentIndex, updatedAppointment);
                     Save(Global.appointmentPath);
+                    return true;
 
                 }
                 else
                 {
                     Appointments.Insert(appointmentIndex, appointment);
                     Save(Global.appointmentPath);
+                    return false;
 
                 }
-
-                Save(Global.appointmentPath);
+            }
+            else
+            {
+                return false;
             }
         }
 
