@@ -21,11 +21,11 @@ namespace HealthCare.View.ManagerView
     /// <summary>
     /// Interaction logic for ManagerView.xaml
     /// </summary>
-    public partial class ManagerMainView : Window
+    public partial class InventoryItemListingView : Window
     {
         private ManagerMainViewModel _model;
         private Window _loginWindow;
-        public ManagerMainView(Window loginWindow, Hospital hospital)
+        public InventoryItemListingView(Window loginWindow, Hospital hospital)
         {
             InitializeComponent();
             _loginWindow = loginWindow;
@@ -67,24 +67,22 @@ namespace HealthCare.View.ManagerView
             Close();
         }
 
-        private bool _checked(ToggleButton button)
-        {
-            return button.IsChecked is bool b && b;
-        }
-
         private void FilterView(object sender, EventArgs e)
         {
             _model.Filter(
-                searchBar.Text.Trim(),
-                new bool[] {
-                _checked(rbNone), _checked(rbLittle), _checked(rbLot)},
-                new bool[] {
-                _checked(cbExaminationalET), _checked(cbOperationalRT),
-                _checked(cbFurnitureET), _checked(cbHallwayET)},
-                new bool[] {
-                _checked(cbExaminationalRT), _checked(cbOperationalRT),
-                _checked(cbPatientCareRT), _checked(cbReceptionRT),
-                _checked(cbWarehouseRT)});
+                searchBar.Text.ToLower().Trim(),
+                new bool[] { _checked(rbNone), _checked(rbLittle), _checked(rbLot) },
+                new bool[] { _checked(cbExaminationalET), _checked(cbOperationalET),
+                            _checked(cbFurnitureET), _checked(cbHallwayET) },
+                new bool[] { _checked(cbExaminationalRT), _checked(cbOperationalRT),
+                            _checked(cbPatientCareRT), _checked(cbReceptionRT),
+                            _checked(cbWarehouseRT) }
+            );
+        }
+
+        private bool _checked(ToggleButton button)
+        {
+            return button.IsChecked is bool b && b;
         }
     }
 }

@@ -14,19 +14,19 @@ namespace HealthCare.ViewModel.ManagerViewModel
 {
     public class ManagerMainViewModel : ViewModelBase
     {
-        public readonly Hospital Hospital;
+        private readonly Hospital _hospital;
         public ObservableCollection<InventoryItemViewModel> Items { get; set; }
 
         public ManagerMainViewModel(Hospital hospital)
         {
-            Hospital = hospital;
+            _hospital = hospital;
             Items = new ObservableCollection<InventoryItemViewModel>();
             LoadAll();
         }
 
         public void LoadAll()
         {
-            _load(Hospital.Inventory.Items);
+            _load(_hospital.Inventory.Items);
         }
 
         private void _load(List<InventoryItem> items)
@@ -40,7 +40,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
 
         public void Filter(string query, bool[] quantities, bool[] equipmentTypes, bool[] roomTypes)
         {
-            InventoryItemFilter filter = new InventoryItemFilter(Hospital.Inventory.Items);
+            InventoryItemFilter filter = new InventoryItemFilter(_hospital.Inventory.Items);
             filter.FilterAnyProperty(query);
             filter.FilterQuantity(quantities);
             filter.FilterEquipmentType(equipmentTypes);

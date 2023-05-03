@@ -18,7 +18,7 @@ namespace HealthCare.Command
         private readonly Window _window;
         private readonly Hospital _hospital;
         private readonly bool _isEditing;
-        // Treba dodati Hospital Zbog Service
+        // Treba dodati _hospital Zbog Service
 
 
         public AddNewAppointmentDoctorCommand(Hospital hospital,MakeAppointmentViewModel viewModel, DoctorMainViewModel docMainViewModel, Window window, bool isEditing)
