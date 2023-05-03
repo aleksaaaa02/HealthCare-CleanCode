@@ -31,7 +31,7 @@ namespace HealthCare.View.DoctorView
         {
             _loginWindow = loginWindow;
             InitializeComponent();
-            // Treba Hospital Model
+            // Treba _hospital Model
             DataContext = new DoctorMainViewModel(hospital);
         }
 
