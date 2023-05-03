@@ -41,7 +41,7 @@ namespace HealthCare
                 switch(_hospital.LoginRole(username, password))
                 {
                     case UserRole.Manager:
-                        new InventoryItemListingView(this, _hospital).Show();
+                        new EquipmentOrderView(this, _hospital).Show();
                         break;
                     case UserRole.Doctor:
                         new DoctorMainView(this, _hospital).Show();

@@ -67,5 +67,15 @@ namespace HealthCare.Service
         {
             csvStorage.Save(Items);
         }
+
+        internal int GetTotalQuantity(string equipmentName)
+        {
+            int quantity = 0;
+            foreach (var item in Items)
+            {
+                if (item.Equipment.Name == equipmentName) quantity += item.Quantity;
+            }
+            return quantity;
+        }
     }
 }

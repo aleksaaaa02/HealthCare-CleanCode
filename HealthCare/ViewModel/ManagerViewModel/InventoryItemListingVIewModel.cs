@@ -12,12 +12,12 @@ using System.Windows.Input;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {
-    public class ManagerMainViewModel : ViewModelBase
+    public class InventoryItemListingVIewModel : ViewModelBase
     {
         private readonly Hospital _hospital;
         public ObservableCollection<InventoryItemViewModel> Items { get; set; }
 
-        public ManagerMainViewModel(Hospital hospital)
+        public InventoryItemListingVIewModel(Hospital hospital)
         {
             _hospital = hospital;
             Items = new ObservableCollection<InventoryItemViewModel>();
