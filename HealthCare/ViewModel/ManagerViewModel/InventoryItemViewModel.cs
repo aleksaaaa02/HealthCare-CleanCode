@@ -11,7 +11,9 @@ namespace HealthCare.ViewModel.ManagerViewModel
     {
         private readonly InventoryItem _item;
         public string EquipmentName => _item.Equipment.Name;
+        public string EquipmentType => _item.Equipment.TranslateType();
         public string RoomName => _item.Room.Name;
+        public string RoomType => _item.Room.TranslateType();
         public string Quantity => _item.Quantity.ToString();
         public InventoryItemViewModel(InventoryItem item)
         {

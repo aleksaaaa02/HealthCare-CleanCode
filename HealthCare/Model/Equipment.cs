@@ -58,10 +58,9 @@ namespace HealthCare.Model
                     return "operaciona";
                 case EquipmentType.RoomFurniture:
                     return "sobni namestaj";
-                case EquipmentType.HallwayFurniture:
+                default:
                     return "oprema za hodnike";
             }
-            return "";
         }
     }
 }

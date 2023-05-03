@@ -55,10 +55,9 @@ namespace HealthCare.Model
                     return "smestaj bolesnika";
                 case RoomType.Reception:
                     return "recepcija";
-                case RoomType.Warehouse:
+                default:
                     return "magacin";
             }
-            return "";
         }
     }
 }
