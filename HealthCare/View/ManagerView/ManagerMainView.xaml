@@ -78,10 +78,24 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
+                                <GridViewColumn Width="auto" Header="Tip opreme">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock MinWidth="70" Text="{Binding EquipmentType}" TextAlignment="Right" Margin="20 0"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                                 <GridViewColumn Width="auto" Header="Prostorija">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock MinWidth="50" Text="{Binding RoomName}" TextAlignment="Center" />
+                                            <TextBlock MinWidth="50" Text="{Binding RoomName}" TextAlignment="Right" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="auto" Header="Tip prostorije">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock MinWidth="70" Text="{Binding RoomType}" TextAlignment="Right" Margin="20 0"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
