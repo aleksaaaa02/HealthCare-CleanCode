@@ -126,5 +126,21 @@ namespace HealthCare.Service
             CsvStorage<Appointment> csvStorage = new CsvStorage<Appointment>(filepath);
             csvStorage.Save(Appointments);
         }
+
+        public static Appointment? GetStartingAppointment(string JMBG)
+        {
+            DateTime reception = DateTime.Now;
+
+            foreach(Appointment appointment in Appointments)
+            {
+                if(!appointment.IsOperation && reception<appointment.TimeSlot.Start 
+                    && reception >= appointment.TimeSlot.Start.AddMinutes(-15) 
+                    && appointment.Patient.JMBG == JMBG)
+                {
+                    return appointment;
+                }
+            }
+            return null;
+        }
     }
 }

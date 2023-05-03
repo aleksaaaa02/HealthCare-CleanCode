@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HealthCare.View.PatientView
+namespace HealthCare.View.ReceptionView
 {
     /// <summary>
-    /// Interaction logic for NurseAnamnesisView.xaml
+    /// Interaction logic for CreatePatientView.xaml
     /// </summary>
-    public partial class NurseAnamnesisView : Window
+    public partial class CreatePatientView : Window
     {
-        public NurseAnamnesisView()
+        public CreatePatientView()
         {
             InitializeComponent();
         }
