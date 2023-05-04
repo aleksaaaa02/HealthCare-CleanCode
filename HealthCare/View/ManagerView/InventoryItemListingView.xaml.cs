@@ -23,13 +23,13 @@ namespace HealthCare.View.ManagerView
     /// </summary>
     public partial class InventoryItemListingView : Window
     {
-        private ManagerMainViewModel _model;
+        private InventoryListingViewModel _model;
         private Window _loginWindow;
         public InventoryItemListingView(Window loginWindow, Hospital hospital)
         {
             InitializeComponent();
             _loginWindow = loginWindow;
-            _model = new ManagerMainViewModel(hospital);
+            _model = new InventoryListingViewModel(hospital);
             DataContext = _model;
         }
 

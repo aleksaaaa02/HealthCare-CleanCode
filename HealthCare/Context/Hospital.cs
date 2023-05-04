@@ -25,6 +25,7 @@ namespace HealthCare.Context
         public PatientService PatientService;
         public EquipmentService EquipmentService;
         public Inventory Inventory;
+        public OrderService OrderService;
 
         public Hospital() : this("Bolnica") { }
         public Hospital(string name)
@@ -37,7 +38,8 @@ namespace HealthCare.Context
             DoctorService = new DoctorService(Global.doctorPath);
             PatientService = new PatientService(Global.patientPath);
             EquipmentService = new EquipmentService(Global.equipmentPath);
-            Inventory = new Inventory(Global.inventoryItemPath);
+            Inventory = new Inventory(Global.inventoryPath);
+            OrderService = new OrderService(Global.orderPath);
         }
 
         public void LoadAll()
@@ -48,10 +50,11 @@ namespace HealthCare.Context
             PatientService.Load();
             EquipmentService.Load();
             Inventory.Load();
+            OrderService.Load();
             Schedule.Load(Global.appointmentPath);
 
             FillAppointmentDetails();
-            FillInventoryItemDetails();
+            FillInventoryDetails();
         }
 
         public void SaveAll()
@@ -61,6 +64,7 @@ namespace HealthCare.Context
             PatientService.Save();
             EquipmentService.Save();
             Inventory.Save();
+            OrderService.Save();
             Schedule.Save(Global.appointmentPath);
         }
 
@@ -111,7 +115,7 @@ namespace HealthCare.Context
             }
         }
 
-        private void FillInventoryItemDetails()
+        private void FillInventoryDetails()
         {
             foreach (InventoryItem item in Inventory.Items)
             {

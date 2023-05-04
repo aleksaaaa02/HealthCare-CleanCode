@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {
-    internal class InventoryItemFilter
+    internal class InventoryFilter
     {
         private List<InventoryItem> _items;
 
-        public InventoryItemFilter(List<InventoryItem> items)
+        public InventoryFilter(List<InventoryItem> items)
         {
             _items = items;
         }
