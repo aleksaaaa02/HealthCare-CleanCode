@@ -24,7 +24,8 @@ namespace HealthCare.View.ReceptionView
         private PatientService patientService;
         private Patient? patient;
         public MedicalRecord? Record;
-        public CreatePatientView(Hospital hospital)
+        private string JMBG;
+        public CreatePatientView(Hospital hospital,string JMBG)
         {
             InitializeComponent();
             patientService = hospital.PatientService;
@@ -32,6 +33,9 @@ namespace HealthCare.View.ReceptionView
             patientService.Load();
             patient = null;
             Record = null;
+            this.JMBG = JMBG;
+            tbJMBG.IsEnabled = false;
+            tbJMBG.Text = JMBG;
         }
 
         private void btnMedicalRecord_Click(object sender, RoutedEventArgs e)
@@ -54,7 +58,7 @@ namespace HealthCare.View.ReceptionView
             patient = new Patient();
             patient.Name = tbName.Text;
             patient.LastName = tbLastName.Text;
-            patient.JMBG = tbJMBG.Text;
+            patient.JMBG = JMBG;
             patient.BirthDate = DateTime.Parse(tbBirthDate.Text);
             patient.PhoneNumber = tbPhoneNumber.Text;
             patient.Address = tbAddress.Text;
@@ -89,6 +93,7 @@ namespace HealthCare.View.ReceptionView
                     ShowErrorMessageBox("Pacijent sa unetim JMBG vec postoji");
                 patientService.Save();
                 Record = null;
+                Close();
             }
             else
                 ShowErrorMessageBox("Unesite sva polja. Datum je u formatu dd-MM-YYYY");

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.ReceptionView"
         mc:Ignorable="d"
-        Title="CreatePatientView" Height="570" Width="240">
+        Title="CreatePatientView" Height="570" Width="260">
     <Grid>
         <Label Content="Dodaj pacijenta" Name="lblTitle" HorizontalAlignment="Left" Margin="10,00,0,0" FontSize="17" FontWeight="Bold" VerticalAlignment="Top"/>
 

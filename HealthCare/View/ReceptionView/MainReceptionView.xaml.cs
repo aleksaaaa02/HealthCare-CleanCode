@@ -36,22 +36,21 @@ namespace HealthCare.View.ReceptionView
         {
             string JMBG = tbJMBG.Text.Trim();
 
-            Appointment? starting = Schedule.GetStartingAppointment(JMBG);
-            if (starting == null)
-            {
-                ShowErrorMessageBox();
-                return;
-            }
-
             Patient? patient = hospital.PatientService.GetAccount(JMBG);
 
             if(patient == null)
             {
-                CreatePatientView createPatientView = new CreatePatientView(hospital);
+                CreatePatientView createPatientView = new CreatePatientView(hospital,JMBG);
                 createPatientView.ShowDialog();
             }
             else
             {
+                Appointment? starting = Schedule.GetStartingAppointment(JMBG);
+                if (starting == null)
+                {
+                    ShowErrorMessageBox();
+                    return;
+                }
                 NurseAnamnesisView anamnesisView = new NurseAnamnesisView(hospital,starting.AppointmentID);
                 anamnesisView.ShowDialog();
             }
