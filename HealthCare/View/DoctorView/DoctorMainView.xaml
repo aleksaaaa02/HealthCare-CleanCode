@@ -21,6 +21,7 @@
                 <Button Width="Auto" Height="40" Margin="10" Content="Izmeni Pregled/Operaciju" Command="{Binding EditAppointmentCommand}"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="Ukloni Pregled/Operaciju" Command="{Binding DeleteAppointmentCommand}"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="Prikazi pacijenta" Command="{Binding ShowDetailedPatientInfoCommand}"/>
+                <Button Width="Auto" Height="40" Margin="10" Content="Pretrazi pacijente"/>
                 <Label Margin="0 15"/>
                 <Button x:Name="LogOut" Width="Auto" Height="40" Margin="10" Content="Odjava" Click="LogOut_Click"/>
             </StackPanel>
@@ -94,7 +95,11 @@
                     </ListView>
                 </Grid>
             </Grid>
-            <Rectangle Grid.Row="2" Fill="Azure"/>
+            <Grid Grid.Row="2">
+                <StackPanel Orientation="Horizontal">
+                <Button Content="Zapocni pregled" Margin="15 0" Width="150"/>
+                </StackPanel>
+            </Grid>
         </Grid>
 
     </Grid>
