@@ -1,4 +1,6 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Command;
+using HealthCare.Context;
+using HealthCare.Model;
 using HealthCare.ViewModel;
 using HealthCare.ViewModels;
 using System;
@@ -7,13 +9,18 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace HealthCare.View.DoctorView
 {
-    class PatientInforamtionViewModel : ViewModelBase
+    public class PatientInforamtionViewModel : ViewModelBase
     {
         public ObservableCollection<string> previousDiseases;
         public IEnumerable<string> PreviousDisease => previousDiseases;
+        private Patient _selectedPatient;
+        private Visibility _gridVisibility;
+        public Visibility GridVisibility => _gridVisibility;
 
         // za calendar treba suprotno
         private bool _isFocusable = false;
@@ -93,34 +100,66 @@ namespace HealthCare.View.DoctorView
                 OnPropertyChanged(nameof(Weight));
             }
         }
-        private readonly Patient _selectedPatient;
-        public PatientInforamtionViewModel(Patient patient) 
+        private string _disease;
+        public string Disease
         {
-          
+            get { return _disease; }
+            set
+            {
+                _disease = value;
+                OnPropertyChanged(nameof(Disease));
+            }
+        }
+        public ICommand SaveChangesCommand { get; }
+        public ICommand NewDiseaseCommand { get; }
+        public PatientInforamtionViewModel(Patient patient, Hospital hospital, bool isEdit) 
+        {
+            SaveChangesCommand = new SavePatientChangesCommand(hospital, this);
+            NewDiseaseCommand = new AddDiseaseCommand(patient, this);
+            
+            previousDiseases = new ObservableCollection<string>();
+            LoadDataIntoView(patient, isEdit);
+            
+
+        }
+        public void LoadDataIntoView(Patient patient, bool isEdit)
+        {
+            _isFocusable = isEdit;
+            _isReadOnly = !isEdit;
+            
             _selectedPatient = patient;
             _name = patient.Name;
             _lastName = patient.LastName;
             _birthday = patient.BirthDate;
             _gender = patient.Gender;
             _jmbg = patient.JMBG;
-            if(patient.MedicalRecord != null) 
+            if (patient.MedicalRecord != null)
             {
                 _weight = patient.MedicalRecord.Weight;
                 _height = patient.MedicalRecord.Height;
                 if (patient.MedicalRecord.MedicalHistory != null)
                 {
-                    previousDiseases = new ObservableCollection<string>(patient.MedicalRecord.MedicalHistory);
+                    Update();
                 }
-                else
-                {
-                    previousDiseases = new ObservableCollection<string>();
-                }
+            }
+            if (isEdit)
+            {
+                _gridVisibility = Visibility.Visible;
+            }
+            else
+            {
+                _gridVisibility = Visibility.Collapsed;
             }
 
         }
-
-
-
+        public void Update()
+        {
+            previousDiseases.Clear();
+            foreach(var d in _selectedPatient.MedicalRecord.MedicalHistory)
+            {
+                previousDiseases.Add(d);
+            }
+        }
 
     }
 }
