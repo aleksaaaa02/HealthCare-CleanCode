@@ -68,14 +68,22 @@ namespace HealthCare.Service
             csvStorage.Save(Items);
         }
 
-        internal int GetTotalQuantity(string equipmentName)
+        public int GetTotalQuantity(string equipmentName)
         {
             int quantity = 0;
             foreach (var item in Items)
-            {
-                if (item.Equipment.Name == equipmentName) quantity += item.Quantity;
-            }
+                if (item.Equipment.Name == equipmentName)
+                    quantity += item.Quantity;
             return quantity;
+        }
+
+        public List<Equipment> GetLowQuantityEquipment(int threshold = 5)
+        {
+            List<Equipment> equipment = new List<Equipment>();
+            foreach (var item in Items)
+                if (item.Quantity <= threshold)
+                    equipment.Add(item.Equipment);
+            return equipment;
         }
     }
 }
