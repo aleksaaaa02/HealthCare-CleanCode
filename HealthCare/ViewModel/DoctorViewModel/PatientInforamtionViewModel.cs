@@ -15,6 +15,13 @@ namespace HealthCare.View.DoctorView
         public ObservableCollection<string> previousDiseases;
         public IEnumerable<string> PreviousDisease => previousDiseases;
 
+        // za calendar treba suprotno
+        private bool _isFocusable = false;
+        public bool IsFocusable => _isFocusable;
+
+        public bool _isReadOnly = true;
+        public bool IsReadOnly => _isReadOnly;
+
         private string _name;
         public string Name
         {
