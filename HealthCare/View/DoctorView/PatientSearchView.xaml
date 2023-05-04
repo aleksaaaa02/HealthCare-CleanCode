@@ -12,34 +12,34 @@
             <RowDefinition Height="95*"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Row="0">
-            <Button Width="100" Content="Izmeni pacijenta"/>
+            <Button Width="100" Content="Izmeni pacijenta" Command="{Binding ShowEditPatientCommand}"/>
         </StackPanel>
         <Grid Grid.Row="1">
-            <ListView x:Name="PatientListView">
+            <ListView x:Name="PatientListView" ItemsSource="{Binding Patients}" SelectedItem="{Binding SelectedPatient}" SelectionMode="Single">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="JMBG" Width="150">
+                        <GridViewColumn Header="JMBG" Width="150" DisplayMemberBinding="{Binding JMBG}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Padding="0 0 20 0"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Ime" Width="150">
+                        <GridViewColumn Header="Ime i Prezime" Width="200"  DisplayMemberBinding="{Binding NameAndLastName}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Padding="0 0 20 0"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Prezime" Width="150">
+                        <GridViewColumn Header="Datum rodjenja" Width="150"  DisplayMemberBinding="{Binding Birthday}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Padding="0 0 20 0"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Datum rodjenja" Width="150">
+                        <GridViewColumn Header="Pol" Width="150"  DisplayMemberBinding="{Binding Gender}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Padding="0 0 20 0"/>

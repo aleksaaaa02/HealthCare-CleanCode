@@ -1,4 +1,5 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Context;
+using HealthCare.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +21,11 @@ namespace HealthCare.View.DoctorView
     /// </summary>
     public partial class PatientInformationView : Window
     {
-        public PatientInformationView(Patient patient)
+        public PatientInformationView(Patient patient, Hospital hospital, bool isEdit)
         {
             InitializeComponent();
 
-            DataContext = new PatientInforamtionViewModel(patient);            
+            DataContext = new PatientInforamtionViewModel(patient, hospital, isEdit);            
         }
     }
 }

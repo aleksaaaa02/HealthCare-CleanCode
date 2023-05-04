@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HealthCare.Context;
+using HealthCare.ViewModel.DoctorViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,11 @@ namespace HealthCare.View.DoctorView
     /// </summary>
     public partial class PatientSearchView : Window
     {
-        public PatientSearchView()
+        public PatientSearchView(Hospital hospital)
         {
             InitializeComponent();
+            DataContext = new PatientSearchViewModel(hospital);
+
         }
     }
 }

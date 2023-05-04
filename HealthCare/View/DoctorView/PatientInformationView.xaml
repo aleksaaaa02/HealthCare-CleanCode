@@ -21,18 +21,18 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Margin="40 10 50 0">
                 <Label Content="Ime"/>
-                <TextBox Text="{Binding Name}" IsReadOnly="{Binding IsReadOnly}"/>
+                <TextBox Text="{Binding Name}" IsReadOnly="True"/>
                 <Label Content="Prezime"/>
-                <TextBox Text="{Binding LastName}" IsReadOnly="{Binding IsReadOnly}"/>
+                <TextBox Text="{Binding LastName}" IsReadOnly="True"/>
                 <Label Content="JMBG"/>
-                <TextBox Text="{Binding JMBG}"  IsReadOnly="{Binding IsReadOnly}"/>
+                <TextBox Text="{Binding JMBG}"  IsReadOnly="True"/>
                 <TextBlock Text="Medicinksi karton" FontSize="24" Margin="0 30 0 0"/>
             </StackPanel>
             <StackPanel Grid.Column="1" Margin="50 10 40 0">
                 <Label Content="Datum Rodjenja"/>
-                <DatePicker Text="{Binding Birthday}" Focusable="{Binding IsFocusable}" IsHitTestVisible="{Binding IsFocusable}"/>
+                <DatePicker Text="{Binding Birthday}" Focusable="False" IsHitTestVisible="False"/>
                 <Label Content="Pol"/>
-                <TextBox Text="{Binding Genderr}" IsReadOnly="{Binding IsReadOnly}"/>
+                <TextBox Text="{Binding Genderr}" IsReadOnly="True"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="2">
@@ -40,12 +40,23 @@
                 <RowDefinition Height="0.1*"/>
                 <RowDefinition Height="0.9*"/>
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="40 0 0 0">
-                <Label Content="Visina (cm):"/>
-                <TextBox Text="{Binding Height}" VerticalContentAlignment="Center" IsReadOnly="{Binding IsReadOnly}" Width="40" TextAlignment="Center"/>
-                <Label Content="Tezina (kg):" Margin="80 0  0 0"/>
-                <TextBox Text="{Binding Weight}" VerticalContentAlignment="Center"  IsReadOnly="{Binding IsReadOnly}" Width="40" TextAlignment="Center"/>
-            </StackPanel>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4*"/>
+                    <ColumnDefinition Width="0.6*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="40 0 0 0">
+                    <Label Content="Visina (cm):"/>
+                    <TextBox Text="{Binding Height}" VerticalContentAlignment="Center" IsReadOnly="{Binding IsReadOnly}" Width="40" TextAlignment="Center"/>
+                    <Label Content="Tezina (kg):" Margin="50 0 0 0"/>
+                    <TextBox Text="{Binding Weight}" VerticalContentAlignment="Center"  IsReadOnly="{Binding IsReadOnly}" Width="40" TextAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Visibility="{Binding GridVisibility}">
+                    <Label Content="Naziv Bolesti:" Margin="50 0 0 0"/>
+                    <TextBox Text="{Binding Disease}" VerticalContentAlignment="Center"  IsReadOnly="{Binding IsReadOnly}" Width="125" TextAlignment="Center"/>
+                    <Button Content="Dodaj" Command="{Binding NewDiseaseCommand}" Margin=" 10 0 0 0"/>
+                </StackPanel>
+                </Grid>
             <Grid Grid.Row="3">
                 <ListView Margin="40 10 40 10" ItemsSource="{Binding PreviousDisease}">
                     <ListView.View>
@@ -64,7 +75,7 @@
         </Grid>
         <Grid Grid.Row="4" VerticalAlignment="Center">
             <StackPanel>
-                <Button Content="Sacuvaj rezultate" FontSize="20" Width="250" IsEnabled="{Binding IsFocusable}"/>
+                <Button Content="Sacuvaj rezultate" Command="{Binding SaveChangesCommand}" FontSize="20" Width="250" IsEnabled="{Binding IsFocusable}"/>
             </StackPanel>
         </Grid>
     </Grid>
