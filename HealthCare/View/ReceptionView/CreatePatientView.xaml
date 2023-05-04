@@ -39,10 +39,10 @@
 
         <CheckBox Content="Blokiran" Name="chbBlocked" HorizontalAlignment="Left" Margin="110,395,0,0" VerticalAlignment="Top"/>
 
-        <Button Name="btnMedicalRecord" Content="Zdravsteni karton" HorizontalAlignment="Left" Margin="110,430,0,0" Width="120" Height="30"  VerticalAlignment="Top"/>
+        <Button Name="btnMedicalRecord" Content="Zdravsteni karton" HorizontalAlignment="Left" Margin="110,430,0,0" Width="120" Height="30"  VerticalAlignment="Top" Click="btnMedicalRecord_Click"/>
 
-        <Button Content="Kreiraj nalog" Name="btnAdd" HorizontalAlignment="Left" Height="30" Margin="10,480,0,0" VerticalAlignment="Top" Width="100"/>
-        <Button Content="Izađi" Name="btnExit" HorizontalAlignment="Left" Height="30" Margin="130,480,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button Content="Kreiraj nalog" Name="btnAdd" HorizontalAlignment="Left" Height="30" Margin="10,480,0,0" VerticalAlignment="Top" Width="100" Click="btnAdd_Click"/>
+        <Button Content="Izađi" Name="btnExit" HorizontalAlignment="Left" Height="30" Margin="130,480,0,0" VerticalAlignment="Top" Width="100" Click="btnExit_Click"/>
             
     </Grid>
 </Window>

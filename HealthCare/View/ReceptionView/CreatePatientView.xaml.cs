@@ -1,4 +1,8 @@
-﻿using System;
+﻿using HealthCare.Context;
+using HealthCare.Model;
+using HealthCare.Service;
+using HealthCare.View.PatientView;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,18 +14,92 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 
 namespace HealthCare.View.ReceptionView
 {
-    /// <summary>
-    /// Interaction logic for CreatePatientView.xaml
-    /// </summary>
     public partial class CreatePatientView : Window
     {
-        public CreatePatientView()
+        private PatientService patientService;
+        private Patient? patient;
+        public MedicalRecord? Record;
+        public CreatePatientView(Hospital hospital)
         {
             InitializeComponent();
+            patientService = hospital.PatientService;
+
+            patientService.Load();
+            patient = null;
+            Record = null;
         }
+
+        private void btnMedicalRecord_Click(object sender, RoutedEventArgs e)
+        {
+            AddMedicalRecordView medicalRecordView = new AddMedicalRecordView(this, patientService);
+            medicalRecordView.ShowDialog();
+        }
+        public bool ValidateFields()
+        {
+            DateTime parsed;
+            if (tbName.Text != "" && tbLastName.Text != "" && tbAddress.Text != "" && tbBirthDate.Text != "" &&
+                DateTime.TryParse(tbBirthDate.Text, out parsed) && tbJMBG.Text != "" && tbPhoneNumber.Text != "" &&
+                tbUsername.Text != "" && tbPassword.Text != "")
+                return true;
+            return false;
+        }
+
+        public void CreatePatient()
+        {
+            patient = new Patient();
+            patient.Name = tbName.Text;
+            patient.LastName = tbLastName.Text;
+            patient.JMBG = tbJMBG.Text;
+            patient.BirthDate = DateTime.Parse(tbBirthDate.Text);
+            patient.PhoneNumber = tbPhoneNumber.Text;
+            patient.Address = tbAddress.Text;
+            if (cbMale.IsChecked is bool Checked && Checked)
+            {
+                patient.Gender = Gender.Male;
+            }
+            else patient.Gender = Gender.Female;
+            patient.UserName = tbUsername.Text;
+            patient.Password = tbPassword.Text;
+            if (chbBlocked.IsChecked is bool CheckedBlocked && CheckedBlocked)
+            {
+                patient.Blocked = true;
+            }
+            else patient.Blocked = false;
+            if (Record is null)
+                Record = new MedicalRecord();
+            patient.MedicalRecord = Record;
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (ValidateFields())
+            {
+                CreatePatient();
+                if (!patientService.CreateAccount(patient))
+                    ShowErrorMessageBox("Pacijent sa unetim JMBG vec postoji");
+                patientService.Save();
+                Record = null;
+            }
+            else
+                ShowErrorMessageBox("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
+        }
+        public void ShowErrorMessageBox(string messageBoxText)
+        {
+            string content = "Greska";
+            MessageBoxImage icon = MessageBoxImage.Error;
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBox.Show(messageBoxText, content, button, icon);
+        }
+
     }
 }

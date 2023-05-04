@@ -47,7 +47,7 @@ namespace HealthCare.View.ReceptionView
 
             if(patient == null)
             {
-                CreatePatientView createPatientView = new CreatePatientView();
+                CreatePatientView createPatientView = new CreatePatientView(hospital);
                 createPatientView.ShowDialog();
             }
             else

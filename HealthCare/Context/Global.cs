@@ -16,6 +16,7 @@ namespace HealthCare.Context
         public const string equipmentPath = dirPath + "equipment.csv";
         public const string appointmentPath = dirPath + "appointments.csv";
         public const string inventoryItemPath = dirPath + "inventory_items.csv";
+        public const string anamnesisPath = dirPath + "anamneses.csv";
 
         public const string managerUsername = "admin";
         public const string managerPassword = "admin";

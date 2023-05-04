@@ -1,5 +1,6 @@
 ﻿using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.View.ReceptionView;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,20 +23,30 @@ namespace HealthCare.View.PatientView
     public partial class AddMedicalRecordView : Window
     {
         private PatientService? patientService;
-        private NurseMainView _window;
+        private NurseMainView? nurseView;
+        private CreatePatientView? patientView;
         public AddMedicalRecordView(NurseMainView window, PatientService patientService)
         {
-            _window = window;
+            nurseView = window;
+            patientView = null;
             InitializeComponent();
-            if (_window.Record != null)
+            if (nurseView.Record != null)
             {
-                tbHeight.Text = _window.Record.Height.ToString();
-                tbWidth.Text = _window.Record.Weight.ToString();
-                rtbMedicalHistory.AppendText(string.Join(",", _window.Record.MedicalHistory));
+                tbHeight.Text = nurseView.Record.Height.ToString();
+                tbWidth.Text = nurseView.Record.Weight.ToString();
+                rtbMedicalHistory.AppendText(string.Join(",", nurseView.Record.MedicalHistory));
             }
             else {
-                _window.Record = new MedicalRecord();
+                nurseView.Record = new MedicalRecord();
             }
+        }
+
+        public AddMedicalRecordView(CreatePatientView patientView, PatientService patientService)
+        {
+            this.patientView = patientView;
+            nurseView = null;
+            InitializeComponent();
+            this.patientView.Record = new MedicalRecord();
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
@@ -55,7 +66,10 @@ namespace HealthCare.View.PatientView
                     rtbMedicalHistory.Document.ContentEnd
                 );
                 medicalRecord.MedicalHistory = textRange.Text.Trim().Split(",");
-                _window.Record = medicalRecord;
+                if (nurseView is not null)
+                    nurseView.Record = medicalRecord;
+                else
+                    patientView.Record = medicalRecord;
                 Close();
             }
             else
