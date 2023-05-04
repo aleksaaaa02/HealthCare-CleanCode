@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {
-    public class EquipmentOrderViewModel : ViewModelBase
+    public class DynamicEquipmentListingViewModel : ViewModelBase
     {
         private readonly Hospital _hospital;
         public ObservableCollection<OrderItemViewModel> Items { get; set; }
 
-        public EquipmentOrderViewModel(Hospital hospital)
+        public DynamicEquipmentListingViewModel(Hospital hospital)
         {
             _hospital = hospital;
             Items = new ObservableCollection<OrderItemViewModel>();
@@ -24,9 +24,10 @@ namespace HealthCare.ViewModel.ManagerViewModel
         public void LoadAll()
         {
             Items.Clear();
-            foreach (var equipment in _hospital.EquipmentService.Equipment)
+            foreach (var equipment in _hospital.Inventory.GetLowQuantityEquipment())
             {
-                Items.Add(new OrderItemViewModel(equipment, _hospital.Inventory.GetTotalQuantity(equipment.Name)));
+                if (equipment.Dynamic)
+                    Items.Add(new OrderItemViewModel(equipment, _hospital.Inventory.GetTotalQuantity(equipment.Name)));
             }
         }
     }

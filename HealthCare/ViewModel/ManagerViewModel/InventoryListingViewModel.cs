@@ -12,12 +12,12 @@ using System.Windows.Input;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {
-    public class InventoryItemListingVIewModel : ViewModelBase
+    public class InventoryListingViewModel : ViewModelBase
     {
         private readonly Hospital _hospital;
         public ObservableCollection<InventoryItemViewModel> Items { get; set; }
 
-        public InventoryItemListingVIewModel(Hospital hospital)
+        public InventoryListingViewModel(Hospital hospital)
         {
             _hospital = hospital;
             Items = new ObservableCollection<InventoryItemViewModel>();
@@ -40,7 +40,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
 
         public void Filter(string query, bool[] quantities, bool[] equipmentTypes, bool[] roomTypes)
         {
-            InventoryItemFilter filter = new InventoryItemFilter(_hospital.Inventory.Items);
+            InventoryFilter filter = new InventoryFilter(_hospital.Inventory.Items);
             filter.FilterAnyProperty(query);
             filter.FilterQuantity(quantities);
             filter.FilterEquipmentType(equipmentTypes);
