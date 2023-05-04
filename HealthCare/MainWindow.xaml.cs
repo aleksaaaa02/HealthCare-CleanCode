@@ -27,8 +27,8 @@ namespace HealthCare
 
         private void btnQuitApp_Click(object sender, RoutedEventArgs e)
         {
-            _hospital.SaveAll();
-            Close();
+           _hospital.SaveAll();
+           Close();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
