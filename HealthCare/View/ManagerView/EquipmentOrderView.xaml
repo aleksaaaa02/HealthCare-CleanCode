@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.ManagerView"
         mc:Ignorable="d"
-        Title="EquipmentOrderView" Height="500" Width="450">
+        Title="EquipmentOrderView" Height="500" Width="500">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.15*"/>
@@ -21,13 +21,6 @@
             <ListView Name="lvDynamicEquipment" ItemsSource="{Binding Items}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="auto">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <CheckBox IsChecked="{Binding Selected}" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
                         <GridViewColumn Width="auto" Header="Oprema">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -45,14 +38,14 @@
                         <GridViewColumn Width="auto" Header="Trenutno stanje">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock MinWidth="50" Text="{Binding CurrentQuantity}" TextAlignment="Left" Margin="20 0"/>
+                                    <TextBlock MinWidth="50" Name="aa" Text="{Binding CurrentQuantity}" TextAlignment="Left" Margin="20 0"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Width="auto" Header="Narudžbina">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ListBox x:Name="lbOrderQuantity" />
+                                    <TextBox MinWidth="40" Name="tbQuantity" Text="{Binding OrderQuantity, Mode=TwoWay}" TextChanged="ValidateTextBox" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -71,9 +64,15 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Button Content="Resetuj" VerticalAlignment="Bottom" MinHeight="25" Margin="90 0 20 5" FontSize="12" Click="Button_Reset"/>
+                <Button Content="Resetuj"
+                        VerticalAlignment="Bottom"
+                        MinHeight="25" Margin="90 0 20 5"
+                        FontSize="12" Click="Button_Reset"/>
                 <Grid Grid.Row="1">
-                    <Button Content="Nazad" VerticalAlignment="Top" MinHeight="25" Margin="90 5 20 0" FontSize="12" Click="Button_Exit"/>
+                    <Button Content="Nazad"
+                            VerticalAlignment="Top"
+                            MinHeight="25" Margin="90 5 20 0"
+                            FontSize="12" Click="Button_Exit"/>
                 </Grid>
             </Grid>
             <Grid Grid.Column="1">
