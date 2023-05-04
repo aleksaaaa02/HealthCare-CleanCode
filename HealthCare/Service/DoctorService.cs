@@ -32,6 +32,19 @@ namespace HealthCare.Service
         {
             csvStorage.Save(Doctors);
         }
+        public List<Patient> GetExaminedPatients(Doctor doctor)
+        {
+            HashSet<Patient> patients = new HashSet<Patient>();
+            foreach (var appointmnet in Schedule.Appointments)
+            {
+                if (appointmnet.Doctor == doctor)
+                {
+                    patients.Add(appointmnet.Patient);
+                }
+            }
+
+            return patients.ToList();
+        }
 
         public List<Doctor> GetAccounts() 
         {
