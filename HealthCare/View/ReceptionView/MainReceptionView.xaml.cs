@@ -18,10 +18,10 @@ using HealthCare.View.PatientView;
 
 namespace HealthCare.View.ReceptionView
 {
-    public partial class ReceptionView : Window 
+    public partial class MainReceptionView : Window 
     {
         private readonly Hospital hospital;
-        public ReceptionView(Hospital hospital)
+        public MainReceptionView(Hospital hospital)
         {
             InitializeComponent();
             this.hospital = hospital;

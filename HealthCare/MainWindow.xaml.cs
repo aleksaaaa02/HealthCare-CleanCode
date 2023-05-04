@@ -28,10 +28,8 @@ namespace HealthCare
 
         private void btnQuitApp_Click(object sender, RoutedEventArgs e)
         {
-            ReceptionView reception = new ReceptionView(_hospital);
-            reception.ShowDialog();
             _hospital.SaveAll();
-           //Close();
+           Close();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
@@ -50,7 +48,7 @@ namespace HealthCare
                         new DoctorMainView(this, _hospital).Show();
                         break;
                     case UserRole.Nurse:
-                        new NurseMainView(this, _hospital).Show();
+                        new NurseMenu(this, _hospital).Show();
                         break;
                     case UserRole.Patient:
                         AppointmentMainView appointmentMainView = new AppointmentMainView(_hospital);
