@@ -9,6 +9,7 @@ using HealthCare.View.ManagerView;
 using HealthCare.View.PatientView;
 using System.Windows;
 using HealthCare.View.ReceptionView;
+using HealthCare.View.UrgentAppointmentView;
 
 namespace HealthCare
 {
@@ -28,8 +29,9 @@ namespace HealthCare
 
         private void btnQuitApp_Click(object sender, RoutedEventArgs e)
         {
-            _hospital.SaveAll();
-           Close();
+            new UrgentView(_hospital).ShowDialog();
+           //_hospital.SaveAll();
+           //Close();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)

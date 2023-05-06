@@ -42,5 +42,26 @@ namespace HealthCare.Service
         {
             return Doctors.Find(x => x.UserName == username);
         }
+
+        public List<Doctor> GetBySpecialization(String specialization)
+        {
+            List<Doctor> specialists = new List<Doctor>();
+
+            foreach(Doctor doctor in Doctors)
+            {
+                if (doctor.Specialization == specialization)
+                    specialists.Add(doctor);
+            }
+
+            return specialists;
+        }
+
+        public HashSet<String> GetSpecializations()
+        {
+            HashSet<String> specializations = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (Doctor doctor in Doctors)
+                specializations.Add(doctor.Specialization);
+            return specializations;
+        }
     }
 }
