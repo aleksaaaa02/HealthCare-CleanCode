@@ -32,7 +32,7 @@
                 <RowDefinition Height="0.9*"/>
                 <RowDefinition Height="0.05*"/>
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center">
                 <TextBlock Text="Pocetni datum filtriranja: " VerticalAlignment="Center"/>
                 <DatePicker Margin="20 0" SelectedDate="{Binding StartDate}"/>
                 <TextBlock Text="Broj Dana:" VerticalAlignment="Center"/>
@@ -95,9 +95,9 @@
                     </ListView>
                 </Grid>
             </Grid>
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="0">
                 <StackPanel Orientation="Horizontal">
-                <Button Content="Zapocni pregled" Margin="15 0" Width="150"/>
+                <Button Content="Zapocni pregled" Width="150"/>
                 </StackPanel>
             </Grid>
         </Grid>
