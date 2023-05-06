@@ -16,7 +16,7 @@ namespace HealthCare.View.DoctorView
 {
     public class PatientInforamtionViewModel : ViewModelBase
     {
-        public ObservableCollection<string> previousDiseases;
+        private ObservableCollection<string> previousDiseases;
         public IEnumerable<string> PreviousDisease => previousDiseases;
         private Patient _selectedPatient;
         private Visibility _gridVisibility;
@@ -100,6 +100,16 @@ namespace HealthCare.View.DoctorView
                 OnPropertyChanged(nameof(Weight));
             }
         }
+        private string _selectedDisease;
+        public string SelectedDisease
+        {
+            get { return _selectedDisease; }
+            set
+            {
+                _selectedDisease = value;
+                OnPropertyChanged(nameof(_selectedDisease));
+            }
+        }
         private string _disease;
         public string Disease
         {
@@ -112,15 +122,14 @@ namespace HealthCare.View.DoctorView
         }
         public ICommand SaveChangesCommand { get; }
         public ICommand NewDiseaseCommand { get; }
+        public ICommand RemoveDiseaseCommand { get; }
         public PatientInforamtionViewModel(Patient patient, Hospital hospital, bool isEdit) 
         {
-            SaveChangesCommand = new SavePatientChangesCommand(hospital, this);
-            NewDiseaseCommand = new AddDiseaseCommand(patient, this);
-            
+            SaveChangesCommand = new SavePatientChangesCommand(hospital, patient, this);
+            NewDiseaseCommand = new AddDiseaseCommand(this);
+            RemoveDiseaseCommand = new RemoveDiseaseCommand(this);
             previousDiseases = new ObservableCollection<string>();
             LoadDataIntoView(patient, isEdit);
-            
-
         }
         public void LoadDataIntoView(Patient patient, bool isEdit)
         {
@@ -159,6 +168,14 @@ namespace HealthCare.View.DoctorView
             {
                 previousDiseases.Add(d);
             }
+        }
+        public void AddDisease(string disease)
+        {
+            previousDiseases.Add(disease);
+        }
+        public void RemoveDisease(string disease)
+        {
+            previousDiseases.Remove(disease);
         }
 
     }

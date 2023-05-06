@@ -47,18 +47,19 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="40 0 0 0">
                     <Label Content="Visina (cm):"/>
-                    <TextBox Text="{Binding Height}" VerticalContentAlignment="Center" IsReadOnly="{Binding IsReadOnly}" Width="40" TextAlignment="Center"/>
+                    <TextBox Text="{Binding Height}" VerticalContentAlignment="Center" IsReadOnly="{Binding IsReadOnly}" Width="40" TextAlignment="Center" PreviewTextInput="NumberValidationTextBox"/>
                     <Label Content="Tezina (kg):" Margin="50 0 0 0"/>
-                    <TextBox Text="{Binding Weight}" VerticalContentAlignment="Center"  IsReadOnly="{Binding IsReadOnly}" Width="40" TextAlignment="Center"/>
+                    <TextBox Text="{Binding Weight}" VerticalContentAlignment="Center"  IsReadOnly="{Binding IsReadOnly}" Width="40" TextAlignment="Center" PreviewTextInput="NumberValidationTextBox"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" Visibility="{Binding GridVisibility}">
                     <Label Content="Naziv Bolesti:" Margin="50 0 0 0"/>
                     <TextBox Text="{Binding Disease}" VerticalContentAlignment="Center"  IsReadOnly="{Binding IsReadOnly}" Width="125" TextAlignment="Center"/>
                     <Button Content="Dodaj" Command="{Binding NewDiseaseCommand}" Margin=" 10 0 0 0"/>
+                    <Button Content="Ukloni" Command="{Binding RemoveDiseaseCommand}" Margin=" 10 0 0 0"/>
                 </StackPanel>
                 </Grid>
             <Grid Grid.Row="3">
-                <ListView Margin="40 10 40 10" ItemsSource="{Binding PreviousDisease}">
+                <ListView Margin="40 10 40 10" ItemsSource="{Binding PreviousDisease}" SelectedItem="{Binding SelectedDisease}" SelectionMode="Single">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Naziv Bolesti">
@@ -75,7 +76,7 @@
         </Grid>
         <Grid Grid.Row="4" VerticalAlignment="Center">
             <StackPanel>
-                <Button Content="Sacuvaj rezultate" Command="{Binding SaveChangesCommand}" FontSize="20" Width="250" IsEnabled="{Binding IsFocusable}"/>
+                <Button Content="Sacuvaj rezultate" Command="{Binding SaveChangesCommand}" FontSize="20" Width="250" IsEnabled="{Binding IsFocusable}" Visibility="{Binding GridVisibility}"/>
             </StackPanel>
         </Grid>
     </Grid>
