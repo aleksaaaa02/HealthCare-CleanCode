@@ -65,17 +65,20 @@ namespace HealthCare.ViewModels.DoctorViewModel
 
         public ICommand ApplyFilterCommand { get; }
 
+        public ICommand ShowPatientSearchCommand { get; }
+
         public DoctorMainViewModel(Hospital hospital)
         {
             _hospital = hospital;
             Appointments = new ObservableCollection<AppointmentViewModel>();
             Update();
+
             CreateAppointmentViewCommand = new MakeAppointmentNavigationCommand(_hospital, this);
             EditAppointmentCommand = new EditAppointmentDoctorCommand(hospital, this);
             DeleteAppointmentCommand = new DeleteAppointmentCommand(_hospital, this);
             ShowDetailedPatientInfoCommand = new ShowPatientInfoCommand(_hospital, this);
             ApplyFilterCommand = new ApplyFilterCommand(this, _hospital);
-        
+            ShowPatientSearchCommand = new ShowPatientSearchViewCommand(hospital);
         }
 
         public void ApplyFilterOn(List<Appointment> appointments)

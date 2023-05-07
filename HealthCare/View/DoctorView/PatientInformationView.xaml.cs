@@ -1,8 +1,10 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Context;
+using HealthCare.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,11 +22,16 @@ namespace HealthCare.View.DoctorView
     /// </summary>
     public partial class PatientInformationView : Window
     {
-        public PatientInformationView(Patient patient)
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+        public PatientInformationView(Patient patient, Hospital hospital, bool isEdit)
         {
             InitializeComponent();
 
-            DataContext = new PatientInforamtionViewModel(patient);            
+            DataContext = new PatientInforamtionViewModel(patient, hospital, isEdit);            
         }
     }
 }
