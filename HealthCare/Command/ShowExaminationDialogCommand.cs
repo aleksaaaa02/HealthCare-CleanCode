@@ -37,8 +37,7 @@ namespace HealthCare.Command
                 MessageBox.Show("Pacijent nije jos uvek primljen!", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            Anamnesis anamnesis = _hospital.AnamnesisService.GetByID(appointment.AnamnesisID);
-            
+         
             new DoctorExamView(_hospital, appointment).Show();
         }
     }

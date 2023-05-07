@@ -123,6 +123,16 @@ namespace HealthCare.ViewModel.DoctorViewModel
                 OnPropertyChanged(nameof(Disease));
             }
         }
+        private string _symptoms;
+        public string Symptoms
+        {
+            get { return _symptoms; }
+            set
+            {
+                _disease = value;
+                OnPropertyChanged(nameof(Symptoms));
+            }
+        }
 
 
         public ICommand FinishExaminationCommand { get; }
@@ -147,6 +157,9 @@ namespace HealthCare.ViewModel.DoctorViewModel
             _birthday = _selectedPatient.BirthDate;
             _height = _selectedPatient.MedicalRecord.Height;
             _weight = _selectedPatient.MedicalRecord.Weight;
+
+            Anamnesis anamnesis = _hospital.AnamnesisService.GetByID(_appointment.AnamnesisID);
+            _symptoms = String.Join(", ", anamnesis.Symptoms);
             _previousDiseases = new ObservableCollection<string>();
             Update();
         }

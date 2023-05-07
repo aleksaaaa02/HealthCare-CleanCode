@@ -19,6 +19,7 @@ namespace HealthCare.Command
         private readonly Hospital _hospital;
         private readonly DoctorMainViewModel _doctorViewModel;
         private readonly PatientSearchViewModel _patientSearchViewModel;
+        // private readonly BaseViewModel viewModel;
         private readonly bool isEdit;
         public ShowPatientInfoCommand(Hospital hospital, DoctorMainViewModel view) 
         { 

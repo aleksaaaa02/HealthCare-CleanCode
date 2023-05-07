@@ -1,7 +1,7 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Service;
-using HealthCare.ViewModel;
+using HealthCare.ViewModel.NurseViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;

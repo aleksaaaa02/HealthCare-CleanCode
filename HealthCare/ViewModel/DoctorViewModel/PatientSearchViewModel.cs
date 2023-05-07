@@ -2,7 +2,6 @@
 using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Service;
-using HealthCare.View.DoctorView;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.Collections.Generic;
@@ -17,10 +16,10 @@ namespace HealthCare.ViewModel.DoctorViewModel
     public class PatientSearchViewModel : ViewModelBase
     {
         private Hospital _hospital;
-        private ObservableCollection<ViewModels.DoctorViewModel.PatientViewModel> patients;
+        private ObservableCollection<PatientViewModel> patients;
 
-        private ViewModels.DoctorViewModel.PatientViewModel _selectedPatient;
-        public ViewModels.DoctorViewModel.PatientViewModel SelectedPatient
+        private PatientViewModel _selectedPatient;
+        public PatientViewModel SelectedPatient
         {
             get { return _selectedPatient; }
             set
@@ -30,13 +29,13 @@ namespace HealthCare.ViewModel.DoctorViewModel
             }
         }
 
-        public IEnumerable<ViewModels.DoctorViewModel.PatientViewModel> Patients => patients;
+        public IEnumerable<PatientViewModel> Patients => patients;
         public ICommand ShowEditPatientCommand { get; }
 
         public PatientSearchViewModel(Hospital hospital)
         {
             _hospital = hospital;
-            patients = new ObservableCollection<ViewModels.DoctorViewModel.PatientViewModel>();
+            patients = new ObservableCollection<PatientViewModel>();
             ShowEditPatientCommand = new ShowPatientInfoCommand(hospital, this);
             Update();
         }
@@ -46,7 +45,7 @@ namespace HealthCare.ViewModel.DoctorViewModel
             patients.Clear();
             foreach (var patient in _hospital.DoctorService.GetExaminedPatients((Doctor)_hospital.Current))
             {
-                patients.Add(new ViewModels.DoctorViewModel.PatientViewModel(patient));
+                patients.Add(new PatientViewModel(patient));
                 
             }
         }
