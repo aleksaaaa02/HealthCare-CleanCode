@@ -72,5 +72,6 @@ namespace HealthCare.Command
                 MessageBox.Show("Morate odabrati pacijenta iz tabele!", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
     }
 }

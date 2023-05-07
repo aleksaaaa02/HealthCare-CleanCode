@@ -32,6 +32,13 @@ namespace HealthCare.Command
 
             Appointment appointment = Schedule.GetAppointment(Convert.ToInt32(selectedAppointment.AppointmentID));
 
+            if (appointment.AnamnesisID == 0)
+            {
+                MessageBox.Show("Pacijent nije jos uvek primljen!", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            Anamnesis anamnesis = _hospital.AnamnesisService.GetByID(appointment.AnamnesisID);
+            
             new DoctorExamView(_hospital, appointment).Show();
         }
     }

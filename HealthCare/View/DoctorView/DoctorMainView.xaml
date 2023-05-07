@@ -97,7 +97,7 @@
             </Grid>
             <Grid Grid.Row="0">
                 <StackPanel Orientation="Horizontal">
-                <Button Content="Zapocni pregled" Width="150"/>
+                    <Button Content="Zapocni pregled" Command="{Binding StartExaminationCommand}" Width="150"/>
                 </StackPanel>
             </Grid>
         </Grid>

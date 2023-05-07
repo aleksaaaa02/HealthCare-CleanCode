@@ -66,7 +66,7 @@ namespace HealthCare.ViewModels.DoctorViewModel
         public ICommand ApplyFilterCommand { get; }
 
         public ICommand ShowPatientSearchCommand { get; }
-
+        public ICommand StartExaminationCommand { get; }
         public DoctorMainViewModel(Hospital hospital)
         {
             _hospital = hospital;
@@ -79,6 +79,7 @@ namespace HealthCare.ViewModels.DoctorViewModel
             ShowDetailedPatientInfoCommand = new ShowPatientInfoCommand(_hospital, this);
             ApplyFilterCommand = new ApplyFilterCommand(this, _hospital);
             ShowPatientSearchCommand = new ShowPatientSearchViewCommand(hospital);
+            StartExaminationCommand = new ShowExaminationDialogCommand(hospital, this);
         }
 
         public void ApplyFilterOn(List<Appointment> appointments)
