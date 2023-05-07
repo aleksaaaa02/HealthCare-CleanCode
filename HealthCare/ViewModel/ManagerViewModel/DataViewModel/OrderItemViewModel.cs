@@ -11,6 +11,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
     public class OrderItemViewModel : ViewModelBase
     {
         private readonly Equipment _equipment;
+        public bool IsSelected { get; set; }
         public string EquipmentName => _equipment.Name;
         public string EquipmentType => _equipment.TranslateType();
         public int CurrentQuantity { get; }
@@ -19,8 +20,9 @@ namespace HealthCare.ViewModel.ManagerViewModel
         public OrderItemViewModel(Equipment equipment, int currentQuantity)
         {
             _equipment = equipment;
+            IsSelected = false;
             CurrentQuantity = currentQuantity;
-            OrderQuantity = "";
+            OrderQuantity = "0";
         }
     }
 }

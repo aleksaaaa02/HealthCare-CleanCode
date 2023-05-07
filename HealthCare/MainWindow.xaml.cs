@@ -21,7 +21,7 @@ namespace HealthCare
         {
             InitializeComponent();
 
-            _hospital = new Hospital("Poslednji trzaj");
+            _hospital = new Hospital("Venac");
             _hospital.LoadAll();
         }
 

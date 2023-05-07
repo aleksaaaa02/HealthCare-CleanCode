@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {
-    public class DynamicEquipmentListingViewModel : ViewModelBase
+    public class EquipmentOrderViewModel : ViewModelBase
     {
         private readonly Hospital _hospital;
         public ObservableCollection<OrderItemViewModel> Items { get; set; }
 
-        public DynamicEquipmentListingViewModel(Hospital hospital)
+        public EquipmentOrderViewModel(Hospital hospital)
         {
             _hospital = hospital;
             Items = new ObservableCollection<OrderItemViewModel>();

@@ -21,11 +21,11 @@ namespace HealthCare.View.ManagerView
     /// <summary>
     /// Interaction logic for ManagerView.xaml
     /// </summary>
-    public partial class InventoryItemListingView : Window
+    public partial class InventoryListingView : Window
     {
         private InventoryListingViewModel _model;
         private Window _loginWindow;
-        public InventoryItemListingView(Window loginWindow, Hospital hospital)
+        public InventoryListingView(Window loginWindow, Hospital hospital)
         {
             InitializeComponent();
             _loginWindow = loginWindow;

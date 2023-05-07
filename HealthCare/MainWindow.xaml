@@ -26,11 +26,11 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0">
                     <Label Content="Korisnicko Ime:"/>
-                    <TextBox Name="txtUserName" Margin="10" Height="25"/>
+                    <TextBox Name="txtUserName" Margin="10" Height="25" VerticalContentAlignment="Center" />
                 </StackPanel>
                 <StackPanel Grid.Row="1">
                     <Label Content="Lozinka:"/>
-                    <PasswordBox Name="txtPassword" Margin="10" Height="25"/>
+                    <PasswordBox Name="txtPassword" Margin="10" Height="25" VerticalContentAlignment="Center" />
                 </StackPanel>
             </Grid>
             <StackPanel Grid.Row ="3"  Orientation="Horizontal">
