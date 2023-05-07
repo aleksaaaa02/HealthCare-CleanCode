@@ -58,10 +58,9 @@ namespace HealthCare.Service
 			return false;
         }
 
-		public Patient GetAccount(string JMBG)
+		public Patient? GetAccount(string JMBG)
 		{
-			Patient? patient = Patients.Find(x => x.JMBG == JMBG);
-            return patient;
+            return Patients.Find(x => x.JMBG == JMBG);
 		}
 
 		public void Load()
