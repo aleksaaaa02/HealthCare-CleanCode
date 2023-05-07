@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
-    internal class AnamnesisService
+    public class AnamnesisService
     {
         public List<Anamnesis> Anamneses = new List<Anamnesis>();
         private CsvStorage<Anamnesis> csvStorage;
@@ -35,6 +35,8 @@ namespace HealthCare.Service
 
         public int NextId()
         {
+            if (Anamneses.Count == 0)
+                return 1;
             return Anamneses.Max(s => s.ID) + 1;
         }
 
