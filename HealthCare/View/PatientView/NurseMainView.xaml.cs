@@ -2,7 +2,7 @@
 using HealthCare.Model;
 using HealthCare.Observer;
 using HealthCare.Service;
-using HealthCare.ViewModel;
+using HealthCare.ViewModel.NurseViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,6 +21,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using HealthCare.ViewModel;
 
 namespace HealthCare.View.PatientView
 {
