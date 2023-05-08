@@ -19,5 +19,10 @@ namespace HealthCare.Service
             if (warehouse is null) throw new KeyNotFoundException();
             return warehouse.Id;
         }
+
+        public List<Room> GetRoomsByType(RoomType roomType)
+        {
+            return GetAll().FindAll(x => x.Type == roomType).ToList();
+        }
     }
 }

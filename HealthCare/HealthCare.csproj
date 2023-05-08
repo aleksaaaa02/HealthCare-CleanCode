@@ -10,6 +10,7 @@
   <ItemGroup>
     <Folder Include="Storage\" />
     <Folder Include="Observer\" />
+    <Folder Include="ViewModel\DoctorViewModel\Examination\" />
   </ItemGroup>
 
 </Project>

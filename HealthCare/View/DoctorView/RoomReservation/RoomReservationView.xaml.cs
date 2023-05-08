@@ -1,6 +1,6 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
-using HealthCare.ViewModel.DoctorViewModel;
+using HealthCare.ViewModel.DoctorViewModel.RoomReservation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,17 +15,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HealthCare.View.DoctorView
+namespace HealthCare.View.DoctorView.RoomReservation
 {
     /// <summary>
-    /// Interaction logic for DoctorExamView.xaml
+    /// Interaction logic for RoomReservationView.xaml
     /// </summary>
-    public partial class DoctorExamView : Window
+    public partial class RoomReservationView : Window
     {
-        public DoctorExamView(Hospital hospital, Appointment appointment, int roomId)
+        public RoomReservationView(Hospital hospital, Appointment appointment)
         {
             InitializeComponent();
-            DataContext = new DoctorExamViewModel(hospital, this, appointment, roomId);
+            DataContext = new RoomReservationViewModel(hospital, appointment, this);
         }
     }
 }

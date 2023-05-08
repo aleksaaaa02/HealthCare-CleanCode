@@ -139,12 +139,14 @@ namespace HealthCare.ViewModel.DoctorViewModel
         public ICommand CancelExaminationCommand { get; }
         public ICommand UpdatePatientCommand { get; }
 
-        public DoctorExamViewModel(Hospital hospital, Appointment appointment) 
+        public DoctorExamViewModel(Hospital hospital, Window window, Appointment appointment, int roomId) 
         {
             _hospital = hospital;
             _appointment = appointment;
             _selectedPatient = _appointment.Patient;
             //UpdatePatientCommand = new ShowPatientInfoCommand(_hospital,)
+            CancelExaminationCommand = new CancelCommand(window);
+            
 
             LoadView();
         }
@@ -159,7 +161,7 @@ namespace HealthCare.ViewModel.DoctorViewModel
             _weight = _selectedPatient.MedicalRecord.Weight;
 
             Anamnesis anamnesis = _hospital.AnamnesisService.GetByID(_appointment.AnamnesisID);
-            _symptoms = String.Join(", ", anamnesis.Symptoms);
+            _symptoms = string.Join(", ", anamnesis.Symptoms);
             _previousDiseases = new ObservableCollection<string>();
             Update();
         }

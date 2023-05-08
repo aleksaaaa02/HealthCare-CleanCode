@@ -70,7 +70,7 @@
                     <TextBox VerticalScrollBarVisibility="Visible" Height="100" />
 
                     <Label Content="Simptomi:" HorizontalAlignment="Left"/>
-                    <TextBox VerticalScrollBarVisibility="Visible" Text="{Binding Symptoms}" Height="100"/>
+                    <TextBox VerticalScrollBarVisibility="Visible" Text="{Binding Symptoms}" Height="100" Focusable="False"/>
 
                     <Label Content="Alergije:" HorizontalAlignment="Left"/>
                     <TextBox VerticalScrollBarVisibility="Visible" Height="100" />

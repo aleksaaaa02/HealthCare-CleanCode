@@ -69,5 +69,11 @@ namespace HealthCare.Model
         {
             JMBG = (string) key;
         }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is User user &&
+                   JMBG == user.JMBG;
+        }
     }
 }

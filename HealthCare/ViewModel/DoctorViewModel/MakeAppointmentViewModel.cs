@@ -22,7 +22,8 @@ namespace HealthCare.ViewModels.DoctorViewModel
         public IEnumerable<PatientViewModel> Patients => _patients;
 
         private DateTime _startDate = DateTime.Today;
-        public DateTime StartDate { 
+        public DateTime StartDate 
+        { 
             get { return _startDate; }
             set {
                 if (value < DateTime.Today)
@@ -119,7 +120,7 @@ namespace HealthCare.ViewModels.DoctorViewModel
         {
             // For New Appointment
             _hospital = hospital;
-            CancelCommand = new CancelNewAppointmentDoctorCommand(window);
+            CancelCommand = new CancelCommand(window);
             SubmitCommand = new AddNewAppointmentDoctorCommand(hospital ,this,  DoctorViewModel, window, false);
             _patients = new ObservableCollection<PatientViewModel>();
             Update();
@@ -138,7 +139,7 @@ namespace HealthCare.ViewModels.DoctorViewModel
             _selected = appointment.Patient;
             Update();
             
-            CancelCommand = new CancelNewAppointmentDoctorCommand(window);
+            CancelCommand = new CancelCommand(window);
             SubmitCommand = new AddNewAppointmentDoctorCommand(_hospital, this, DoctorViewModel, window, true);
  
         }

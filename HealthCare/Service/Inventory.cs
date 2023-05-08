@@ -46,5 +46,9 @@ namespace HealthCare.Service
                 Add(item);
             }
         }
+        public IEnumerable<InventoryItem> GetRoomItems(int roomId)
+        {
+            return GetAll().FindAll(x => x.RoomId==roomId);
+        }
     }
 }

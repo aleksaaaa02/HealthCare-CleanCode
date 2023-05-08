@@ -73,13 +73,13 @@ namespace HealthCare.ViewModels.DoctorViewModel
             Appointments = new ObservableCollection<AppointmentViewModel>();
             Update();
 
-            CreateAppointmentViewCommand = new MakeAppointmentNavigationCommand(_hospital, this);
+            CreateAppointmentViewCommand = new MakeAppointmentNavigationCommand(hospital, this);
             EditAppointmentCommand = new EditAppointmentDoctorCommand(hospital, this);
-            DeleteAppointmentCommand = new DeleteAppointmentCommand(_hospital, this);
-            ShowDetailedPatientInfoCommand = new ShowPatientInfoCommand(_hospital, this);
-            ApplyFilterCommand = new ApplyFilterCommand(this, _hospital);
+            DeleteAppointmentCommand = new DeleteAppointmentCommand(hospital, this);
+            ShowDetailedPatientInfoCommand = new ShowPatientInfoCommand(hospital, this);
+            ApplyFilterCommand = new ApplyFilterCommand(hospital, this);
             ShowPatientSearchCommand = new ShowPatientSearchViewCommand(hospital);
-            StartExaminationCommand = new ShowExaminationDialogCommand(hospital, this);
+            StartExaminationCommand = new ShowReservationDialogCommand(hospital, this);
         }
 
         public void ApplyFilterOn(List<Appointment> appointments)
