@@ -85,6 +85,13 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
+                                <GridViewColumn Width="auto" Header="Dinamička">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding IsDynamic}" TextAlignment="Right" Margin="10 0"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                                 <GridViewColumn Width="auto" Header="Prostorija">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>

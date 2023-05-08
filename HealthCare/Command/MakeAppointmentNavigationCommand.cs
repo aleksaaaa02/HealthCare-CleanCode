@@ -15,7 +15,7 @@ namespace HealthCare.Command
 
         private DoctorMainViewModel _viewModel;
         private readonly Hospital _hospital;
-        public MakeAppointmentNavigationCommand(Hospital hospital,DoctorMainViewModel viewModel) 
+        public MakeAppointmentNavigationCommand(Hospital hospital, DoctorMainViewModel viewModel) 
         {
             _viewModel = viewModel;
             _hospital = hospital;

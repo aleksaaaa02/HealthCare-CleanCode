@@ -18,9 +18,8 @@ using System.Windows.Shapes;
 
 namespace HealthCare.View.DoctorView
 {
-    /// <summary>
-    /// Interaction logic for MakeAppointmentView.xaml
-    /// </summary>
+
+
     public partial class MakeAppointmentView : Window
     {
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
