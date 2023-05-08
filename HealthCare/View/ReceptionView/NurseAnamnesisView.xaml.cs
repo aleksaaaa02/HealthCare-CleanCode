@@ -21,11 +21,15 @@ namespace HealthCare.View.PatientView
     {
         private readonly Hospital hospital = new Hospital();
         private readonly int appointmentID;
-        public NurseAnamnesisView(Hospital hospital,int appointmentID)
+        private readonly Patient patient;
+        public NurseAnamnesisView(Hospital hospital,int appointmentID, Patient patient)
         {
             InitializeComponent();
             this.hospital = hospital;
             this.appointmentID = appointmentID;
+            this.patient = patient;
+            rtbAllergies.Document.Blocks.Add(new Paragraph(new Run(patient.MedicalRecord.AllergiesToString())));
+            rtbMedicalHistory.Document.Blocks.Add(new Paragraph(new Run(patient.MedicalRecord.MedicalHistoryToString())));
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -41,7 +45,7 @@ namespace HealthCare.View.PatientView
                    rtbAllergies.Document.ContentStart,
                    rtbAllergies.Document.ContentEnd
                );
-            anamnesis.Allergies = textRange.Text.Trim().Split(",");
+            patient.MedicalRecord.Allergies = textRange.Text.Trim().Split(",");
 
             textRange = new TextRange(
                    rtbSymptoms.Document.ContentStart,
@@ -53,10 +57,13 @@ namespace HealthCare.View.PatientView
                    rtbMedicalHistory.Document.ContentStart,
                    rtbMedicalHistory.Document.ContentEnd
                );
-            anamnesis.MedicalHistory = textRange.Text.Trim().Split(",");
+            patient.MedicalRecord.MedicalHistory = textRange.Text.Trim().Split(",");
 
             int newID = hospital.AnamnesisService.AddAnamnesis(anamnesis);
             Schedule.GetAppointment(appointmentID).AnamnesisID = newID;
+            hospital.PatientService.UpdateAccount(patient);
+            hospital.SaveAll();
+            Close();
         }
     }
 }

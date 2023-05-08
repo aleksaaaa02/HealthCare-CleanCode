@@ -66,7 +66,7 @@ namespace HealthCare.Model
 
             Blocked = bool.Parse(values[9]);
             MedicalRecord = new MedicalRecord();
-            MedicalRecord.FromCSV(new string[] { values[10], values[11], values[12], values[13] });
+            MedicalRecord.FromCSV(new string[] { values[10], values[11], values[12], values[13], values[14] });
         }
     }
 }
