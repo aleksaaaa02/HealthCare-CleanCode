@@ -11,23 +11,26 @@ namespace HealthCare.Repository
     {
         private static readonly char _delimiter = ',';
 
-        public static void ToCSV(string fileName, List<T> objects)
+        public static void ToCSV(string filepath, List<T> objects)
         {
-            StreamWriter streamWriter = new StreamWriter(fileName);
+            ValidateFile(filepath);
 
-            foreach (T obj in objects)
+            using (StreamWriter streamWriter = File.CreateText(filepath))
             {
-                string line = string.Join(_delimiter.ToString(), obj.ToCSV());
-                streamWriter.WriteLine(line);
+                foreach (T obj in objects)
+                {
+                    string line = string.Join(_delimiter.ToString(), obj.ToCSV());
+                    streamWriter.WriteLine(line);
+                }
             }
-            streamWriter.Close();
         }
 
-        public static List<T> FromCSV(string fileName)
+        public static List<T> FromCSV(string filepath)
         {
-            List<T> objects = new List<T>();
+            ValidateFile(filepath);
 
-            foreach (string line in File.ReadLines(fileName))
+            List<T> objects = new List<T>();
+            foreach (string line in File.ReadLines(filepath))
             {
                 if (line.Trim() == "") continue;
 
@@ -38,6 +41,12 @@ namespace HealthCare.Repository
             }
 
             return objects;
+        }
+
+        public static void ValidateFile(string filepath)
+        {
+            if (!File.Exists(filepath))
+                File.Create(filepath).Dispose();
         }
     }
 }
