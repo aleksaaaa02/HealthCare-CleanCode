@@ -1,4 +1,4 @@
-﻿using HealthCare.Serializer;
+﻿using HealthCare.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +14,19 @@ namespace HealthCare.Model
         RoomFurniture,
         HallwayFurniture
     }
-    public class Equipment : ISerializable
+
+    public class Equipment : ISerializable, IKey
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public EquipmentType Type { get; set; }
         public bool Dynamic { get; set; }
 
-        public Equipment() : this("", EquipmentType.Examinational, false) { }
+        public Equipment() : this(0, "", EquipmentType.Examinational, false) { }
 
-        public Equipment(string name, EquipmentType type, bool dynamic)
+        public Equipment(int id, string name, EquipmentType type, bool dynamic)
         {
+            Id = id;
             Name = name;
             Type = type;
             Dynamic = dynamic;
@@ -31,36 +34,25 @@ namespace HealthCare.Model
 
         public string[] ToCSV()
         {
-            return new string[] { Name, Type.ToString(), Dynamic.ToString() };
+            return new string[] { Id.ToString(), Name, Type.ToString(), Dynamic.ToString() };
         }
 
         public void FromCSV(string[] values)
         {
-            Name = values[0];
-            Type = (EquipmentType) Enum.Parse(typeof(EquipmentType), values[1]);
-            Dynamic = bool.Parse(values[2]);
+            Id = int.Parse(values[0]);
+            Name = values[1];
+            Type = (EquipmentType) Enum.Parse(typeof(EquipmentType), values[2]);
+            Dynamic = bool.Parse(values[3]);
         }
 
-        internal void Copy(Equipment equipment)
+        public object GetKey()
         {
-            Name = equipment.Name;
-            Type = equipment.Type;
-            Dynamic = equipment.Dynamic;
+            return Id;
         }
 
-        public string TranslateType()
+        public void SetKey(object key)
         {
-            switch(Type)
-            {
-                case EquipmentType.Examinational:
-                    return "za preglede";
-                case EquipmentType.Operational:
-                    return "operaciona";
-                case EquipmentType.RoomFurniture:
-                    return "sobni namestaj";
-                default:
-                    return "oprema za hodnike";
-            }
+            Id = (int) key;
         }
     }
 }

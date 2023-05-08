@@ -1,5 +1,6 @@
-﻿using HealthCare.Serializer;
+﻿using HealthCare.Repository;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,45 +8,47 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
-    public class OrderItem : ISerializable
+    public class OrderItem : ISerializable, IKey
     {
         public int Id { get; set; }
-        public string EquipmentName { get; set; }
+        public int EquipmentId { get; set; }
         public int Quantity { get; set; }
-        DateTime Scheduled { get; set; }
+        public DateTime Scheduled { get; set; }
+        public bool Executed { get; set; }
 
-        public OrderItem()
-        {
-            Scheduled = DateTime.Now;    
-        }
+        public OrderItem() : this(0, 0, 0, DateTime.MinValue, false) { }
 
-        public OrderItem(int id, string equipmentId, int quantity, DateTime scheduled)
+        public OrderItem(int id, int equipmentId, int quantity, DateTime scheduled, bool executed)
         {
             Id = id;
-            EquipmentName = equipmentId;
+            EquipmentId = equipmentId;
             Quantity = quantity;
             Scheduled = scheduled;
+            Executed = executed;
         }
 
         public void FromCSV(string[] values)
         {
             Id = int.Parse(values[0]);
-            EquipmentName = values[1];
+            EquipmentId = int.Parse(values[1]);
             Quantity = int.Parse(values[2]);
             Scheduled = DateTime.Parse(values[3]);
+            Executed = bool.Parse(values[4]);
         }
 
         public string[] ToCSV()
         {
-            return new string[] { Id.ToString(), EquipmentName.ToString(), Quantity.ToString(), Scheduled.ToString() };
+            return new string[] { Id.ToString(), EquipmentId.ToString(), Quantity.ToString(), Scheduled.ToString(), Executed.ToString() };
         }
 
-        internal void Copy(OrderItem item)
+        public object GetKey()
         {
-            Id = item.Id;
-            EquipmentName = item.EquipmentName;
-            Quantity = item.Quantity;
-            Scheduled = item.Scheduled;
+            return Id;
+        }
+
+        public void SetKey(object key)
+        {
+            Id = (int) key;
         }
     }
 }

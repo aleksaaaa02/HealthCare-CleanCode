@@ -1,4 +1,5 @@
 ﻿using HealthCare.Context;
+using HealthCare.Service;
 using HealthCare.ViewModel.ManagerViewModel;
 using System;
 using System.Collections.Generic;
@@ -21,15 +22,15 @@ namespace HealthCare.View.ManagerView
     /// <summary>
     /// Interaction logic for ManagerView.xaml
     /// </summary>
-    public partial class InventoryItemListingView : Window
+    public partial class InventoryListingView : Window
     {
         private InventoryListingViewModel _model;
         private Window _loginWindow;
-        public InventoryItemListingView(Window loginWindow, Hospital hospital)
+        public InventoryListingView(Window loginWindow, Inventory inv, EquipmentService es, RoomService rs)
         {
             InitializeComponent();
             _loginWindow = loginWindow;
-            _model = new InventoryListingViewModel(hospital);
+            _model = new InventoryListingViewModel(inv, es, rs);
             DataContext = _model;
         }
 

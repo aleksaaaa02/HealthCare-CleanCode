@@ -23,7 +23,7 @@ namespace HealthCare.ViewModel.NurseViewModel
         public void Update()
         {
             Patients.Clear();
-            foreach (var patient in _patientService.Patients)
+            foreach (var patient in _patientService.GetAll())
                 Patients.Add(patient);
         }
     }

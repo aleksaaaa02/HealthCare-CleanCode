@@ -145,7 +145,7 @@ namespace HealthCare.ViewModels.DoctorViewModel
         public void Update()
         {
             _patients.Clear();
-            foreach(Patient patient in _hospital.PatientService.Patients)
+            foreach(Patient patient in _hospital.PatientService.GetAll())
             {
                 if(_selected == patient) { SelectedPatient = new PatientViewModel(patient); }
                 _patients.Add(new PatientViewModel(patient));

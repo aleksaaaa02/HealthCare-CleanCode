@@ -1,4 +1,6 @@
 ﻿using HealthCare.Model;
+using HealthCare.Service;
+using HealthCare.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +11,14 @@ namespace HealthCare.ViewModel.ManagerViewModel
 {
     internal class InventoryFilter
     {
-        private List<InventoryItem> _items;
+        private List<InventoryItemViewModel> _items;
 
-        public InventoryFilter(List<InventoryItem> items)
+        public InventoryFilter(List<InventoryItemViewModel> items)
         {
             _items = items;
         }
 
-        public List<InventoryItem> GetFiltered()
+        public List<InventoryItemViewModel> GetFiltered()
         {
             return _items;
         }
@@ -26,10 +28,10 @@ namespace HealthCare.ViewModel.ManagerViewModel
             if (query == "") return;
             string[] tokens = query.Split(' ');
 
-            List<InventoryItem> filtered = new List<InventoryItem>();
+            List<InventoryItemViewModel> filtered = new List<InventoryItemViewModel>();
             foreach (var item in _items)
             {
-                if (_hasAllTokens(item, tokens))
+                if (HasAllTokens(item, tokens))
                 { filtered.Add(item); }
             }
             _items = filtered;
@@ -39,7 +41,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
         {
             if (!(quantities[0] || quantities[1] || quantities[2])) return;
 
-            List<InventoryItem> filtered = new List<InventoryItem>();
+            List<InventoryItemViewModel> filtered = new List<InventoryItemViewModel>();
             foreach (var item in _items)
             {
                 if (quantities[0] && item.Quantity == 0 ||
@@ -54,9 +56,9 @@ namespace HealthCare.ViewModel.ManagerViewModel
         {
             if (!(types[0] || types[1] || types[2] || types[3])) return;
 
-            List<InventoryItem> filtered = new List<InventoryItem>();
+            List<InventoryItemViewModel> filtered = new List<InventoryItemViewModel>();
             foreach (var item in _items)
-            {
+            {;
                 if (types[0] && item.Equipment.Type.Equals(EquipmentType.Examinational) ||
                     types[1] && item.Equipment.Type.Equals(EquipmentType.Operational) ||
                     types[2] && item.Equipment.Type.Equals(EquipmentType.RoomFurniture) ||
@@ -70,7 +72,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
         {
             if (!(types[0] || types[1] || types[2] || types[3] || types[4])) return;
 
-            List<InventoryItem> filtered = new List<InventoryItem>();
+            List<InventoryItemViewModel> filtered = new List<InventoryItemViewModel>();
             foreach (var item in _items)
             {
                 if (types[0] && item.Room.Type.Equals(RoomType.Examinational) ||
@@ -83,21 +85,21 @@ namespace HealthCare.ViewModel.ManagerViewModel
             _items = filtered;
         }
 
-        private bool _hasAllTokens(InventoryItem item, string[] tokens)
+        private bool HasAllTokens(InventoryItemViewModel item, string[] tokens)
         {
             foreach (string token in tokens)
             {
-                if (!(_containsToken(item.Equipment.Name, token) ||
-                    _containsToken(item.Room.Name, token) ||
-                    _containsToken(item.Quantity.ToString(), token) ||
-                    _containsToken(item.Equipment.TranslateType().ToString(), token) ||
-                    _containsToken(item.Room.TranslateType().ToString(), token)))
+                if (!(ContainsToken(item.Equipment.Name, token) ||
+                    ContainsToken(item.Room.Name, token) ||
+                    ContainsToken(item.Quantity.ToString(), token) ||
+                    ContainsToken(ViewUtil.Translate(item.Equipment.Type), token) ||
+                    ContainsToken(ViewUtil.Translate(item.Room.Type), token)))
                 { return false; }
             }
             return true;
         }
 
-        private bool _containsToken(string text, string token)
+        private bool ContainsToken(string text, string token)
         {
             token = token.Trim();
             return token == "" || text.ToLower().Contains(token);
