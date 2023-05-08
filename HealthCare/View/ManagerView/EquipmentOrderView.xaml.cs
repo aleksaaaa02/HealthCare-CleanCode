@@ -1,6 +1,7 @@
 ﻿using HealthCare.Context;
 using HealthCare.Exceptions;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.ViewModel.ManagerViewModel;
 using System;
 using System.Collections.Generic;
@@ -24,21 +25,24 @@ namespace HealthCare.View.ManagerView
     public partial class EquipmentOrderView : Window
     {
         private EquipmentOrderViewModel _model;
-        private readonly Hospital _hospital;
+        private readonly Inventory _inventory;
+        private readonly OrderService _orderService;
         private Window _loginWindow;
 
         public EquipmentOrderView(Window loginWindow, Hospital hospital)
         {
             InitializeComponent();
             _loginWindow = loginWindow;
-            _hospital = hospital;
-            _model = new EquipmentOrderViewModel(hospital);
+            _inventory = hospital.Inventory;
+            _orderService = hospital.OrderService;
+
+            _model = new EquipmentOrderViewModel(_inventory, hospital);
             DataContext = _model;
         }
 
         private void Button_Reset(object sender, RoutedEventArgs e)
         {
-            _model.LoadAll();
+            _model.Load();
         }
 
         private void Button_Exit(object sender, RoutedEventArgs e)
@@ -58,17 +62,17 @@ namespace HealthCare.View.ManagerView
 
             foreach (var item in _model.Items)
                 if (item.IsSelected)
-                    _makeOrder(item.EquipmentName, int.Parse(item.OrderQuantity));
+                    _makeOrder(item.EquipmentId, int.Parse(item.OrderQuantity));
 
             MessageBox.Show("Poručivanje uspešno.", "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Information);
-            _model.LoadAll();
+            _model.Load();
         }
 
-        private void _makeOrder(string equipmentName, int quantity)
+        private void _makeOrder(int equipmentId, int quantity)
         {
-            int id = _hospital.OrderService.NextId();
+            int id = _orderService.NextId();
             DateTime scheduled = DateTime.Now + new TimeSpan(24, 0, 0);
-            _hospital.OrderService.Add(new OrderItem(id, equipmentName, quantity, scheduled));
+            _orderService.Add(new OrderItem(id, equipmentId, quantity, scheduled, false));
         }
         
         private void _validate()

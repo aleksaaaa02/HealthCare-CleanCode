@@ -1,4 +1,4 @@
-﻿using HealthCare.Serializer;
+﻿using HealthCare.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace HealthCare.Model
         Male,
         Female
     }
-    public class User : ISerializable
+    public class User : ISerializable, IKey
     {
         public string Name { get; set; }
         public string LastName { get; set; }
@@ -37,7 +37,7 @@ namespace HealthCare.Model
             Gender = gender;
         }
 
-        public User() : this("", "", "", DateTime.Now, "", "", "", "", Gender.Female)
+        public User() : this("", "", "", DateTime.MinValue, "", "", "", "", Gender.Female)
         {
         }
 
@@ -58,6 +58,16 @@ namespace HealthCare.Model
             UserName = values[6];
             Password = values[7];
             Gender = (Gender) Enum.Parse(typeof(Gender), values[8]);
+        }
+
+        public object GetKey()
+        {
+            return JMBG;
+        }
+
+        public void SetKey(object key)
+        {
+            JMBG = (string) key;
         }
     }
 }

@@ -11,6 +11,8 @@ namespace HealthCare.Model
         public DateTime Start { get; set; }
         public TimeSpan Duration { get; set; }
 
+        public TimeSlot() : this(DateTime.MinValue, TimeSpan.Zero) { }
+
         public TimeSlot(DateTime start, TimeSpan duration)
         {
             Start = start;

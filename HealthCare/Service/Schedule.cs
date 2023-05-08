@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Storage;
-using HealthCare.Context;
 using System.Windows;
 
 namespace HealthCare.Service

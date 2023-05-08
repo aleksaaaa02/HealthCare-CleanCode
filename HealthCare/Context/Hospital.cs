@@ -44,27 +44,14 @@ namespace HealthCare.Context
 
         public void LoadAll()
         {
-            RoomService.Load();
-            NurseService.Load();
-            DoctorService.Load();
-            PatientService.Load();
-            EquipmentService.Load();
-            Inventory.Load();
-            OrderService.Load();
             Schedule.Load(Global.appointmentPath);
 
             FillAppointmentDetails();
-            FillInventoryDetails();
+            // ExecuteEquipmentOrders();
         }
 
         public void SaveAll()
         {
-            RoomService.Save();
-            DoctorService.Save();
-            PatientService.Save();
-            EquipmentService.Save();
-            Inventory.Save();
-            OrderService.Save();
             Schedule.Save(Global.appointmentPath);
         }
 
@@ -114,14 +101,16 @@ namespace HealthCare.Context
                 appointment.Patient = PatientService.GetAccount(appointment.Patient.JMBG);
             }
         }
-
-        private void FillInventoryDetails()
+        
+        private void ExecuteEquipmentOrders()
         {
-            foreach (InventoryItem item in Inventory.Items)
+            int warehouseId = RoomService.GetWarehouseId();
+            foreach (OrderItem item in OrderService.GetAll())
             {
-                item.Equipment = EquipmentService.Get(item.Equipment.Name);
-                item.Room = RoomService.Get(item.Room.Name);
+                if (!item.Executed && item.Scheduled >= DateTime.Now)
+                    Inventory.RestockInventoryItem(new InventoryItem(0, item.EquipmentId, warehouseId, item.Quantity));
             }
         }
+        
     }
 }

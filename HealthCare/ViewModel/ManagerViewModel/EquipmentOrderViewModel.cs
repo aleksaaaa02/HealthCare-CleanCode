@@ -1,5 +1,6 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,23 +12,27 @@ namespace HealthCare.ViewModel.ManagerViewModel
 {
     public class EquipmentOrderViewModel : ViewModelBase
     {
-        private readonly Hospital _hospital;
+        private readonly Inventory _inventory;
+        private readonly EquipmentService _equipmentService;
         public ObservableCollection<OrderItemViewModel> Items { get; set; }
 
-        public EquipmentOrderViewModel(Hospital hospital)
+        public EquipmentOrderViewModel(Inventory inventory, Hospital hospital)
         {
-            _hospital = hospital;
+            _inventory = inventory;
+            _equipmentService = hospital.EquipmentService;
+
             Items = new ObservableCollection<OrderItemViewModel>();
-            LoadAll();
+            Load();
         }
 
-        public void LoadAll()
+        public void Load()
         {
             Items.Clear();
-            foreach (var equipment in _hospital.Inventory.GetLowQuantityEquipment())
+            foreach (int equipmentId in _inventory.GetLowQuantityEquipment())
             {
+                var equipment = _equipmentService.Get(equipmentId);
                 if (equipment.Dynamic)
-                    Items.Add(new OrderItemViewModel(equipment, _hospital.Inventory.GetTotalQuantity(equipment.Name)));
+                    Items.Add(new OrderItemViewModel(equipment, _inventory.GetTotalQuantity(equipmentId)));
             }
         }
     }

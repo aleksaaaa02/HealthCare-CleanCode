@@ -1,4 +1,4 @@
-﻿using HealthCare.Serializer;
+﻿using HealthCare.Repository;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,37 +8,47 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
-    public class InventoryItem : ISerializable
+    public class InventoryItem : ISerializable, IKey
     {
-        public Equipment Equipment { get; set; }
-        public Room Room { get; set; }
+        public int Id { get; set; }
+        public int EquipmentId { get; set; }
+        public int RoomId { get; set; }
         public int Quantity { get; set; }
-        public InventoryItem() : this(new Equipment(), new Room(), 0) { }
-        public InventoryItem(Equipment equipment, Room room, int quantity)
+        public InventoryItem() : this(0) { }
+        public InventoryItem(int id) : this(id, 0, 0, 0) { }
+        public InventoryItem(int id, int equipmentId, int roomId, int quantity)
         {
-            Equipment = equipment;
-            Room = room;
+            Id = id;
+            EquipmentId = equipmentId;
+            RoomId = roomId;
             Quantity = quantity;
         }
 
         public string[] ToCSV()
         {
-            return new string[] { Equipment.Name, Room.Name, Quantity.ToString() };
+            return new string[] {
+                Id.ToString(), 
+                EquipmentId.ToString(), 
+                RoomId.ToString(), 
+                Quantity.ToString()};
         }
 
         public void FromCSV(string[] values)
         {
-            Equipment = new Equipment();
-            Room = new Room();
-
-            Equipment.Name = values[0];
-            Room.Name = values[1];
-            Quantity = int.Parse(values[2]);
+            Id = int.Parse(values[0]);
+            EquipmentId = int.Parse(values[1]);
+            RoomId = int.Parse(values[2]);
+            Quantity = int.Parse(values[3]);
         }
 
-        internal void Copy(InventoryItem item)
+        public object GetKey()
         {
-            Quantity = item.Quantity;
+            return Id;
+        }
+
+        public void SetKey(object key)
+        {
+            Id = (int) key;
         }
     }
 }
