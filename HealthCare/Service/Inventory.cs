@@ -1,5 +1,6 @@
 ﻿using HealthCare.Exceptions;
 using HealthCare.Model;
+using HealthCare.Repository;
 using HealthCare.Storage;
 using System;
 using System.Collections;
@@ -10,80 +11,40 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
-    public class Inventory
+    public class Inventory : NumericService<InventoryItem>
     {
-        public List<InventoryItem> Items { get; set; }
+        public Inventory(string filepath) : base(filepath) { }
 
-        private CsvStorage<InventoryItem> csvStorage;
-
-        public Inventory(string filepath)
-        {
-            Items = new List<InventoryItem>();
-            csvStorage = new CsvStorage<InventoryItem>(filepath);
-        }
-
-        public InventoryItem Get(string equipmentName, string roomName)
-        {
-            InventoryItem? found = Items.Find(x => 
-                x.Equipment.Name == equipmentName && 
-                x.Room.Name == roomName);
-            if (found != null) { return found; }
-            throw new ObjectNotFoundException();
-        }
-
-        public void Add(InventoryItem item)
-        {
-            if (Contains(item.Equipment.Name, item.Room.Name)) throw new ObjectAlreadyExistException();
-            Items.Add(item);
-        }
-
-        public void Remove(string equipmentName, string roomName)
-        {
-            if (!Contains(equipmentName, roomName)) throw new ObjectNotFoundException();
-            Items.RemoveAll(x =>
-                x.Equipment.Name == equipmentName &&
-                x.Room.Name == roomName);
-        }
-
-        public void Update(InventoryItem item)
-        {
-            if (!Contains(item.Equipment.Name, item.Room.Name)) throw new ObjectNotFoundException();
-            InventoryItem current = Get(item.Equipment.Name, item.Room.Name);
-            current.Copy(item);
-        }
-
-        public bool Contains(string equipmentName, string roomName)
-        {
-            return Items.FindIndex(x => 
-                x.Equipment.Name == equipmentName && 
-                x.Room.Name == roomName) >= 0;
-        }
-
-        public void Load()
-        {
-            Items = csvStorage.Load();
-        }
-        public void Save()
-        {
-            csvStorage.Save(Items);
-        }
-
-        public int GetTotalQuantity(string equipmentName)
+        public int GetTotalQuantity(int equipmentId)
         {
             int quantity = 0;
-            foreach (var item in Items)
-                if (item.Equipment.Name == equipmentName)
+            foreach (var item in _repository.Items())
+                if (item.EquipmentId == equipmentId)
                     quantity += item.Quantity;
             return quantity;
         }
 
-        public List<Equipment> GetLowQuantityEquipment(int threshold = 5)
+        public IEnumerable<int> GetLowQuantityEquipment(int threshold = 5)
         {
-            List<Equipment> equipment = new List<Equipment>();
-            foreach (var item in Items)
+            List<int> equipment = new List<int>();
+            foreach (var item in _repository.Items())
                 if (item.Quantity <= threshold)
-                    equipment.Add(item.Equipment);
+                    equipment.Add(item.EquipmentId);
             return equipment;
+        }
+
+        public void RestockInventoryItem(InventoryItem item)
+        {
+            InventoryItem? found = GetAll().Find(x => 
+                x.EquipmentId==item.EquipmentId && 
+                x.RoomId==item.RoomId);
+
+            if (found is not null) {
+                found.Quantity += item.Quantity;
+                Update(found);
+            } else {
+                Add(item);
+            }
         }
     }
 }

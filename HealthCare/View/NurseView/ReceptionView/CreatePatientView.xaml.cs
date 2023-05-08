@@ -30,7 +30,6 @@ namespace HealthCare.View.ReceptionView
             InitializeComponent();
             patientService = hospital.PatientService;
 
-            patientService.Load();
             patient = null;
             Record = null;
             this.JMBG = JMBG;
@@ -45,9 +44,8 @@ namespace HealthCare.View.ReceptionView
         }
         public bool ValidateFields()
         {
-            DateTime parsed;
             if (tbName.Text != "" && tbLastName.Text != "" && tbAddress.Text != "" && tbBirthDate.Text != "" &&
-                DateTime.TryParse(tbBirthDate.Text, out parsed) && tbJMBG.Text != "" && tbPhoneNumber.Text != "" &&
+                DateTime.TryParse(tbBirthDate.Text, out _) && tbJMBG.Text != "" && tbPhoneNumber.Text != "" &&
                 tbUsername.Text != "" && tbPassword.Text != "")
                 return true;
             return false;
@@ -91,7 +89,6 @@ namespace HealthCare.View.ReceptionView
                 CreatePatient();
                 if (!patientService.CreateAccount(patient))
                     ShowErrorMessageBox("Pacijent sa unetim JMBG vec postoji");
-                patientService.Save();
                 Record = null;
                 Close();
             }

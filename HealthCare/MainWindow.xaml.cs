@@ -23,7 +23,7 @@ namespace HealthCare
         {
             InitializeComponent();
 
-            _hospital = new Hospital("Poslednji trzaj");
+            _hospital = new Hospital("Venac");
             _hospital.LoadAll();
         }
 
@@ -60,9 +60,9 @@ namespace HealthCare
                 txtUserName.Clear();
                 txtPassword.Clear();
                 Hide();
-            } catch (IncorrectPasswordException e1) {
+            } catch (IncorrectPasswordException _) {
                 MessageBox.Show("Pogresna lozinka. Pokusajte ponovo.", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
-            } catch (UsernameNotFoundException e2) {
+            } catch (UsernameNotFoundException _) {
                 MessageBox.Show("Nepostojece korisnicko ime.", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }

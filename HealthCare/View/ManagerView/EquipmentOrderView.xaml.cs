@@ -1,5 +1,7 @@
 ﻿using HealthCare.Context;
+using HealthCare.Exceptions;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.ViewModel.ManagerViewModel;
 using System;
 using System.Collections.Generic;
@@ -22,21 +24,25 @@ namespace HealthCare.View.ManagerView
     /// </summary>
     public partial class EquipmentOrderView : Window
     {
-        private DynamicEquipmentListingViewModel _model;
-        private readonly Hospital _hospital;
+        private EquipmentOrderViewModel _model;
+        private readonly Inventory _inventory;
+        private readonly OrderService _orderService;
         private Window _loginWindow;
+
         public EquipmentOrderView(Window loginWindow, Hospital hospital)
         {
             InitializeComponent();
             _loginWindow = loginWindow;
-            _hospital = hospital;
-            _model = new DynamicEquipmentListingViewModel(hospital);
+            _inventory = hospital.Inventory;
+            _orderService = hospital.OrderService;
+
+            _model = new EquipmentOrderViewModel(_inventory, hospital);
             DataContext = _model;
         }
 
         private void Button_Reset(object sender, RoutedEventArgs e)
         {
-            _model.LoadAll();
+            _model.Load();
         }
 
         private void Button_Exit(object sender, RoutedEventArgs e)
@@ -47,53 +53,69 @@ namespace HealthCare.View.ManagerView
 
         private void Button_Order(object sender, RoutedEventArgs e)
         {
-            bool madeOrders = false;
+            try {
+                _validate();
+            } catch (ValidationException ve) {
+                MessageBox.Show(ve.Message, "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            foreach (var item in _model.Items)
+                if (item.IsSelected)
+                    _makeOrder(item.EquipmentId, int.Parse(item.OrderQuantity));
+
+            MessageBox.Show("Poručivanje uspešno.", "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Information);
+            _model.Load();
+        }
+
+        private void _makeOrder(int equipmentId, int quantity)
+        {
+            int id = _orderService.NextId();
+            DateTime scheduled = DateTime.Now + new TimeSpan(24, 0, 0);
+            _orderService.Add(new OrderItem(id, equipmentId, quantity, scheduled, false));
+        }
+        
+        private void _validate()
+        {
+            bool someSelected = false;
             foreach (var item in _model.Items)
             {
                 int quantity;
-                if (int.TryParse(item.OrderQuantity, out quantity) && quantity > 0)
-                {
-                    _makeOrder(item.EquipmentName, quantity);
-                    madeOrders = true;
-                }
+                if (item.IsSelected && int.TryParse(item.OrderQuantity, out quantity) && quantity < 0)
+                    throw new ValidationException("Količina mora da bude prirodan broj.");
+
+                someSelected |= item.IsSelected;
             }
-            if (!madeOrders)
-                MessageBox.Show("Nema unetih porudžbina.", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
-            else MessageBox.Show("Poručivanje uspešno.", "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Information);
-            _model.LoadAll();
+            if (!someSelected)
+                throw new ValidationException("Nema unetih porudžbina.");
         }
 
-        private void _makeOrder(string equipmentName, int quantity)
+        public void HighlightRows(object sender, EventArgs e)
         {
-            int id = _hospital.OrderService.NextId();
-            DateTime scheduled = DateTime.Now + new TimeSpan(24, 0, 0);
-            _hospital.OrderService.Add(new OrderItem(id, equipmentName, quantity, scheduled));
-        }
-
-        private void ValidateTextBox(object sender, TextChangedEventArgs e)
-        {
-            TextBox? textBox = sender as TextBox;
-            if (textBox is null) return;
-
-            if (textBox.Text != "" && !int.TryParse(textBox.Text, out _))
-            {
-                TextChange textChange = e.Changes.ElementAt(0);
-                textBox.Text = textBox.Text.Remove(textChange.Offset, textChange.AddedLength);
-            }
-            else _highlightRows();
-        }
-
-        private void _highlightRows()
-        {
-            foreach (var item in lvDynamicEquipment.Items)
+            foreach (OrderItemViewModel item in lvDynamicEquipment.Items)
             {
                 var row = (ListViewItem) lvDynamicEquipment.ItemContainerGenerator.ContainerFromItem(item);
-                TextBox? tb = ViewUtility.FindChild<TextBox>(row, "tbQuantity");
-                if (tb is not null && tb.Text.Trim() != "")
+                if (item.IsSelected)
                     row.Background = ViewGlobal.CHIGH2;
                 else
                     row.Background = ViewGlobal.CNEUT;
             }
+        }
+
+        private void tbQuantity_Focused(object sender, EventArgs e)
+        {
+            TextBox? tb = sender as TextBox;
+            if (tb is null) return;
+            if (tb.Text == "0")
+                tb.Text = "";
+        }
+
+        private void tbQuantity_Unfocused(object sender, EventArgs e)
+        {
+            TextBox? tb = sender as TextBox;
+            if (tb is null) return;
+            if (tb.Text == "")
+                tb.Text = "0";
         }
     }
 }

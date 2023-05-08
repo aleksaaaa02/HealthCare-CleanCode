@@ -8,29 +8,13 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
-    public class DoctorService
+    public class DoctorService : Service<Doctor>
     {
-        public List<Doctor> Doctors = new List<Doctor>();
-        private CsvStorage<Doctor> csvStorage;
-        
-
-        public DoctorService(string filePath) 
-        { 
-            csvStorage = new CsvStorage<Doctor>(filePath);
-        }  
+        public DoctorService(string filePath) : base(filePath) { }  
 
         public Doctor GetAccount(string JMBG)
         {
-            return Doctors.Find(x => x.JMBG == JMBG);
-        }
-
-        public void Load()
-        {
-            Doctors = csvStorage.Load();
-        }
-        public void Save() 
-        {
-            csvStorage.Save(Doctors);
+            return Get(JMBG);
         }
         public List<Patient> GetExaminedPatients(Doctor doctor)
         {
@@ -48,19 +32,19 @@ namespace HealthCare.Service
 
         public List<Doctor> GetAccounts() 
         {
-            return Doctors;
+            return GetAll();
         }
 
         public Doctor? GetByUsername(string username)
         {
-            return Doctors.Find(x => x.UserName == username);
+            return GetAll().Find(x => x.UserName == username);
         }
 
         public List<Doctor> GetBySpecialization(String specialization)
         {
             List<Doctor> specialists = new List<Doctor>();
 
-            foreach(Doctor doctor in Doctors)
+            foreach(Doctor doctor in GetAll())
             {
                 if (doctor.Specialization == specialization)
                     specialists.Add(doctor);
@@ -69,10 +53,10 @@ namespace HealthCare.Service
             return specialists;
         }
 
-        public HashSet<String> GetSpecializations()
+        public HashSet<string> GetSpecializations()
         {
-            HashSet<String> specializations = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            foreach (Doctor doctor in Doctors)
+            HashSet<string> specializations = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (Doctor doctor in GetAll())
                 specializations.Add(doctor.Specialization);
             return specializations;
         }
