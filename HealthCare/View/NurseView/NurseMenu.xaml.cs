@@ -1,5 +1,6 @@
 ﻿using HealthCare.Context;
 using HealthCare.View.ReceptionView;
+using HealthCare.View.UrgentAppointmentView;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,11 @@ namespace HealthCare.View.PatientView
         private void mnuReception_Click(object sender, RoutedEventArgs e)
         {
             new MainReceptionView(hospital).ShowDialog();
+        }
+
+        private void mnuUrgent_Click(object sender, RoutedEventArgs e)
+        {
+            new UrgentView(hospital).ShowDialog();
         }
     }
 }
