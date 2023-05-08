@@ -143,7 +143,7 @@ namespace HealthCare.Service
             return null;
         }
 
-        public static Appointment? GetSoonest(TimeSpan duration, List<Doctor> specialists)
+        public static Appointment? GetUrgent(TimeSpan duration, List<Doctor> specialists)
         {
             DateTime soonest = DateTime.MaxValue;
             Doctor chosen = new Doctor();
@@ -163,7 +163,7 @@ namespace HealthCare.Service
                     DateTime end = appointment.TimeSlot.GetEnd();
                     if (end > DateTime.Now &&
                         doctor.IsAvailable(new TimeSlot(end, duration))
-                        && end < soonest)
+                        && end < soonest && !appointment.IsUrgent)
                     {
                         soonest = end;
                         chosen = doctor;
@@ -184,15 +184,9 @@ namespace HealthCare.Service
 
             foreach (Appointment appointment in GetDoctorAppointments(specialist))
             {
-                if (appointment.AppointmentID == 9)
-                {
-                    int aa = 1;
-                }
                 DateTime start = appointment.TimeSlot.Start;
-                if (start >= DateTime.Now && (DateTime.Now + new TimeSpan(2, 0, 0)) > start)
-                {
+                if (start >= DateTime.Now && (DateTime.Now + new TimeSpan(2, 0, 0)) > start && !appointment.IsUrgent)
                     postponable.Add(appointment);
-                }
             }
 
             return FilterPostponable(duration, postponable);
@@ -218,13 +212,13 @@ namespace HealthCare.Service
             List<Appointment> appointments = new List<Appointment>();
             foreach (Appointment a in Appointments)
             {
-                if (a.Doctor == appointment.Doctor && a.TimeSlot.Start >= appointment.TimeSlot.GetEnd())
-                    appointments.Add(a);
+                if (a.Doctor.Equals(appointment.Doctor) && a.TimeSlot.Start >= appointment.TimeSlot.GetEnd() && a.Patient.Equals(appointment.Patient))
+                    appointments.Add(a);  
             }
             return appointments;
         }
 
-        public static DateTime SoonestPostponable(Appointment appointment)
+        public static DateTime GetSoonestStartingTime(Appointment appointment)
         {
             DateTime? postpone = null;
 
@@ -241,10 +235,20 @@ namespace HealthCare.Service
             return appointments.Last().TimeSlot.GetEnd();
         }
 
-        public static void PostponeAppointmentForSoonestTime(Appointment appointment)
+        public static void PostponeAppointment(Appointment appointment)
         {
-            appointment.TimeSlot.Start = SoonestPostponable(appointment);
+            appointment.TimeSlot.Start = GetSoonestStartingTime(appointment);
             UpdateAppointment(appointment);
+        }
+
+        public static void CreateUrgentAppointment(Appointment appointment)
+        {
+            foreach (Appointment app in GetPossibleIntersections(appointment))
+                PostponeAppointment(app);
+            appointment.AppointmentID = NextId();
+            appointment.IsUrgent = true;
+            Appointments.Add(appointment);
+            Save(Global.appointmentPath);
         }
     }
 }

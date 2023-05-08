@@ -50,8 +50,8 @@ namespace HealthCare.View.UrgentAppointmentView
             }
             newAppointment.TimeSlot.Start = appointment.TimeSlot.Start;
             newAppointment.Doctor = appointment.Doctor;
-            Schedule.PostponeAppointmentForSoonestTime(appointment);
-            Schedule.CreateAppointment(newAppointment);
+            Schedule.PostponeAppointment(appointment);
+            Schedule.CreateUrgentAppointment(newAppointment);
             Close();
         }
 

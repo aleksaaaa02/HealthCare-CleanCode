@@ -74,12 +74,11 @@ namespace HealthCare.View.UrgentAppointmentView
                 TimeSpan duration = new TimeSpan(0, int.Parse(tbDuration.Text), 0);
                 List<Doctor> specialists = hospital.DoctorService.GetBySpecialization(cbSpecialization.SelectedValue.ToString());
 
-                Appointment? appointment = Schedule.GetSoonest(duration, specialists);
+                Appointment? appointment = Schedule.GetUrgent(duration, specialists);
                 if (appointment is not null)
                 {
                     appointment = FillAppointmentDetails(appointment);
-                    ShowErrorMessageBox("GOOOD.");
-                    Schedule.CreateAppointment(appointment);
+                    Schedule.CreateUrgentAppointment(appointment);
                     return;
                 }
 
@@ -88,7 +87,7 @@ namespace HealthCare.View.UrgentAppointmentView
                 {
                     postponable.AddRange(Schedule.GetPostponable(duration, doctor));
                 }
-                postponable = postponable.OrderBy(x => Schedule.SoonestPostponable(x)).ToList();
+                postponable = postponable.OrderBy(x => Schedule.GetSoonestStartingTime(x)).ToList();
 
                 appointment = FillAppointmentDetails(appointment);
                 appointment.TimeSlot = new TimeSlot(DateTime.MinValue, duration);
@@ -110,7 +109,6 @@ namespace HealthCare.View.UrgentAppointmentView
             appointment.Patient = patient;
             appointment.AppointmentID = Schedule.NextId();
             appointment.IsOperation = (cbOperation.IsChecked is bool Checked && Checked);
-
             return appointment;
         }
 
