@@ -50,5 +50,6 @@ namespace HealthCare.Service
         {
             return GetAll().FindAll(x => x.RoomId==roomId);
         }
+
     }
 }

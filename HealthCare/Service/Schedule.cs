@@ -226,5 +226,11 @@ namespace HealthCare.Service
             }
             return postpone;
         }
+
+        public static bool HasAppointmentStarted(Appointment appointment)
+        {
+            return appointment.TimeSlot.Start < DateTime.Now && appointment.TimeSlot.GetEnd() > DateTime.Now;
+        }
+
     }
 }
