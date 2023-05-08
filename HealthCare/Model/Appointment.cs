@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HealthCare.Serializer;
+using HealthCare.Repository;
 
 namespace HealthCare.Model
 {
-    public class Appointment : ISerializable
+    public class Appointment : ISerializable, IKey
     {
         public int AppointmentID {get;set;}
         public Patient Patient { get; set; }
@@ -17,7 +17,7 @@ namespace HealthCare.Model
         public bool IsOperation { get; set; }
         public int AnamnesisID { get; set; }
 
-        public Appointment()
+        public Appointment() : this(new Patient(), new Doctor(), new TimeSlot(), false)
         {
             
         }
@@ -58,6 +58,16 @@ namespace HealthCare.Model
             TimeSlot = TimeSlot.Parse(values[3]);
             IsOperation = Convert.ToBoolean(values[4]);
             AnamnesisID = int.Parse(values[5]);
+        }
+
+        public object GetKey()
+        {
+            return AppointmentID;
+        }
+
+        public void SetKey(object key)
+        {
+            AppointmentID = (int) key;
         }
     }
 }

@@ -21,6 +21,13 @@
             <ListView Name="lvDynamicEquipment" ItemsSource="{Binding Items}">
                 <ListView.View>
                     <GridView>
+                        <GridViewColumn Width="auto" Header=" ">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox MinWidth="50" Name="cbSelect" IsChecked="{Binding IsSelected}" Checked="HighlightRows" Unchecked="HighlightRows"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn Width="auto" Header="Oprema">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -38,14 +45,16 @@
                         <GridViewColumn Width="auto" Header="Trenutno stanje">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock MinWidth="50" Name="aa" Text="{Binding CurrentQuantity}" TextAlignment="Left" Margin="20 0"/>
+                                    <TextBlock MinWidth="50" Text="{Binding CurrentQuantity}" TextAlignment="Left" Margin="20 0"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Width="auto" Header="Narudžbina">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox MinWidth="40" Name="tbQuantity" Text="{Binding OrderQuantity, Mode=TwoWay}" TextChanged="ValidateTextBox" />
+                                    <TextBox MinWidth="40" Name="tbQuantity" 
+                                             Text="{Binding OrderQuantity, Mode=TwoWay}" 
+                                             GotFocus="tbQuantity_Focused" LostFocus="tbQuantity_Unfocused"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

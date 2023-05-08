@@ -1,4 +1,4 @@
-﻿using HealthCare.Model;
+using HealthCare.Model;
 using HealthCare.Storage;
 using System;
 using System.Collections.Generic;
@@ -8,43 +8,20 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
-    public class AnamnesisService
+    internal class AnamnesisService : NumericService<Anamnesis>
     {
-        public List<Anamnesis> Anamneses = new List<Anamnesis>();
-        private CsvStorage<Anamnesis> csvStorage;
-
-        public AnamnesisService(string filepath)
-        {
-            csvStorage = new CsvStorage<Anamnesis>(filepath);
-        }
-
-        public void Load()
-        {
-            Anamneses = csvStorage.Load();
-        }
-
-        public void Save()
-        {
-            csvStorage.Save(Anamneses);
-        }
+        public AnamnesisService(string filepath) : base(filepath) { }
 
         public Anamnesis? GetByID(int ID)
         {
-            return Anamneses.Find(x => x.ID == ID);
-        }
-
-        public int NextId()
-        {
-            if (Anamneses.Count == 0)
-                return 1;
-            return Anamneses.Max(s => s.ID) + 1;
+            return Get(ID);
         }
 
         public int AddAnamnesis(Anamnesis anamnesis)
         {
             int ID = NextId();
             anamnesis.ID = ID;
-            Anamneses.Add(anamnesis);
+            Add(anamnesis);
             return ID;
         }
     }

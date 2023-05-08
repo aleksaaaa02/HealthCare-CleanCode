@@ -82,7 +82,7 @@ namespace HealthCare.View.AppointmentView
         public void loadData()
         {
             List<Appointment> appointments = Schedule.GetPatientAppointments((Patient)_hospital.Current);
-            List<Doctor> doctors = _hospital.DoctorService.Doctors;
+            List<Doctor> doctors = _hospital.DoctorService.GetAll();
             appListView.ItemsSource = new ObservableCollection<Appointment>(appointments);
             doctorListView.ItemsSource = new ObservableCollection<Doctor>(doctors);
 

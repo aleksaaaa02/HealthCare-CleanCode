@@ -1,4 +1,4 @@
-﻿using HealthCare.Serializer;
+﻿using HealthCare.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Windows.Media.Media3D;
 
 namespace HealthCare.Model
 {
-    public class Anamnesis : ISerializable
+    public class Anamnesis : ISerializable, IKey
     {
         public int ID { get; set; }
         public string DoctorsObservations { get; set; }
@@ -50,6 +50,16 @@ namespace HealthCare.Model
             string symptoms = string.Join("|", Symptoms);
             string[] csvValues = { ID.ToString(),DoctorsObservations,medicalHistory,symptoms,allergies};
             return csvValues;
+        }
+
+        public object GetKey()
+        {
+            return ID;
+        }
+
+        public void SetKey(object key)
+        {
+            ID = (int) key;
         }
     }
 }

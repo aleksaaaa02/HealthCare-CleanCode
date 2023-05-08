@@ -44,8 +44,6 @@ namespace HealthCare.View.PatientView
             vm = new PatientViewModel(patientService);
             DataContext = vm;
 
-            patientService.Load();
-
             vm.Update();
             patient = null;
             Record = null;
@@ -63,7 +61,6 @@ namespace HealthCare.View.PatientView
                 CreatePatient();
                 if (!patientService.CreateAccount(patient))
                     ShowErrorMessageBox("Pacijent sa unetim JMBG vec postoji");
-                patientService.Save();
                 Record = null;
                 vm.Update();
             }
@@ -94,7 +91,6 @@ namespace HealthCare.View.PatientView
                 {
                     ShowErrorMessageBox("Pacijent sa unetim JMBG ne postoji");
                 }
-                patientService.Save();
                 ClearBoxes();
                 vm.Update();
             }
@@ -134,7 +130,6 @@ namespace HealthCare.View.PatientView
                 CreatePatient();
                 if(!patientService.UpdateAccount(patient))
                     ShowErrorMessageBox("Pacijent sa unetim JMBG ne postoji");
-                patientService.Save();
                 vm.Update();
             }
             else
