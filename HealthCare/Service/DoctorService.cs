@@ -44,7 +44,7 @@ namespace HealthCare.Service
         {
             List<Doctor> specialists = new List<Doctor>();
 
-            foreach(Doctor doctor in Doctors)
+            foreach(Doctor doctor in GetAll())
             {
                 if (doctor.Specialization == specialization)
                     specialists.Add(doctor);
@@ -53,10 +53,10 @@ namespace HealthCare.Service
             return specialists;
         }
 
-        public HashSet<String> GetSpecializations()
+        public HashSet<string> GetSpecializations()
         {
-            HashSet<String> specializations = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            foreach (Doctor doctor in Doctors)
+            HashSet<string> specializations = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (Doctor doctor in GetAll())
                 specializations.Add(doctor.Specialization);
             return specializations;
         }

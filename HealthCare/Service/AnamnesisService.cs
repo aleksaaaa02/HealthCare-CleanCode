@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
-    internal class AnamnesisService : NumericService<Anamnesis>
+    public class AnamnesisService : NumericService<Anamnesis>
     {
         public AnamnesisService(string filepath) : base(filepath) { }
 
