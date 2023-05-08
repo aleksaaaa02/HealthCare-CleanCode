@@ -19,14 +19,15 @@ namespace HealthCare.Context
         public string Name { get; set; }
         public User? Current { get; set; }
 
+        public Inventory Inventory;
         public RoomService RoomService;
         public NurseService NurseService;
+        public OrderService OrderService;
         public DoctorService DoctorService;
         public PatientService PatientService;
-        public EquipmentService EquipmentService;
         public AnamnesisService AnamnesisService;
-        public Inventory Inventory;
-        public OrderService OrderService;
+        public EquipmentService EquipmentService;
+        public NotificationService NotificationService;
 
         public Hospital() : this("Bolnica") { }
         public Hospital(string name)
@@ -35,13 +36,14 @@ namespace HealthCare.Context
             Current = null;
 
             RoomService = new RoomService(Global.roomPath);
+            Inventory = new Inventory(Global.inventoryPath);
+            OrderService = new OrderService(Global.orderPath);
             NurseService = new NurseService(Global.nursePath);
             DoctorService = new DoctorService(Global.doctorPath);
             PatientService = new PatientService(Global.patientPath);
             EquipmentService = new EquipmentService(Global.equipmentPath);
             AnamnesisService = new AnamnesisService(Global.anamnesisPath);
-            Inventory = new Inventory(Global.inventoryPath);
-            OrderService = new OrderService(Global.orderPath);
+            NotificationService = new NotificationService(Global.notificationPath);
         }
 
         public void LoadAll()
