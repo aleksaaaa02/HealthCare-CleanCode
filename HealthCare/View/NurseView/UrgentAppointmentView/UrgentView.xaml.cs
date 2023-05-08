@@ -91,9 +91,7 @@ namespace HealthCare.View.UrgentAppointmentView
 
                 appointment = FillAppointmentDetails(appointment);
                 appointment.TimeSlot = new TimeSlot(DateTime.MinValue, duration);
-                new PostponableAppointmentsView(appointment, postponable).ShowDialog();
-
-                // i logguje poruku userima
+                new PostponableAppointmentsView(appointment, postponable,hospital).ShowDialog();
             }
             else
             {

@@ -10,6 +10,7 @@ using HealthCare.View.PatientView;
 using System.Windows;
 using HealthCare.View.ReceptionView;
 using HealthCare.View.UrgentAppointmentView;
+using HealthCare.Model;
 
 namespace HealthCare
 {
@@ -40,7 +41,8 @@ namespace HealthCare
 
             try
             {
-                switch(_hospital.LoginRole(username, password))
+                ShowNotifications();
+                switch (_hospital.LoginRole(username, password))
                 {
                     case UserRole.Manager:
                         new EquipmentOrderView(this, _hospital).Show();
@@ -65,6 +67,14 @@ namespace HealthCare
             } catch (UsernameNotFoundException _) {
                 MessageBox.Show("Nepostojece korisnicko ime.", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+
+        private void ShowNotifications()
+        {
+            if (_hospital.Current is null)
+                return;
+            foreach(Notification notification in _hospital.NotificationService.GetForUser(_hospital.Current.JMBG)) 
+                MessageBox.Show(notification.Text,"Obavestenje",MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

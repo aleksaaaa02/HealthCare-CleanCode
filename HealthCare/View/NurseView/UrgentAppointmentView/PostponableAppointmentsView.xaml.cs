@@ -24,10 +24,12 @@ namespace HealthCare.View.UrgentAppointmentView
         private PostponableAppointmentsViewModel vm;
         private Appointment appointment;
         private Appointment newAppointment;
-        public PostponableAppointmentsView(Appointment newAppointment, List<Appointment> postponable)
+        private readonly Hospital hospital;
+        public PostponableAppointmentsView(Appointment newAppointment, List<Appointment> postponable,Hospital hospital)
         {
             InitializeComponent();
             this.newAppointment = newAppointment;
+            this.hospital = hospital;
             vm = new PostponableAppointmentsViewModel(postponable);
             DataContext = vm;
         }
@@ -52,6 +54,10 @@ namespace HealthCare.View.UrgentAppointmentView
             newAppointment.Doctor = appointment.Doctor;
             Schedule.PostponeAppointment(appointment);
             Schedule.CreateUrgentAppointment(newAppointment);
+            hospital.NotificationService.Add(new Notification(
+                new List<string>() { appointment.Doctor.JMBG, appointment.Patient.JMBG}, 
+                "Appointment sa ID " + appointment.AppointmentID + " je pomeren",
+                false));
             Close();
         }
 
