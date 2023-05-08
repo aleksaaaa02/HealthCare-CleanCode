@@ -41,6 +41,12 @@ namespace HealthCare.Command
                 return;
             }
 
+            if (!Schedule.HasAppointmentStarted(appointment))
+            {
+                MessageBox.Show("Pregled jos uvek nije poceo!", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             new RoomReservationView(_hospital, appointment).Show();
 
         }

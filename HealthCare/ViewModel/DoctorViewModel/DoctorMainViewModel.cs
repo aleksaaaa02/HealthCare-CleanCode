@@ -76,7 +76,7 @@ namespace HealthCare.ViewModels.DoctorViewModel
             CreateAppointmentViewCommand = new MakeAppointmentNavigationCommand(hospital, this);
             EditAppointmentCommand = new EditAppointmentDoctorCommand(hospital, this);
             DeleteAppointmentCommand = new DeleteAppointmentCommand(hospital, this);
-            ShowDetailedPatientInfoCommand = new ShowPatientInfoCommand(hospital, this);
+            ShowDetailedPatientInfoCommand = new ShowPatientInfoCommand(hospital, this, false);
             ApplyFilterCommand = new ApplyFilterCommand(hospital, this);
             ShowPatientSearchCommand = new ShowPatientSearchViewCommand(hospital);
             StartExaminationCommand = new ShowReservationDialogCommand(hospital, this);

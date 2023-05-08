@@ -1,6 +1,7 @@
 ﻿using HealthCare.Command;
 using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.ViewModel.DoctorViewModel.Examination.Commands;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace HealthCare.ViewModel.DoctorViewModel
+namespace HealthCare.ViewModel.DoctorViewModel.Examination
 {
     public class DoctorExamViewModel : ViewModelBase
     {
@@ -134,19 +135,30 @@ namespace HealthCare.ViewModel.DoctorViewModel
             }
         }
 
+        private string _conclusion;
+        public string Conclusion
+        {
+            get { return _conclusion; }
+            set
+            {
+                _conclusion = value;
+                OnPropertyChanged(nameof(Conclusion));
+            }
+        }
 
         public ICommand FinishExaminationCommand { get; }
         public ICommand CancelExaminationCommand { get; }
         public ICommand UpdatePatientCommand { get; }
 
-        public DoctorExamViewModel(Hospital hospital, Window window, Appointment appointment, int roomId) 
+        public DoctorExamViewModel(Hospital hospital, Window window, Appointment appointment, int roomId)
         {
             _hospital = hospital;
             _appointment = appointment;
             _selectedPatient = _appointment.Patient;
-            //UpdatePatientCommand = new ShowPatientInfoCommand(_hospital,)
+
+            UpdatePatientCommand = new ShowPatientInfoCommand(hospital, this, true);
             CancelExaminationCommand = new CancelCommand(window);
-            
+            FinishExaminationCommand = new FinishExaminationCommand(hospital, window, appointment, this, roomId);
 
             LoadView();
         }
@@ -168,7 +180,7 @@ namespace HealthCare.ViewModel.DoctorViewModel
         public void Update()
         {
             _previousDiseases.Clear();
-            foreach(var disease in _selectedPatient.MedicalRecord.MedicalHistory)
+            foreach (var disease in _selectedPatient.MedicalRecord.MedicalHistory)
             {
                 _previousDiseases.Add(disease);
             }

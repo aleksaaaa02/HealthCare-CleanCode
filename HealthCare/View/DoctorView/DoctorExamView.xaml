@@ -34,6 +34,7 @@
                     <TextBox Text="{Binding Height}" HorizontalAlignment="Left" IsReadOnly="True" Width="100" TextAlignment="Center"/>
                     <Label Content="Tezina (kg):"/>
                     <TextBox Text="{Binding Weight}" HorizontalAlignment="Left" IsReadOnly="True" Width="100" TextAlignment="Center"/>
+                    <TextBlock Text="Istorija Bolestio" FontSize="20" FontWeight="Bold"/>
                 </StackPanel>
             </ScrollViewer>
 
@@ -53,7 +54,7 @@
                 </ListView>
             </Grid>
             <Grid Grid.Row = "2" Margin="10 0">
-                <Button Content="Azuriraj zdravstveni karton" Width="150" Margin="0 5"/>
+                <Button Content="Azuriraj zdravstveni karton" Width="150" Margin="0 5" Command="{Binding UpdatePatientCommand}"/>
             </Grid>
         </Grid>
         <Grid Grid.Column="1">
@@ -66,22 +67,19 @@
                 <StackPanel Margin="10 0">
                     <TextBlock Text="Anamneza" HorizontalAlignment="Left" FontSize="24" FontWeight="Bold"/>
 
-                    <Label Content="Istorija bolesti:" HorizontalAlignment="Left"/>
-                    <TextBox VerticalScrollBarVisibility="Visible" Height="100" />
-
                     <Label Content="Simptomi:" HorizontalAlignment="Left"/>
                     <TextBox VerticalScrollBarVisibility="Visible" Text="{Binding Symptoms}" Height="100" Focusable="False"/>
 
-                    <Label Content="Alergije:" HorizontalAlignment="Left"/>
-                    <TextBox VerticalScrollBarVisibility="Visible" Height="100" />
+                    <Label Content="Alergije:" HorizontalAlignment="Left" />
+                    <TextBox VerticalScrollBarVisibility="Visible" Height="100" Focusable="False"/>
                 
                     <Label Content="Zapazanja:" HorizontalAlignment="Left"/>
-                    <TextBox VerticalScrollBarVisibility="Visible" Height="125" />
+                    <TextBox VerticalScrollBarVisibility="Visible" Height="125" Text="{Binding Conclusion}"/>
                 </StackPanel>
             </ScrollViewer>
             <StackPanel Grid.Row="1" VerticalAlignment="Center">
-                <Button Content="Zavrsi Pregled" Name="btnAdd" HorizontalAlignment="Center" Margin="0 0 0 5" Width="120" Height="30"  VerticalAlignment="Center"/>
-                <Button Content="Izadji" Name="btnClose" HorizontalAlignment="Center" Margin="0 5 0 0" Width="120" Height="30"  VerticalAlignment="Center"/>
+                <Button Content="Zavrsi Pregled" HorizontalAlignment="Center" Margin="0 0 0 5" Width="120" Height="30" Command="{Binding FinishExaminationCommand}"  VerticalAlignment="Center"/>
+                <Button Content="Izadji" HorizontalAlignment="Center" Margin="0 5 0 0" Width="120" Height="30" Command="{Binding CancelExaminationCommand}" VerticalAlignment="Center"/>
             </StackPanel>
         </Grid>
 

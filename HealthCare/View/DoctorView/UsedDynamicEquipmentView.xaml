@@ -12,24 +12,24 @@
             <ColumnDefinition Width="0.35*"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
-            <ListView x:Name="DynamicEquipmentListView" Grid.ColumnSpan="2" SelectedItem="{}" ItemsSource="{Binding}" SelectionMode="Single">
+            <ListView x:Name="DynamicEquipmentListView" Grid.ColumnSpan="2" SelectedItem="{Binding SelectedItem}" ItemsSource="{Binding UsedDynamicEquipment}" SelectionMode="Single">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Tip opreme" DisplayMemberBinding="{Binding AppointmentID}">
+                        <GridViewColumn Header="Naziv opreme" DisplayMemberBinding="{Binding EquipmentName}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Padding="0 0 20 0" Text="1"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Naziv opreme" DisplayMemberBinding="{Binding AppointmentID}">
+                        <GridViewColumn Header="ID opreme" DisplayMemberBinding="{Binding EquipmentId}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Padding="0 0 20 0" Text="1"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Stanje" DisplayMemberBinding="{Binding AppointmentID}">
+                        <GridViewColumn Header="Stanje" DisplayMemberBinding="{Binding CurrentQuantity}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Padding="0 0 20 0" Text="1"/>
@@ -41,13 +41,20 @@
             </ListView>
         </Grid>
         <Grid Grid.Column="1">
-            <StackPanel>
-                <TextBlock Text="Izmena stanja dinamicka" FontSize="14" Margin="5 5 0 0" FontWeight="Bold"/>
-                <TextBlock Text="opreme nakon pregleda" FontSize="14" Margin="5 0" FontWeight="Bold"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.8*"/>
+                <RowDefinition Height="0.2*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <TextBlock Text="Izmena stanja dinamicka" FontSize="18" Margin="5 5 0 0" FontWeight="Bold"/>
+                <TextBlock Text="opreme nakon pregleda" FontSize="18" Margin="5 0" FontWeight="Bold"/>
+                <Label Content="Odaberite opremu sa leve strane" />
                 <Label Margin="0 50"/>
                 <Label Content="Unesite koliko ste opreme potrosili:"/>
-                <TextBox Margin="5 0"/>
+                <TextBox Margin="5 0" Text="{Binding ItemQuantity}" PreviewTextInput="NumberValidationTextBox"/>
+                <Button Content="Potrosi odabranu opremu" Margin="5" Command="{Binding UseEquipmentCommand}"/>
             </StackPanel>
+            <Button Content="Zavrsi" Grid.Row="1" Width="150" Height="30" Command="{Binding EndExaminationCommand}"/>
         </Grid>
 
     </Grid>

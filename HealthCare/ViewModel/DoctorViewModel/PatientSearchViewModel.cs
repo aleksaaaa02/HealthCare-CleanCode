@@ -36,7 +36,7 @@ namespace HealthCare.ViewModel.DoctorViewModel
         {
             _hospital = hospital;
             patients = new ObservableCollection<PatientViewModel>();
-            ShowEditPatientCommand = new ShowPatientInfoCommand(hospital, this);
+            ShowEditPatientCommand = new ShowPatientInfoCommand(hospital, this, true);
             Update();
         }
 
