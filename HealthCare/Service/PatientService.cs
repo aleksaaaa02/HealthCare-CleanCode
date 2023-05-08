@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,7 +51,7 @@ namespace HealthCare.Service
 			return false;
         }
 
-		public Patient GetAccount(string JMBG)
+		public Patient? GetAccount(string JMBG)
 		{
             return Get(JMBG);
 		}

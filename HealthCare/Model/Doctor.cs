@@ -39,11 +39,8 @@ namespace HealthCare.Model
         }
         public bool IsCapable(string NeededSpecialization)
         {
-            if (Specialization == NeededSpecialization)
-            {
-                return true;
-            }
-            return false;
+            return Specialization == NeededSpecialization;
+            
         }
 
         public new string[] ToCSV()

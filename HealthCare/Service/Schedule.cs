@@ -7,6 +7,7 @@ using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Storage;
 using System.Windows;
+using HealthCare.Command;
 
 namespace HealthCare.Service
 {
@@ -124,6 +125,106 @@ namespace HealthCare.Service
         {
             CsvStorage<Appointment> csvStorage = new CsvStorage<Appointment>(filepath);
             csvStorage.Save(Appointments);
+        }
+
+        public static Appointment? GetStartingAppointment(string JMBG)
+        {
+            DateTime reception = DateTime.Now;
+
+            foreach(Appointment appointment in Appointments)
+            {
+                if(!appointment.IsOperation && reception<appointment.TimeSlot.Start 
+                    && reception >= appointment.TimeSlot.Start.AddMinutes(-15) 
+                    && appointment.Patient.JMBG == JMBG)
+                {
+                    return appointment;
+                }
+            }
+            return null;
+        }
+
+        public static Appointment? GetSoonest(TimeSpan duration,List<Doctor> specialists)
+        {
+            DateTime soonest = DateTime.MaxValue;
+            Doctor chosen = new Doctor();
+            Appointment urgent = new Appointment();
+
+            foreach(Doctor doctor in specialists){
+                if (doctor.IsAvailable(new TimeSlot(DateTime.Now, duration))){
+                    chosen = doctor;
+                    soonest = DateTime.Now;
+                    break;
+                }
+
+                foreach(Appointment appointment in  GetDoctorAppointments(doctor)){
+                    DateTime end = appointment.TimeSlot.GetEnd();
+                    if (end> DateTime.Now &&
+                        doctor.IsAvailable(new TimeSlot(end, duration))
+                        && end < soonest){
+                        soonest = end;
+                        chosen = doctor;
+                    }
+                }
+            }
+
+            if (soonest > (DateTime.Now + new TimeSpan(2, 0, 0)) )
+                return null;
+            urgent.Doctor = chosen;
+            urgent.TimeSlot = new TimeSlot(soonest, duration);
+            return urgent;
+        }
+
+        public static List<Appointment> GetPostponable(TimeSpan duration, Doctor specialist)
+        {
+            List<Appointment> postponable = new List<Appointment>();
+
+            foreach(Appointment appointment in GetDoctorAppointments(specialist))
+            {
+                DateTime start = appointment.TimeSlot.Start;
+                if (start >=DateTime.Now && (DateTime.Now + new TimeSpan(2, 0, 0))>start ){
+                    postponable.Add(appointment);
+                }
+            }
+
+            return FilterPostponable(duration,postponable);
+        }
+
+        public static List<Appointment> FilterPostponable(TimeSpan duration,List<Appointment> postponable)
+        {
+            List<Appointment> filtered = new List<Appointment>();
+            postponable=postponable.OrderBy(x=>x.TimeSlot.Start).ToList();
+
+            for (int i = 0; i < postponable.Count-1; i++)
+            {
+                if (postponable[i].TimeSlot.Start + duration > postponable[i+1].TimeSlot.Start)
+                    filtered.Add(postponable[i]);
+            }
+            return filtered;
+        }
+
+        public static List<Appointment> GetPossibleIntersections(Appointment appointment) {
+            List<Appointment> appointments = new List<Appointment>();
+            foreach (Appointment a in Appointments)
+            {
+                if (a.Doctor == appointment.Doctor && a.TimeSlot.Start >= appointment.TimeSlot.GetEnd())
+                {
+                    appointments.Add(appointment);
+                }
+            }
+            return appointments;
+        }
+
+        public static DateTime SoonestPostponable(Appointment appointment)
+        {
+            DateTime postpone = DateTime.MaxValue;
+            foreach(Appointment a in GetPossibleIntersections(appointment))
+            {
+                TimeSlot slot = new TimeSlot(a.TimeSlot.GetEnd(),appointment.TimeSlot.Duration);
+                if (appointment.Doctor.IsAvailable(slot) && appointment.Patient.IsAvailable(slot))
+                    if (slot.Start < postpone)
+                        postpone = slot.Start;
+            }
+            return postpone;
         }
     }
 }

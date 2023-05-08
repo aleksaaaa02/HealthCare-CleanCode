@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HealthCare.Context;
+using HealthCare.ViewModel.DoctorViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,16 +14,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HealthCare.View.PatientView
+namespace HealthCare.View.DoctorView
 {
     /// <summary>
-    /// Interaction logic for NurseAnamnesisView.xaml
+    /// Interaction logic for PatientSearchView.xaml
     /// </summary>
-    public partial class NurseAnamnesisView : Window
+    public partial class PatientSearchView : Window
     {
-        public NurseAnamnesisView()
+        public PatientSearchView(Hospital hospital)
         {
             InitializeComponent();
+            DataContext = new PatientSearchViewModel(hospital);
+
         }
     }
 }

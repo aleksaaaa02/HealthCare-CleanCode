@@ -16,6 +16,19 @@ namespace HealthCare.Service
         {
             return Get(JMBG);
         }
+        public List<Patient> GetExaminedPatients(Doctor doctor)
+        {
+            HashSet<Patient> patients = new HashSet<Patient>();
+            foreach (var appointmnet in Schedule.Appointments)
+            {
+                if (appointmnet.Doctor == doctor)
+                {
+                    patients.Add(appointmnet.Patient);
+                }
+            }
+
+            return patients.ToList();
+        }
 
         public List<Doctor> GetAccounts() 
         {
@@ -25,6 +38,27 @@ namespace HealthCare.Service
         public Doctor? GetByUsername(string username)
         {
             return GetAll().Find(x => x.UserName == username);
+        }
+
+        public List<Doctor> GetBySpecialization(String specialization)
+        {
+            List<Doctor> specialists = new List<Doctor>();
+
+            foreach(Doctor doctor in Doctors)
+            {
+                if (doctor.Specialization == specialization)
+                    specialists.Add(doctor);
+            }
+
+            return specialists;
+        }
+
+        public HashSet<String> GetSpecializations()
+        {
+            HashSet<String> specializations = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (Doctor doctor in Doctors)
+                specializations.Add(doctor.Specialization);
+            return specializations;
         }
     }
 }

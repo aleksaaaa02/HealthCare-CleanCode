@@ -26,7 +26,7 @@ namespace HealthCare.Model
         public bool Overlaps(TimeSlot term)
 
         {
-            return term.Start < GetEnd() && term.GetEnd() > Start;
+            return term.Start <= GetEnd() && term.GetEnd() >= Start;
         }
 
         public bool InBetweenDates(DateTime start, DateTime end)

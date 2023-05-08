@@ -1,4 +1,4 @@
-﻿using HealthCare.Exceptions;
+using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
 using System;
@@ -24,6 +24,7 @@ namespace HealthCare.Context
         public DoctorService DoctorService;
         public PatientService PatientService;
         public EquipmentService EquipmentService;
+        public AnamnesisService AnamnesisService;
         public Inventory Inventory;
         public OrderService OrderService;
 
@@ -38,6 +39,7 @@ namespace HealthCare.Context
             DoctorService = new DoctorService(Global.doctorPath);
             PatientService = new PatientService(Global.patientPath);
             EquipmentService = new EquipmentService(Global.equipmentPath);
+            AnamnesisService = new AnamnesisService(Global.anamnesisPath);
             Inventory = new Inventory(Global.inventoryPath);
             OrderService = new OrderService(Global.orderPath);
         }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,8 +15,10 @@ namespace HealthCare.Context
         public const string patientPath = dirPath + "patients.csv";
         public const string equipmentPath = dirPath + "equipment.csv";
         public const string appointmentPath = dirPath + "appointments.csv";
+        public const string anamnesisPath = dirPath + "anamneses.csv";
         public const string inventoryPath = dirPath + "inventory_items.csv";
         public const string orderPath = dirPath + "orders.csv";
+
 
         public const string managerUsername = "admin";
         public const string managerPassword = "admin";
