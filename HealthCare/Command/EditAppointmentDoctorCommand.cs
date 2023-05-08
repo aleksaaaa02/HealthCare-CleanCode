@@ -25,14 +25,14 @@ namespace HealthCare.Command
         public override void Execute(object parameter)
         {
             AppointmentViewModel appointmentViewModel = _doctorMainViewModel.SelectedPatient;
-            if (appointmentViewModel == null)
+            if (appointmentViewModel is null)
             {
                 MessageBox.Show("Morate odabrati pregled/operaciju iz tabele!", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             Appointment selectedAppointment = Schedule.GetAppointment(Convert.ToInt32(appointmentViewModel.AppointmentID));           
-            if (selectedAppointment == null)
+            if (selectedAppointment is null)
             {
                 MessageBox.Show("Ups doslo je do greske", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;

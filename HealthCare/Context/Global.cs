@@ -19,8 +19,9 @@ namespace HealthCare.Context
         public const string inventoryPath = dirPath + "inventory_items.csv";
         public const string orderPath = dirPath + "orders.csv";
 
-
         public const string managerUsername = "admin";
         public const string managerPassword = "admin";
+
+        public const int maxIdGap = 20;
     }
 }

@@ -8,8 +8,9 @@ using HealthCare.Repository;
 
 namespace HealthCare.Model
 {
-    public class Appointment : ISerializable, IKey
+    public class Appointment : Indentifier, ISerializable
     {
+        public override object Key { get => AppointmentID; set => AppointmentID = (int) value; }
         public int AppointmentID {get;set;}
         public Patient Patient { get; set; }
         public Doctor Doctor { get; set; }

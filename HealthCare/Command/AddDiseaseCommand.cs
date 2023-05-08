@@ -20,7 +20,7 @@ namespace HealthCare.Command
         public override void Execute(object parameter)
         {
             string newDisease = _viewModel.Disease;
-            if (newDisease == null)
+            if (newDisease is null)
             {
                 MessageBox.Show("Morate uneti bolest u polje", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;

@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace HealthCare.Repository
 {
-    public class Repository<T> where T : ISerializable, IKey, new()
+    public class Repository<T> where T : Indentifier, ISerializable, new()
     {
         private readonly string _filepath;
 
@@ -19,12 +19,12 @@ namespace HealthCare.Repository
 
         public T? Get(object key)
         {
-            return Items().Find(x => x.GetKey().Equals(key));
+            return Items().Find(x => x.Key.Equals(key));
         }
 
         public void Add(T item)
         {
-            if (Contains(item.GetKey())) return;
+            if (Contains(item.Key)) return;
 
             var items = Items();
             items.Add(item);
@@ -34,17 +34,17 @@ namespace HealthCare.Repository
         public void Remove(object key)
         {
             var items = Items();
-            items.RemoveAll(x => x.GetKey().Equals(key));
+            items.RemoveAll(x => x.Key.Equals(key));
             _save(items);
         }
 
         public void Update(T item)
         {
-            object key = item.GetKey();
+            object key = item.Key;
             if (!Contains(key)) return;
 
             var items = Items();
-            int i = items.FindIndex(x => x.GetKey().Equals(key));
+            int i = items.FindIndex(x => x.Key.Equals(key));
             items[i] = item;
             _save(items);
         }
@@ -52,6 +52,11 @@ namespace HealthCare.Repository
         public bool Contains(object key)
         {
             return Get(key) is not null;
+        }
+
+        public int Count()
+        {
+            return Items().Count;
         }
 
         public List<T> Items()

@@ -70,9 +70,9 @@ namespace HealthCare.View.ManagerView
 
         private void _makeOrder(int equipmentId, int quantity)
         {
-            int id = _orderService.NextId();
             DateTime scheduled = DateTime.Now + new TimeSpan(24, 0, 0);
-            _orderService.Add(new OrderItem(id, equipmentId, quantity, scheduled, false));
+            _orderService.AddWithNewId(
+                new OrderItem(equipmentId, quantity, scheduled, false));
         }
         
         private void _validate()

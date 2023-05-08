@@ -18,7 +18,7 @@ namespace HealthCare.Command
         public override void Execute(object parameter)
         {
             string disease = _view.SelectedDisease;
-            if(disease == null)
+            if(disease is null)
             {
                 MessageBox.Show("Morate odabrati bolest koju zelite da uklonite.", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;

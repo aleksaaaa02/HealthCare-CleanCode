@@ -15,8 +15,9 @@ namespace HealthCare.Model
         Reception,
         Warehouse
     }
-    public class Room : ISerializable, IKey
+    public class Room : Indentifier, ISerializable
     {
+        public override object Key { get => Id; set => Id = (int)value; }
         public int Id { get; set; }
         public string Name { get; set; }
         public RoomType Type { get; set; }
@@ -38,16 +39,6 @@ namespace HealthCare.Model
             Id = int.Parse(values[0]);
             Name = values[1];
             Type = (RoomType) Enum.Parse(typeof(RoomType), values[2]);
-        }
-
-        public object GetKey()
-        {
-            return Id;
-        }
-
-        public void SetKey(object key)
-        {
-            Id = (int) key;
         }
     }
 }

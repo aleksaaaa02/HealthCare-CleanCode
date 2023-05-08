@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
-    public class Notification : ISerializable, IKey
+    public class Notification : Indentifier, ISerializable
     {
+        public override object Key { get => Id; set => Id = (int)value; }
         public int Id { get; set; }
         public List<string> UserJmbgs { get; set; }
         public string Text { get; set; }
@@ -37,16 +38,6 @@ namespace HealthCare.Model
             UserJmbgs = values[1].Split("|").ToList();
             Text = values[2];
             Seen = bool.Parse(values[3]);
-        }
-
-        public object GetKey()
-        {
-            return Id;
-        }
-
-        public void SetKey(object key)
-        {
-            Id = (int) key;
         }
     }
 }

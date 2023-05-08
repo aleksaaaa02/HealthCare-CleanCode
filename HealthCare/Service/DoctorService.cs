@@ -21,7 +21,7 @@ namespace HealthCare.Service
             HashSet<Patient> patients = new HashSet<Patient>();
             foreach (var appointmnet in Schedule.Appointments)
             {
-                if (appointmnet.Doctor == doctor)
+                if (appointmnet.Doctor.Equals(doctor))
                 {
                     patients.Add(appointmnet.Patient);
                 }

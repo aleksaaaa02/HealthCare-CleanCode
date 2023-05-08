@@ -22,9 +22,9 @@ namespace HealthCare.Command
         }
         public override void Execute(object parameter)
         {
-            // _selectedPatient.MedicalRecord.MedicalHistory = _viewModel.PreviousDisease.ToArray();
-            // _hospital.PatientService.Save();
-            // TODO zvati UPDATE iz servisa
+            _selectedPatient.MedicalRecord.MedicalHistory = _viewModel.PreviousDisease.ToArray();
+            _hospital.PatientService.Update(_selectedPatient);
+
             MessageBox.Show("Pacijent uspesno sacuvan!", "Obavestenje", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }

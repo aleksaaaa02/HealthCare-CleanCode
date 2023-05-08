@@ -33,13 +33,13 @@ namespace HealthCare.Command
 
         public override void Execute(object parameter)
         {
-            if(_makeAppointmentViewModel.SelectedPatient == null)
+            if(_makeAppointmentViewModel.SelectedPatient is null)
             {
                 MessageBox.Show("Morate odabrati pacijenta!", "Greska",MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             Patient patient = _hospital.PatientService.GetAccount(_makeAppointmentViewModel.SelectedPatient.JMBG);
-            if(patient == null)
+            if(patient is null)
             {
                 MessageBox.Show("Oops... Doslo je do greske probajte ponovo!", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;

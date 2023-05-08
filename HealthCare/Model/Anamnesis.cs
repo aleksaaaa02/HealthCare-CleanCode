@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
+using System.Windows.Navigation;
 
 namespace HealthCare.Model
 {
-    public class Anamnesis : ISerializable, IKey
+    public class Anamnesis : Indentifier, ISerializable
     {
+        public override object Key { get => ID; set => ID = (int) value; }
         public int ID { get; set; }
         public string DoctorsObservations { get; set; }
         public string[] MedicalHistory { get; set; }
@@ -50,16 +52,6 @@ namespace HealthCare.Model
             string symptoms = string.Join("|", Symptoms);
             string[] csvValues = { ID.ToString(),DoctorsObservations,medicalHistory,symptoms,allergies};
             return csvValues;
-        }
-
-        public object GetKey()
-        {
-            return ID;
-        }
-
-        public void SetKey(object key)
-        {
-            ID = (int) key;
         }
     }
 }

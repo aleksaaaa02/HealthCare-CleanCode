@@ -15,8 +15,9 @@ namespace HealthCare.Model
         HallwayFurniture
     }
 
-    public class Equipment : ISerializable, IKey
+    public class Equipment : Indentifier, ISerializable
     {
+        public override object Key { get => Id; set => Id = (int)value; }
         public int Id { get; set; }
         public string Name { get; set; }
         public EquipmentType Type { get; set; }
@@ -43,16 +44,6 @@ namespace HealthCare.Model
             Name = values[1];
             Type = (EquipmentType) Enum.Parse(typeof(EquipmentType), values[2]);
             Dynamic = bool.Parse(values[3]);
-        }
-
-        public object GetKey()
-        {
-            return Id;
-        }
-
-        public void SetKey(object key)
-        {
-            Id = (int) key;
         }
     }
 }

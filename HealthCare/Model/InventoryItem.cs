@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
-    public class InventoryItem : ISerializable, IKey
+    public class InventoryItem : Indentifier, ISerializable
     {
+        public override object Key { get => Id; set => Id = (int)value; }
         public int Id { get; set; }
         public int EquipmentId { get; set; }
         public int RoomId { get; set; }
@@ -39,16 +40,6 @@ namespace HealthCare.Model
             EquipmentId = int.Parse(values[1]);
             RoomId = int.Parse(values[2]);
             Quantity = int.Parse(values[3]);
-        }
-
-        public object GetKey()
-        {
-            return Id;
-        }
-
-        public void SetKey(object key)
-        {
-            Id = (int) key;
         }
     }
 }

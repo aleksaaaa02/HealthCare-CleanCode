@@ -8,16 +8,18 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
-    public class OrderItem : ISerializable, IKey
+    public class OrderItem : Indentifier, ISerializable
     {
+        public override object Key { get => Id; set => Id = (int)value; }
         public int Id { get; set; }
         public int EquipmentId { get; set; }
         public int Quantity { get; set; }
         public DateTime Scheduled { get; set; }
         public bool Executed { get; set; }
 
-        public OrderItem() : this(0, 0, 0, DateTime.MinValue, false) { }
-
+        public OrderItem() : this(0, 0, DateTime.MinValue, false) { }
+        public OrderItem(int equipmentId, int quantity, DateTime scheduled, bool executed) : 
+            this(0, equipmentId, quantity, scheduled, executed) { }
         public OrderItem(int id, int equipmentId, int quantity, DateTime scheduled, bool executed)
         {
             Id = id;
@@ -39,16 +41,6 @@ namespace HealthCare.Model
         public string[] ToCSV()
         {
             return new string[] { Id.ToString(), EquipmentId.ToString(), Quantity.ToString(), Scheduled.ToString(), Executed.ToString() };
-        }
-
-        public object GetKey()
-        {
-            return Id;
-        }
-
-        public void SetKey(object key)
-        {
-            Id = (int) key;
         }
     }
 }

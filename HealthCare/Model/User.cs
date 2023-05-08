@@ -12,8 +12,9 @@ namespace HealthCare.Model
         Male,
         Female
     }
-    public class User : ISerializable, IKey
+    public class User : Indentifier, ISerializable
     {
+        public override object Key { get => JMBG; set => JMBG = (string)value; }
         public string Name { get; set; }
         public string LastName { get; set; }
         public string JMBG { get; set; }
@@ -58,16 +59,6 @@ namespace HealthCare.Model
             UserName = values[6];
             Password = values[7];
             Gender = (Gender) Enum.Parse(typeof(Gender), values[8]);
-        }
-
-        public object GetKey()
-        {
-            return JMBG;
-        }
-
-        public void SetKey(object key)
-        {
-            JMBG = (string) key;
         }
     }
 }

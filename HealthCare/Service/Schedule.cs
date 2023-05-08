@@ -24,7 +24,7 @@ namespace HealthCare.Service
             List<Appointment> DoctorAppointments = new List<Appointment>();
             foreach (Appointment appointment in Appointments)
             {
-                if (appointment.Doctor == Doctor)
+                if (appointment.Doctor.Equals(Doctor))
                 {
                     DoctorAppointments.Add(appointment);
                 }
@@ -51,7 +51,7 @@ namespace HealthCare.Service
             List<Appointment> PatientAppointments = new List<Appointment>();
             foreach (Appointment appointment in Appointments)
             {
-                if (appointment.Patient == Patient)
+                if (appointment.Patient.Equals(Patient))
                 {
                     PatientAppointments.Add(appointment);
                 }
@@ -206,7 +206,7 @@ namespace HealthCare.Service
             List<Appointment> appointments = new List<Appointment>();
             foreach (Appointment a in Appointments)
             {
-                if (a.Doctor == appointment.Doctor && a.TimeSlot.Start >= appointment.TimeSlot.GetEnd())
+                if (a.Doctor.Equals(appointment.Doctor) && a.TimeSlot.Start >= appointment.TimeSlot.GetEnd())
                 {
                     appointments.Add(appointment);
                 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
-    public abstract class Service<T> where T : ISerializable, IKey, new()
+    public abstract class Service<T> where T : Indentifier, ISerializable, new()
     {
         protected Repository<T> _repository;
         public Service(string filepath)

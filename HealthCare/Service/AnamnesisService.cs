@@ -19,10 +19,7 @@ namespace HealthCare.Service
 
         public int AddAnamnesis(Anamnesis anamnesis)
         {
-            int ID = NextId();
-            anamnesis.ID = ID;
-            Add(anamnesis);
-            return ID;
+            return AddWithNewId(anamnesis);
         }
     }
 }
