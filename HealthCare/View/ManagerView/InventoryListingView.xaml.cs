@@ -24,17 +24,20 @@ namespace HealthCare.View.ManagerView
     /// </summary>
     public partial class InventoryListingView : Window
     {
+        private Window _parent;
         private InventoryListingViewModel _model;
-        private Window _loginWindow;
-        public InventoryListingView(Window loginWindow, Inventory inv, EquipmentService es, RoomService rs)
+
+        public InventoryListingView(Window parent, Hospital hospital)
         {
             InitializeComponent();
-            _loginWindow = loginWindow;
-            _model = new InventoryListingViewModel(inv, es, rs);
+            _parent = parent;
+            _parent.IsEnabled = false;
+
+            _model = new InventoryListingViewModel(hospital);
             DataContext = _model;
         }
 
-        private void Clear_Click(object sender, RoutedEventArgs e)
+        private void Button_Clear(object sender, RoutedEventArgs e)
         {
             cbExaminationalRT.IsChecked = false;
             cbOperationalRT.IsChecked = false;
@@ -55,35 +58,29 @@ namespace HealthCare.View.ManagerView
 
             _model.LoadAll();
         }
-        /*
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            e.Cancel = true;
-            Application.Current.Shutdown();
-        }
-        */
-        private void LogoutClick(object sender, RoutedEventArgs e)
-        {
-            _loginWindow.Show();
-            Close();
-        }
 
-        private void FilterView(object sender, EventArgs e)
+        private void Filter_View(object sender, EventArgs e)
         {
             _model.Filter(
                 searchBar.Text.ToLower().Trim(),
-                new bool[] { _checked(rbNone), _checked(rbLittle), _checked(rbLot) },
-                new bool[] { _checked(cbExaminationalET), _checked(cbOperationalET),
-                            _checked(cbFurnitureET), _checked(cbHallwayET) },
-                new bool[] { _checked(cbExaminationalRT), _checked(cbOperationalRT),
-                            _checked(cbPatientCareRT), _checked(cbReceptionRT),
-                            _checked(cbWarehouseRT) }
+                new bool[] { Checked(rbNone), Checked(rbLittle), Checked(rbLot) },
+                new bool[] { Checked(cbExaminationalET), Checked(cbOperationalET),
+                            Checked(cbFurnitureET), Checked(cbHallwayET) },
+                new bool[] { Checked(cbExaminationalRT), Checked(cbOperationalRT),
+                            Checked(cbPatientCareRT), Checked(cbReceptionRT),
+                            Checked(cbWarehouseRT) }
             );
         }
 
-        private bool _checked(ToggleButton button)
+        private bool Checked(ToggleButton button)
         {
             return button.IsChecked is bool b && b;
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            _parent.IsEnabled = true;
+            Close();
         }
     }
 }

@@ -12,7 +12,6 @@ namespace HealthCare.View
         public static readonly Brush CNEUT = Brushes.White;
         public static readonly Brush CGRAY = Brushes.Gray;
         public static readonly Brush CBLACK = Brushes.Black;
-        public static readonly Brush CHIGH1 = Brushes.Yellow;
-        public static readonly Brush CHIGH2 = Brushes.LightGreen;
+        public static readonly Brush CHIGHROW = Brushes.LightGreen;
     }
 }

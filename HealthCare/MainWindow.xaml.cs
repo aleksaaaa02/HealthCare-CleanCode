@@ -44,7 +44,7 @@ namespace HealthCare
                 switch(_hospital.LoginRole(username, password))
                 {
                     case UserRole.Manager:
-                        new EquipmentOrderView(this, _hospital).Show();
+                        new ManagerMenu(this, _hospital).Show();
                         break;
                     case UserRole.Doctor:
                         new DoctorMainView(this, _hospital).Show();
@@ -66,6 +66,11 @@ namespace HealthCare
             } catch (UsernameNotFoundException _) {
                 MessageBox.Show("Nepostojece korisnicko ime.", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+
+        public void ExitApp()
+        {
+            Application.Current.Shutdown();
         }
     }
 }

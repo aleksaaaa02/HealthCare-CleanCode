@@ -5,92 +5,86 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.ManagerView"
         mc:Ignorable="d"
-        Title="EquipmentOrderView" Height="500" Width="500">
-    <Grid>
+        Title="Nabavka dinamičke opreme" MinHeight="500" MinWidth="400"
+        SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource RoundedButton}">
+            <Setter Property="Width" Value="70" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="Margin" Value="5 0" />
+        </Style>
+        <Style TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="20 0 20 20">
         <Grid.RowDefinitions>
+            <RowDefinition Height="0.10*"/>
+            <RowDefinition Height="0.75*"/>
             <RowDefinition Height="0.15*"/>
-            <RowDefinition Height="0.65*"/>
-            <RowDefinition Height="0.20*"/>
         </Grid.RowDefinitions>
 
-        <Grid>
-            <Label Content="Nabavka dinamičke opreme" VerticalAlignment="Center" Margin="50 0" FontSize="15" FontWeight="Bold"/>
-        </Grid>
+        <Label Content="Dinamička oprema" Style="{StaticResource SmallHeader}"
+               VerticalAlignment="Center" HorizontalAlignment="Center" Margin="50 0"/>
 
-        <Grid Grid.Row="1">
-            <ListView Name="lvDynamicEquipment" ItemsSource="{Binding Items}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Width="auto" Header=" ">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <CheckBox MinWidth="50" Name="cbSelect" IsChecked="{Binding IsSelected}" Checked="HighlightRows" Unchecked="HighlightRows"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Width="auto" Header="Oprema">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock MinWidth="70" Text="{Binding EquipmentName}" TextAlignment="Right" Margin="20 0"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Width="auto" Header="Tip opreme">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock MinWidth="70" Text="{Binding EquipmentType}" TextAlignment="Right" Margin="20 0"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Width="auto" Header="Trenutno stanje">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock MinWidth="50" Text="{Binding CurrentQuantity}" TextAlignment="Left" Margin="20 0"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Width="auto" Header="Narudžbina">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox MinWidth="40" Name="tbQuantity" 
-                                             Text="{Binding OrderQuantity, Mode=TwoWay}" 
-                                             GotFocus="tbQuantity_Focused" LostFocus="tbQuantity_Unfocused"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </Grid>
-
-        <Grid Grid.Row="2">
+        <ListView Grid.Row="1" Name="lvDynamicEquipment" ItemsSource="{Binding Items}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="auto" Header=" ">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Name="cbSelect" IsChecked="{Binding IsSelected}"
+                                          Checked="HighlightRows" Unchecked="HighlightRows"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="auto" Header="Oprema">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding EquipmentName}" TextAlignment="Right"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="auto" Header="Tip opreme">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding EquipmentType}" TextAlignment="Right"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="auto" Header="Trenutno stanje">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CurrentQuantity}" TextAlignment="Left"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="auto" Header="Narudžbina">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Name="tbQuantity" 
+                                         Text="{Binding OrderQuantity, Mode=TwoWay}" 
+                                         GotFocus="tbQuantity_Focused" LostFocus="tbQuantity_Unfocused"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
+        <Grid Grid.Row="2" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Button Content="Resetuj"
-                        VerticalAlignment="Bottom"
-                        MinHeight="25" Margin="90 0 20 5"
-                        FontSize="12" Click="Button_Reset"/>
-                <Grid Grid.Row="1">
-                    <Button Content="Nazad"
-                            VerticalAlignment="Top"
-                            MinHeight="25" Margin="90 5 20 0"
-                            FontSize="12" Click="Button_Exit"/>
-                </Grid>
-            </Grid>
-            <Grid Grid.Column="1">
-                <Button Content="Poruči" 
-                        HorizontalAlignment="Center" 
-                        VerticalAlignment="Center" 
-                        MinHeight="30" MinWidth="90" 
-                        FontSize="15" FontWeight="Bold" Click="Button_Order"/>
-            </Grid>
+
+            <Button Content="Resetuj"
+                    HorizontalAlignment="Left" Click="Button_Reset"/>
+            <Button Content="Nazad" Grid.Column="1"
+                    HorizontalAlignment="Center" Click="Button_Exit"/>
+            <Button Content="Poruči" Grid.Column="2"
+                    HorizontalAlignment="Right" FontWeight="Bold" Click="Button_Order"/>
         </Grid>
     </Grid>
 </Window>

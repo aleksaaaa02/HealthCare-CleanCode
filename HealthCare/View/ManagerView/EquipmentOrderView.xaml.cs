@@ -78,9 +78,9 @@ namespace HealthCare.View.ManagerView
         private void _validate()
         {
             bool someSelected = false;
+            int quantity;
             foreach (var item in _model.Items)
             {
-                int quantity;
                 if (item.IsSelected && int.TryParse(item.OrderQuantity, out quantity) && quantity < 0)
                     throw new ValidationException("Količina mora da bude prirodan broj.");
 
@@ -96,7 +96,7 @@ namespace HealthCare.View.ManagerView
             {
                 var row = (ListViewItem) lvDynamicEquipment.ItemContainerGenerator.ContainerFromItem(item);
                 if (item.IsSelected)
-                    row.Background = ViewGlobal.CHIGH2;
+                    row.Background = ViewGlobal.CHIGHROW;
                 else
                     row.Background = ViewGlobal.CNEUT;
             }
