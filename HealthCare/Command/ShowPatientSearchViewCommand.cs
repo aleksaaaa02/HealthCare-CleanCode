@@ -13,12 +13,10 @@ namespace HealthCare.Command
     {
         private Hospital _hospital;
 
-
         public ShowPatientSearchViewCommand(Hospital hospital) {
             _hospital = hospital;
         
         }
-
         public override void Execute(object parameter)
         {
             new PatientSearchView(_hospital).Show();

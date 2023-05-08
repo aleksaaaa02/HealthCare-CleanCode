@@ -34,8 +34,6 @@ namespace HealthCare.Command
 
             new PatientInformationView(patient, _hospital, _isEdit).ShowDialog();
 
-
-            // Potrebna izmena:
             Update();
         }
         private Patient? ExtractPatient()

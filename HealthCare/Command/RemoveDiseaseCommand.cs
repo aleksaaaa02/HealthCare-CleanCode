@@ -1,4 +1,5 @@
-﻿using HealthCare.View.DoctorView;
+﻿using HealthCare.Exceptions;
+using HealthCare.View.DoctorView;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,24 @@ namespace HealthCare.Command
         }
         public override void Execute(object parameter)
         {
-            string disease = _view.SelectedDisease;
-            if(disease == null)
+            try
             {
-                MessageBox.Show("Morate odabrati bolest koju zelite da uklonite.", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                string disease = _view.SelectedDisease;
+                _view.RemoveDisease(disease);
             }
-            _view.RemoveDisease(disease);
+            catch (ValidationException ve)
+            {
+                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+            }
+        }
+        private void Validate()
+        {
+            string disease = _view.SelectedDisease;
+            if (disease == null)
+            {
+                throw new ValidationException("Morate odabrati bolest koju zelite da uklonite.");
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using HealthCare.Context;
+using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View.DoctorView;
@@ -25,31 +26,37 @@ namespace HealthCare.Command
         public override void Execute(object parameter)
         {
 
+            try
+            {
+                Validate();
+                AppointmentViewModel selectedAppointment = _view.SelectedPatient;
+                Appointment appointment = Schedule.GetAppointment(Convert.ToInt32(selectedAppointment.AppointmentID));
+                new RoomReservationView(_hospital, appointment).Show();
+            }
+            catch (ValidationException ve)
+            {
+                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+        private void Validate()
+        {
             AppointmentViewModel selectedAppointment = _view.SelectedPatient;
-            // Moze se validacije izvcu vani da bi funkcija bila 'Clean'
             if (selectedAppointment == null)
             {
-                MessageBox.Show("Morate odabrati pregled iz tabele!", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                throw new ValidationException("Morate odabrati pregled iz tabele!");
             }
 
             Appointment appointment = Schedule.GetAppointment(Convert.ToInt32(selectedAppointment.AppointmentID));
 
-            if(appointment.AnamnesisID == 0)
+            if (appointment.AnamnesisID == 0)
             {
-                MessageBox.Show("Pacijent jos uvek nije primljen!", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                throw new ValidationException("Pacijent jos uvek nije primljen!");
             }
 
             if (!Schedule.HasAppointmentStarted(appointment))
             {
-                MessageBox.Show("Pregled jos uvek nije poceo!", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                throw new ValidationException("Pregled jos uvek nije poceo!");                
             }
-
-            new RoomReservationView(_hospital, appointment).Show();
-
         }
-
     }
 }

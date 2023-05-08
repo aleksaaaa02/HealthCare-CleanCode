@@ -30,14 +30,11 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination.Commands
         public override void Execute(object parameter)
         {
             _window.Close();
-
             string conclusion = _viewModel.Conclusion;
             Anamnesis anamnesis = _hospital.AnamnesisService.Get(_appointment.AnamnesisID);
             anamnesis.DoctorsObservations = conclusion;
             _hospital.AnamnesisService.Update(anamnesis);
-
             new UsedDynamicEquipmentView(_hospital, _roomId).Show();
-        
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using HealthCare.Command;
 using HealthCare.Context;
+using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.View.DoctorView;
 using System;
@@ -28,20 +29,30 @@ namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation.Commands
 
         public override void Execute(object parameter)
         {
-
-            if (_roomReservationViewModel.SelectedRoom == null) return;
-          
+            try
+            {
+                Validate();
+                int roomId = _roomReservationViewModel.SelectedRoom.RoomId;
+                _window.Close();
+                StartExamination(roomId);
+            } catch(ValidationException ve)
+            {
+                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
             
-            int roomId = _roomReservationViewModel.SelectedRoom.RoomId;
-            
-            _window.Close();
-
-            StartExamination(roomId);
 
         }
         private void StartExamination(int roomId)
         {
             new DoctorExamView(_hospital, _appointment, roomId).Show();
+        }
+        private void Validate()
+        {
+            if (_roomReservationViewModel.SelectedRoom == null)
+            {
+                throw new ValidationException("Morate odabrati sobu");
+            }
+
         }
     }
 }

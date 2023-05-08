@@ -3,6 +3,7 @@ using HealthCare.Service;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,15 +23,23 @@ namespace HealthCare.Command
 
         public override void Execute(object parameter)
         {
-            DateTime startDate = _doctorMainViewModel.StartDate;
-            int days = _doctorMainViewModel.Days;
-            if (days >= 0)
+            try
             {
+                Validate();
+                DateTime startDate = _doctorMainViewModel.StartDate;
+                int days = _doctorMainViewModel.Days;
                 _doctorMainViewModel.ApplyFilterOn(Schedule.GetDoctorAppointmentsForDays((Model.Doctor)_hospital.Current, startDate, days));
             }
-            else
+            catch (ValidationException ve)
             {
-                MessageBox.Show("Morate Uneti pozitivan broj dana");
+                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void Validate()
+        {
+            if (_doctorMainViewModel.Days >= 0)
+            {
+                throw new ValidationException("Morate Uneti pozitivan broj dana");
             }
         }
     }
