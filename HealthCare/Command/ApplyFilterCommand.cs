@@ -14,7 +14,7 @@ namespace HealthCare.Command
     {
         private DoctorMainViewModel _doctorMainViewModel;
         private readonly Hospital _hospital;
-        public ApplyFilterCommand(DoctorMainViewModel viewModel, Hospital hospital) 
+        public ApplyFilterCommand(Hospital hospital, DoctorMainViewModel viewModel) 
         { 
             _doctorMainViewModel = viewModel;
             _hospital = hospital;

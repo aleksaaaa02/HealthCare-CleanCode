@@ -2,6 +2,7 @@
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View.DoctorView;
+using HealthCare.View.DoctorView.RoomReservation;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.Collections.Generic;
@@ -12,18 +13,20 @@ using System.Windows;
 
 namespace HealthCare.Command
 {
-    public class ShowExaminationDialogCommand : CommandBase
+    public class ShowReservationDialogCommand : CommandBase
     {
-        private Hospital _hospital;
-        private DoctorMainViewModel _doctorMainView;
-        public ShowExaminationDialogCommand(Hospital hospital, DoctorMainViewModel doctorMainView) { 
-           _doctorMainView = doctorMainView;
-           _hospital = hospital;
+        private readonly Hospital _hospital;
+        private readonly DoctorMainViewModel _view;
+        public ShowReservationDialogCommand(Hospital hospital, DoctorMainViewModel view) { 
+            _hospital = hospital;
+            _view = view;
         }
+
         public override void Execute(object parameter)
         {
-            AppointmentViewModel  selectedAppointment = _doctorMainView.SelectedPatient;
 
+            AppointmentViewModel selectedAppointment = _view.SelectedPatient;
+            // Moze se validacije izvcu vani da bi funkcija bila 'Clean'
             if (selectedAppointment == null)
             {
                 MessageBox.Show("Morate odabrati pregled iz tabele!", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -32,13 +35,15 @@ namespace HealthCare.Command
 
             Appointment appointment = Schedule.GetAppointment(Convert.ToInt32(selectedAppointment.AppointmentID));
 
-            if (appointment.AnamnesisID == 0)
+            if(appointment.AnamnesisID == 0)
             {
-                MessageBox.Show("Pacijent nije jos uvek primljen!", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Pacijent jos uvek nije primljen!", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-         
-            new DoctorExamView(_hospital, appointment).Show();
+
+            new RoomReservationView(_hospital, appointment).Show();
+
         }
+
     }
 }

@@ -7,10 +7,10 @@ using System.Windows;
 
 namespace HealthCare.Command
 {
-    public class CancelNewAppointmentDoctorCommand : CommandBase
+    public class CancelCommand : CommandBase
     {
         private Window _window;
-        public CancelNewAppointmentDoctorCommand(Window window)
+        public CancelCommand(Window window)
         {
             _window = window;
         }
