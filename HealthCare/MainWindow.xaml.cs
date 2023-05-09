@@ -91,10 +91,5 @@ namespace HealthCare
         {
             Application.Current.Shutdown();
         }
-
-        public void ExitApp()
-        {
-            Application.Current.Shutdown();
-        }
     }
 }
