@@ -22,7 +22,7 @@ namespace HealthCare.View.DoctorView
         private void LogOut_Click(object sender, RoutedEventArgs e)
         {
             _loginWindow.Show();
-            Close();
+            this.Hide();
         }
 
         
