@@ -12,7 +12,7 @@
             <ColumnDefinition Width="0.35*"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
-            <ListView x:Name="DynamicEquipmentListView" Grid.ColumnSpan="2" SelectedItem="{Binding SelectedItem}" ItemsSource="{Binding UsedDynamicEquipment}" SelectionMode="Single">
+            <ListView x:Name="DynamicEquipmentListView" Grid.ColumnSpan="2" ItemsSource="{Binding UsedDynamicEquipment}" SelectionMode="Single">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Naziv opreme" DisplayMemberBinding="{Binding EquipmentName}">
@@ -36,6 +36,13 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
+                        <GridViewColumn Header="Stanje" Width="50">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="potrosi 1x" Width="50" Command="{Binding UseEquipment}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -50,9 +57,7 @@
                 <TextBlock Text="opreme nakon pregleda" FontSize="18" Margin="5 0" FontWeight="Bold"/>
                 <Label Content="Odaberite opremu sa leve strane" />
                 <Label Margin="0 50"/>
-                <Label Content="Unesite koliko ste opreme potrosili:"/>
-                <TextBox Margin="5 0" Text="{Binding ItemQuantity}" PreviewTextInput="NumberValidationTextBox"/>
-                <Button Content="Potrosi odabranu opremu" Margin="5" Command="{Binding UseEquipmentCommand}"/>
+                <Button Content="Resetuj Promene" Margin="5" Height="40" Command="{Binding ResetEquipmentCommand}"/>
             </StackPanel>
             <Button Content="Zavrsi" Grid.Row="1" Width="150" Height="30" Command="{Binding EndExaminationCommand}"/>
         </Grid>

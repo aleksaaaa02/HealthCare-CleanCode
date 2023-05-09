@@ -36,7 +36,7 @@
                 <TextBlock Text="Pocetni datum filtriranja: " VerticalAlignment="Center"/>
                 <DatePicker Margin="20 0" SelectedDate="{Binding StartDate}"/>
                 <TextBlock Text="Broj Dana:" VerticalAlignment="Center"/>
-                <TextBox Width="75" Margin="20 0" Text="{Binding Days}"/>
+                <TextBox Width="75" Margin="20 0" Text="{Binding NumberOfDays}"/>
                 <Button Width="75" Content="Primeni" Command="{Binding ApplyFilterCommand}"/>
             </StackPanel>
             <Grid Grid.Row="1">

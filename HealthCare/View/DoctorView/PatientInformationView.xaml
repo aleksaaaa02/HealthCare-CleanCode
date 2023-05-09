@@ -32,7 +32,7 @@
                 <Label Content="Datum Rodjenja"/>
                 <DatePicker Text="{Binding Birthday}" Focusable="False" IsHitTestVisible="False"/>
                 <Label Content="Pol"/>
-                <TextBox Text="{Binding Genderr}" IsReadOnly="True"/>
+                <TextBox Text="{Binding Gender}" IsReadOnly="True"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="2">

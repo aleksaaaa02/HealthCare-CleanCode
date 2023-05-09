@@ -1,25 +1,11 @@
 ﻿using HealthCare.Context;
 using HealthCare.ViewModel.DoctorViewModel.UsedEquipment;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace HealthCare.View.DoctorView
 {
-    /// <summary>
-    /// Interaction logic for UsedDynamicEquipmentView.xaml
-    /// </summary>
     public partial class UsedDynamicEquipmentView : Window
     {
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
@@ -32,5 +18,7 @@ namespace HealthCare.View.DoctorView
             InitializeComponent();
             DataContext = new UsedDynamicEquipmentViewModel(hospital, this, roomId);
         }
+
+    
     }
 }
