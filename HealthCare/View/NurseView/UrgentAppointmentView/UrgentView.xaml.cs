@@ -119,10 +119,7 @@ namespace HealthCare.View.UrgentAppointmentView
 
         public void ShowErrorMessageBox(string messageBoxText)
         {
-            string content = "Greska";
-            MessageBoxImage icon = MessageBoxImage.Error;
-            MessageBoxButton button = MessageBoxButton.OK;
-            MessageBox.Show(messageBoxText, content, button, icon);
+            Utility.ShowWarning(messageBoxText);
         }
     }
 }

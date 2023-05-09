@@ -92,8 +92,8 @@ namespace HealthCare.ViewModel.ManagerViewModel
                 if (!(ContainsToken(item.Equipment.Name, token) ||
                     ContainsToken(item.Room.Name, token) ||
                     ContainsToken(item.Quantity.ToString(), token) ||
-                    ContainsToken(ViewUtil.Translate(item.Equipment.Type), token) ||
-                    ContainsToken(ViewUtil.Translate(item.Room.Type), token)))
+                    ContainsToken(Utility.Translate(item.Equipment.Type), token) ||
+                    ContainsToken(Utility.Translate(item.Room.Type), token)))
                 { return false; }
             }
             return true;
