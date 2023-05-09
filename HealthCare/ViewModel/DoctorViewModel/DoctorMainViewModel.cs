@@ -51,9 +51,9 @@ namespace HealthCare.ViewModels.DoctorViewModel
 
         private Hospital _hospital;
         
-        public ObservableCollection<AppointmentViewModel> Appointments;
+        private ObservableCollection<AppointmentViewModel> _appointments;
 
-        public IEnumerable<AppointmentViewModel> Appointmentss => Appointments;
+        public IEnumerable<AppointmentViewModel> Appointments => _appointments;
 
         public ICommand CreateAppointmentViewCommand { get; }
 
@@ -70,7 +70,7 @@ namespace HealthCare.ViewModels.DoctorViewModel
         public DoctorMainViewModel(Hospital hospital)
         {
             _hospital = hospital;
-            Appointments = new ObservableCollection<AppointmentViewModel>();
+            _appointments = new ObservableCollection<AppointmentViewModel>();
             Update();
 
             CreateAppointmentViewCommand = new MakeAppointmentNavigationCommand(hospital, this);
@@ -84,18 +84,18 @@ namespace HealthCare.ViewModels.DoctorViewModel
 
         public void ApplyFilterOn(List<Appointment> appointments)
         {
-            Appointments.Clear();
+            _appointments.Clear();
             foreach (var appointment in appointments)
             {
-                Appointments.Add(new AppointmentViewModel(appointment));
+                _appointments.Add(new AppointmentViewModel(appointment));
             }
         }
         public void Update()
         {
-            Appointments.Clear();
+            _appointments.Clear();
             foreach (var appointment in Schedule.GetDoctorAppointments((Doctor)_hospital.Current))
             {
-                  Appointments.Add(new AppointmentViewModel(appointment));
+                  _appointments.Add(new AppointmentViewModel(appointment));
             }
         }
     }
