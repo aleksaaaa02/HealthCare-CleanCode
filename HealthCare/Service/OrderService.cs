@@ -25,7 +25,7 @@ namespace HealthCare.Service
             int warehouseId = _roomService.GetWarehouseId();
 
             InventoryItem restockItem = new InventoryItem(
-                item.EquipmentId, warehouseId, item.Quantity);
+                0, item.EquipmentId, warehouseId, item.Quantity);
             _inventory.RestockInventoryItem(restockItem);
             item.Executed = true;
             Update(item);

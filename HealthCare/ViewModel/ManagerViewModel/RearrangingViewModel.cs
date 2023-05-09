@@ -31,7 +31,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
             ToRooms.Clear();
 
             foreach (Room room in _hospital.RoomService.GetAll()) {
-                var item = new InventoryItem(equipment.Id, room.Id, 0);
+                var item = new InventoryItem(0, equipment.Id, room.Id, 0);
                 var found = _hospital.Inventory.TryGet(item.Key);
 
                 if (found is not null) {

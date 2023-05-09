@@ -146,17 +146,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             }
         }
 
-        private string _allergies;
-        public string Allergies
-        {
-            get { return _allergies; }
-            set
-            {
-                _allergies = value;
-                OnPropertyChanged(nameof(Allergies));
-            }
-        }
-
         public ICommand FinishExaminationCommand { get; }
         public ICommand CancelExaminationCommand { get; }
         public ICommand UpdatePatientCommand { get; }
@@ -185,7 +174,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
 
             Anamnesis anamnesis = _hospital.AnamnesisService.GetByID(_appointment.AnamnesisID);
             _symptoms = string.Join(", ", anamnesis.Symptoms);
-            _allergies = string.Join(", ", anamnesis.Allergies);
             _previousDiseases = new ObservableCollection<string>();
             Update();
         }
