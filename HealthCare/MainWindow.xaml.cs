@@ -1,7 +1,6 @@
+using HealthCare.View.AppointmentView;
 
-﻿using HealthCare.View.AppointmentView;
-
-﻿using HealthCare.Context;
+using HealthCare.Context;
 using HealthCare.Exceptions;
 
 using HealthCare.View.DoctorView;
@@ -11,6 +10,8 @@ using System.Windows;
 using HealthCare.View.ReceptionView;
 using HealthCare.View.UrgentAppointmentView;
 using HealthCare.Model;
+using HealthCare.View;
+using System.ComponentModel;
 
 namespace HealthCare
 {
@@ -31,8 +32,8 @@ namespace HealthCare
 
         private void btnQuitApp_Click(object sender, RoutedEventArgs e)
         {
-           _hospital.SaveAll();
-           Close();
+            _hospital.SaveAll();
+            ExitApp();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
@@ -42,19 +43,20 @@ namespace HealthCare
 
             try
             {
-                ShowNotifications();
                 switch (_hospital.LoginRole(username, password))
                 {
                     case UserRole.Manager:
                         new ManagerMenu(this, _hospital).Show();
                         break;
                     case UserRole.Doctor:
+                        ShowNotifications();
                         new DoctorMainView(this, _hospital).Show();
                         break;
                     case UserRole.Nurse:
                         new NurseMenu(this, _hospital).Show();
                         break;
                     case UserRole.Patient:
+                        ShowNotifications();
                         new AppointmentMainView(_hospital).Show();
                         break;
                 }
@@ -62,7 +64,9 @@ namespace HealthCare
                 txtUserName.Clear();
                 txtPassword.Clear();
                 Hide();
-            } catch (LoginException ex) {
+            }
+            catch (LoginException ex)
+            {
                 Utility.ShowWarning(ex.Message);
             }
         }
@@ -71,8 +75,16 @@ namespace HealthCare
         {
             if (_hospital.Current is null)
                 return;
-            foreach(Notification notification in _hospital.NotificationService.GetForUser(_hospital.Current.JMBG)) 
-                MessageBox.Show(notification.Text,"Obavestenje",MessageBoxButton.OK, MessageBoxImage.Information);
+            foreach (Notification notification in _hospital.NotificationService.GetForUser(_hospital.Current.JMBG))
+            {
+                Utility.ShowInformation(notification.Display());
+                _hospital.NotificationService.Update(notification);
+            }
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ExitApp();
         }
 
         public void ExitApp()

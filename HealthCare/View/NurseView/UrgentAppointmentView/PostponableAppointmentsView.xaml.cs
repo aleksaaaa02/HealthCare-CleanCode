@@ -20,18 +20,17 @@ namespace HealthCare.View.UrgentAppointmentView
 {
     public partial class PostponableAppointmentsView : Window
     {
-        private List<Appointment> appointments = new List<Appointment>();
-        private PostponableAppointmentsViewModel vm;
-        private Appointment appointment;
-        private Appointment newAppointment;
-        private readonly Hospital hospital;
-        public PostponableAppointmentsView(Appointment newAppointment, List<Appointment> postponable,Hospital hospital)
+        private PostponableAppointmentsViewModel _model;
+        private Appointment _selected;
+        private Appointment _newAppointment;
+        private readonly Hospital _hospital;
+        public PostponableAppointmentsView(Appointment newAppointment, List<Appointment> postponable, Hospital hospital)
         {
             InitializeComponent();
-            this.newAppointment = newAppointment;
-            this.hospital = hospital;
-            vm = new PostponableAppointmentsViewModel(postponable);
-            DataContext = vm;
+            _newAppointment = newAppointment;
+            _hospital = hospital;
+            _model = new PostponableAppointmentsViewModel(postponable);
+            DataContext = _model;
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -41,23 +40,29 @@ namespace HealthCare.View.UrgentAppointmentView
 
         private void lvAppointments_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            appointment = (Appointment)lvAppointments.SelectedItem;
+            _selected = (Appointment)lvAppointments.SelectedItem;
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            if (appointment is null) { 
+            if (_selected is null)
+            {
                 ShowErrorMessageBox("Izaberite polje iz tabele");
                 return;
             }
-            newAppointment.TimeSlot.Start = appointment.TimeSlot.Start;
-            newAppointment.Doctor = appointment.Doctor;
-            Schedule.PostponeAppointment(appointment);
-            Schedule.CreateUrgentAppointment(newAppointment);
-            hospital.NotificationService.Add(new Notification(
-                new List<string>() { appointment.Doctor.JMBG, appointment.Patient.JMBG}, 
-                "Appointment sa ID " + appointment.AppointmentID + " je pomeren",
-                false));
+            _newAppointment.TimeSlot.Start = _selected.TimeSlot.Start;
+            _newAppointment.Doctor = _selected.Doctor;
+            Schedule.PostponeAppointment(_selected);
+            Schedule.CreateUrgentAppointment(_newAppointment);
+
+            _hospital.NotificationService.Add(new Notification(
+                "Termin sa ID-jem " + _selected.AppointmentID + " je pomeren",
+                _selected.Doctor.JMBG, _selected.Patient.JMBG));
+            _hospital.NotificationService.Add(new Notification(
+                "Hitan termin sa ID-jem " + _selected.AppointmentID + " je kreiran.",
+                _selected.Doctor.JMBG));
+
+            Utility.ShowInformation("Uspesno odlozen termin.");
             Close();
         }
 

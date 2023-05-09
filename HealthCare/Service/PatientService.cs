@@ -53,7 +53,7 @@ namespace HealthCare.Service
 
 		public Patient? GetAccount(string JMBG)
 		{
-            return Get(JMBG);
+            return TryGet(JMBG);
 		}
 
 
