@@ -15,7 +15,7 @@ namespace HealthCare.Context
     }
 
     public class Hospital
-    {   
+    {
         public string Name { get; set; }
         public User? Current { get; set; }
 
@@ -103,7 +103,7 @@ namespace HealthCare.Context
 
         private void FillAppointmentDetails()
         {
-            foreach(Appointment appointment in Schedule.Appointments)
+            foreach (Appointment appointment in Schedule.Appointments)
             {
                 appointment.Doctor = DoctorService.GetAccount(appointment.Doctor.JMBG);
                 appointment.Patient = PatientService.GetAccount(appointment.Patient.JMBG);

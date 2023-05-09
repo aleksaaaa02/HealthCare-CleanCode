@@ -1,11 +1,11 @@
-﻿<Window x:Class="HealthCare.View.AppointmentView.AppointmentMainView"
+﻿<Window x:Class="HealthCare.View.AppointmentView.PriorityAppointmentView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.AppointmentView"
         mc:Ignorable="d"
-        Title="AppointmentMainView" Height="500" Width="800">
+        Title="PriorityAppointmentView" Height="450" Width="800">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.5*"/>
@@ -21,12 +21,19 @@
 
         <Grid Grid.Row="1">
             <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Unesite datum i vreme pregleda" VerticalAlignment="Top" Width="259" FontSize="16"/>
-            <TextBlock HorizontalAlignment="Left" Margin="21,62,0,0" TextWrapping="Wrap" Text="Izaberite datum" VerticalAlignment="Top"/>
-            <DatePicker x:Name="tbDate" HorizontalAlignment="Left" Margin="125,62,0,0" VerticalAlignment="Top"/>
-            <TextBlock HorizontalAlignment="Left" Margin="21,116,0,0" TextWrapping="Wrap" Text="Sati" VerticalAlignment="Top"/>
-            <TextBox x:Name="tbHours" HorizontalAlignment="Left" Margin="56,116,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="48" TextChanged="tbHours_TextChanged" FontSize="12"/>
-            <TextBlock HorizontalAlignment="Left" Margin="140,116,0,0" TextWrapping="Wrap" Text="Minuti" VerticalAlignment="Top"/>
-            <TextBox x:Name="tbMinutes" HorizontalAlignment="Left" Margin="195,116,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="47" TextChanged="tbMinutes_TextChanged"/>
+            <TextBlock HorizontalAlignment="Left" Margin="21,62,0,0" TextWrapping="Wrap" Text="Krajnji datum" VerticalAlignment="Top"/>
+            <DatePicker x:Name="tbDate" HorizontalAlignment="Left" Margin="114,58,0,0" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Left" Margin="21,106,0,0" TextWrapping="Wrap" Text="Sati pocetak:" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Left" Margin="176,103,0,0" TextWrapping="Wrap" Text="Minuti pocetak" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Left" Margin="176,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Minuti kraj:" Width="80"/>
+            <TextBlock HorizontalAlignment="Left" Margin="176,103,0,0" TextWrapping="Wrap" Text="Minuti pocetak" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Left" Margin="21,140,0,0" TextWrapping="Wrap" Text="Sati kraj:" VerticalAlignment="Top"/>
+            <TextBox x:Name="tbHoursStart" HorizontalAlignment="Left" Margin="103,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62"/>
+            <TextBox x:Name="tbMinutesStart" HorizontalAlignment="Left" Margin="276,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62"/>
+            <TextBox x:Name="tbHoursEnd" HorizontalAlignment="Left" Margin="103,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62"/>
+            <TextBox x:Name="tbMinutesEnd" HorizontalAlignment="Left" Margin="276,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62"/>
+            <RadioButton x:Name="radioDoktor" Content="Doktor" HorizontalAlignment="Left" Margin="241,63,0,0" VerticalAlignment="Top"/>
+            <RadioButton x:Name="radioDatum" Content="Datum" HorizontalAlignment="Left" Margin="325,62,0,0" VerticalAlignment="Top"/>
 
         </Grid>
 
@@ -52,7 +59,7 @@
                 <RowDefinition Height="0.8*"/>
             </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Text="Izaberite pregled" VerticalAlignment="Center" FontSize="16"/>
-            <ListView x:Name="appListView" Grid.Row="1" SelectionChanged="appListView_SelectionChanged" SelectionMode="Single">
+            <ListView x:Name="appointmentListView" Grid.Row="1">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn  Header="Appointment ID" DisplayMemberBinding="{Binding AppointmentID}"/>
@@ -62,14 +69,10 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Button x:Name="btnRecord" Content="Prikazi karton" HorizontalAlignment="Left" Margin="415,10,0,0" VerticalAlignment="Top" Click="btnRecord_Click_1"/>
-            <Button x:Name="btnPriority" Content="Kreiranje sa prioritetom" HorizontalAlignment="Left" Margin="551,10,0,0" VerticalAlignment="Top" Click="btnPriority_Click"/>
         </Grid>
 
         <Grid Grid.Row="3" Grid.ColumnSpan="2">
-            <Button x:Name="btnCreate" Content="Kreiraj" HorizontalAlignment="Left" Margin="27,0,0,0" VerticalAlignment="Center" Click="btnCreate_Click"/>
-            <Button x:Name="btnUpdate" Content="Azuriraj" HorizontalAlignment="Left" Margin="111,0,0,0" VerticalAlignment="Center" Click="btnUpdate_Click"/>
-            <Button x:Name="btnDelete" Content="Obrisi" HorizontalAlignment="Left" Margin="187,0,0,0" VerticalAlignment="Center" Click="btnDelete_Click"/>
+            <Button x:Name="btnCreate" Content="Kreiraj pregled" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" RenderTransformOrigin="-0.701,-0.27" Click="btnCreate_Click"/>
         </Grid>
     </Grid>
 </Window>
