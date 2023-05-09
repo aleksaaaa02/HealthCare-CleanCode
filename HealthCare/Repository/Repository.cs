@@ -22,7 +22,7 @@ namespace HealthCare.Repository
             return Items().Find(x => x.Key.Equals(key));
         }
 
-        public void Add(T item)
+        public virtual void Add(T item)
         {
             if (Contains(item.Key)) return;
 
