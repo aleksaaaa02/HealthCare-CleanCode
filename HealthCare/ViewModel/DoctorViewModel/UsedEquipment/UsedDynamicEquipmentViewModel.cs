@@ -1,13 +1,8 @@
-﻿using HealthCare.Command;
-using HealthCare.Context;
+﻿using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.ViewModel.DoctorViewModel.UsedEquipment.Commands;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -20,16 +15,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment
         private ObservableCollection<EquipmentViewModel> _usedDynamicEquipment;
         public IEnumerable<EquipmentViewModel> UsedDynamicEquipment => _usedDynamicEquipment;
 
-        private EquipmentViewModel _selectedItem;
-        public EquipmentViewModel SelectedItem
-        {
-            get { return _selectedItem; }
-            set
-            {
-                _selectedItem = value;
-                OnPropertyChanged(nameof(SelectedItem));
-            }
-        }
         private int _itemQuantity;
         public int ItemQuantity
         {
@@ -41,15 +26,16 @@ namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment
             }
         }
 
-        public ICommand UseEquipmentCommand { get; }
+        public ICommand ResetEquipmentCommand { get; }
         public ICommand EndExaminationCommand { get; }
-        public UsedDynamicEquipmentViewModel(Hospital hospital, Window window, int roomId) { 
-            _usedDynamicEquipment = new ObservableCollection<EquipmentViewModel>();
+        public UsedDynamicEquipmentViewModel(Hospital hospital, Window window, int roomId) 
+        { 
             _hospital = hospital;
             _roomId = roomId;
+            _usedDynamicEquipment = new ObservableCollection<EquipmentViewModel>();
 
-            UseEquipmentCommand = new UseEquipmentCommand(hospital, this);
-            EndExaminationCommand = new CancelCommand(window);
+            ResetEquipmentCommand = new ResetEquipmentQuantityCommand(this);
+            EndExaminationCommand = new EndEquipmentQuantityEditingCommand(hospital, window, this);
 
             Update();
         }
