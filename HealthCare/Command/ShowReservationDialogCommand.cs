@@ -2,14 +2,9 @@
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
-using HealthCare.View.DoctorView;
 using HealthCare.View.DoctorView.RoomReservation;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace HealthCare.Command
@@ -17,10 +12,10 @@ namespace HealthCare.Command
     public class ShowReservationDialogCommand : CommandBase
     {
         private readonly Hospital _hospital;
-        private readonly DoctorMainViewModel _view;
-        public ShowReservationDialogCommand(Hospital hospital, DoctorMainViewModel view) { 
+        private readonly DoctorMainViewModel _viewModel;
+        public ShowReservationDialogCommand(Hospital hospital, DoctorMainViewModel viewModel) { 
             _hospital = hospital;
-            _view = view;
+            _viewModel = viewModel;
         }
 
         public override void Execute(object parameter)
@@ -29,7 +24,7 @@ namespace HealthCare.Command
             try
             {
                 Validate();
-                AppointmentViewModel selectedAppointment = _view.SelectedPatient;
+                AppointmentViewModel selectedAppointment = _viewModel.SelectedPatient;
                 Appointment appointment = Schedule.GetAppointment(Convert.ToInt32(selectedAppointment.AppointmentID));
                 new RoomReservationView(_hospital, appointment).Show();
             }
@@ -40,8 +35,8 @@ namespace HealthCare.Command
         }
         private void Validate()
         {
-            AppointmentViewModel selectedAppointment = _view.SelectedPatient;
-            if (selectedAppointment == null)
+            AppointmentViewModel selectedAppointment = _viewModel.SelectedPatient;
+            if (selectedAppointment is null)
             {
                 throw new ValidationException("Morate odabrati pregled iz tabele!");
             }

@@ -1,11 +1,5 @@
 ﻿using HealthCare.Exceptions;
-using HealthCare.Model;
 using HealthCare.View.DoctorView;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace HealthCare.Command
@@ -23,7 +17,7 @@ namespace HealthCare.Command
             try
             {
                 Validate();
-                _viewModel.AddDisease(_viewModel.Disease);
+                _viewModel.AddPreviousDisease(_viewModel.Disease);
             }
             catch (ValidationException ve) {
                 MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);

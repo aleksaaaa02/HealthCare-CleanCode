@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.View.DoctorView;
@@ -30,53 +24,51 @@ namespace HealthCare.Command
         public override void Execute(object parameter)
         {
             Patient? patient = ExtractPatient();
-            if (patient == null) { return; }
+            if (patient is null) { return; }
 
             new PatientInformationView(patient, _hospital, _isEdit).ShowDialog();
 
-            Update();
+            UpdateViewModel();
         }
         private Patient? ExtractPatient()
         {
-            Patient? patient = null;
-
-            if (_viewModel is DoctorMainViewModel)
+            if (_viewModel is DoctorMainViewModel doctorMainViewModel)
             {
-                AppointmentViewModel appointment = ((DoctorMainViewModel)_viewModel).SelectedPatient;
-                if (appointment != null)
-                {
-                    patient = _hospital.PatientService.GetAccount(appointment.JMBG);
-                }
-                else
+                var appointment = doctorMainViewModel.SelectedPatient;
+                if (appointment is null)
                 {
                     MessageBox.Show("Morate odabrati pregled/operaciju iz tabele!", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return null;
                 }
+                return _hospital.PatientService.GetAccount(appointment.JMBG);
             }
-            else if (_viewModel is PatientSearchViewModel)
-            {
-                PatientViewModel selectedPatient = ((PatientSearchViewModel)_viewModel).SelectedPatient;
-                if (selectedPatient != null)
-                {
-                    patient = _hospital.PatientService.GetAccount(selectedPatient.JMBG);
-                }
 
-                else
+            if (_viewModel is PatientSearchViewModel patientSearchViewModel)
+            {
+                var selectedPatient = patientSearchViewModel.SelectedPatient;
+                if (selectedPatient is null)
                 {
                     MessageBox.Show("Morate odabrati pacijenta iz tabele!", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return null;
                 }
+                return _hospital.PatientService.GetAccount(selectedPatient.JMBG);
+
             }
-            else
+            
+            if (_viewModel is DoctorExamViewModel doctorExamViewModel)
             {
-                patient = ((DoctorExamViewModel)_viewModel).SelectedPatient;
-                ((DoctorExamViewModel)_viewModel).Update();
+                var selectedPatient = doctorExamViewModel.SelectedPatient;
+                UpdateViewModel();
+                return selectedPatient;
             }
-                return patient;
+
+            return null;
         }
-        private void Update()
+        private void UpdateViewModel()
         {
-            if (_viewModel is DoctorExamViewModel)
+            if (_viewModel is DoctorExamViewModel doctorExamViewModel)
             {
-                ((DoctorExamViewModel)_viewModel).Update();
+                doctorExamViewModel.Update();
             }
         }
     }

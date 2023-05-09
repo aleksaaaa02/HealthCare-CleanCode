@@ -1,13 +1,7 @@
 ﻿using HealthCare.Context;
-using HealthCare.Model;
 using HealthCare.View.DoctorView;
 using HealthCare.ViewModels.DoctorViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+
 
 namespace HealthCare.Command
 {

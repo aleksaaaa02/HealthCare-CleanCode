@@ -1,11 +1,7 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.View.DoctorView;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace HealthCare.Command
@@ -13,8 +9,8 @@ namespace HealthCare.Command
     public class SavePatientChangesCommand : CommandBase
     {
         private readonly PatientInforamtionViewModel _viewModel;
-        private Hospital _hospital;
-        private Patient _selectedPatient;
+        private readonly Hospital _hospital;
+        private readonly Patient _selectedPatient;
         public SavePatientChangesCommand(Hospital hospital, Patient patient, PatientInforamtionViewModel viewModel) {
             _hospital = hospital;
             _viewModel = viewModel;
@@ -22,8 +18,18 @@ namespace HealthCare.Command
         }
         public override void Execute(object parameter)
         {
-            _selectedPatient.MedicalRecord.MedicalHistory = _viewModel.PreviousDisease.ToArray();
-            _hospital.PatientService.Update(_selectedPatient);       
+            UpdatePatientMedicalHistory();
+            ShowSuccesMessage();
+        }
+
+        private void UpdatePatientMedicalHistory()
+        {
+            string[] previousDisease = _viewModel.PreviousDisease.ToArray();
+            _hospital.PatientService.UpdatePatientMedicalHistory(_selectedPatient, previousDisease);
+        }
+
+        private void ShowSuccesMessage()
+        {
             MessageBox.Show("Pacijent uspesno sacuvan!", "Obavestenje", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }

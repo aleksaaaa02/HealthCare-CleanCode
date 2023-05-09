@@ -4,11 +4,7 @@ using HealthCare.Service;
 using HealthCare.View.DoctorView;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace HealthCare.Command
@@ -28,15 +24,22 @@ namespace HealthCare.Command
             try
             {
                 Validate();
-                AppointmentViewModel appointmentViewModel = _doctorMainViewModel.SelectedPatient;
-                Appointment selectedAppointment = Schedule.GetAppointment(Convert.ToInt32(appointmentViewModel.AppointmentID));
-                MakeAppointmentView makeAppointmentView = new MakeAppointmentView(_hospital, _doctorMainViewModel, selectedAppointment);
-                makeAppointmentView.ShowDialog();
-            } catch (ValidationException ve)
+                EditSelectedAppointment();
+            }
+            catch (ValidationException ve)
             {
-                MessageBox.Show(ve.Message);
+                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+
+        private void EditSelectedAppointment()
+        {
+            AppointmentViewModel appointmentViewModel = _doctorMainViewModel.SelectedPatient;
+            Appointment selectedAppointment = Schedule.GetAppointment(Convert.ToInt32(appointmentViewModel.AppointmentID));
+            MakeAppointmentView makeAppointmentView = new MakeAppointmentView(_hospital, _doctorMainViewModel, selectedAppointment);
+            makeAppointmentView.ShowDialog();
+        }
+
         private void Validate()
         {
             AppointmentViewModel appointmentViewModel = _doctorMainViewModel.SelectedPatient;

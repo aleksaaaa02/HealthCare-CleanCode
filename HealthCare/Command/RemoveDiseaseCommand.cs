@@ -1,27 +1,23 @@
 ﻿using HealthCare.Exceptions;
 using HealthCare.View.DoctorView;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace HealthCare.Command
 {
     public class RemoveDiseaseCommand : CommandBase
-    {
+    {          
 
-        private readonly PatientInforamtionViewModel _view;
-        public RemoveDiseaseCommand(PatientInforamtionViewModel view) {
-            _view = view;
+        private readonly PatientInforamtionViewModel _viewModel;
+        public RemoveDiseaseCommand(PatientInforamtionViewModel viewModel) {
+            _viewModel = viewModel;
         }
         public override void Execute(object parameter)
         {
             try
             {
-                string disease = _view.SelectedDisease;
-                _view.RemoveDisease(disease);
+                Validate();
+                string selectedDisease = _viewModel.SelectedDisease;
+                _viewModel.RemovePreviousDisease(selectedDisease);
             }
             catch (ValidationException ve)
             {
@@ -31,8 +27,7 @@ namespace HealthCare.Command
         }
         private void Validate()
         {
-            string disease = _view.SelectedDisease;
-            if (disease == null)
+            if (string.IsNullOrWhiteSpace(_viewModel.SelectedDisease))
             {
                 throw new ValidationException("Morate odabrati bolest koju zelite da uklonite.");
             }
