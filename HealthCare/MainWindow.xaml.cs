@@ -11,6 +11,7 @@ using System.Windows;
 using HealthCare.View.ReceptionView;
 using HealthCare.View.UrgentAppointmentView;
 using HealthCare.Model;
+using HealthCare.View;
 
 namespace HealthCare
 {

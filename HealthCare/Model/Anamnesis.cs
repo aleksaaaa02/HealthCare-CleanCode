@@ -23,7 +23,7 @@ namespace HealthCare.Model
             Symptoms = new string[0];
         }
 
-        public Anamnesis(int id,string doctorsObservations, string[] symptoms)
+        public Anamnesis(int id, string doctorsObservations, string[] symptoms)
         {
             ID = id;
             DoctorsObservations = doctorsObservations;
@@ -39,10 +39,8 @@ namespace HealthCare.Model
 
         public string[] ToCSV()
         {
-            string medicalHistory = Utility.ToString(MedicalHistory);
-            string allergies = Utility.ToString(Allergies);
-            string symptoms = Utility.ToString(Symptoms);
-            string[] csvValues = { ID.ToString(),DoctorsObservations,medicalHistory,symptoms,allergies};
+            string symptoms = string.Join("|", Symptoms);
+            string[] csvValues = { ID.ToString(), DoctorsObservations, symptoms };
             return csvValues;
         }
     }
