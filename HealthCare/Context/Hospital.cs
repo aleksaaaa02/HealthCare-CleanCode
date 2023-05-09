@@ -68,7 +68,7 @@ namespace HealthCare.Context
             if (Global.managerUsername == username)
             {
                 if (Global.managerPassword != password)
-                    throw new LoginException();
+                    throw new WrongPasswordException();
                 return UserRole.Manager;
             }
 
@@ -76,7 +76,7 @@ namespace HealthCare.Context
             if (u is not null)
             {
                 if (u.Password != password)
-                    throw new LoginException();
+                    throw new WrongPasswordException();
                 Current = u;
                 return UserRole.Doctor;
             }
@@ -85,7 +85,7 @@ namespace HealthCare.Context
             if (u is not null)
             {
                 if (u.Password != password)
-                    throw new LoginException();
+                    throw new WrongPasswordException();
                 Current = u;
                 return UserRole.Nurse;
             }
@@ -94,7 +94,7 @@ namespace HealthCare.Context
             if (u is not null)
             {
                 if (u.Password != password)
-                    throw new LoginException();
+                    throw new WrongPasswordException();
                 Current = u;
                 return UserRole.Patient;
             }
