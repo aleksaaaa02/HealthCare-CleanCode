@@ -340,5 +340,10 @@ namespace HealthCare.View.AppointmentView
             CheckIfBlock();
 
         }
+
+        private void btnRecord_Click(object sender, RoutedEventArgs e)
+        {
+            new PatientRecordView(_hospital).Show();
+        }
     }
 }
