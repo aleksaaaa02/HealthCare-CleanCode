@@ -26,10 +26,9 @@ namespace HealthCare.Context
         public DoctorService DoctorService;
         public PatientService PatientService;
         public AnamnesisService AnamnesisService;
-        public Inventory Inventory;
-        public OrderService OrderService;
         public TransferService TransferService;
         public NotificationService NotificationService;
+        public EquipmentService EquipmentService;
 
         public Hospital() : this("Bolnica") { }
         public Hospital(string name)

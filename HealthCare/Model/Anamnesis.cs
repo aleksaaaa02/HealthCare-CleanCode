@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
+using HealthCare.Model;
 
 namespace HealthCare.Model
 {

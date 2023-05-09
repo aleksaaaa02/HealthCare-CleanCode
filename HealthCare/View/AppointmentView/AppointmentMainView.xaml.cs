@@ -32,17 +32,87 @@ namespace HealthCare.View.AppointmentView
         {
             InitializeComponent();
             _hospital = hospital;
-            loadData();
-            checkIfBlock();
+            LoadData();
+            CheckIfBlock();
         }
 
-        public void writeAction(string action)
+        public void WriteAction(string action)
         {
             string stringtocsv = _hospital.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
             File.AppendAllText("../../../Resource/PatientLogs.csv",stringtocsv);
         }
 
-        public void checkIfBlock()
+        Appointment GetAppointmentByDoctor(Doctor doctor)
+        {
+            DateTime startDate = DateTime.Today;
+            startDate = startDate.AddMinutes(15);
+            Patient patient = (Patient)_hospital.Current;
+            while (true)
+            {
+                TimeSlot timeSlot = new TimeSlot(startDate,new TimeSpan(0,15,0));       
+                if (doctor.IsAvailable(timeSlot) && patient.IsAvailable(timeSlot)) {
+                    return new Appointment(patient,doctor,timeSlot,false);
+                }
+                else
+                {
+                    startDate = startDate.AddMinutes(15);
+                }
+            }
+        }
+
+        Appointment GetAppointmentByDate(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd)
+        {
+            List<Doctor> doctors = _hospital.DoctorService.GetAll();
+            foreach (Doctor doctor in doctors)
+            {
+                DateTime startDate = DateTime.Today;
+                startDate = startDate.AddHours(hoursStart);
+                startDate = startDate.AddMinutes(minutesStart);
+                Patient patient = (Patient)_hospital.Current;
+                while (startDate < endDate)
+                {
+                    TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
+                    if (patient.IsAvailable(timeSlot) && doctor.IsAvailable(timeSlot))
+                    {
+                        return new Appointment(patient, doctor, timeSlot, false);
+                    }
+                    startDate = startDate.AddMinutes(15);
+                    if (startDate.Hour > hoursEnd)
+                    {
+                        startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart, minutesStart, 0);
+                    }
+                }
+            }
+            return null;
+        }
+
+        Appointment GetAppointmentByDateAndDoctor(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor)
+        {
+
+            DateTime startDate = DateTime.Today;
+            startDate = startDate.AddHours(hoursStart);
+            startDate = startDate.AddMinutes(minutesStart);
+            Patient patient = (Patient)_hospital.Current;
+            while (startDate < endDate)
+            {
+                TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
+                if (patient.IsAvailable(timeSlot) && doctor.IsAvailable(timeSlot))
+                {
+                    return new Appointment(patient, doctor, timeSlot, false);
+                }
+                startDate = startDate.AddMinutes(15);
+                if (startDate.Hour > hoursEnd)
+                {
+                    startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart, minutesStart, 0);
+                }
+            }
+
+            return null;
+        }
+
+
+
+        public void CheckIfBlock()
         {
             Patient patient = (Patient)_hospital.Current;
             using (var reader = new StreamReader("../../../Resource/PatientLogs.csv", Encoding.Default))
@@ -79,7 +149,7 @@ namespace HealthCare.View.AppointmentView
                 _hospital.PatientService.UpdateAccount(patient);
             }
         }
-        public void loadData()
+        public void LoadData()
         {
             List<Appointment> appointments = Schedule.GetPatientAppointments((Patient)_hospital.Current);
             List<Doctor> doctors = _hospital.DoctorService.GetAll();
@@ -165,9 +235,9 @@ namespace HealthCare.View.AppointmentView
                 return;
             }
             Utility.ShowInformation("Uspesno dodat pregled");
-            writeAction("CREATE");
-            loadData();
-            checkIfBlock();
+            WriteAction("CREATE");
+            LoadData();
+            CheckIfBlock();
         }
 
         private void appListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -195,10 +265,10 @@ namespace HealthCare.View.AppointmentView
                 Appointment appointment = (Appointment)appListView.SelectedItem;
                 int idForDeleting = appointment.AppointmentID;
                 Schedule.DeleteAppointment(idForDeleting);
-                writeAction("DELETE");
+                WriteAction("DELETE");
                 Utility.ShowInformation("Uspesno obrisan pregled");
-                loadData();
-                checkIfBlock();
+                LoadData();
+                CheckIfBlock();
             }
             else
             {
@@ -265,9 +335,9 @@ namespace HealthCare.View.AppointmentView
                 return;
             }
             Utility.ShowInformation("Uspesno azuriran pregled");
-            writeAction("UPDATE");
-            loadData();
-            checkIfBlock();
+            WriteAction("UPDATE");
+            LoadData();
+            CheckIfBlock();
 
         }
     }

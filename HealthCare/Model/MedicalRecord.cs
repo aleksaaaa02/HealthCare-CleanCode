@@ -55,10 +55,10 @@ namespace HealthCare.Model
         {
             string medicalHistory = Utility.ToString(MedicalHistory);
             string[] csvValues = {Height.ToString(), Weight.ToString(), medicalHistory};
-            string medicalHistory = string.Join("|",MedicalHistory);
+            medicalHistory = string.Join("|",MedicalHistory);
             string allergies = string.Join("|", Allergies);
-            string[] csvValues = {Height.ToString(), Weight.ToString(), medicalHistory, allergies};
-            return csvValues;
+            string[] csvValues2 = {Height.ToString(), Weight.ToString(), medicalHistory, allergies};
+            return csvValues2;
         }
 
         public void FromCSV(string[] values)
