@@ -24,7 +24,7 @@ namespace HealthCare.Service
             List<Appointment> DoctorAppointments = new List<Appointment>();
             foreach (Appointment appointment in Appointments)
             {
-                if (appointment.Doctor == Doctor)
+                if (appointment.Doctor.Equals(Doctor))
                 {
                     DoctorAppointments.Add(appointment);
                 }
@@ -51,7 +51,7 @@ namespace HealthCare.Service
             List<Appointment> PatientAppointments = new List<Appointment>();
             foreach (Appointment appointment in Appointments)
             {
-                if (appointment.Patient == Patient)
+                if (appointment.Patient.Equals(Patient))
                 {
                     PatientAppointments.Add(appointment);
                 }
@@ -163,7 +163,7 @@ namespace HealthCare.Service
                     DateTime end = appointment.TimeSlot.GetEnd();
                     if (end > DateTime.Now &&
                         doctor.IsAvailable(new TimeSlot(end, duration))
-                        && end < soonest && !appointment.IsUrgent)
+                        && end < soonest)
                     {
                         soonest = end;
                         chosen = doctor;
@@ -185,7 +185,7 @@ namespace HealthCare.Service
             foreach (Appointment appointment in GetDoctorAppointments(specialist))
             {
                 DateTime start = appointment.TimeSlot.Start;
-                if (start >= DateTime.Now && (DateTime.Now + new TimeSpan(2, 0, 0)) > start && !appointment.IsUrgent)
+                if (start >= DateTime.Now)
                     postponable.Add(appointment);
             }
 
@@ -202,8 +202,8 @@ namespace HealthCare.Service
                 if (postponable[i].TimeSlot.Start + duration <= postponable[i + 1].TimeSlot.Start)
                     filtered.Add(postponable[i]);
             }
-
-            filtered.Add(postponable.Last());
+            if (postponable.Count > 0)
+                filtered.Add(postponable.Last());
             return filtered;
         }
 
@@ -212,8 +212,10 @@ namespace HealthCare.Service
             List<Appointment> appointments = new List<Appointment>();
             foreach (Appointment a in Appointments)
             {
-                if (a.Doctor.Equals(appointment.Doctor) && a.TimeSlot.Start >= appointment.TimeSlot.GetEnd() && a.Patient.Equals(appointment.Patient))
-                    appointments.Add(a);  
+                if (a.Doctor.Equals(appointment.Doctor) && 
+                    a.TimeSlot.Overlaps(appointment.TimeSlot) &&
+                    a.Patient.Equals(appointment.Patient))
+                    appointments.Add(a);
             }
             return appointments;
         }
@@ -222,17 +224,18 @@ namespace HealthCare.Service
         {
             DateTime? postpone = null;
 
-            var appointments = GetPossibleIntersections(appointment).OrderBy(x => x.TimeSlot.Start).ToList();
-            foreach (Appointment a in appointments)
+            foreach (Appointment a in Appointments)
             {
                 TimeSlot slot = new TimeSlot(a.TimeSlot.GetEnd(), appointment.TimeSlot.Duration);
+                if (slot.Start < DateTime.Now) continue;
+
                 if (appointment.Doctor.IsAvailable(slot) && appointment.Patient.IsAvailable(slot))
                     if (postpone is null || slot.Start < postpone)
                         postpone = slot.Start;
             }
             if (postpone is not null)
                 return (DateTime)postpone;
-            return appointments.Last().TimeSlot.GetEnd();
+            return Appointments.OrderBy(x => x.TimeSlot.GetEnd()).Last().TimeSlot.GetEnd();
         }
 
         public static void PostponeAppointment(Appointment appointment)

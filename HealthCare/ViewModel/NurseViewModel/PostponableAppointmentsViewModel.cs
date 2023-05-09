@@ -17,13 +17,8 @@ namespace HealthCare.ViewModel.NurseViewModel
         {
             Appointments = new ObservableCollection<Appointment>();
 
-            if (postponable.Count >= 5)
-            {
-                for (int i = 0; i < 5; i++)
+            for (int i = 0; i < Math.Min(5, postponable.Count); i++)
                     Appointments.Add(postponable[i]);
-            }
-            else
-                Appointments = new ObservableCollection<Appointment>(postponable);
         }
     }
 }

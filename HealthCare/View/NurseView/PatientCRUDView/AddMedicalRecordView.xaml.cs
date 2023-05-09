@@ -17,36 +17,32 @@ using System.Windows.Shapes;
 
 namespace HealthCare.View.PatientView
 {
-    /// <summary>
-    /// Interaction logic for AddMedicalRecordView.xaml
-    /// </summary>
     public partial class AddMedicalRecordView : Window
     {
-        private PatientService? patientService;
-        private NurseMainView? nurseView;
-        private CreatePatientView? patientView;
-        public AddMedicalRecordView(NurseMainView window, PatientService patientService)
+        private NurseMainView? _nurseView;
+        private CreatePatientView? _patientView;
+        public AddMedicalRecordView(NurseMainView window)
         {
-            nurseView = window;
-            patientView = null;
+            _nurseView = window;
+            _patientView = null;
             InitializeComponent();
-            if (nurseView.Record != null)
+            if (_nurseView._record is not null)
             {
-                tbHeight.Text = nurseView.Record.Height.ToString();
-                tbWidth.Text = nurseView.Record.Weight.ToString();
-                rtbMedicalHistory.AppendText(string.Join(",", nurseView.Record.MedicalHistory));
+                tbHeight.Text = _nurseView._record.Height.ToString();
+                tbWidth.Text = _nurseView._record.Weight.ToString();
+                rtbMedicalHistory.AppendText(string.Join(",", _nurseView._record.MedicalHistory));
             }
             else {
-                nurseView.Record = new MedicalRecord();
+                _nurseView._record = new MedicalRecord();
             }
         }
 
-        public AddMedicalRecordView(CreatePatientView patientView, PatientService patientService)
+        public AddMedicalRecordView(CreatePatientView patientView)
         {
-            this.patientView = patientView;
-            nurseView = null;
+            _patientView = patientView;
+            _nurseView = null;
             InitializeComponent();
-            this.patientView.Record = new MedicalRecord();
+            _patientView._record = new MedicalRecord();
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
@@ -56,42 +52,31 @@ namespace HealthCare.View.PatientView
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            if (ValidateFields())
+            if (!Validate())
             {
-                MedicalRecord medicalRecord = new MedicalRecord();
-                medicalRecord.Height = float.Parse(tbHeight.Text);
-                medicalRecord.Weight = float.Parse(tbWidth.Text);
-                TextRange textRange = new TextRange(
-                    rtbMedicalHistory.Document.ContentStart,
-                    rtbMedicalHistory.Document.ContentEnd
-                );
-                medicalRecord.MedicalHistory = textRange.Text.Trim().Split(",");
-                if (nurseView is not null)
-                    nurseView.Record = medicalRecord;
-                else
-                    patientView.Record = medicalRecord;
-                Close();
+                Utility.ShowWarning("Visina i tezina moraju biti brojevi");
+                return;
             }
+
+            MedicalRecord medicalRecord = new MedicalRecord();
+            medicalRecord.Height = float.Parse(tbHeight.Text);
+            medicalRecord.Weight = float.Parse(tbWidth.Text);
+            TextRange textRange = new TextRange(
+                rtbMedicalHistory.Document.ContentStart,
+                rtbMedicalHistory.Document.ContentEnd
+            );
+            medicalRecord.MedicalHistory = Utility.GetArray(textRange.Text);
+
+            if (_nurseView is not null)
+                _nurseView._record = medicalRecord;
             else
-                ShowErrorMessageBox();
-           
+                _patientView._record = medicalRecord;
+            Close();  
         }
 
-        public bool ValidateFields()
+        public bool Validate()
         {
-            float parsed;
-            if (float.TryParse(tbHeight.Text, out parsed) && float.TryParse(tbWidth.Text, out parsed))
-                return true;
-            return false;
-        }
-
-        public void ShowErrorMessageBox()
-        {
-            string messageBoxText = "Visina i tezina moraju biti brojevi";
-            string content = "Greska";
-            MessageBoxImage icon = MessageBoxImage.Error;
-            MessageBoxButton button = MessageBoxButton.OK;
-            MessageBox.Show(messageBoxText, content, button, icon);
+            return float.TryParse(tbHeight.Text, out _) && float.TryParse(tbWidth.Text, out _);
         }
     }
 }

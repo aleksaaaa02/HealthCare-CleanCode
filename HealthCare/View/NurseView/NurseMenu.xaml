@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.PatientView"
         mc:Ignorable="d"
-        Title="NurseMenu" Height="250" Width="300">
+        Title="NurseMenu" Height="250" Width="300" Closing="Window_Closing">
     <Grid>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_Pacijent">

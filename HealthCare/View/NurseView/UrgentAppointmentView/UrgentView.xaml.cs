@@ -22,27 +22,25 @@ namespace HealthCare.View.UrgentAppointmentView
 {
     public partial class UrgentView : Window
     {
-        private Hospital hospital;
-        private PatientViewModel vm;
-        private Patient? patient;
+        private Hospital _hospital;
+        private PatientViewModel _model;
+        private Patient? _patient;
         public UrgentView(Hospital hospital)
         {
-            this.hospital = hospital;
+            this._hospital = hospital;
 
             InitializeComponent();
 
-            foreach (String specialization in hospital.DoctorService.GetSpecializations())
+            foreach (string specialization in hospital.DoctorService.GetSpecializations())
                 cbSpecialization.Items.Add(specialization);
             cbSpecialization.SelectedIndex = 0;
 
-            vm = new PatientViewModel(hospital.PatientService);
-            DataContext = vm;
+            _model = new PatientViewModel(hospital.PatientService);
+            DataContext = _model;
 
-            vm.Update();
-
+            _model.Update();
             tbJMBG.IsEnabled = false;
-
-            patient = null;
+            _patient = null;
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -52,8 +50,8 @@ namespace HealthCare.View.UrgentAppointmentView
 
         private void lvPatients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            patient = (Patient)lvPatients.SelectedItem;
-            tbJMBG.Text = patient.JMBG;
+            _patient = (Patient)lvPatients.SelectedItem;
+            tbJMBG.Text = _patient.JMBG;
         }
 
         private void cbOperation_Checked(object sender, RoutedEventArgs e)
@@ -69,42 +67,46 @@ namespace HealthCare.View.UrgentAppointmentView
         }
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            if (Validate())
+            if (!Validate())
             {
-                TimeSpan duration = new TimeSpan(0, int.Parse(tbDuration.Text), 0);
-                List<Doctor> specialists = hospital.DoctorService.GetBySpecialization(cbSpecialization.SelectedValue.ToString());
+                Utility.ShowWarning("Izaberite pacijenta i unesite duzinu trajanja u minutima.");
+                return;
+            }
 
-                Appointment? appointment = Schedule.GetUrgent(duration, specialists);
-                if (appointment is not null)
-                {
-                    appointment = FillAppointmentDetails(appointment);
-                    Schedule.CreateUrgentAppointment(appointment);
-                    return;
-                }
+            TimeSpan duration = new TimeSpan(0, int.Parse(tbDuration.Text), 0);
+            List<Doctor> specialists = _hospital.DoctorService.GetBySpecialization(cbSpecialization.SelectedValue.ToString());
 
-                List<Appointment> postponable = new List<Appointment>();
-                foreach (Doctor doctor in specialists)
-                {
-                    postponable.AddRange(Schedule.GetPostponable(duration, doctor));
-                }
-                postponable = postponable.OrderBy(x => Schedule.GetSoonestStartingTime(x)).ToList();
-
+            Appointment? appointment = Schedule.GetUrgent(duration, specialists);
+            if (appointment is not null)
+            {
                 appointment = FillAppointmentDetails(appointment);
-                appointment.TimeSlot = new TimeSlot(DateTime.MinValue, duration);
-                new PostponableAppointmentsView(appointment, postponable,hospital).ShowDialog();
-            }
-            else
-            {
-                ShowErrorMessageBox("Izaberite pacijenta i unesite duzinu trajanja u minutima.");
+                Schedule.CreateUrgentAppointment(appointment);
+
+                _hospital.NotificationService.Add(new Notification(
+                "Hitan termin sa ID-jem " + appointment.AppointmentID + " je kreiran.",
+                appointment.Doctor.JMBG));
+
+                Utility.ShowInformation("Uspesno kreiran hitan termin.");
+                return;
             }
 
+            List<Appointment> postponable = new List<Appointment>();
+            foreach (Doctor doctor in specialists)
+            {
+                postponable.AddRange(Schedule.GetPostponable(duration, doctor));
+            }
+            postponable = postponable.OrderBy(x => Schedule.GetSoonestStartingTime(x)).ToList();
+
+            appointment = FillAppointmentDetails(appointment);
+            appointment.TimeSlot = new TimeSlot(DateTime.MinValue, duration);
+            new PostponableAppointmentsView(appointment, postponable, _hospital).ShowDialog();
         }
         public Appointment FillAppointmentDetails(Appointment? appointment)
         {
-            if(appointment == null)
+            if (appointment == null)
                 appointment = new Appointment();
 
-            appointment.Patient = patient;
+            appointment.Patient = _patient;
             appointment.AppointmentID = Schedule.NextId();
             appointment.IsOperation = (cbOperation.IsChecked is bool Checked && Checked);
             return appointment;
@@ -112,7 +114,7 @@ namespace HealthCare.View.UrgentAppointmentView
 
         private bool Validate()
         {
-            return (tbDuration.Text != "" && tbJMBG.Text != null && patient is not null) ;
+            return tbDuration.Text != "" && tbJMBG.Text != null && _patient is not null;
         }
 
         public void ShowErrorMessageBox(string messageBoxText)
