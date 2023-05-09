@@ -37,7 +37,7 @@ namespace HealthCare.View.ManagerView
             DataContext = _model;
         }
 
-        private void Button_Clear(object sender, RoutedEventArgs e)
+        private void Button_Reset(object sender, RoutedEventArgs e)
         {
             cbExaminationalRT.IsChecked = false;
             cbOperationalRT.IsChecked = false;

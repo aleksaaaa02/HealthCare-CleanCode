@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HealthCare.View.ManagerView"
         mc:Ignorable="d"
         Title="Nabavka dinamičke opreme" MinHeight="500" MinWidth="400"
-        SizeToContent="WidthAndHeight">
+        SizeToContent="WidthAndHeight" Closed="Window_Closed">
     <Window.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource RoundedButton}">
             <Setter Property="Width" Value="70" />
@@ -79,12 +79,10 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Button Content="Resetuj"
-                    HorizontalAlignment="Left" Click="Button_Reset"/>
-            <Button Content="Nazad" Grid.Column="1"
-                    HorizontalAlignment="Center" Click="Button_Exit"/>
-            <Button Content="Poruči" Grid.Column="2"
-                    HorizontalAlignment="Right" FontWeight="Bold" Click="Button_Order"/>
+            <Button Content="Nazad" Click="Button_Exit"/>
+            <Button Content="Resetuj" Grid.Column="1" Click="Button_Reset"/>
+            <Button Content="Poruči" Grid.Column="2" FontWeight="Bold"
+                    Click="Button_Order"/>
         </Grid>
     </Grid>
 </Window>

@@ -5,9 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.ManagerView"
         mc:Ignorable="d"
-        Title="Upravnik meni" Height="350" Width="600" Closing="Window_Closing">
+        Title="Upravnik" Height="350" Width="600" Closing="Window_Closing">
     <Window.Resources>
-        <Style TargetType="Button" BasedOn="{StaticResource RoundedButton}" />
+        <Style TargetType="Button" BasedOn="{StaticResource RoundedButton}">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="DemiBold" />
+        </Style>
     </Window.Resources>
     <Grid Margin="20">
         <Grid.RowDefinitions>

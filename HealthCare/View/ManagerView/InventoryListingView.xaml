@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HealthCare.View.ManagerView"
         mc:Ignorable="d"
         Title="Oprema bolnice" MinHeight="500" MinWidth="600"
-        SizeToContent="WidthAndHeight" Closed="Window_Closed">
+        Closed="Window_Closed">
 
     <Window.Resources>
         <Style TargetType="ListViewItem">
@@ -58,15 +58,14 @@
                 <RadioButton Name="rbLot"  GroupName="gnQuantity" Content="vise od 10"/>
             </StackPanel>
             <StackPanel Margin="0 10">
-                <Button Content="Osveži" Click="Button_Clear" Margin="20 5" />
+                <Button Content="Resetuj" Click="Button_Reset" Margin="20 5" />
                 <Button Content="Nazad" Click="Window_Closed" Margin="20 5" />
             </StackPanel>
         </DockPanel>
 
         <DockPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="30 0">
             <Label Content="Pretraga:" VerticalAlignment="Center" />
-            <TextBox Name="searchBar" Margin="20 0 0 0" TextChanged="Filter_View" 
-                     FontSize="12" VerticalContentAlignment="Center" />
+            <TextBox Name="searchBar" Margin="20 0 0 0" TextChanged="Filter_View" />
         </DockPanel>
 
         <ListView Grid.Row="1" Grid.Column="1" Name="lvItems" ItemsSource="{Binding Items}">

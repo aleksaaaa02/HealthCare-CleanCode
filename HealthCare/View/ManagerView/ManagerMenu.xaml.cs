@@ -42,12 +42,12 @@ namespace HealthCare.View.ManagerView
 
         private void Button_Rearanging(object sender, RoutedEventArgs e)
         {
-            new EquipmentRearangingView(this, _hospital).Show();
+            new EquipmentRearrangingView(this, _hospital).Show();
         }
 
         private void Button_Logout(object sender, RoutedEventArgs e)
         {
-            Close();
+            Hide();
             _loginWindow.Show();
         }
 
