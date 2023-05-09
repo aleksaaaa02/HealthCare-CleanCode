@@ -11,7 +11,7 @@ namespace HealthCare.Model
 {
     public class Anamnesis : Indentifier, ISerializable
     {
-        public override object Key { get => ID; set => ID = (int) value; }
+        public override object Key { get => ID; set => ID = (int)value; }
         public int ID { get; set; }
         public string DoctorsObservations { get; set; }
         public string[] Symptoms { get; set; }

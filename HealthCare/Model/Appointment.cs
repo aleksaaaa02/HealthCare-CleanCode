@@ -10,7 +10,7 @@ namespace HealthCare.Model
 {
     public class Appointment : ISerializable
     {
-        public int AppointmentID {get;set;}
+        public int AppointmentID { get; set; }
         public Patient Patient { get; set; }
         public Doctor Doctor { get; set; }
         public TimeSlot TimeSlot { get; set; }
@@ -20,7 +20,7 @@ namespace HealthCare.Model
 
         public Appointment() : this(new Patient(), new Doctor(), new TimeSlot(), false)
         {
-            
+
         }
 
         public Appointment(Patient patient, Doctor doctor, TimeSlot timeSlot, bool isOperation)
@@ -30,7 +30,7 @@ namespace HealthCare.Model
             TimeSlot = timeSlot;
             IsOperation = isOperation;
             AnamnesisID = 0;
-            IsUrgent = false; 
+            IsUrgent = false;
         }
 
         public Appointment(Patient patient, Doctor doctor, TimeSlot timeSlot, bool isOperation, int anamnesisID)
@@ -45,7 +45,7 @@ namespace HealthCare.Model
 
         public string[] ToCSV()
         {
-            string[] csvValues = {AppointmentID.ToString(), Patient.JMBG.ToString(), Doctor.JMBG.ToString(), TimeSlot.ToString(), IsOperation.ToString(),AnamnesisID.ToString(),IsUrgent.ToString()};
+            string[] csvValues = { AppointmentID.ToString(), Patient.JMBG.ToString(), Doctor.JMBG.ToString(), TimeSlot.ToString(), IsOperation.ToString(), AnamnesisID.ToString(), IsUrgent.ToString() };
             return csvValues;
         }
 
@@ -54,7 +54,7 @@ namespace HealthCare.Model
             AppointmentID = int.Parse(values[0]);
             Patient = new Patient();
             Patient.JMBG = values[1];
-            
+
             Doctor = new Doctor();
             Doctor.JMBG = values[2];
 
