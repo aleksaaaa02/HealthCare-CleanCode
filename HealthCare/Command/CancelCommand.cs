@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace HealthCare.Command
 {
-    public class CancelNewAppointmentDoctorCommand : CommandBase
+    public class CancelCommand : CommandBase
     {
         private Window _window;
-        public CancelNewAppointmentDoctorCommand(Window window)
+        public CancelCommand(Window window)
         {
             _window = window;
         }

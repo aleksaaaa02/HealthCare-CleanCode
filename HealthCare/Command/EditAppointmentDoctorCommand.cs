@@ -5,10 +5,7 @@ using HealthCare.View;
 using HealthCare.View.DoctorView;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 using System.Windows;
 
 namespace HealthCare.Command
@@ -25,22 +22,39 @@ namespace HealthCare.Command
 
         public override void Execute(object parameter)
         {
-            AppointmentViewModel appointmentViewModel = _doctorMainViewModel.SelectedPatient;
-            if (appointmentViewModel is null)
+            try
             {
-                Utility.ShowWarning("Morate odabrati pregled/operaciju iz tabele!");
-                return;
+                Validate();
+                EditSelectedAppointment();
             }
+            catch (ValidationException ve)
+            {
+                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
 
-            Appointment selectedAppointment = Schedule.GetAppointment(Convert.ToInt32(appointmentViewModel.AppointmentID));           
-            if (selectedAppointment is null)
-            {
-                Utility.ShowError("Ups doslo je do greske");
-                return;
-            }
+        private void EditSelectedAppointment()
+        {
+            AppointmentViewModel appointmentViewModel = _doctorMainViewModel.SelectedPatient;
+            Appointment selectedAppointment = Schedule.GetAppointment(Convert.ToInt32(appointmentViewModel.AppointmentID));
             MakeAppointmentView makeAppointmentView = new MakeAppointmentView(_hospital, _doctorMainViewModel, selectedAppointment);
             makeAppointmentView.ShowDialog();
+        }
 
+        private void Validate()
+        {
+            AppointmentViewModel appointmentViewModel = _doctorMainViewModel.SelectedPatient;
+            if (appointmentViewModel == null)
+            {
+                throw new ValidationException("Morate odabrati pregled/operaciju iz tabele!");
+            }
+
+            Appointment selectedAppointment = Schedule.GetAppointment(Convert.ToInt32(appointmentViewModel.AppointmentID));
+            if (selectedAppointment == null)
+            {
+                throw new ValidationException("Ups doslo je do greske");
+                
+            }
 
         }
 

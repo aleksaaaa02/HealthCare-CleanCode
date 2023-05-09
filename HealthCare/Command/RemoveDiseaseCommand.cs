@@ -1,30 +1,36 @@
-﻿using HealthCare.View;
+﻿using HealthCare.Exceptions;
 using HealthCare.View.DoctorView;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace HealthCare.Command
 {
     public class RemoveDiseaseCommand : CommandBase
-    {
+    {          
 
-        private readonly PatientInforamtionViewModel _view;
-        public RemoveDiseaseCommand(PatientInforamtionViewModel view) {
-            _view = view;
+        private readonly PatientInforamtionViewModel _viewModel;
+        public RemoveDiseaseCommand(PatientInforamtionViewModel viewModel) {
+            _viewModel = viewModel;
         }
         public override void Execute(object parameter)
         {
-            string disease = _view.SelectedDisease;
-            if(disease is null)
+            try
             {
-                Utility.ShowWarning("Morate odabrati bolest koju zelite da uklonite.");
-                return;
+                Validate();
+                string selectedDisease = _viewModel.SelectedDisease;
+                _viewModel.RemovePreviousDisease(selectedDisease);
             }
-            _view.RemoveDisease(disease);
+            catch (ValidationException ve)
+            {
+                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+            }
+        }
+        private void Validate()
+        {
+            if (string.IsNullOrWhiteSpace(_viewModel.SelectedDisease))
+            {
+                throw new ValidationException("Morate odabrati bolest koju zelite da uklonite.");
+            }
         }
     }
 }

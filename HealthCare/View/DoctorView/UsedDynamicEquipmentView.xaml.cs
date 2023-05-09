@@ -1,26 +1,24 @@
 ﻿using HealthCare.Context;
-using HealthCare.Model;
+using HealthCare.ViewModel.DoctorViewModel.UsedEquipment;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 
 namespace HealthCare.View.DoctorView
 {
-    /// <summary>
-    /// Interaction logic for Window1.xaml
-    /// </summary>
-    public partial class PatientInformationView : Window
+    public partial class UsedDynamicEquipmentView : Window
     {
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
-        public PatientInformationView(Patient patient, Hospital hospital, bool isEdit)
+        public UsedDynamicEquipmentView(Hospital hospital, int roomId)
         {
             InitializeComponent();
-
-            DataContext = new PatientInforamtionViewModel(patient, hospital, isEdit);            
+            DataContext = new UsedDynamicEquipmentViewModel(hospital, this, roomId);
         }
+
+    
     }
 }

@@ -4,10 +4,6 @@ using HealthCare.Service;
 using HealthCare.View;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace HealthCare.Command
@@ -19,8 +15,6 @@ namespace HealthCare.Command
         private readonly Window _window;
         private readonly Hospital _hospital;
         private readonly bool _isEditing;
-        // Treba dodati _hospital Zbog Service
-
 
         public AddNewAppointmentDoctorCommand(Hospital hospital,MakeAppointmentViewModel viewModel, DoctorMainViewModel docMainViewModel, Window window, bool isEditing)
         {
@@ -34,51 +28,68 @@ namespace HealthCare.Command
 
         public override void Execute(object parameter)
         {
-            if(_makeAppointmentViewModel.SelectedPatient is null)
+            if (_makeAppointmentViewModel.SelectedPatient is null)
             {
-                Utility.ShowWarning("Morate odabrati pacijenta!");
+                ShowErrorMessageBox("Morate odabrati pacijenta!");
                 return;
             }
+
             Patient patient = _hospital.PatientService.GetAccount(_makeAppointmentViewModel.SelectedPatient.JMBG);
-            if(patient is null)
+            if (patient is null)
             {
-                Utility.ShowWarning("Oops... Doslo je do greske probajte ponovo!");
+                ShowErrorMessageBox("Oops... Doslo je do greske probajte ponovo!");
                 return;
-                
             }
-            DateTime start = _makeAppointmentViewModel.StartDate.Date;
-            int hours = _makeAppointmentViewModel.Hours;
-            int minutes = _makeAppointmentViewModel.Minutes;
-            start = start + new TimeSpan(hours, minutes, 0);
-            TimeSpan duration = new TimeSpan(0, 15, 0);
-            bool isOperation = _makeAppointmentViewModel.IsOperation;
-            if (isOperation)
+
+            Appointment newAppointment = MakeAppointment(patient);
+
+            if (_isEditing)
             {
-                int durationMinutes = _makeAppointmentViewModel.Duration;
-                duration = new TimeSpan(0, durationMinutes, 0);
-            }
-            TimeSlot timeSlot = new TimeSlot(start, duration);
-            Appointment newAppointment = new Appointment(patient, (Doctor)_hospital.Current, timeSlot , isOperation );
-            if (!_isEditing)
-            {
-                if (Schedule.CreateAppointment(newAppointment))
-                {
-                    _doctorMainViewModel.Update();
-                    _window.Close();
-                }
-                else
-                {
-                    Utility.ShowWarning("Doktor ili pacijent je zauzet u ovom terminu, odaberite drugi termin");
-                }
+                EditAppointment(newAppointment);
             }
             else
             {
-                newAppointment.AppointmentID = Convert.ToInt32(_doctorMainViewModel.SelectedPatient.AppointmentID);
-                Schedule.UpdateAppointment(newAppointment);
-                _doctorMainViewModel.Update();
-                _window.Close();
+                if (!Schedule.CreateAppointment(newAppointment))
+                {
+                    ShowErrorMessageBox("Doktor ili pacijent je zauzet u ovom terminu, odaberite drugi termin");
+                    return;
+                }
+                else
+                {
+
+                    _doctorMainViewModel.Update();
+                    _window.Close();
+                }
             }
 
+        }
+
+        private void EditAppointment(Appointment newAppointment)
+        {
+            newAppointment.AppointmentID = Convert.ToInt32(_doctorMainViewModel.SelectedPatient.AppointmentID);
+            if (!Schedule.UpdateAppointment(newAppointment))
+            {
+                ShowErrorMessageBox("Doktor ili pacijent je zauzet u ovom terminu, odaberite drugi termin");
+                return;
+            }
+
+            _doctorMainViewModel.Update();
+            _window.Close();
+        }
+
+        private Appointment MakeAppointment(Patient patient)
+        {
+            DateTime start = _makeAppointmentViewModel.StartDate.Date + new TimeSpan(_makeAppointmentViewModel.Hours, _makeAppointmentViewModel.Minutes, 0);
+            TimeSpan duration = TimeSpan.FromMinutes(_makeAppointmentViewModel.IsOperation ? _makeAppointmentViewModel.Duration : 15);
+            TimeSlot timeSlot = new TimeSlot(start, duration);
+
+            Appointment newAppointment = new Appointment(patient, (Doctor)_hospital.Current, timeSlot, _makeAppointmentViewModel.IsOperation);
+            return newAppointment;
+        }
+
+        private void ShowErrorMessageBox(string message)
+        {
+            MessageBox.Show(message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }
 }

@@ -17,12 +17,10 @@ namespace HealthCare.Service
 
         public static int NextId()
         {
-            Load(Global.appointmentPath);
             return Appointments.Max(s => s.AppointmentID) + 1;
         }
         public static List<Appointment> GetDoctorAppointments(Doctor Doctor)
         {
-            Load(Global.appointmentPath);
             List<Appointment> DoctorAppointments = new List<Appointment>();
             foreach (Appointment appointment in Appointments)
             {
@@ -36,7 +34,6 @@ namespace HealthCare.Service
 
         public static List<Appointment> GetDoctorAppointmentsForDays(Doctor doctor, DateTime start, int days)
         {
-            Load(Global.appointmentPath);
             List<Appointment> appointments = new List<Appointment>();
             DateTime end = start.AddDays(days);
             foreach (Appointment appointment in GetDoctorAppointments(doctor))
@@ -51,7 +48,6 @@ namespace HealthCare.Service
         }
         public static List<Appointment> GetPatientAppointments(Patient Patient)
         {
-            Load(Global.appointmentPath);
             List<Appointment> PatientAppointments = new List<Appointment>();
             foreach (Appointment appointment in Appointments)
             {
@@ -65,7 +61,6 @@ namespace HealthCare.Service
 
         public static bool CreateAppointment(Appointment appointment)
         {
-            Load(Global.appointmentPath);
             if (appointment.Patient.IsAvailable(appointment.TimeSlot) && appointment.Doctor.IsAvailable(appointment.TimeSlot))
             {
                 appointment.AppointmentID = NextId();
@@ -78,7 +73,6 @@ namespace HealthCare.Service
 
         public static bool UpdateAppointment(Appointment updatedAppointment)
         {
-            Load(Global.appointmentPath);
             Appointment appointment = Appointments.Find(x => x.AppointmentID == updatedAppointment.AppointmentID);
             int appointmentIndex = Appointments.IndexOf(appointment);
             if (appointmentIndex != -1)
@@ -107,7 +101,6 @@ namespace HealthCare.Service
 
         public static void DeleteAppointment(int appointmentID)
         {
-            Load(Global.appointmentPath);
             Appointment? appointment = Appointments.Find(x => x.AppointmentID == appointmentID);
             if (appointment != null) 
             {
@@ -119,7 +112,6 @@ namespace HealthCare.Service
 
         public static Appointment GetAppointment(int appointmentID)
         {
-            Load(Global.appointmentPath);
             return Appointments.Find(x => x.AppointmentID == appointmentID);
         }
 
@@ -137,7 +129,6 @@ namespace HealthCare.Service
 
         public static Appointment? GetStartingAppointment(string JMBG)
         {
-            Load(Global.appointmentPath);
             DateTime reception = DateTime.Now;
 
             foreach(Appointment appointment in Appointments)
@@ -154,7 +145,6 @@ namespace HealthCare.Service
 
         public static Appointment? GetUrgent(TimeSpan duration, List<Doctor> specialists)
         {
-            Load(Global.appointmentPath);
             DateTime soonest = DateTime.MaxValue;
             Doctor chosen = new Doctor();
             Appointment urgent = new Appointment();
@@ -190,7 +180,6 @@ namespace HealthCare.Service
 
         public static List<Appointment> GetPostponable(TimeSpan duration, Doctor specialist)
         {
-            Load(Global.appointmentPath);
             List<Appointment> postponable = new List<Appointment>();
 
             foreach (Appointment appointment in GetDoctorAppointments(specialist))
@@ -220,7 +209,6 @@ namespace HealthCare.Service
 
         public static List<Appointment> GetPossibleIntersections(Appointment appointment)
         {
-            Load(Global.appointmentPath);
             List<Appointment> appointments = new List<Appointment>();
             foreach (Appointment a in Appointments)
             {
@@ -265,5 +253,11 @@ namespace HealthCare.Service
             Appointments.Add(appointment);
             Save(Global.appointmentPath);
         }
+
+        public static bool HasAppointmentStarted(Appointment appointment)
+        {
+            return appointment.TimeSlot.Start < DateTime.Now && appointment.TimeSlot.GetEnd() > DateTime.Now;
+        }
+
     }
 }

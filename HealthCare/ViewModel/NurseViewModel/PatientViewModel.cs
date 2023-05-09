@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCare.ViewModel
+namespace HealthCare.ViewModel.NurseViewModel
 {
     public class PatientViewModel
     {

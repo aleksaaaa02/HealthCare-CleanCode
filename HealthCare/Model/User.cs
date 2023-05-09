@@ -60,5 +60,16 @@ namespace HealthCare.Model
             Password = values[7];
             Gender = Utility.Parse<Gender>(values[8]);
         }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is User user &&
+                   JMBG == user.JMBG;
+        }
+
+        public override int GetHashCode()
+        {
+            return JMBG.GetHashCode();
+        }
     }
 }
