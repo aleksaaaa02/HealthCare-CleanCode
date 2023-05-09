@@ -1,5 +1,6 @@
 ﻿using HealthCare.Context;
 using HealthCare.ViewModels.DoctorViewModel;
+using System.ComponentModel;
 using System.Windows;
 
 namespace HealthCare.View.DoctorView
@@ -9,9 +10,9 @@ namespace HealthCare.View.DoctorView
     /// </summary>
     public partial class DoctorMainView : Window
     {
-        private Window _loginWindow;
+        private MainWindow _loginWindow;
 
-        public DoctorMainView(Window loginWindow, Hospital hospital)
+        public DoctorMainView(MainWindow loginWindow, Hospital hospital)
         {
             _loginWindow = loginWindow;
             InitializeComponent();
@@ -24,12 +25,12 @@ namespace HealthCare.View.DoctorView
             Close();
         }
 
-        /*
+        
         protected override void OnClosing(CancelEventArgs e)
         {
             e.Cancel = true;
-            Application.Current.Shutdown();
+            _loginWindow.ExitApp();
         }
-        */
+        
     }
 }
