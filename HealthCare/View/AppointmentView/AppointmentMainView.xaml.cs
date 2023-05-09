@@ -42,73 +42,7 @@ namespace HealthCare.View.AppointmentView
             File.AppendAllText("../../../Resource/PatientLogs.csv",stringtocsv);
         }
 
-        Appointment GetAppointmentByDoctor(Doctor doctor)
-        {
-            DateTime startDate = DateTime.Today;
-            startDate = startDate.AddMinutes(15);
-            Patient patient = (Patient)_hospital.Current;
-            while (true)
-            {
-                TimeSlot timeSlot = new TimeSlot(startDate,new TimeSpan(0,15,0));       
-                if (doctor.IsAvailable(timeSlot) && patient.IsAvailable(timeSlot)) {
-                    return new Appointment(patient,doctor,timeSlot,false);
-                }
-                else
-                {
-                    startDate = startDate.AddMinutes(15);
-                }
-            }
-        }
-
-        Appointment GetAppointmentByDate(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd)
-        {
-            List<Doctor> doctors = _hospital.DoctorService.GetAll();
-            foreach (Doctor doctor in doctors)
-            {
-                DateTime startDate = DateTime.Today;
-                startDate = startDate.AddHours(hoursStart);
-                startDate = startDate.AddMinutes(minutesStart);
-                Patient patient = (Patient)_hospital.Current;
-                while (startDate < endDate)
-                {
-                    TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
-                    if (patient.IsAvailable(timeSlot) && doctor.IsAvailable(timeSlot))
-                    {
-                        return new Appointment(patient, doctor, timeSlot, false);
-                    }
-                    startDate = startDate.AddMinutes(15);
-                    if (startDate.Hour > hoursEnd)
-                    {
-                        startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart, minutesStart, 0);
-                    }
-                }
-            }
-            return null;
-        }
-
-        Appointment GetAppointmentByDateAndDoctor(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor)
-        {
-
-            DateTime startDate = DateTime.Today;
-            startDate = startDate.AddHours(hoursStart);
-            startDate = startDate.AddMinutes(minutesStart);
-            Patient patient = (Patient)_hospital.Current;
-            while (startDate < endDate)
-            {
-                TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
-                if (patient.IsAvailable(timeSlot) && doctor.IsAvailable(timeSlot))
-                {
-                    return new Appointment(patient, doctor, timeSlot, false);
-                }
-                startDate = startDate.AddMinutes(15);
-                if (startDate.Hour > hoursEnd)
-                {
-                    startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart, minutesStart, 0);
-                }
-            }
-
-            return null;
-        }
+        
 
 
 
@@ -344,6 +278,16 @@ namespace HealthCare.View.AppointmentView
         private void btnRecord_Click(object sender, RoutedEventArgs e)
         {
             new PatientRecordView(_hospital).Show();
+        }
+
+        private void btnRecord_Click_1(object sender, RoutedEventArgs e)
+        {
+            new PatientRecordView(_hospital).Show();
+        }
+
+        private void btnPriority_Click(object sender, RoutedEventArgs e)
+        {
+            new PriorityAppointmentView(_hospital).Show();
         }
     }
 }
