@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
-    public class RoomService : Service<Room>
+    public class RoomService : NumericService<Room>
     {
         public RoomService(string filepath) : base(filepath) { }
 

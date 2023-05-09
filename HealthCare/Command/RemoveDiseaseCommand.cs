@@ -1,4 +1,5 @@
-﻿using HealthCare.View.DoctorView;
+﻿using HealthCare.View;
+using HealthCare.View.DoctorView;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,9 @@ namespace HealthCare.Command
         public override void Execute(object parameter)
         {
             string disease = _view.SelectedDisease;
-            if(disease == null)
+            if(disease is null)
             {
-                MessageBox.Show("Morate odabrati bolest koju zelite da uklonite.", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Utility.ShowWarning("Morate odabrati bolest koju zelite da uklonite.");
                 return;
             }
             _view.RemoveDisease(disease);

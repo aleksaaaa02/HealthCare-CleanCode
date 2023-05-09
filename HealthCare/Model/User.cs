@@ -12,8 +12,9 @@ namespace HealthCare.Model
         Male,
         Female
     }
-    public class User : ISerializable, IKey
+    public class User : Indentifier, ISerializable
     {
+        public override object Key { get => JMBG; set => JMBG = (string)value; }
         public string Name { get; set; }
         public string LastName { get; set; }
         public string JMBG { get; set; }
@@ -43,7 +44,7 @@ namespace HealthCare.Model
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Name, LastName, JMBG, BirthDate.ToString(), PhoneNumber, Address, UserName, Password, Gender.ToString() };
+            string[] csvValues = { Name, LastName, JMBG, Utility.ToString(BirthDate), PhoneNumber, Address, UserName, Password, Gender.ToString() };
             return csvValues;
         }
 
@@ -52,22 +53,12 @@ namespace HealthCare.Model
             Name = values[0];
             LastName = values[1];
             JMBG = values[2];
-            BirthDate = DateTime.Parse(values[3]);
+            BirthDate = Utility.ParseDate(values[3]);
             PhoneNumber = values[4];
             Address = values[5];
             UserName = values[6];
             Password = values[7];
-            Gender = (Gender) Enum.Parse(typeof(Gender), values[8]);
-        }
-
-        public object GetKey()
-        {
-            return JMBG;
-        }
-
-        public void SetKey(object key)
-        {
-            JMBG = (string) key;
+            Gender = Utility.Parse<Gender>(values[8]);
         }
     }
 }

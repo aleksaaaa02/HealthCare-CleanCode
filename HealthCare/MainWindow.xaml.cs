@@ -20,6 +20,7 @@ namespace HealthCare
     public partial class MainWindow : Window
     {
         private readonly Hospital _hospital;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -45,7 +46,7 @@ namespace HealthCare
                 switch (_hospital.LoginRole(username, password))
                 {
                     case UserRole.Manager:
-                        new EquipmentOrderView(this, _hospital).Show();
+                        new ManagerMenu(this, _hospital).Show();
                         break;
                     case UserRole.Doctor:
                         new DoctorMainView(this, _hospital).Show();
@@ -54,18 +55,15 @@ namespace HealthCare
                         new NurseMenu(this, _hospital).Show();
                         break;
                     case UserRole.Patient:
-                        AppointmentMainView appointmentMainView = new AppointmentMainView(_hospital);
-                        appointmentMainView.Show();
+                        new AppointmentMainView(_hospital).Show();
                         break;
                 }
 
                 txtUserName.Clear();
                 txtPassword.Clear();
                 Hide();
-            } catch (IncorrectPasswordException _) {
-                MessageBox.Show("Pogresna lozinka. Pokusajte ponovo.", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
-            } catch (UsernameNotFoundException _) {
-                MessageBox.Show("Nepostojece korisnicko ime.", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+            } catch (LoginException ex) {
+                Utility.ShowWarning(ex.Message);
             }
         }
 
@@ -75,6 +73,11 @@ namespace HealthCare
                 return;
             foreach(Notification notification in _hospital.NotificationService.GetForUser(_hospital.Current.JMBG)) 
                 MessageBox.Show(notification.Text,"Obavestenje",MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        public void ExitApp()
+        {
+            Application.Current.Shutdown();
         }
     }
 }

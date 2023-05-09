@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace HealthCare.Context
 {
@@ -18,9 +21,14 @@ namespace HealthCare.Context
         public const string equipmentPath = dirPath + "equipment.csv";
         public const string appointmentPath = dirPath + "appointments.csv";
         public const string inventoryPath = dirPath + "inventory_items.csv";
-        public const string notificationPath = dirPath + "notifications.csv";
+        public const string orderPath = dirPath + "orders.csv";
+        public const string transferPath = dirPath + "transfers.csv";
+        internal static string notificationPath = dirPath + "notifications.csv";
 
         public const string managerUsername = "admin";
         public const string managerPassword = "admin";
+
+        public const string dateFormat = "dd-MM-yyyy HH:mm:ss";
+        public const string timeSpanFormat = "c";
     }
 }

@@ -1,6 +1,7 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.View;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.Collections.Generic;
@@ -33,15 +34,15 @@ namespace HealthCare.Command
 
         public override void Execute(object parameter)
         {
-            if(_makeAppointmentViewModel.SelectedPatient == null)
+            if(_makeAppointmentViewModel.SelectedPatient is null)
             {
-                MessageBox.Show("Morate odabrati pacijenta!", "Greska",MessageBoxButton.OK, MessageBoxImage.Warning);
+                Utility.ShowWarning("Morate odabrati pacijenta!");
                 return;
             }
             Patient patient = _hospital.PatientService.GetAccount(_makeAppointmentViewModel.SelectedPatient.JMBG);
-            if(patient == null)
+            if(patient is null)
             {
-                MessageBox.Show("Oops... Doslo je do greske probajte ponovo!", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Utility.ShowWarning("Oops... Doslo je do greske probajte ponovo!");
                 return;
                 
             }
@@ -67,7 +68,7 @@ namespace HealthCare.Command
                 }
                 else
                 {
-                    MessageBox.Show("Doktor ili pacijent je zauzet u ovom terminu, odaberite drugi termin", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    Utility.ShowWarning("Doktor ili pacijent je zauzet u ovom terminu, odaberite drugi termin");
                 }
             }
             else

@@ -26,7 +26,9 @@ namespace HealthCare.Context
         public DoctorService DoctorService;
         public PatientService PatientService;
         public AnamnesisService AnamnesisService;
-        public EquipmentService EquipmentService;
+        public Inventory Inventory;
+        public OrderService OrderService;
+        public TransferService TransferService;
         public NotificationService NotificationService;
 
         public Hospital() : this("Bolnica") { }
@@ -43,15 +45,19 @@ namespace HealthCare.Context
             PatientService = new PatientService(Global.patientPath);
             EquipmentService = new EquipmentService(Global.equipmentPath);
             AnamnesisService = new AnamnesisService(Global.anamnesisPath);
+            Inventory = new Inventory(Global.inventoryPath);
+            OrderService = new OrderService(Global.orderPath, Inventory, RoomService);
+            TransferService = new TransferService(Global.transferPath, Inventory);
             NotificationService = new NotificationService(Global.notificationPath);
         }
 
         public void LoadAll()
         {
             Schedule.Load(Global.appointmentPath);
-
             FillAppointmentDetails();
-            // ExecuteEquipmentOrders();
+
+            OrderService.ExecuteOrders();
+            TransferService.ExecuteTransfers();
         }
 
         public void SaveAll()
@@ -64,7 +70,7 @@ namespace HealthCare.Context
             if (Global.managerUsername == username)
             {
                 if (Global.managerPassword != password)
-                    throw new IncorrectPasswordException();
+                    throw new LoginException();
                 return UserRole.Manager;
             }
 
@@ -72,7 +78,7 @@ namespace HealthCare.Context
             if (u is not null)
             {
                 if (u.Password != password)
-                    throw new IncorrectPasswordException();
+                    throw new LoginException();
                 Current = u;
                 return UserRole.Doctor;
             }
@@ -81,7 +87,7 @@ namespace HealthCare.Context
             if (u is not null)
             {
                 if (u.Password != password)
-                    throw new IncorrectPasswordException();
+                    throw new LoginException();
                 Current = u;
                 return UserRole.Nurse;
             }
@@ -90,7 +96,7 @@ namespace HealthCare.Context
             if (u is not null)
             {
                 if (u.Password != password)
-                    throw new IncorrectPasswordException();
+                    throw new LoginException();
                 Current = u;
                 return UserRole.Patient;
             }
@@ -105,16 +111,5 @@ namespace HealthCare.Context
                 appointment.Patient = PatientService.GetAccount(appointment.Patient.JMBG);
             }
         }
-        
-        private void ExecuteEquipmentOrders()
-        {
-            int warehouseId = RoomService.GetWarehouseId();
-            foreach (OrderItem item in OrderService.GetAll())
-            {
-                if (!item.Executed && item.Scheduled >= DateTime.Now)
-                    Inventory.RestockInventoryItem(new InventoryItem(0, item.EquipmentId, warehouseId, item.Quantity));
-            }
-        }
-        
     }
 }

@@ -26,7 +26,7 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0">
                     <Label Content="Korisnicko Ime:"/>
-                    <TextBox Name="txtUserName" Margin="10" Height="25" VerticalContentAlignment="Center" />
+                    <TextBox Name="txtUserName" Margin="10" Height="25" />
                 </StackPanel>
                 <StackPanel Grid.Row="1">
                     <Label Content="Lozinka:"/>
