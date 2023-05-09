@@ -27,7 +27,7 @@ namespace HealthCare.View.AppointmentView
         public void LoadData()
         {
             List<Appointment> appointments = Schedule.GetPatientAppointments((Patient)_hospital.Current);
-            listView1.ItemsSource = new ObservableCollection<Appointment>(appointments);
+            listViewRecord.ItemsSource = new ObservableCollection<Appointment>(appointments);
         }
 
         public PatientRecordView(Hospital hospital)

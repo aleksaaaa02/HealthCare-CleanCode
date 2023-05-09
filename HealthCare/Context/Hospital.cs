@@ -15,7 +15,7 @@ namespace HealthCare.Context
     }
 
     public class Hospital
-    {   
+    {
         public string Name { get; set; }
         public User? Current { get; set; }
 
@@ -27,8 +27,8 @@ namespace HealthCare.Context
         public PatientService PatientService;
         public AnamnesisService AnamnesisService;
         public TransferService TransferService;
-        public NotificationService NotificationService;
         public EquipmentService EquipmentService;
+        public NotificationService NotificationService;
 
         public Hospital() : this("Bolnica") { }
         public Hospital(string name)
@@ -38,7 +38,6 @@ namespace HealthCare.Context
 
             RoomService = new RoomService(Global.roomPath);
             Inventory = new Inventory(Global.inventoryPath);
-            OrderService = new OrderService(Global.orderPath);
             NurseService = new NurseService(Global.nursePath);
             DoctorService = new DoctorService(Global.doctorPath);
             PatientService = new PatientService(Global.patientPath);
@@ -104,7 +103,7 @@ namespace HealthCare.Context
 
         private void FillAppointmentDetails()
         {
-            foreach(Appointment appointment in Schedule.Appointments)
+            foreach (Appointment appointment in Schedule.Appointments)
             {
                 appointment.Doctor = DoctorService.GetAccount(appointment.Doctor.JMBG);
                 appointment.Patient = PatientService.GetAccount(appointment.Patient.JMBG);

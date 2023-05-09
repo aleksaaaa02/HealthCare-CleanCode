@@ -6,13 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
-using HealthCare.Model;
 
 namespace HealthCare.Model
 {
     public class Anamnesis : Indentifier, ISerializable
     {
-        public override object Key { get => ID; set => ID = (int) value; }
+        public override object Key { get => ID; set => ID = (int)value; }
         public int ID { get; set; }
         public string DoctorsObservations { get; set; }
         public string[] Symptoms { get; set; }
@@ -24,7 +23,7 @@ namespace HealthCare.Model
             Symptoms = new string[0];
         }
 
-        public Anamnesis(int id,string doctorsObservations, string[] symptoms)
+        public Anamnesis(int id, string doctorsObservations, string[] symptoms)
         {
             ID = id;
             DoctorsObservations = doctorsObservations;
@@ -40,10 +39,8 @@ namespace HealthCare.Model
 
         public string[] ToCSV()
         {
-            string medicalHistory = Utility.ToString(MedicalHistory);
-            string allergies = Utility.ToString(Allergies);
-            string symptoms = Utility.ToString(Symptoms);
-            string[] csvValues = { ID.ToString(),DoctorsObservations,medicalHistory,symptoms,allergies};
+            string symptoms = string.Join("|", Symptoms);
+            string[] csvValues = { ID.ToString(), DoctorsObservations, symptoms };
             return csvValues;
         }
     }
