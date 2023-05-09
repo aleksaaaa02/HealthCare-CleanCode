@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
-    public abstract class Service<T> where T : ISerializable, IKey, new()
+    public abstract class Service<T> where T : Indentifier, ISerializable, new()
     {
         protected Repository<T> _repository;
         public Service(string filepath)
@@ -45,6 +45,11 @@ namespace HealthCare.Service
         public bool Contains(object id)
         {
             return _repository.Contains(id);
+        }
+
+        public int Count()
+        {
+            return GetAll().Count;
         }
 
         public List<T> GetAll()

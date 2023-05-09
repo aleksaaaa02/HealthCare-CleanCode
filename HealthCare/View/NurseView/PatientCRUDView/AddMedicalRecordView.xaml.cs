@@ -1,0 +1,82 @@
+﻿using HealthCare.Model;
+using HealthCare.Service;
+using HealthCare.View.ReceptionView;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
+namespace HealthCare.View.PatientView
+{
+    public partial class AddMedicalRecordView : Window
+    {
+        private NurseMainView? _nurseView;
+        private CreatePatientView? _patientView;
+        public AddMedicalRecordView(NurseMainView window)
+        {
+            _nurseView = window;
+            _patientView = null;
+            InitializeComponent();
+            if (_nurseView._record is not null)
+            {
+                tbHeight.Text = _nurseView._record.Height.ToString();
+                tbWidth.Text = _nurseView._record.Weight.ToString();
+                rtbMedicalHistory.AppendText(string.Join(",", _nurseView._record.MedicalHistory));
+            }
+            else {
+                _nurseView._record = new MedicalRecord();
+            }
+        }
+
+        public AddMedicalRecordView(CreatePatientView patientView)
+        {
+            _patientView = patientView;
+            _nurseView = null;
+            InitializeComponent();
+            _patientView._record = new MedicalRecord();
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            if (!Validate())
+            {
+                Utility.ShowWarning("Visina i tezina moraju biti brojevi");
+                return;
+            }
+
+            MedicalRecord medicalRecord = new MedicalRecord();
+            medicalRecord.Height = float.Parse(tbHeight.Text);
+            medicalRecord.Weight = float.Parse(tbWidth.Text);
+            TextRange textRange = new TextRange(
+                rtbMedicalHistory.Document.ContentStart,
+                rtbMedicalHistory.Document.ContentEnd
+            );
+            medicalRecord.MedicalHistory = Utility.GetArray(textRange.Text);
+
+            if (_nurseView is not null)
+                _nurseView._record = medicalRecord;
+            else
+                _patientView._record = medicalRecord;
+            Close();  
+        }
+
+        public bool Validate()
+        {
+            return float.TryParse(tbHeight.Text, out _) && float.TryParse(tbWidth.Text, out _);
+        }
+    }
+}

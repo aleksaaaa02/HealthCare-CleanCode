@@ -1,6 +1,7 @@
 ﻿using HealthCare.Context;
 using HealthCare.Exceptions;
 using HealthCare.Model;
+using HealthCare.View;
 using HealthCare.View.DoctorView;
 using System.Linq;
 using System.Windows;

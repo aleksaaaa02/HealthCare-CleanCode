@@ -1,6 +1,7 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.View;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.ComponentModel.DataAnnotations;

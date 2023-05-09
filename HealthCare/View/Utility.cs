@@ -1,14 +1,42 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Context;
+using HealthCare.Model;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace HealthCare.View
 {
-    internal static class ViewUtil
+    public static class Utility
     {
+
+        public static void ShowInformation(string message)
+        {
+            MessageBox.Show(message, "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        // For user induced errors
+        public static void ShowWarning(string message)
+        {
+            MessageBox.Show(message, "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+
+        // For INTERNAL errors
+        public static void ShowError(string message)
+        {
+            MessageBox.Show(message, "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        public static MessageBoxResult ShowConfirmation(string message)
+        {
+            return MessageBox.Show(message, "Potvrda", MessageBoxButton.YesNo, MessageBoxImage.Question);
+        }
+
         public static string Translate(bool b)
         {
             if (b) return "da";
@@ -56,6 +84,14 @@ namespace HealthCare.View
                 default:
                     return "magacin";
             }
+        }
+
+        public static string[] GetArray(string text, char delimiter = ',')
+        {
+            string[] tokens = text.Split(delimiter);
+            for (int i = 0; i < tokens.Length; ++i)
+                tokens[i] = tokens[i].Trim();
+            return tokens;
         }
     }
 }

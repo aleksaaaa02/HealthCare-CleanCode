@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.View;
 using HealthCare.View.DoctorView;
 using HealthCare.ViewModel;
 using HealthCare.ViewModel.DoctorViewModel;

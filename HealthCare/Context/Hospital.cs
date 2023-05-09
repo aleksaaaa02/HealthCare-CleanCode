@@ -19,14 +19,16 @@ namespace HealthCare.Context
         public string Name { get; set; }
         public User? Current { get; set; }
 
+        public Inventory Inventory;
         public RoomService RoomService;
         public NurseService NurseService;
+        public OrderService OrderService;
         public DoctorService DoctorService;
         public PatientService PatientService;
-        public EquipmentService EquipmentService;
         public AnamnesisService AnamnesisService;
-        public Inventory Inventory;
-        public OrderService OrderService;
+        public TransferService TransferService;
+        public EquipmentService EquipmentService;
+        public NotificationService NotificationService;
 
         public Hospital() : this("Bolnica") { }
         public Hospital(string name)
@@ -35,21 +37,25 @@ namespace HealthCare.Context
             Current = null;
 
             RoomService = new RoomService(Global.roomPath);
+            Inventory = new Inventory(Global.inventoryPath);
             NurseService = new NurseService(Global.nursePath);
             DoctorService = new DoctorService(Global.doctorPath);
             PatientService = new PatientService(Global.patientPath);
             EquipmentService = new EquipmentService(Global.equipmentPath);
             AnamnesisService = new AnamnesisService(Global.anamnesisPath);
             Inventory = new Inventory(Global.inventoryPath);
-            OrderService = new OrderService(Global.orderPath);
+            OrderService = new OrderService(Global.orderPath, Inventory, RoomService);
+            TransferService = new TransferService(Global.transferPath, Inventory);
+            NotificationService = new NotificationService(Global.notificationPath);
         }
 
         public void LoadAll()
         {
             Schedule.Load(Global.appointmentPath);
-
             FillAppointmentDetails();
-            // ExecuteEquipmentOrders();
+
+            OrderService.ExecuteOrders();
+            TransferService.ExecuteTransfers();
         }
 
         public void SaveAll()
@@ -62,7 +68,7 @@ namespace HealthCare.Context
             if (Global.managerUsername == username)
             {
                 if (Global.managerPassword != password)
-                    throw new IncorrectPasswordException();
+                    throw new LoginException();
                 return UserRole.Manager;
             }
 
@@ -70,7 +76,7 @@ namespace HealthCare.Context
             if (u is not null)
             {
                 if (u.Password != password)
-                    throw new IncorrectPasswordException();
+                    throw new LoginException();
                 Current = u;
                 return UserRole.Doctor;
             }
@@ -79,7 +85,7 @@ namespace HealthCare.Context
             if (u is not null)
             {
                 if (u.Password != password)
-                    throw new IncorrectPasswordException();
+                    throw new LoginException();
                 Current = u;
                 return UserRole.Nurse;
             }
@@ -88,7 +94,7 @@ namespace HealthCare.Context
             if (u is not null)
             {
                 if (u.Password != password)
-                    throw new IncorrectPasswordException();
+                    throw new LoginException();
                 Current = u;
                 return UserRole.Patient;
             }
@@ -103,16 +109,5 @@ namespace HealthCare.Context
                 appointment.Patient = PatientService.GetAccount(appointment.Patient.JMBG);
             }
         }
-        
-        private void ExecuteEquipmentOrders()
-        {
-            int warehouseId = RoomService.GetWarehouseId();
-            foreach (OrderItem item in OrderService.GetAll())
-            {
-                if (!item.Executed && item.Scheduled >= DateTime.Now)
-                    Inventory.RestockInventoryItem(new InventoryItem(0, item.EquipmentId, warehouseId, item.Quantity));
-            }
-        }
-        
     }
 }

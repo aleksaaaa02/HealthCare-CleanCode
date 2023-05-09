@@ -7,46 +7,44 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
-    public class Notification : ISerializable, IKey
+    public class Notification : Indentifier, ISerializable
     {
+        public override object Key { get => Id; set => Id = (int)value; }
         public int Id { get; set; }
-        public List<string> UserJmbgs { get; set; }
         public string Text { get; set; }
         public bool Seen { get; set; }
-        public Notification() : this(new List<string>(), "", false) { }
-        public Notification(List<string> userJmbgs, string text, bool seen) :
-            this(0, userJmbgs, text, seen) { }
+        public string[] UserJmbgs { get; set; }
+        public Notification() : this("", new string[0]) { }
+        public Notification(string text, params string[] userJmbgs) :
+            this(0, text, false, userJmbgs)
+        { }
 
-        public Notification(int id, List<string> userJmbgs, string text, bool seen)
+        public Notification(int id, string text, bool seen, params string[] userJmbgs)
         {
             Id = id;
-            UserJmbgs = userJmbgs;
             Text = text;
             Seen = seen;
+            UserJmbgs = userJmbgs;
+        }
+
+        public string Display()
+        {
+            Seen = true;
+            return Text;
         }
 
         public string[] ToCSV()
         {
-            string jmbgs = string.Join("|", UserJmbgs);
+            string jmbgs = Utility.ToString(UserJmbgs);
             return new string[] { Id.ToString(), jmbgs, Text, Seen.ToString() };
         }
 
         public void FromCSV(string[] values)
         {
             Id = int.Parse(values[0]);
-            UserJmbgs = values[1].Split("|").ToList();
+            UserJmbgs = values[1].Split("|");
             Text = values[2];
             Seen = bool.Parse(values[3]);
-        }
-
-        public object GetKey()
-        {
-            return Id;
-        }
-
-        public void SetKey(object key)
-        {
-            Id = (int) key;
         }
     }
 }
