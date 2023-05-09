@@ -25,29 +25,25 @@ using HealthCare.ViewModel;
 
 namespace HealthCare.View.PatientView
 {
-    /// <summary>
-    /// Interaction logic for NurseMainView.xaml
-    /// </summary>
-    /// 
     public partial class NurseMainView : Window
     {
-        private PatientService patientService;
-        private PatientViewModel vm;
-        private Patient? patient;
-        public MedicalRecord? Record;
+        private Hospital _hospital;
+        private PatientViewModel _model;
+        private Patient? _patient;
+        public MedicalRecord? _record;
 
         public NurseMainView(Hospital hospital)
         {
             InitializeComponent();
 
-            patientService = hospital.PatientService;
+            _hospital = hospital;
 
-            vm = new PatientViewModel(patientService);
-            DataContext = vm;
+            _model = new PatientViewModel(_hospital.PatientService);
+            DataContext = _model;
 
-            vm.Update();
-            patient = null;
-            Record = null;
+            _model.Update();
+            _patient = null;
+            _record = null;
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -57,110 +53,104 @@ namespace HealthCare.View.PatientView
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            if (ValidateFields())
+            if (!Validate())
             {
-                CreatePatient();
-                if (!patientService.CreateAccount(patient))
-                    ShowErrorMessageBox("Pacijent sa unetim JMBG vec postoji");
-                Record = null;
-                vm.Update();
+                Utility.ShowWarning("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
+                return;
             }
-            else
-                ShowErrorMessageBox("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
-   
+
+            CreatePatient();
+            if (!_hospital.PatientService.CreateAccount(_patient))
+                Utility.ShowWarning("Pacijent sa unetim _jmbg vec postoji");
+
+            _record = null;
+            _model.Update();
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            if (patient == null)
+            if (_patient is null)
             {
-                ShowErrorMessageBox("Nije selektovan nalog.");
+                Utility.ShowWarning("Nije selektovan nalog.");
                 return;
             }
 
-            string messageBoxText = "Da li ste sigurni da zelite da obrisete pacijenta?";
-            string caption = "Potvrda";
-            MessageBoxImage icon = MessageBoxImage.Warning;
-            MessageBoxButton button = MessageBoxButton.YesNo;
-            MessageBoxResult result;
-            result = MessageBox.Show(messageBoxText, caption, button, icon);
+            MessageBoxResult result = Utility.ShowConfirmation("Da li ste sigurni da zelite da obrisete pacijenta?");
+            if (result == MessageBoxResult.No)
+                return;
 
-            if(result == MessageBoxResult.Yes)
-            {
-                patient = (Patient) lvPatients.SelectedItem;
-                if (!patientService.DeleteAccount(patient.JMBG))
-                {
-                    ShowErrorMessageBox("Pacijent sa unetim JMBG ne postoji");
-                }
-                ClearBoxes();
-                vm.Update();
-            }
+            _patient = (Patient)lvPatients.SelectedItem;
+            if (!_hospital.PatientService.DeleteAccount(_patient.JMBG))
+                Utility.ShowWarning("Pacijent sa unetim _jmbg ne postoji");
+
+            ClearBoxes();
+            _model.Update();
         }
 
         private void lvPatients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            patient = (Patient) lvPatients.SelectedItem;
-            if (patient is null) { return; }
-            tbName.Text = patient.Name;
-            tbLastName.Text = patient.LastName;
-            tbJMBG.Text = patient.JMBG;
-            tbAddress.Text = patient.Address;
-            tbPassword.Text = patient.Password;
-            tbPhoneNumber.Text = patient.PhoneNumber;
-            tbUsername.Text = patient.UserName;
-            tbBirthDate.Text = patient.BirthDate.ToString();
-            if (patient.Gender == Gender.Male)
+            _patient = (Patient) lvPatients.SelectedItem;
+            if (_patient is null) { return; }
+            tbName.Text = _patient.Name;
+            tbLastName.Text = _patient.LastName;
+            tbJMBG.Text = _patient.JMBG;
+            tbAddress.Text = _patient.Address;
+            tbPassword.Text = _patient.Password;
+            tbPhoneNumber.Text = _patient.PhoneNumber;
+            tbUsername.Text = _patient.UserName;
+            tbBirthDate.Text = _patient.BirthDate.ToString();
+            if (_patient.Gender == Gender.Male)
                 cbMale.IsChecked = true;
             else cbFemale.IsChecked = true;
-            if (patient.Blocked == true)
+            if (_patient.Blocked == true)
                 chbBlocked.IsChecked = true;
             else chbBlocked.IsChecked = false;
-            Record = patient.MedicalRecord;
+            _record = _patient.MedicalRecord;
         }
+
         private void MedicalRecord_Click(object sender, RoutedEventArgs e)
         {
-            AddMedicalRecordView medicalRecordView = new AddMedicalRecordView(this, patientService);
-            medicalRecordView.ShowDialog();
+            new AddMedicalRecordView(this).ShowDialog();
             
         }
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
-            if (ValidateFields())
+            if (!Validate())
             {
-                CreatePatient();
-                if(!patientService.UpdateAccount(patient))
-                    ShowErrorMessageBox("Pacijent sa unetim JMBG ne postoji");
-                vm.Update();
+                Utility.ShowWarning("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
+                return;
             }
-            else
-                ShowErrorMessageBox("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
+
+            CreatePatient();
+            if(!_hospital.PatientService.UpdateAccount(_patient))
+                Utility.ShowWarning("Pacijent sa unetim _jmbg ne postoji");
+            _model.Update();
         }
 
         public void CreatePatient()
         {
-            patient = new Patient();
-            patient.Name = tbName.Text;
-            patient.LastName = tbLastName.Text;
-            patient.JMBG = tbJMBG.Text;
-            patient.BirthDate = DateTime.Parse(tbBirthDate.Text);
-            patient.PhoneNumber = tbPhoneNumber.Text;
-            patient.Address = tbAddress.Text;
+            _patient = new Patient();
+            _patient.Name = tbName.Text;
+            _patient.LastName = tbLastName.Text;
+            _patient.JMBG = tbJMBG.Text;
+            _patient.BirthDate = DateTime.Parse(tbBirthDate.Text);
+            _patient.PhoneNumber = tbPhoneNumber.Text;
+            _patient.Address = tbAddress.Text;
             if (cbMale.IsChecked is bool Checked && Checked)
-            {
-                patient.Gender = Gender.Male;
-            }
-            else patient.Gender = Gender.Female;
-            patient.UserName = tbUsername.Text;
-            patient.Password = tbPassword.Text;
+                _patient.Gender = Gender.Male;
+            else _patient.Gender = Gender.Female;
+
+            _patient.UserName = tbUsername.Text;
+            _patient.Password = tbPassword.Text;
+
             if (chbBlocked.IsChecked is bool CheckedBlocked && CheckedBlocked)
-            {
-                patient.Blocked = true;
-            }
-            else patient.Blocked = false;
-            if (Record is null)
-                Record = new MedicalRecord();
-            patient.MedicalRecord = Record;
+                _patient.Blocked = true;
+            else _patient.Blocked = false;
+            if (_record is null)
+                _record = new MedicalRecord();
+
+            _patient.MedicalRecord = _record;
         }
 
         public void ClearBoxes()
@@ -173,29 +163,22 @@ namespace HealthCare.View.PatientView
             tbPassword.Clear();
             tbJMBG.Clear();
             tbPhoneNumber.Clear();
-            patient = null;
-            Record = null;
+            _patient = null;
+            _record = null;
         }
 
-        public bool ValidateFields()
+        public bool Validate()
         {
-            DateTime parsed;
-            if (tbName.Text != "" && tbLastName.Text != "" && tbAddress.Text!="" && tbBirthDate.Text!="" && 
-                DateTime.TryParse(tbBirthDate.Text,out parsed) && tbJMBG.Text!="" && tbPhoneNumber.Text!="" &&
-                tbUsername.Text!="" && tbPassword.Text!="")
-                return true;
-            return false;
-        }
-
-        public void ShowErrorMessageBox(string messageBoxText)
-        {
-            Utility.ShowWarning(messageBoxText);
+            return tbName.Text != "" && tbLastName.Text != "" && 
+                tbAddress.Text != "" && tbBirthDate.Text != "" &&
+                DateTime.TryParse(tbBirthDate.Text, out _) && 
+                tbJMBG.Text != "" && tbPhoneNumber.Text != "" &&
+                tbUsername.Text != "" && tbPassword.Text != "";
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
             ClearBoxes();
         }
-
     }
 }

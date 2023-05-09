@@ -20,6 +20,7 @@ namespace HealthCare.Model
             Height = height;
             Weight = weight;
             MedicalHistory = medicalHistory;
+            Allergies = new string[0];
         }
         public MedicalRecord(float height, float weight, string[] medicalHistory, string[] allergies)
         {
@@ -43,22 +44,19 @@ namespace HealthCare.Model
 
         public string AllergiesToString()
         {
-            return String.Join(", ",Allergies);    
+            return string.Join(", ",Allergies);    
         }
 
         public string MedicalHistoryToString()
         {
-            return String.Join(", ", MedicalHistory);
+            return string.Join(", ", MedicalHistory);
         }
 
         public string[] ToCSV()
         {
             string medicalHistory = Utility.ToString(MedicalHistory);
-            string[] csvValues = {Height.ToString(), Weight.ToString(), medicalHistory};
-            medicalHistory = string.Join("|",MedicalHistory);
-            string allergies = string.Join("|", Allergies);
-            string[] csvValues2 = {Height.ToString(), Weight.ToString(), medicalHistory, allergies};
-            return csvValues2;
+            string allergies = Utility.ToString(Allergies);
+            return new string[] {Height.ToString(), Weight.ToString(), medicalHistory, allergies};
         }
 
         public void FromCSV(string[] values)
