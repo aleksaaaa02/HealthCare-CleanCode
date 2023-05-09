@@ -10,16 +10,20 @@ namespace HealthCare.Model
 {
     public class InventoryItem : Indentifier, ISerializable
     {
-        public override object Key { get => Id; set => Id = (int)value; }
-        public int Id { get; set; }
+        public override object Key {
+            get => Tuple.Create(EquipmentId, RoomId);
+            set
+            {
+                EquipmentId = ((Tuple<int, int>) value).Item1;
+                RoomId = ((Tuple<int, int>)value).Item2;
+            } 
+        }
         public int EquipmentId { get; set; }
         public int RoomId { get; set; }
         public int Quantity { get; set; }
-        public InventoryItem() : this(0) { }
-        public InventoryItem(int id) : this(id, 0, 0, 0) { }
-        public InventoryItem(int id, int equipmentId, int roomId, int quantity)
+        public InventoryItem() : this(0, 0, 0) { }
+        public InventoryItem(int equipmentId, int roomId, int quantity)
         {
-            Id = id;
             EquipmentId = equipmentId;
             RoomId = roomId;
             Quantity = quantity;
@@ -28,7 +32,6 @@ namespace HealthCare.Model
         public string[] ToCSV()
         {
             return new string[] {
-                Id.ToString(), 
                 EquipmentId.ToString(), 
                 RoomId.ToString(), 
                 Quantity.ToString()};
@@ -36,10 +39,9 @@ namespace HealthCare.Model
 
         public void FromCSV(string[] values)
         {
-            Id = int.Parse(values[0]);
-            EquipmentId = int.Parse(values[1]);
-            RoomId = int.Parse(values[2]);
-            Quantity = int.Parse(values[3]);
+            EquipmentId = int.Parse(values[0]);
+            RoomId = int.Parse(values[1]);
+            Quantity = int.Parse(values[2]);
         }
     }
 }

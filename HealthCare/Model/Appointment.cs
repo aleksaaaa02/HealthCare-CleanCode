@@ -8,9 +8,8 @@ using HealthCare.Repository;
 
 namespace HealthCare.Model
 {
-    public class Appointment : Indentifier, ISerializable
+    public class Appointment : ISerializable
     {
-        public override object Key { get => AppointmentID; set => AppointmentID = (int) value; }
         public int AppointmentID {get;set;}
         public Patient Patient { get; set; }
         public Doctor Doctor { get; set; }
@@ -49,7 +48,7 @@ namespace HealthCare.Model
 
         public void FromCSV(string[] values)
         {
-            AppointmentID = Convert.ToInt32(values[0]);
+            AppointmentID = int.Parse(values[0]);
             Patient = new Patient();
             Patient.JMBG = values[1];
             
@@ -57,18 +56,8 @@ namespace HealthCare.Model
             Doctor.JMBG = values[2];
 
             TimeSlot = TimeSlot.Parse(values[3]);
-            IsOperation = Convert.ToBoolean(values[4]);
+            IsOperation = bool.Parse(values[4]);
             AnamnesisID = int.Parse(values[5]);
-        }
-
-        public object GetKey()
-        {
-            return AppointmentID;
-        }
-
-        public void SetKey(object key)
-        {
-            AppointmentID = (int) key;
         }
     }
 }

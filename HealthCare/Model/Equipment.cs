@@ -42,7 +42,7 @@ namespace HealthCare.Model
         {
             Id = int.Parse(values[0]);
             Name = values[1];
-            Type = (EquipmentType) Enum.Parse(typeof(EquipmentType), values[2]);
+            Type = Utility.Parse<EquipmentType>(values[2]);
             Dynamic = bool.Parse(values[3]);
         }
     }

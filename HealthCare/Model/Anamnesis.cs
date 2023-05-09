@@ -47,9 +47,9 @@ namespace HealthCare.Model
 
         public string[] ToCSV()
         {
-            string medicalHistory = string.Join("|", MedicalHistory);
-            string allergies = string.Join("|", Allergies);
-            string symptoms = string.Join("|", Symptoms);
+            string medicalHistory = Utility.ToString(MedicalHistory);
+            string allergies = Utility.ToString(Allergies);
+            string symptoms = Utility.ToString(Symptoms);
             string[] csvValues = { ID.ToString(),DoctorsObservations,medicalHistory,symptoms,allergies};
             return csvValues;
         }

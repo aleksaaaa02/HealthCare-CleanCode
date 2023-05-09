@@ -29,18 +29,21 @@ namespace HealthCare.Model
             Executed = executed;
         }
 
-        public void FromCSV(string[] values)
+        public virtual void FromCSV(string[] values)
         {
             Id = int.Parse(values[0]);
             EquipmentId = int.Parse(values[1]);
             Quantity = int.Parse(values[2]);
-            Scheduled = DateTime.Parse(values[3]);
+            Scheduled = Utility.ParseDate(values[3]);
             Executed = bool.Parse(values[4]);
         }
 
-        public string[] ToCSV()
+        public virtual string[] ToCSV()
         {
-            return new string[] { Id.ToString(), EquipmentId.ToString(), Quantity.ToString(), Scheduled.ToString(), Executed.ToString() };
+            return new string[] { 
+                Id.ToString(), EquipmentId.ToString(), 
+                Quantity.ToString(), Utility.ToString(Scheduled), 
+                Executed.ToString() };
         }
     }
 }
