@@ -2,13 +2,9 @@
 using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.ViewModel.DoctorViewModel.Examination.Commands;
-using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -17,6 +13,19 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
     public class DoctorExamViewModel : ViewModelBase
     {
         private ObservableCollection<string> _previousDiseases;
+        private string _name;
+        private string _lastName;
+        private string _jmbg;
+        private DateTime _birthday;
+        private Gender _gender;
+        private string _selectedDisease;
+        private float _height;
+        private float _weight;
+        private string _disease;
+        private string _symptoms;
+        private string _conclusion;
+
+
         public IEnumerable<string> PreviousDisease => _previousDiseases;
 
         private Appointment _appointment;
@@ -33,7 +42,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             }
         }
 
-        private string _name;
         public string Name
         {
             get { return _name; }
@@ -43,7 +51,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
                 OnPropertyChanged(nameof(Name));
             }
         }
-        private string _lastName;
         public string LastName
         {
             get { return _lastName; }
@@ -53,7 +60,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
                 OnPropertyChanged(nameof(LastName));
             }
         }
-        private string _jmbg;
         public string JMBG
         {
             get { return _jmbg; }
@@ -64,7 +70,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             }
         }
 
-        private DateTime _birthday;
         public DateTime Birthday
         {
             get { return _birthday; }
@@ -74,7 +79,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
                 OnPropertyChanged(nameof(Birthday));
             }
         }
-        private Gender _gender;
         public Gender Gender
         {
             get { return _gender; }
@@ -84,7 +88,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
                 OnPropertyChanged(nameof(Gender));
             }
         }
-        private float _height;
         public float Height
         {
             get { return _height; }
@@ -94,7 +97,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
                 OnPropertyChanged(nameof(Height));
             }
         }
-        private float _weight;
         public float Weight
         {
             get { return _weight; }
@@ -104,7 +106,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
                 OnPropertyChanged(nameof(Weight));
             }
         }
-        private string _selectedDisease;
         public string SelectedDisease
         {
             get { return _selectedDisease; }
@@ -114,7 +115,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
                 OnPropertyChanged(nameof(SelectedDisease));
             }
         }
-        private string _disease;
         public string Disease
         {
             get { return _disease; }
@@ -124,7 +124,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
                 OnPropertyChanged(nameof(Disease));
             }
         }
-        private string _symptoms;
         public string Symptoms
         {
             get { return _symptoms; }
@@ -135,7 +134,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             }
         }
 
-        private string _conclusion;
         public string Conclusion
         {
             get { return _conclusion; }
