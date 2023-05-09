@@ -131,16 +131,16 @@ namespace HealthCare.View.DoctorView
         }
         public void LoadDataIntoView(Patient patient, bool isEditing)
         {
-            _name = patient.Name;
-            _lastName = patient.LastName;
-            _birthday = patient.BirthDate;
-            _gender = patient.Gender;
-            _jmbg = patient.JMBG;
+            Name = patient.Name;
+            LastName = patient.LastName;
+            Birthday = patient.BirthDate;
+            Gender = patient.Gender;
+            JMBG = patient.JMBG;
 
             if (patient.MedicalRecord != null)
             {
-                _weight = patient.MedicalRecord.Weight;
-                _height = patient.MedicalRecord.Height;
+                Weight = patient.MedicalRecord.Weight;
+                Height = patient.MedicalRecord.Height;
                 if (patient.MedicalRecord.MedicalHistory != null)
                 {
                     Update();
