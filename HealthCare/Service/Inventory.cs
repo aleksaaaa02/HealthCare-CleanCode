@@ -1,71 +1,90 @@
 ﻿using HealthCare.Exceptions;
 using HealthCare.Model;
+using HealthCare.Repository;
 using HealthCare.Storage;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
-    public class Inventory
+    public class Inventory : Service<InventoryItem>
     {
-        public List<InventoryItem> Items { get; set; }
+        public Inventory(string filepath) : base(filepath) { }
 
-        private CsvStorage<InventoryItem> csvStorage;
-
-        public Inventory(string filepath)
+        public int GetTotalQuantity(int equipmentId)
         {
-            Items = new List<InventoryItem>();
-            csvStorage = new CsvStorage<InventoryItem>(filepath);
+            int quantity = 0;
+            GetAll().ForEach(x => { 
+                if (x.EquipmentId == equipmentId) 
+                    quantity += x.Quantity; 
+            });
+            return quantity;
         }
 
-        public InventoryItem Get(string equipmentName, string roomName)
+        public IEnumerable<int> GetLowQuantityEquipment(int threshold = 5)
         {
-            InventoryItem? found = Items.Find(x => 
-                x.Equipment.Name == equipmentName && 
-                x.Room.Name == roomName);
-            if (found != null) { return found; }
-            throw new ObjectNotFoundException();
+            List<int> equipment = new List<int>();
+            GetAll().ForEach(x => {
+                if (x.Quantity <= threshold)
+                    equipment.Add(x.EquipmentId);
+            });
+            return equipment;
         }
 
-        public void Add(InventoryItem item)
+        public void RestockInventoryItem(InventoryItem item)
         {
-            if (Contains(item.Equipment.Name, item.Room.Name)) throw new ObjectAlreadyExistException();
-            Items.Add(item);
+            InventoryItem? found = TryGet(item.Key);
+
+            if (found is not null) {
+                found.Quantity += item.Quantity;
+                Update(found);
+            } else
+                Add(item);
         }
 
-        public void Remove(string equipmentName, string roomName)
+        public bool TryReduceInventoryItem(InventoryItem item)
         {
-            if (!Contains(equipmentName, roomName)) throw new ObjectNotFoundException();
-            Items.RemoveAll(x =>
-                x.Equipment.Name == equipmentName &&
-                x.Room.Name == roomName);
+            InventoryItem? found = TryGet(item.Key);
+
+            if (found is null || found.Quantity < item.Quantity)
+                    return false;
+
+            found.Quantity -= item.Quantity;
+            if (found.Quantity == 0)
+                Remove(found.Key);
+            else
+                Update(found);
+            return true;
         }
 
-        public void Update(InventoryItem item)
+        public IEnumerable<InventoryItem> GetEquipmentItems(int equipmentId)
         {
-            if (!Contains(item.Equipment.Name, item.Room.Name)) throw new ObjectNotFoundException();
-            InventoryItem current = Get(item.Equipment.Name, item.Room.Name);
-            current.Copy(item);
+            List<InventoryItem> items = new List<InventoryItem>();
+            GetAll().ForEach(x => {
+                if (x.EquipmentId == equipmentId)
+                    items.Add(x);
+            });
+            return items;
+        }
+        public IEnumerable<InventoryItem> GetRoomItems(int roomId)
+        {
+            return GetAll().FindAll(x => x.RoomId==roomId);
         }
 
-        public bool Contains(string equipmentName, string roomName)
+        public void ChangeDynamicEquipmentQuantity(Dictionary<int, int> newQuantites)
         {
-            return Items.FindIndex(x => 
-                x.Equipment.Name == equipmentName && 
-                x.Room.Name == roomName) >= 0;
+            foreach(KeyValuePair<int, int> entry in newQuantites)
+            {
+                InventoryItem item = Get(entry.Key);
+                item.Quantity = entry.Value;
+                Update(item);
+            }
         }
 
-        public void Load()
-        {
-            Items = csvStorage.Load();
-        }
-        public void Save()
-        {
-            csvStorage.Save(Items);
-        }
     }
 }

@@ -1,44 +1,61 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Command;
+using HealthCare.Context;
+using HealthCare.Model;
 using HealthCare.ViewModel;
-using HealthCare.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace HealthCare.View.DoctorView
 {
-    class PatientInforamtionViewModel : ViewModelBase
+    public class PatientInforamtionViewModel : ViewModelBase
     {
-        public ObservableCollection<string> previousDiseases;
-        public IEnumerable<string> PreviousDisease => previousDiseases;
-
+        private ObservableCollection<string> _previousDiseases;
+        private Patient _selectedPatient;
+        private Visibility _gridVisibility;
+        private bool _isReadOnly = true;
+        private bool _isFocusable = false;
         private string _name;
+        private string _lastName;
+        private string _jmbg;
+        private DateTime _birthday;
+        private Gender _gender;
+        private float _height;
+        private float _weight;
+        private string _selectedDisease;
+        private string _disease;
+
+        public IEnumerable<string> PreviousDisease => _previousDiseases;
+        public Visibility GridVisibility => _gridVisibility;
+        public bool IsFocusable => _isFocusable;
+        public bool IsReadOnly => _isReadOnly;
+        public ICommand SaveChangesCommand { get; }
+        public ICommand NewDiseaseCommand { get; }
+        public ICommand RemoveDiseaseCommand { get; }
+
         public string Name
         {
-            get { return _name; }
+            get => _name;
             set
             {
                 _name = value;
                 OnPropertyChanged(nameof(Name));
             }
         }
-        private string _lastName;
         public string LastName
         {
-            get { return _lastName; }
+            get => _lastName;
             set
             {
                 _lastName = value;
                 OnPropertyChanged(nameof(LastName));
             }
         }
-        private string _jmbg;
         public string JMBG
         {
-            get { return _jmbg; }
+            get => _jmbg;
             set
             {
                 _jmbg = value;
@@ -46,74 +63,115 @@ namespace HealthCare.View.DoctorView
             }
         }
 
-        private DateTime _birthday;
         public DateTime Birthday
         {
-            get { return _birthday; }
+            get => _birthday;
             set
             {
                 _birthday = value;
                 OnPropertyChanged(nameof(Birthday));
             }
         }
-        private Gender _gender;
-        public Gender Genderr
+        public Gender Gender
         {
-            get { return _gender; }
+            get => _gender;
             set
             {
                 _gender = value;
-                OnPropertyChanged(nameof(Genderr));
+                OnPropertyChanged(nameof(Gender));
             }
         }
-        private float _height;
         public float Height
         {
-            get { return _height; }
+            get => _height;
             set
             {
                 _height = value;
-                OnPropertyChanged(nameof(_height));
+                OnPropertyChanged(nameof(Height));
             }
         }
-        private float _weight;
         public float Weight
         {
-            get { return _weight; }
+            get => _weight;
             set
             {
                 _weight = value;
                 OnPropertyChanged(nameof(Weight));
             }
         }
-        private readonly Patient _selectedPatient;
-        public PatientInforamtionViewModel(Patient patient) 
+        public string SelectedDisease
         {
-          
-            _selectedPatient = patient;
-            _name = patient.Name;
-            _lastName = patient.LastName;
-            _birthday = patient.BirthDate;
-            _gender = patient.Gender;
-            _jmbg = patient.JMBG;
-            if(patient.MedicalRecord != null) 
+            get => _selectedDisease;
+            set
             {
-                _weight = patient.MedicalRecord.Weight;
-                _height = patient.MedicalRecord.Height;
+                _selectedDisease = value;
+                OnPropertyChanged(nameof(SelectedDisease));
+            }
+        }
+        public string Disease
+        {
+            get => _disease;
+            set
+            {
+                _disease = value;
+                OnPropertyChanged(nameof(Disease));
+            }
+        }
+        public PatientInforamtionViewModel(Patient patient, Hospital hospital, bool isEditing) 
+        {
+            _selectedPatient = patient;
+            _isFocusable = isEditing;
+            _isReadOnly = !isEditing;
+
+            SaveChangesCommand = new SavePatientChangesCommand(hospital, patient, this);
+            NewDiseaseCommand = new AddDiseaseCommand(this);
+            RemoveDiseaseCommand = new RemoveDiseaseCommand(this);
+            _previousDiseases = new ObservableCollection<string>();
+            LoadDataIntoView(patient, isEditing);
+        }
+        public void LoadDataIntoView(Patient patient, bool isEditing)
+        {
+            Name = patient.Name;
+            LastName = patient.LastName;
+            Birthday = patient.BirthDate;
+            Gender = patient.Gender;
+            JMBG = patient.JMBG;
+
+            if (patient.MedicalRecord != null)
+            {
+                Weight = patient.MedicalRecord.Weight;
+                Height = patient.MedicalRecord.Height;
                 if (patient.MedicalRecord.MedicalHistory != null)
                 {
-                    previousDiseases = new ObservableCollection<string>(patient.MedicalRecord.MedicalHistory);
+                    Update();
                 }
-                else
-                {
-                    previousDiseases = new ObservableCollection<string>();
-                }
+            }
+            if (isEditing)
+            {
+                _gridVisibility = Visibility.Visible;
+            }
+            else
+            {
+                _gridVisibility = Visibility.Collapsed;
             }
 
         }
-
-
-
+        public void Update()
+        {
+            _previousDiseases.Clear();
+            foreach(var d in _selectedPatient.MedicalRecord.MedicalHistory)
+            {
+                _previousDiseases.Add(d);
+            }
+        }
+        public void AddPreviousDisease(string disease)
+        {
+            _previousDiseases.Add(disease);
+        }
+        public void RemovePreviousDisease(string disease)
+        {
+            _previousDiseases.Remove(disease);
+        }
 
     }
 }

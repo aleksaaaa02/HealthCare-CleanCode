@@ -1,4 +1,4 @@
-﻿using HealthCare.Serializer;
+﻿using HealthCare.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,50 +15,30 @@ namespace HealthCare.Model
         Reception,
         Warehouse
     }
-    public class Room : ISerializable
+    public class Room : Indentifier, ISerializable
     {
+        public override object Key { get => Id; set => Id = (int)value; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public RoomType Type { get; set; }
-        public Room() : this("", RoomType.Warehouse) { }
-        public Room(string name, RoomType type)
+        public Room() : this(0, "", RoomType.Warehouse) { }
+        public Room(int id, string name, RoomType type)
         {
+            Id = id;
             Name = name;
             Type = type;
         }
 
         public string[] ToCSV()
         {
-            return new string[] { Name, Type.ToString() };
+            return new string[] { Id.ToString(), Name, Type.ToString() };
         }
 
         public void FromCSV(string[] values)
         {
-            Name = values[0];
-            Type = (RoomType) Enum.Parse(typeof(RoomType), values[1]);
-        }
-
-        public void Copy(Room room)
-        {
-            Name = room.Name;
-            Type = room.Type;
-        }
-
-        public string TranslateType()
-        {
-            switch (Type)
-            {
-                case RoomType.Examinational:
-                    return "za preglede";
-                case RoomType.Operational:
-                    return "operaciona";
-                case RoomType.PatientCare:
-                    return "smestaj bolesnika";
-                case RoomType.Reception:
-                    return "recepcija";
-                case RoomType.Warehouse:
-                    return "magacin";
-            }
-            return "";
+            Id = int.Parse(values[0]);
+            Name = values[1];
+            Type = Utility.Parse<RoomType>(values[2]);
         }
     }
 }

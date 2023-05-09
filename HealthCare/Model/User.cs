@@ -1,4 +1,4 @@
-﻿using HealthCare.Serializer;
+﻿using HealthCare.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +12,9 @@ namespace HealthCare.Model
         Male,
         Female
     }
-    public class User : ISerializable
+    public class User : Indentifier, ISerializable
     {
+        public override object Key { get => JMBG; set => JMBG = (string)value; }
         public string Name { get; set; }
         public string LastName { get; set; }
         public string JMBG { get; set; }
@@ -37,13 +38,13 @@ namespace HealthCare.Model
             Gender = gender;
         }
 
-        public User() : this("", "", "", DateTime.Now, "", "", "", "", Gender.Female)
+        public User() : this("", "", "", DateTime.MinValue, "", "", "", "", Gender.Female)
         {
         }
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Name, LastName, JMBG, BirthDate.ToString(), PhoneNumber, Address, UserName, Password, Gender.ToString() };
+            string[] csvValues = { Name, LastName, JMBG, Utility.ToString(BirthDate), PhoneNumber, Address, UserName, Password, Gender.ToString() };
             return csvValues;
         }
 
@@ -52,12 +53,23 @@ namespace HealthCare.Model
             Name = values[0];
             LastName = values[1];
             JMBG = values[2];
-            BirthDate = DateTime.Parse(values[3]);
+            BirthDate = Utility.ParseDate(values[3]);
             PhoneNumber = values[4];
             Address = values[5];
             UserName = values[6];
             Password = values[7];
-            Gender = (Gender) Enum.Parse(typeof(Gender), values[8]);
+            Gender = Utility.Parse<Gender>(values[8]);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is User user &&
+                   JMBG == user.JMBG;
+        }
+
+        public override int GetHashCode()
+        {
+            return JMBG.GetHashCode();
         }
     }
 }

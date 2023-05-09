@@ -1,20 +1,19 @@
 ﻿using HealthCare.Context;
+using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.View;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 using System.Windows;
 
 namespace HealthCare.Command
 {
     class ApplyFilterCommand : CommandBase
     {
-        private DoctorMainViewModel _doctorMainViewModel;
+        private readonly DoctorMainViewModel _doctorMainViewModel;
         private readonly Hospital _hospital;
-        public ApplyFilterCommand(DoctorMainViewModel viewModel, Hospital hospital) 
+        public ApplyFilterCommand(Hospital hospital, DoctorMainViewModel viewModel) 
         { 
             _doctorMainViewModel = viewModel;
             _hospital = hospital;
@@ -22,15 +21,24 @@ namespace HealthCare.Command
 
         public override void Execute(object parameter)
         {
-            DateTime startDate = _doctorMainViewModel.StartDate;
-            int days = _doctorMainViewModel.Days;
-            if (days >= 0)
+            try
             {
-                _doctorMainViewModel.ApplyFilterOn(Schedule.GetDoctorAppointmentsForDays((Model.Doctor)_hospital.Current, startDate, days));
+                Validate();
+
+                DateTime startDate = _doctorMainViewModel.StartDate;
+                int numberOfDays = _doctorMainViewModel.NumberOfDays;
+                _doctorMainViewModel.ApplyFilterOnAppointments(Schedule.GetDoctorAppointmentsForDays((Doctor)_hospital.Current, startDate, numberOfDays));
             }
-            else
+            catch (ValidationException ve)
             {
-                MessageBox.Show("Morate Uneti pozitivan broj dana");
+                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void Validate()
+        {
+            if (_doctorMainViewModel.NumberOfDays <= 0)
+            {
+                throw new ValidationException("Morate Uneti pozitivan broj dana");
             }
         }
     }

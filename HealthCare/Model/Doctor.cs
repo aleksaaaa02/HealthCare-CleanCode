@@ -1,5 +1,5 @@
 ﻿using HealthCare;
-using HealthCare.Serializer;
+using HealthCare.Repository;
 using HealthCare.Service;
 using System;
 using System.Collections.Generic;
@@ -39,11 +39,8 @@ namespace HealthCare.Model
         }
         public bool IsCapable(string NeededSpecialization)
         {
-            if (Specialization == NeededSpecialization)
-            {
-                return true;
-            }
-            return false;
+            return Specialization == NeededSpecialization;
+            
         }
 
         public new string[] ToCSV()
@@ -57,12 +54,12 @@ namespace HealthCare.Model
             Name = values[0];
             LastName = values[1];
             JMBG = values[2];
-            BirthDate = DateTime.Parse(values[3]);
+            BirthDate = Utility.ParseDate(values[3]);
             PhoneNumber = values[4];
             Address = values[5];
             UserName = values[6];
             Password = values[7];
-            Gender = (Gender)Enum.Parse(typeof(Gender), values[8]);
+            Gender = Utility.Parse<Gender>(values[8]);
 
             Specialization = values[9];
         }

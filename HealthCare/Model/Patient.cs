@@ -9,7 +9,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
-using HealthCare.Serializer;
+using HealthCare.Repository;
 using HealthCare.Service;
 using Microsoft.Win32;
 
@@ -57,16 +57,16 @@ namespace HealthCare.Model
             Name = values[0];
             LastName = values[1];
             JMBG = values[2];
-            BirthDate = DateTime.Parse(values[3]);
+            BirthDate = Utility.ParseDate(values[3]);
             PhoneNumber = values[4];
             Address = values[5];
             UserName = values[6];
             Password = values[7];
-            Gender = (Gender)Enum.Parse(typeof(Gender), values[8]);
+            Gender = Utility.Parse<Gender>(values[8]);
 
             Blocked = bool.Parse(values[9]);
             MedicalRecord = new MedicalRecord();
-            MedicalRecord.FromCSV(new string[] {values[10],values[11],values[12]});
+            MedicalRecord.FromCSV(Utility.SubArray(values, 10, 4));
         }
     }
 }

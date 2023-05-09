@@ -1,13 +1,17 @@
+using HealthCare.View.AppointmentView;
 
-﻿using HealthCare.View.AppointmentView;
-
-﻿using HealthCare.Context;
+using HealthCare.Context;
 using HealthCare.Exceptions;
 
 using HealthCare.View.DoctorView;
 using HealthCare.View.ManagerView;
 using HealthCare.View.PatientView;
 using System.Windows;
+using HealthCare.View.ReceptionView;
+using HealthCare.View.UrgentAppointmentView;
+using HealthCare.Model;
+using HealthCare.View;
+using System.ComponentModel;
 
 namespace HealthCare
 {
@@ -17,18 +21,19 @@ namespace HealthCare
     public partial class MainWindow : Window
     {
         private readonly Hospital _hospital;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            _hospital = new Hospital("Poslednji trzaj");
+            _hospital = new Hospital("Venac");
             _hospital.LoadAll();
         }
 
         private void btnQuitApp_Click(object sender, RoutedEventArgs e)
         {
             _hospital.SaveAll();
-            Close();
+            ExitApp();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
@@ -38,31 +43,53 @@ namespace HealthCare
 
             try
             {
-                switch(_hospital.LoginRole(username, password))
+                switch (_hospital.LoginRole(username, password))
                 {
                     case UserRole.Manager:
-                        new ManagerMainView(this, _hospital).Show();
+                        new ManagerMenu(this, _hospital).Show();
                         break;
                     case UserRole.Doctor:
+                        ShowNotifications();
                         new DoctorMainView(this, _hospital).Show();
                         break;
                     case UserRole.Nurse:
-                        new NurseMainView(this, _hospital).Show();
+                        new NurseMenu(this, _hospital).Show();
                         break;
                     case UserRole.Patient:
-                        AppointmentMainView appointmentMainView = new AppointmentMainView(_hospital);
-                        appointmentMainView.Show();
+                        ShowNotifications();
+                        new AppointmentMainView(_hospital).Show();
                         break;
                 }
 
                 txtUserName.Clear();
                 txtPassword.Clear();
                 Hide();
-            } catch (IncorrectPasswordException e1) {
-                MessageBox.Show("Pogresna lozinka. Pokusajte ponovo.", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
-            } catch (UsernameNotFoundException e2) {
-                MessageBox.Show("Nepostojece korisnicko ime.", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+            catch (LoginException ex)
+            {
+                Utility.ShowWarning(ex.Message);
+            }
+        }
+
+        private void ShowNotifications()
+        {
+            if (_hospital.Current is null)
+                return;
+            foreach (Notification notification in _hospital.NotificationService.GetForUser(_hospital.Current.JMBG))
+            {
+                Utility.ShowInformation(notification.Display());
+                _hospital.NotificationService.Update(notification);
+            }
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ExitApp();
+        }
+
+        public void ExitApp()
+        {
+            Application.Current.Shutdown();
         }
     }
 }

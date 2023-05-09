@@ -36,7 +36,7 @@
                 <RowDefinition Height="0.8*"/>
             </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Izaberite doktora" VerticalAlignment="Top" FontSize="16"/>
-            <ListView x:Name="doctorListView" Grid.Row="1" Margin="10" d:ItemsSource="{d:SampleData ItemCount=5}">
+            <ListView x:Name="doctorListView" Grid.Row="1" Margin="10">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn  Header="Ime" DisplayMemberBinding="{Binding Name}"/>
@@ -62,6 +62,8 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+            <Button x:Name="btnRecord" Content="Prikazi karton" HorizontalAlignment="Left" Margin="415,10,0,0" VerticalAlignment="Top" Click="btnRecord_Click_1"/>
+            <Button x:Name="btnPriority" Content="Kreiranje sa prioritetom" HorizontalAlignment="Left" Margin="551,10,0,0" VerticalAlignment="Top" Click="btnPriority_Click"/>
         </Grid>
 
         <Grid Grid.Row="3" Grid.ColumnSpan="2">

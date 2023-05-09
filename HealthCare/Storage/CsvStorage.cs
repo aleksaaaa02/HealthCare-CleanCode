@@ -1,4 +1,4 @@
-﻿using HealthCare.Serializer;
+﻿using HealthCare.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,22 +12,19 @@ namespace HealthCare.Storage
 
         private string _filepath;
 
-        private Serializer<T> _serializer;
-
         public CsvStorage(string filepath)
         {
-            _serializer = new Serializer<T>();
             _filepath = filepath;
         }
 
         public List<T> Load()
         {
-            return _serializer.FromCSV(_filepath);
+            return Serializer<T>.FromCSV(_filepath);
         }
 
         public void Save(List<T> objects)
         {
-            _serializer.ToCSV(_filepath, objects);
+            Serializer<T>.ToCSV(_filepath, objects);
         }
     }
 }

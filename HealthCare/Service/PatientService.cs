@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,24 +12,20 @@ using HealthCare.View.PatientView;
 
 namespace HealthCare.Service
 {
-	public class PatientService : ISubject
+	public class PatientService : Service<Patient>
 	{
-		public List<Patient> Patients = new List<Patient>();
-		private CsvStorage<Patient> csvStorage;
 		private List<IObserver> observers;
 
-		public PatientService(string filepath)
+		public PatientService(string filepath) : base(filepath)
 		{
-			csvStorage = new CsvStorage<Patient> (filepath);
             observers = new List<IObserver>();
         }
 
 		public bool CreateAccount(Patient newPatient)
 		{
-			Patient? patient = Patients.Find(x => x.JMBG == newPatient.JMBG);
-			if(patient == null)
+			if (!Contains(newPatient.JMBG))
 			{
-                Patients.Add(newPatient);
+                Add(newPatient);
 				return true;
             }
 			return false;
@@ -37,11 +33,9 @@ namespace HealthCare.Service
 
 		public bool UpdateAccount(Patient updatedPatient)
 		{
-            Patient? patient = Patients.Find(x => x.JMBG == updatedPatient.JMBG);
-            if (patient != null)
-			{ 
-				int patientIndex = Patients.IndexOf(patient);
-				Patients[patientIndex] = updatedPatient;
+            if (Contains(updatedPatient.JMBG))
+			{
+				Update(updatedPatient);
 				return true;
 			}
 			return false;
@@ -49,29 +43,23 @@ namespace HealthCare.Service
 
 		public bool DeleteAccount(string JMBG)
 		{
-			Patient? patient = Patients.Find(x => x.JMBG == JMBG);
-			if (patient != null)
+			if (Contains(JMBG))
 			{
-                Patients.Remove(patient);
+                Remove(JMBG);
                 return true;
 			}
 			return false;
         }
 
-		public Patient GetAccount(string JMBG)
+		public Patient? GetAccount(string JMBG)
 		{
-			Patient? patient = Patients.Find(x => x.JMBG == JMBG);
-            return patient;
+            return TryGet(JMBG);
 		}
 
-		public void Load()
-		{
-			Patients = csvStorage.Load();
-		}
-		
-		public void Save() 
-		{
-			csvStorage.Save(Patients);
+        public void UpdatePatientMedicalRecord(Patient patient, MedicalRecord medicalRecord)
+        {
+            patient.MedicalRecord = medicalRecord;
+			Update(patient);
 		}
 
         public void Subscribe(IObserver observer)
@@ -94,7 +82,7 @@ namespace HealthCare.Service
 
         public User? GetByUsername(string username)
         {
-            return Patients.Find(x => x.UserName == username);
+            return GetAll().Find(x => x.UserName == username);
         }
     }
 }

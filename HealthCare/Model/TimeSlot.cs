@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthCare.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,8 @@ namespace HealthCare.Model
     {
         public DateTime Start { get; set; }
         public TimeSpan Duration { get; set; }
+
+        public TimeSlot() : this(DateTime.MinValue, TimeSpan.Zero) { }
 
         public TimeSlot(DateTime start, TimeSpan duration)
         {
@@ -34,15 +37,15 @@ namespace HealthCare.Model
 
         public override string ToString()
         {
-            return Start.ToString() + " " + Duration.ToString();
+            return Utility.ToString(Start) + "|" + Utility.ToString(Duration);
         }
 
         public static TimeSlot Parse(string s)
         {
-            string[] tokens = s.Split(' ');
+            string[] tokens = s.Split('|');
             return new TimeSlot(
-                DateTime.Parse(string.Join(" ", new string[] { tokens[0], tokens[1], tokens[2] })),
-                TimeSpan.Parse(tokens[3]));
+                Utility.ParseDate(tokens[0]),
+                Utility.ParseDuration(tokens[1]));
         }
     }
 }

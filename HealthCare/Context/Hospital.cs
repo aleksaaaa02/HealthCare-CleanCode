@@ -1,11 +1,6 @@
-﻿using HealthCare.Exceptions;
+using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.Context
 {
@@ -15,16 +10,20 @@ namespace HealthCare.Context
     }
 
     public class Hospital
-    {   
+    {
         public string Name { get; set; }
         public User? Current { get; set; }
 
+        public Inventory Inventory;
         public RoomService RoomService;
         public NurseService NurseService;
+        public OrderService OrderService;
         public DoctorService DoctorService;
         public PatientService PatientService;
+        public AnamnesisService AnamnesisService;
+        public TransferService TransferService;
         public EquipmentService EquipmentService;
-        public Inventory Inventory;
+        public NotificationService NotificationService;
 
         public Hospital() : this("Bolnica") { }
         public Hospital(string name)
@@ -33,34 +32,29 @@ namespace HealthCare.Context
             Current = null;
 
             RoomService = new RoomService(Global.roomPath);
+            Inventory = new Inventory(Global.inventoryPath);
             NurseService = new NurseService(Global.nursePath);
             DoctorService = new DoctorService(Global.doctorPath);
             PatientService = new PatientService(Global.patientPath);
             EquipmentService = new EquipmentService(Global.equipmentPath);
-            Inventory = new Inventory(Global.inventoryItemPath);
+            AnamnesisService = new AnamnesisService(Global.anamnesisPath);
+            Inventory = new Inventory(Global.inventoryPath);
+            OrderService = new OrderService(Global.orderPath, Inventory, RoomService);
+            TransferService = new TransferService(Global.transferPath, Inventory);
+            NotificationService = new NotificationService(Global.notificationPath);
         }
 
         public void LoadAll()
         {
-            RoomService.Load();
-            NurseService.Load();
-            DoctorService.Load();
-            PatientService.Load();
-            EquipmentService.Load();
-            Inventory.Load();
             Schedule.Load(Global.appointmentPath);
-
             FillAppointmentDetails();
-            FillInventoryItemDetails();
+
+            OrderService.ExecuteOrders();
+            TransferService.ExecuteTransfers();
         }
 
         public void SaveAll()
         {
-            RoomService.Save();
-            DoctorService.Save();
-            PatientService.Save();
-            EquipmentService.Save();
-            Inventory.Save();
             Schedule.Save(Global.appointmentPath);
         }
 
@@ -69,7 +63,7 @@ namespace HealthCare.Context
             if (Global.managerUsername == username)
             {
                 if (Global.managerPassword != password)
-                    throw new IncorrectPasswordException();
+                    throw new WrongPasswordException();
                 return UserRole.Manager;
             }
 
@@ -77,7 +71,7 @@ namespace HealthCare.Context
             if (u is not null)
             {
                 if (u.Password != password)
-                    throw new IncorrectPasswordException();
+                    throw new WrongPasswordException();
                 Current = u;
                 return UserRole.Doctor;
             }
@@ -86,7 +80,7 @@ namespace HealthCare.Context
             if (u is not null)
             {
                 if (u.Password != password)
-                    throw new IncorrectPasswordException();
+                    throw new WrongPasswordException();
                 Current = u;
                 return UserRole.Nurse;
             }
@@ -95,7 +89,7 @@ namespace HealthCare.Context
             if (u is not null)
             {
                 if (u.Password != password)
-                    throw new IncorrectPasswordException();
+                    throw new WrongPasswordException();
                 Current = u;
                 return UserRole.Patient;
             }
@@ -104,19 +98,10 @@ namespace HealthCare.Context
 
         private void FillAppointmentDetails()
         {
-            foreach(Appointment appointment in Schedule.Appointments)
+            foreach (Appointment appointment in Schedule.Appointments)
             {
                 appointment.Doctor = DoctorService.GetAccount(appointment.Doctor.JMBG);
                 appointment.Patient = PatientService.GetAccount(appointment.Patient.JMBG);
-            }
-        }
-
-        private void FillInventoryItemDetails()
-        {
-            foreach (InventoryItem item in Inventory.Items)
-            {
-                item.Equipment = EquipmentService.Get(item.Equipment.Name);
-                item.Room = RoomService.Get(item.Room.Name);
             }
         }
     }

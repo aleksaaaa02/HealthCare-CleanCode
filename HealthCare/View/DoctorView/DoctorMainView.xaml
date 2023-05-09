@@ -21,6 +21,7 @@
                 <Button Width="Auto" Height="40" Margin="10" Content="Izmeni Pregled/Operaciju" Command="{Binding EditAppointmentCommand}"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="Ukloni Pregled/Operaciju" Command="{Binding DeleteAppointmentCommand}"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="Prikazi pacijenta" Command="{Binding ShowDetailedPatientInfoCommand}"/>
+                <Button Width="Auto" Height="40" Margin="10" Content="Pretrazi pacijente" Command="{Binding ShowPatientSearchCommand}"/>
                 <Label Margin="0 15"/>
                 <Button x:Name="LogOut" Width="Auto" Height="40" Margin="10" Content="Odjava" Click="LogOut_Click"/>
             </StackPanel>
@@ -31,11 +32,11 @@
                 <RowDefinition Height="0.9*"/>
                 <RowDefinition Height="0.05*"/>
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center">
                 <TextBlock Text="Pocetni datum filtriranja: " VerticalAlignment="Center"/>
                 <DatePicker Margin="20 0" SelectedDate="{Binding StartDate}"/>
                 <TextBlock Text="Broj Dana:" VerticalAlignment="Center"/>
-                <TextBox Width="75" Margin="20 0" Text="{Binding Days}"/>
+                <TextBox Width="75" Margin="20 0" Text="{Binding NumberOfDays}"/>
                 <Button Width="75" Content="Primeni" Command="{Binding ApplyFilterCommand}"/>
             </StackPanel>
             <Grid Grid.Row="1">
@@ -44,7 +45,7 @@
                     <ColumnDefinition Width="7*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Row="2">
-                    <ListView x:Name="AppointmentsListView" Grid.ColumnSpan="2" SelectedItem="{Binding SelectedPatient}" ItemsSource="{Binding Appointmentss}">
+                    <ListView x:Name="AppointmentsListView" Grid.ColumnSpan="2" SelectedItem="{Binding SelectedPatient}" ItemsSource="{Binding Appointments}" SelectionMode="Single">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="ID" DisplayMemberBinding="{Binding AppointmentID}">
@@ -94,7 +95,11 @@
                     </ListView>
                 </Grid>
             </Grid>
-            <Rectangle Grid.Row="2" Fill="Azure"/>
+            <Grid Grid.Row="0">
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Zapocni pregled" Command="{Binding StartExaminationCommand}" Width="150"/>
+                </StackPanel>
+            </Grid>
         </Grid>
 
     </Grid>

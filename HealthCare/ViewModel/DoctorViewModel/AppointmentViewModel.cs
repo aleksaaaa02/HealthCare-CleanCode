@@ -1,10 +1,5 @@
 ﻿using HealthCare.Model;
 using HealthCare.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.ViewModels.DoctorViewModel
 {

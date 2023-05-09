@@ -1,13 +1,11 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.View;
 using HealthCare.View.DoctorView;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 using System.Windows;
 
 namespace HealthCare.Command
@@ -24,22 +22,39 @@ namespace HealthCare.Command
 
         public override void Execute(object parameter)
         {
+            try
+            {
+                Validate();
+                EditSelectedAppointment();
+            }
+            catch (ValidationException ve)
+            {
+                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void EditSelectedAppointment()
+        {
+            AppointmentViewModel appointmentViewModel = _doctorMainViewModel.SelectedPatient;
+            Appointment selectedAppointment = Schedule.GetAppointment(Convert.ToInt32(appointmentViewModel.AppointmentID));
+            MakeAppointmentView makeAppointmentView = new MakeAppointmentView(_hospital, _doctorMainViewModel, selectedAppointment);
+            makeAppointmentView.ShowDialog();
+        }
+
+        private void Validate()
+        {
             AppointmentViewModel appointmentViewModel = _doctorMainViewModel.SelectedPatient;
             if (appointmentViewModel == null)
             {
-                MessageBox.Show("Morate odabrati pregled/operaciju iz tabele!", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
+                throw new ValidationException("Morate odabrati pregled/operaciju iz tabele!");
             }
 
-            Appointment selectedAppointment = Schedule.GetAppointment(Convert.ToInt32(appointmentViewModel.AppointmentID));           
+            Appointment selectedAppointment = Schedule.GetAppointment(Convert.ToInt32(appointmentViewModel.AppointmentID));
             if (selectedAppointment == null)
             {
-                MessageBox.Show("Ups doslo je do greske", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
+                throw new ValidationException("Ups doslo je do greske");
+                
             }
-            MakeAppointmentView makeAppointmentView = new MakeAppointmentView(_hospital, _doctorMainViewModel, selectedAppointment);
-            makeAppointmentView.ShowDialog();
-
 
         }
 
