@@ -14,7 +14,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
         private readonly Equipment _equipment;
         public bool IsSelected { get; set; }
         public string EquipmentName => _equipment.Name;
-        public string EquipmentType => ViewUtil.Translate(_equipment.Type);
+        public string EquipmentType => Utility.Translate(_equipment.Type);
         public int EquipmentId => _equipment.Id;
         public int CurrentQuantity { get; }
         public string OrderQuantity { get; set; }

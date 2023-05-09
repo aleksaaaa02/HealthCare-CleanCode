@@ -97,10 +97,7 @@ namespace HealthCare.View.ReceptionView
         }
         public void ShowErrorMessageBox(string messageBoxText)
         {
-            string content = "Greska";
-            MessageBoxImage icon = MessageBoxImage.Error;
-            MessageBoxButton button = MessageBoxButton.OK;
-            MessageBox.Show(messageBoxText, content, button, icon);
+            Utility.ShowInformation(messageBoxText);
         }
 
     }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HealthCare.Service
@@ -14,9 +15,16 @@ namespace HealthCare.Service
     {
         protected NumericService(string filepath) : base(filepath) { }
 
+        public new void Add(T item)
+        {
+            if ((int)item.Key == 0)
+                AddWithNewId(item);
+            else _repository.Add(item);
+        }
+
         private int NextId()
         {
-            int maxId = int.MinValue;
+            int maxId = Count();
             foreach (var item in _repository.Items())
                 maxId = Math.Max((int) item.Key, maxId);
             return maxId + 1;
@@ -24,24 +32,9 @@ namespace HealthCare.Service
 
         public int AddWithNewId(T item)
         {
-            if (DefragmentationNeeded())
-                DefragmentIds();
-
             item.Key = NextId();
             Add(item);
             return (int) item.Key;
-        }
-
-        private bool DefragmentationNeeded()
-        {
-            return NextId() - _repository.Count() >= Global.maxIdGap;
-        }
-
-        private void DefragmentIds()
-        {
-            int i = 1;
-            foreach (var item in _repository.Items())
-                item.Key = i++;
         }
     }
 }

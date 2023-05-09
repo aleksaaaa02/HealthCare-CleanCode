@@ -1,5 +1,6 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.View;
 using HealthCare.View.DoctorView;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace HealthCare.Command
             _selectedPatient.MedicalRecord.MedicalHistory = _viewModel.PreviousDisease.ToArray();
             _hospital.PatientService.Update(_selectedPatient);
 
-            MessageBox.Show("Pacijent uspesno sacuvan!", "Obavestenje", MessageBoxButton.OK, MessageBoxImage.Information);
+            Utility.ShowInformation("Pacijent uspesno sacuvan!");
         }
     }
 }

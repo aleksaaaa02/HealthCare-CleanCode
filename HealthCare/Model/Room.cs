@@ -38,7 +38,7 @@ namespace HealthCare.Model
         {
             Id = int.Parse(values[0]);
             Name = values[1];
-            Type = (RoomType) Enum.Parse(typeof(RoomType), values[2]);
+            Type = Utility.Parse<RoomType>(values[2]);
         }
     }
 }

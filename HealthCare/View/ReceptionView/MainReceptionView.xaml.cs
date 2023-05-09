@@ -60,11 +60,7 @@ namespace HealthCare.View.ReceptionView
 
         public void ShowErrorMessageBox()
         {
-            string messageBoxText = "Pacijent nema preglede u narednih 15 minuta.";
-            string content = "Greska";
-            MessageBoxImage icon = MessageBoxImage.Warning;
-            MessageBoxButton button = MessageBoxButton.OK;
-            MessageBox.Show(messageBoxText, content, button, icon);
+            Utility.ShowWarning("Pacijent nema preglede u narednih 15 minuta.");
         }
     }
 }

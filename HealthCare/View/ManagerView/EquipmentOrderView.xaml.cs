@@ -27,12 +27,12 @@ namespace HealthCare.View.ManagerView
         private EquipmentOrderViewModel _model;
         private readonly Inventory _inventory;
         private readonly OrderService _orderService;
-        private Window _loginWindow;
+        private Window _parent;
 
-        public EquipmentOrderView(Window loginWindow, Hospital hospital)
+        public EquipmentOrderView(Window parent, Hospital hospital)
         {
             InitializeComponent();
-            _loginWindow = loginWindow;
+            _parent = parent;
             _inventory = hospital.Inventory;
             _orderService = hospital.OrderService;
 
@@ -47,7 +47,7 @@ namespace HealthCare.View.ManagerView
 
         private void Button_Exit(object sender, RoutedEventArgs e)
         {
-            _loginWindow.Show();
+            _parent.Show();
             Close();
         }
 
@@ -56,7 +56,7 @@ namespace HealthCare.View.ManagerView
             try {
                 _validate();
             } catch (ValidationException ve) {
-                MessageBox.Show(ve.Message, "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Utility.ShowWarning(ve.Message);
                 return;
             }
 
@@ -64,7 +64,7 @@ namespace HealthCare.View.ManagerView
                 if (item.IsSelected)
                     _makeOrder(item.EquipmentId, int.Parse(item.OrderQuantity));
 
-            MessageBox.Show("Poručivanje uspešno.", "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Information);
+            Utility.ShowInformation("Poručivanje uspešno.");
             _model.Load();
         }
 
@@ -78,9 +78,9 @@ namespace HealthCare.View.ManagerView
         private void _validate()
         {
             bool someSelected = false;
+            int quantity;
             foreach (var item in _model.Items)
             {
-                int quantity;
                 if (item.IsSelected && int.TryParse(item.OrderQuantity, out quantity) && quantity < 0)
                     throw new ValidationException("Količina mora da bude prirodan broj.");
 
@@ -96,7 +96,7 @@ namespace HealthCare.View.ManagerView
             {
                 var row = (ListViewItem) lvDynamicEquipment.ItemContainerGenerator.ContainerFromItem(item);
                 if (item.IsSelected)
-                    row.Background = ViewGlobal.CHIGH2;
+                    row.Background = ViewGlobal.CHIGHROW;
                 else
                     row.Background = ViewGlobal.CNEUT;
             }
@@ -116,6 +116,12 @@ namespace HealthCare.View.ManagerView
             if (tb is null) return;
             if (tb.Text == "")
                 tb.Text = "0";
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            _parent.IsEnabled = true;
+            Close();
         }
     }
 }

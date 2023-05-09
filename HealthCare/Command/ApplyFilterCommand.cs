@@ -1,5 +1,6 @@
 ﻿using HealthCare.Context;
 using HealthCare.Service;
+using HealthCare.View;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace HealthCare.Command
             }
             else
             {
-                MessageBox.Show("Morate Uneti pozitivan broj dana");
+                Utility.ShowWarning("Morate Uneti pozitivan broj dana");
             }
         }
     }

@@ -28,7 +28,7 @@ namespace HealthCare.Model
 
         public string[] ToCSV()
         {
-            string jmbgs = string.Join("|", UserJmbgs);
+            string jmbgs = Utility.ToString(UserJmbgs);
             return new string[] { Id.ToString(), jmbgs, Text, Seen.ToString() };
         }
 

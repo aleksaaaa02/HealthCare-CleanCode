@@ -44,7 +44,7 @@ namespace HealthCare.Model
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Name, LastName, JMBG, BirthDate.ToString(), PhoneNumber, Address, UserName, Password, Gender.ToString() };
+            string[] csvValues = { Name, LastName, JMBG, Utility.ToString(BirthDate), PhoneNumber, Address, UserName, Password, Gender.ToString() };
             return csvValues;
         }
 
@@ -53,12 +53,12 @@ namespace HealthCare.Model
             Name = values[0];
             LastName = values[1];
             JMBG = values[2];
-            BirthDate = DateTime.Parse(values[3]);
+            BirthDate = Utility.ParseDate(values[3]);
             PhoneNumber = values[4];
             Address = values[5];
             UserName = values[6];
             Password = values[7];
-            Gender = (Gender) Enum.Parse(typeof(Gender), values[8]);
+            Gender = Utility.Parse<Gender>(values[8]);
         }
     }
 }
