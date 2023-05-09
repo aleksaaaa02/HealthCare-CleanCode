@@ -10,6 +10,10 @@
             <Setter Property="FontFamily" Value="Candara" />
         </Style>
 
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+
         <Style x:Key="SmallHeader" TargetType="{x:Type Label}">
             <Setter Property="FontSize" Value="25" />
             <Setter Property="FontWeight" Value="Bold" />
@@ -20,6 +24,7 @@
             <Setter Property="Background" Value="WhiteSmoke"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="BorderBrush" Value="DarkGray" />
+            <Setter Property="FontWeight" Value="DemiBold" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Margin" Value="4" />
             <Setter Property="MinHeight" Value="30" />

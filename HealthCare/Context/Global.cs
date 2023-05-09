@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace HealthCare.Context
 {
@@ -18,10 +21,13 @@ namespace HealthCare.Context
         public const string anamnesisPath = dirPath + "anamneses.csv";
         public const string inventoryPath = dirPath + "inventory_items.csv";
         public const string orderPath = dirPath + "orders.csv";
+        public const string transferPath = dirPath + "transfers.csv";
+        internal static string notificationPath = dirPath + "notifications.csv";
 
         public const string managerUsername = "admin";
         public const string managerPassword = "admin";
 
-        public const int maxIdGap = 20;
+        public const string dateFormat = "dd-MM-yyyy HH:mm:ss";
+        public const string timeSpanFormat = "c";
     }
 }

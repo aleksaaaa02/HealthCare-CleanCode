@@ -10,6 +10,8 @@ using HealthCare.View.PatientView;
 using System.Windows;
 using HealthCare.View.ReceptionView;
 using HealthCare.View.UrgentAppointmentView;
+using HealthCare.View;
+using System;
 
 namespace HealthCare
 {
@@ -19,6 +21,7 @@ namespace HealthCare
     public partial class MainWindow : Window
     {
         private readonly Hospital _hospital;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -30,8 +33,7 @@ namespace HealthCare
         private void btnQuitApp_Click(object sender, RoutedEventArgs e)
         {
             new UrgentView(_hospital).ShowDialog();
-           //_hospital.SaveAll();
-           //Close();
+           ExitApp();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
@@ -53,18 +55,15 @@ namespace HealthCare
                         new NurseMenu(this, _hospital).Show();
                         break;
                     case UserRole.Patient:
-                        AppointmentMainView appointmentMainView = new AppointmentMainView(_hospital);
-                        appointmentMainView.Show();
+                        new AppointmentMainView(_hospital).Show();
                         break;
                 }
 
                 txtUserName.Clear();
                 txtPassword.Clear();
                 Hide();
-            } catch (IncorrectPasswordException _) {
-                MessageBox.Show("Pogresna lozinka. Pokusajte ponovo.", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
-            } catch (UsernameNotFoundException _) {
-                MessageBox.Show("Nepostojece korisnicko ime.", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+            } catch (LoginException ex) {
+                Utility.ShowWarning(ex.Message);
             }
         }
 
