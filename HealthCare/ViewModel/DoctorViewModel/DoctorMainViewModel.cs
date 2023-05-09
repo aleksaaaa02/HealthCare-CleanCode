@@ -6,17 +6,27 @@ using HealthCare.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace HealthCare.ViewModels.DoctorViewModel
 {
     public class DoctorMainViewModel : ViewModelBase
     {
+        private readonly Hospital _hospital;
+        private ObservableCollection<AppointmentViewModel> _appointments;
         private DateTime _startDate = DateTime.Now;
+        private int _numberOfDays = 3;
+        private AppointmentViewModel _selectedPatient;
+
+        public IEnumerable<AppointmentViewModel> Appointments => _appointments;
+        public ICommand CreateAppointmentViewCommand { get; }
+        public ICommand EditAppointmentCommand { get; }
+        public ICommand DeleteAppointmentCommand { get; }
+        public ICommand ShowDetailedPatientInfoCommand { get; }
+        public ICommand ApplyFilterCommand { get; }
+        public ICommand ShowPatientSearchCommand { get; }
+        public ICommand StartExaminationCommand { get; }
+
         public DateTime StartDate
         {
             get { return _startDate; }
@@ -26,19 +36,16 @@ namespace HealthCare.ViewModels.DoctorViewModel
                 OnPropertyChanged(nameof(StartDate));
             }
         }
-        private int _days = 3;
-        public int Days
+        public int NumberOfDays
         {
-            get { return _days; }
+            get { return _numberOfDays; }
             set
             {
-                _days = value;
-                OnPropertyChanged(nameof(Days));
+                _numberOfDays = value;
+                OnPropertyChanged(nameof(NumberOfDays));
             }
         }
 
-
-        private AppointmentViewModel _selectedPatient;
         public AppointmentViewModel SelectedPatient
         {
             get { return _selectedPatient; }
@@ -49,24 +56,6 @@ namespace HealthCare.ViewModels.DoctorViewModel
             }
         }
 
-        private Hospital _hospital;
-        
-        private ObservableCollection<AppointmentViewModel> _appointments;
-
-        public IEnumerable<AppointmentViewModel> Appointments => _appointments;
-
-        public ICommand CreateAppointmentViewCommand { get; }
-
-        public ICommand EditAppointmentCommand { get; }
-
-        public ICommand DeleteAppointmentCommand { get; }
-
-        public ICommand ShowDetailedPatientInfoCommand { get; }
-
-        public ICommand ApplyFilterCommand { get; }
-
-        public ICommand ShowPatientSearchCommand { get; }
-        public ICommand StartExaminationCommand { get; }
         public DoctorMainViewModel(Hospital hospital)
         {
             _hospital = hospital;
@@ -82,7 +71,7 @@ namespace HealthCare.ViewModels.DoctorViewModel
             StartExaminationCommand = new ShowReservationDialogCommand(hospital, this);
         }
 
-        public void ApplyFilterOn(List<Appointment> appointments)
+        public void ApplyFilterOnAppointments(List<Appointment> appointments)
         {
             _appointments.Clear();
             foreach (var appointment in appointments)

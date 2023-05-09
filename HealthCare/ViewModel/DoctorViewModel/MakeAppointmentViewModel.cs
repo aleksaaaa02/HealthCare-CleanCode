@@ -5,10 +5,6 @@ using HealthCare.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -19,9 +15,19 @@ namespace HealthCare.ViewModels.DoctorViewModel
         private readonly Hospital _hospital;
         private readonly Patient _selected;
         private ObservableCollection<PatientViewModel> _patients;
-        public IEnumerable<PatientViewModel> Patients => _patients;
 
         private DateTime _startDate = DateTime.Today;
+        private int _hours = 0;
+        private int _minutes = 0;
+        private bool _isOperation;
+        private int _duration = 15;
+        private PatientViewModel _selectedPatient;
+
+        public IEnumerable<PatientViewModel> Patients => _patients;
+
+        public ICommand CancelCommand { get; }
+        public ICommand SubmitCommand { get; }
+
         public DateTime StartDate 
         { 
             get { return _startDate; }
@@ -38,7 +44,6 @@ namespace HealthCare.ViewModels.DoctorViewModel
             }
         }
 
-        private int _hours = 0;
         public int Hours
         {
             get { return _hours; }
@@ -52,12 +57,9 @@ namespace HealthCare.ViewModels.DoctorViewModel
                 {
                     _hours = value;
                 }
-                
-                
                 OnPropertyChanged(nameof(Hours));
             }
         }
-        private int _minutes = 0;
         public int Minutes
         {
             get { return _minutes; }
@@ -71,12 +73,9 @@ namespace HealthCare.ViewModels.DoctorViewModel
                 {
                     _minutes = value;
                 }
-                
-                
                 OnPropertyChanged(nameof(Minutes));
             }
         }
-        private bool _isOperation;
         public bool IsOperation
         {
             get { return _isOperation; }
@@ -86,13 +85,11 @@ namespace HealthCare.ViewModels.DoctorViewModel
                 OnPropertyChanged(nameof(IsOperation));
             }
         }
-        private int _duration = 15;
         public int Duration
         {
             get { return _duration; }
             set
             {
-       
                 if (value <= 15)
                 {
                     _duration = 15;
@@ -100,12 +97,10 @@ namespace HealthCare.ViewModels.DoctorViewModel
                 else
                 {
                     _duration = value;
-                }
-           
+                }           
                 OnPropertyChanged(nameof(Duration));
             }
         }
-        private PatientViewModel _selectedPatient;
         public PatientViewModel SelectedPatient { 
             get { return _selectedPatient; }
             set 
@@ -114,8 +109,6 @@ namespace HealthCare.ViewModels.DoctorViewModel
                 OnPropertyChanged(nameof(SelectedPatient));    
             }
         }
-        public ICommand CancelCommand { get; }
-        public ICommand SubmitCommand { get; }
         public MakeAppointmentViewModel(Hospital hospital, DoctorMainViewModel DoctorViewModel, Window window)
         {
             // For New Appointment

@@ -14,10 +14,13 @@ namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation
 {
     public class RoomReservationViewModel : ViewModelBase
     {
+        private readonly Hospital _hospital;
         private ObservableCollection<RoomViewModel> _rooms;
-        public IEnumerable<RoomViewModel> Rooms => _rooms;
-
         private RoomViewModel _selectedRoom;
+
+        public IEnumerable<RoomViewModel> Rooms => _rooms;
+        public ICommand ReservateRoomCommand { get; }
+
         public RoomViewModel SelectedRoom
         {
             get { return _selectedRoom; }
@@ -28,18 +31,13 @@ namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation
             }
         }
 
-        private Hospital _hospital;
-
-
-
-        public ICommand ReservateRoomCommand { get; }
-
         public RoomReservationViewModel(Hospital hospital, Appointment appointment, Window window) {
             _hospital = hospital;
             ReservateRoomCommand = new ReservateRoomCommand(hospital, window, this, appointment);
-            LoadDataView(appointment);
+            Update(appointment);
         }
-        public void LoadDataView(Appointment appointment)
+
+        public void Update(Appointment appointment)
         {
             _rooms = new ObservableCollection<RoomViewModel>();
             if (appointment.IsOperation)
