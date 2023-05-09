@@ -1,4 +1,5 @@
 ﻿using HealthCare.Model;
+using HealthCare.View;
 using HealthCare.View.DoctorView;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace HealthCare.Command
             string newDisease = _viewModel.Disease;
             if (newDisease is null)
             {
-                MessageBox.Show("Morate uneti bolest u polje", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Utility.ShowWarning("Morate uneti bolest u polje");
                 return;
             }
             _viewModel.AddDisease(newDisease);

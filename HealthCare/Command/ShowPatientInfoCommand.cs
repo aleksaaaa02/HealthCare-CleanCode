@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.View;
 using HealthCare.View.DoctorView;
 using HealthCare.ViewModel.DoctorViewModel;
 using HealthCare.ViewModels.DoctorViewModel;
@@ -54,7 +55,7 @@ namespace HealthCare.Command
             }
             else
             {
-                MessageBox.Show("Morate odabrati pregled/operaciju iz tabele!", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+                Utility.ShowWarning("Morate odabrati pregled/operaciju iz tabele!");
             }
 
         }
@@ -69,7 +70,7 @@ namespace HealthCare.Command
             }
             else
             {
-                MessageBox.Show("Morate odabrati pacijenta iz tabele!", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+                Utility.ShowWarning("Morate odabrati pacijenta iz tabele!");
             }
         }
     }

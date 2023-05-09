@@ -1,6 +1,7 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.View;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.Collections.Generic;
@@ -26,13 +27,13 @@ namespace HealthCare.Command
             AppointmentViewModel a = _doctorMainViewModel.SelectedPatient;
             if (a is null)
             {
-                MessageBox.Show("Odaberite pregled/operaciju iz tabele!", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Utility.ShowWarning("Odaberite pregled/operaciju iz tabele!");
                 return;
             }
             Appointment appointmnet = Schedule.GetAppointment(Convert.ToInt32(a.AppointmentID));
             if (appointmnet is null)
             {
-                MessageBox.Show("Ups Doslo je do greske!", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Utility.ShowWarning("Ups Doslo je do greske!");
                 return;
             }
             Schedule.DeleteAppointment(appointmnet.AppointmentID);

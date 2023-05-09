@@ -1,6 +1,7 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.View;
 using HealthCare.View.DoctorView;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
@@ -27,14 +28,14 @@ namespace HealthCare.Command
             AppointmentViewModel appointmentViewModel = _doctorMainViewModel.SelectedPatient;
             if (appointmentViewModel is null)
             {
-                MessageBox.Show("Morate odabrati pregled/operaciju iz tabele!", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+                Utility.ShowWarning("Morate odabrati pregled/operaciju iz tabele!");
                 return;
             }
 
             Appointment selectedAppointment = Schedule.GetAppointment(Convert.ToInt32(appointmentViewModel.AppointmentID));           
             if (selectedAppointment is null)
             {
-                MessageBox.Show("Ups doslo je do greske", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+                Utility.ShowError("Ups doslo je do greske");
                 return;
             }
             MakeAppointmentView makeAppointmentView = new MakeAppointmentView(_hospital, _doctorMainViewModel, selectedAppointment);
