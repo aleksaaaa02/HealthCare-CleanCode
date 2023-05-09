@@ -51,7 +51,7 @@ namespace HealthCare.View.ReceptionView
                     ShowErrorMessageBox();
                     return;
                 }
-                NurseAnamnesisView anamnesisView = new NurseAnamnesisView(hospital,starting.AppointmentID);
+                NurseAnamnesisView anamnesisView = new NurseAnamnesisView(hospital,starting.AppointmentID,patient);
                 anamnesisView.ShowDialog();
             }
 

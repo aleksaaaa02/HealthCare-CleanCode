@@ -1,7 +1,7 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Service;
-using HealthCare.ViewModel;
+using HealthCare.ViewModel.NurseViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +15,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using HealthCare.ViewModel;
+using System.Reflection.Metadata.Ecma335;
 
 namespace HealthCare.View.UrgentAppointmentView
 {
@@ -71,27 +73,41 @@ namespace HealthCare.View.UrgentAppointmentView
             {
                 TimeSpan duration = new TimeSpan(0, int.Parse(tbDuration.Text), 0);
                 List<Doctor> specialists = hospital.DoctorService.GetBySpecialization(cbSpecialization.SelectedValue.ToString());
-                Appointment? appointment = Schedule.GetSoonest(duration, specialists);
+
+                Appointment? appointment = Schedule.GetUrgent(duration, specialists);
                 if (appointment is not null)
                 {
-                    appointment.Patient = patient;
-                    appointment.AppointmentID = Schedule.NextId();
-                    appointment.IsOperation = (cbOperation.IsChecked is bool Checked && Checked);
+                    appointment = FillAppointmentDetails(appointment);
+                    Schedule.CreateUrgentAppointment(appointment);
+                    return;
                 }
-                List<Appointment> postponable = new List<Appointment>();
 
+                List<Appointment> postponable = new List<Appointment>();
                 foreach (Doctor doctor in specialists)
                 {
                     postponable.AddRange(Schedule.GetPostponable(duration, doctor));
                 }
+                postponable = postponable.OrderBy(x => Schedule.GetSoonestStartingTime(x)).ToList();
 
-                postponable.OrderBy(x => Schedule.SoonestPostponable(x));
+                appointment = FillAppointmentDetails(appointment);
+                appointment.TimeSlot = new TimeSlot(DateTime.MinValue, duration);
+                new PostponableAppointmentsView(appointment, postponable,hospital).ShowDialog();
             }
             else
             {
                 ShowErrorMessageBox("Izaberite pacijenta i unesite duzinu trajanja u minutima.");
             }
-           
+
+        }
+        public Appointment FillAppointmentDetails(Appointment? appointment)
+        {
+            if(appointment == null)
+                appointment = new Appointment();
+
+            appointment.Patient = patient;
+            appointment.AppointmentID = Schedule.NextId();
+            appointment.IsOperation = (cbOperation.IsChecked is bool Checked && Checked);
+            return appointment;
         }
 
         private bool Validate()

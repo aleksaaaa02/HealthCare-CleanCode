@@ -10,8 +10,7 @@ using HealthCare.View.PatientView;
 using System.Windows;
 using HealthCare.View.ReceptionView;
 using HealthCare.View.UrgentAppointmentView;
-using HealthCare.View;
-using System;
+using HealthCare.Model;
 
 namespace HealthCare
 {
@@ -32,8 +31,8 @@ namespace HealthCare
 
         private void btnQuitApp_Click(object sender, RoutedEventArgs e)
         {
-            new UrgentView(_hospital).ShowDialog();
-           ExitApp();
+           _hospital.SaveAll();
+           Close();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
@@ -43,7 +42,8 @@ namespace HealthCare
 
             try
             {
-                switch(_hospital.LoginRole(username, password))
+                ShowNotifications();
+                switch (_hospital.LoginRole(username, password))
                 {
                     case UserRole.Manager:
                         new ManagerMenu(this, _hospital).Show();
@@ -65,6 +65,14 @@ namespace HealthCare
             } catch (LoginException ex) {
                 Utility.ShowWarning(ex.Message);
             }
+        }
+
+        private void ShowNotifications()
+        {
+            if (_hospital.Current is null)
+                return;
+            foreach(Notification notification in _hospital.NotificationService.GetForUser(_hospital.Current.JMBG)) 
+                MessageBox.Show(notification.Text,"Obavestenje",MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public void ExitApp()
