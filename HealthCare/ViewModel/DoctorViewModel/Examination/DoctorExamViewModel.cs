@@ -75,13 +75,13 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             }
         }
         private Gender _gender;
-        public Gender Genderr
+        public Gender Gender
         {
             get { return _gender; }
             set
             {
                 _gender = value;
-                OnPropertyChanged(nameof(Genderr));
+                OnPropertyChanged(nameof(Gender));
             }
         }
         private float _height;
@@ -91,7 +91,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             set
             {
                 _height = value;
-                OnPropertyChanged(nameof(_height));
+                OnPropertyChanged(nameof(Height));
             }
         }
         private float _weight;
@@ -111,7 +111,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             set
             {
                 _selectedDisease = value;
-                OnPropertyChanged(nameof(_selectedDisease));
+                OnPropertyChanged(nameof(SelectedDisease));
             }
         }
         private string _disease;
@@ -189,13 +189,19 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             _previousDiseases = new ObservableCollection<string>();
             Update();
         }
-        public void Update()
+        private void Update()
         {
             _previousDiseases.Clear();
             foreach (var disease in _selectedPatient.MedicalRecord.MedicalHistory)
             {
                 _previousDiseases.Add(disease);
             }
+        }
+        public void RefreshView()
+        {
+            Update();
+            Height = SelectedPatient.MedicalRecord.Height;
+            Weight = SelectedPatient.MedicalRecord.Weight;
         }
 
     }

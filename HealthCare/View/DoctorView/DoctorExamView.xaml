@@ -29,12 +29,12 @@
                     <Label Content="Datum Rodjenja"/>
                     <DatePicker Text="{Binding Birthday}" Focusable="False" IsHitTestVisible="False"/>
                     <Label Content="Pol"/>
-                    <TextBox Text="{Binding Genderr}" IsReadOnly="True"/>
+                    <TextBox Text="{Binding Gender}" IsReadOnly="True"/>
                     <Label Content="Visina (cm):"/>
                     <TextBox Text="{Binding Height}" HorizontalAlignment="Left" IsReadOnly="True" Width="100" TextAlignment="Center"/>
                     <Label Content="Tezina (kg):"/>
                     <TextBox Text="{Binding Weight}" HorizontalAlignment="Left" IsReadOnly="True" Width="100" TextAlignment="Center"/>
-                    <TextBlock Text="Istorija Bolestio" FontSize="20" FontWeight="Bold"/>
+                    <TextBlock Text="Istorija Bolesti" FontSize="20" FontWeight="Bold"/>
                 </StackPanel>
             </ScrollViewer>
 

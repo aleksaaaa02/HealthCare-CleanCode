@@ -56,9 +56,9 @@ namespace HealthCare.Service
             return Get(JMBG);
 		}
 
-        public void UpdatePatientMedicalHistory(Patient patient, string[] previousDiseases)
+        public void UpdatePatientMedicalRecord(Patient patient, MedicalRecord medicalRecord)
         {
-            patient.MedicalRecord.MedicalHistory = previousDiseases;
+            patient.MedicalRecord = medicalRecord;
 			Update(patient);
 		}
 

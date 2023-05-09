@@ -23,6 +23,7 @@ namespace HealthCare.Command
             try
             {
                 Validate();
+
                 DateTime startDate = _doctorMainViewModel.StartDate;
                 int numberOfDays = _doctorMainViewModel.NumberOfDays;
                 _doctorMainViewModel.ApplyFilterOnAppointments(Schedule.GetDoctorAppointmentsForDays((Doctor)_hospital.Current, startDate, numberOfDays));

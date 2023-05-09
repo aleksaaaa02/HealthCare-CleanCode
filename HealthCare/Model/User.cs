@@ -75,5 +75,10 @@ namespace HealthCare.Model
             return obj is User user &&
                    JMBG == user.JMBG;
         }
+
+        public override int GetHashCode()
+        {
+            return JMBG.GetHashCode();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using HealthCare.Context;
+using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.View.DoctorView;
 using System.Linq;
@@ -18,19 +19,46 @@ namespace HealthCare.Command
         }
         public override void Execute(object parameter)
         {
-            UpdatePatientMedicalHistory();
-            ShowSuccesMessage();
+            try
+            {
+                Validate();
+
+                UpdatePatientMedicalRecord();
+                ShowSuccesMessage();
+            }
+            catch (ValidationException ve)
+            {
+                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
-        private void UpdatePatientMedicalHistory()
+        private void UpdatePatientMedicalRecord()
         {
-            string[] previousDisease = _viewModel.PreviousDisease.ToArray();
-            _hospital.PatientService.UpdatePatientMedicalHistory(_selectedPatient, previousDisease);
+            float weight = _viewModel.Weight;
+            float height = _viewModel.Height;
+            string[] medicalHistory = _viewModel.PreviousDisease.ToArray();
+            
+            MedicalRecord updatedMedicalRecord = new MedicalRecord(height, weight, medicalHistory);
+
+            _hospital.PatientService.UpdatePatientMedicalRecord(_selectedPatient, updatedMedicalRecord);
+
         }
 
         private void ShowSuccesMessage()
         {
             MessageBox.Show("Pacijent uspesno sacuvan!", "Obavestenje", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+        private void Validate()
+        {
+            if(_viewModel.Weight <= 0)
+            {
+                throw new ValidationException("Neispravan unos tezine");
+            }
+            if (_viewModel.Height <= 0)
+            {
+                throw new ValidationException("Neispravan unos visine");
+            }
+        }
     }
 }
+

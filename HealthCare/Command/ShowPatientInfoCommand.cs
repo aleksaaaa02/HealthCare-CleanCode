@@ -68,7 +68,7 @@ namespace HealthCare.Command
         {
             if (_viewModel is DoctorExamViewModel doctorExamViewModel)
             {
-                doctorExamViewModel.Update();
+                doctorExamViewModel.RefreshView();
             }
         }
     }

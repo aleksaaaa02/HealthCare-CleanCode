@@ -12,7 +12,7 @@
             <ColumnDefinition Width="0.35*"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
-            <ListView x:Name="DynamicEquipmentListView" Grid.ColumnSpan="2" ItemsSource="{Binding UsedDynamicEquipment}" SelectionMode="Single">
+            <ListView x:Name="DynamicEquipmentListView" Grid.ColumnSpan="2" ItemsSource="{Binding UsedDynamicEquipment}" SelectionMode="Single" HorizontalContentAlignment="Stretch">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Naziv opreme" DisplayMemberBinding="{Binding EquipmentName}">
@@ -36,10 +36,10 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Stanje" Width="50">
+                        <GridViewColumn Header="Potrosi" Width="Auto">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="potrosi 1x" Width="50" Command="{Binding UseEquipment}"/>
+                                    <Button Content="potrosi 1x" Width="80" Command="{Binding UseEquipment}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
