@@ -47,6 +47,11 @@ namespace HealthCare.Service
             return _repository.Contains(id);
         }
 
+        public int Count()
+        {
+            return GetAll().Count;
+        }
+
         public List<T> GetAll()
         {
             return _repository.Items();
