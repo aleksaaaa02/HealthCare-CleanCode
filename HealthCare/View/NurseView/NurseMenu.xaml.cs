@@ -18,7 +18,7 @@ namespace HealthCare.View.PatientView
 
         private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
-            Hide();
+            Close();
             _window.Show();
         }
 
@@ -39,7 +39,7 @@ namespace HealthCare.View.PatientView
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            _window.ExitApp();
+            _window.Show();
         }
     }
 }

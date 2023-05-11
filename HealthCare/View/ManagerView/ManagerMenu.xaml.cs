@@ -33,13 +33,13 @@ namespace HealthCare.View.ManagerView
 
         private void Button_Logout(object sender, RoutedEventArgs e)
         {
-            Hide();
+            Close();
             _loginWindow.Show();
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            _loginWindow.ExitApp();
+            _loginWindow.Show();
         }
     }
 }
