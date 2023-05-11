@@ -21,7 +21,7 @@ namespace HealthCare.View.UrgentAppointmentView
     public partial class PostponableAppointmentsView : Window
     {
         private PostponableAppointmentsViewModel _model;
-        private Appointment _selected;
+        private Appointment? _selected;
         private Appointment _newAppointment;
         private readonly Hospital _hospital;
         public PostponableAppointmentsView(Appointment newAppointment, List<Appointment> postponable, Hospital hospital)
@@ -47,7 +47,7 @@ namespace HealthCare.View.UrgentAppointmentView
         {
             if (_selected is null)
             {
-                ShowErrorMessageBox("Izaberite polje iz tabele");
+                Utility.ShowWarning("Izaberite polje iz tabele");
                 return;
             }
             _newAppointment.TimeSlot.Start = _selected.TimeSlot.Start;
@@ -56,7 +56,7 @@ namespace HealthCare.View.UrgentAppointmentView
             Schedule.CreateUrgentAppointment(_newAppointment);
 
             _hospital.NotificationService.Add(new Notification(
-                "Termin sa ID-jem " + _selected.AppointmentID + " je pomeren",
+                "Termin sa ID-jem " + _selected.AppointmentID + " je pomeren.",
                 _selected.Doctor.JMBG, _selected.Patient.JMBG));
             _hospital.NotificationService.Add(new Notification(
                 "Hitan termin sa ID-jem " + _selected.AppointmentID + " je kreiran.",
@@ -64,14 +64,6 @@ namespace HealthCare.View.UrgentAppointmentView
 
             Utility.ShowInformation("Uspesno odlozen termin.");
             Close();
-        }
-
-        public void ShowErrorMessageBox(string messageBoxText)
-        {
-            string content = "Greska";
-            MessageBoxImage icon = MessageBoxImage.Error;
-            MessageBoxButton button = MessageBoxButton.OK;
-            MessageBox.Show(messageBoxText, content, button, icon);
         }
 
     }

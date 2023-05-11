@@ -23,9 +23,10 @@ namespace HealthCare.View.PatientView
         private CreatePatientView? _patientView;
         public AddMedicalRecordView(NurseMainView window)
         {
+            InitializeComponent();
             _nurseView = window;
             _patientView = null;
-            InitializeComponent();
+
             if (_nurseView._record is not null)
             {
                 tbHeight.Text = _nurseView._record.Height.ToString();
@@ -39,9 +40,9 @@ namespace HealthCare.View.PatientView
 
         public AddMedicalRecordView(CreatePatientView patientView)
         {
+            InitializeComponent();
             _patientView = patientView;
             _nurseView = null;
-            InitializeComponent();
             _patientView._record = new MedicalRecord();
         }
 
@@ -69,7 +70,7 @@ namespace HealthCare.View.PatientView
 
             if (_nurseView is not null)
                 _nurseView._record = medicalRecord;
-            else
+            else if (_patientView is not null)
                 _patientView._record = medicalRecord;
             Close();  
         }
