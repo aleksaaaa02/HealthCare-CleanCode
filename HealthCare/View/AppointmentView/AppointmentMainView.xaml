@@ -24,9 +24,9 @@
             <TextBlock HorizontalAlignment="Left" Margin="21,62,0,0" TextWrapping="Wrap" Text="Izaberite datum" VerticalAlignment="Top"/>
             <DatePicker x:Name="tbDate" HorizontalAlignment="Left" Margin="125,62,0,0" VerticalAlignment="Top"/>
             <TextBlock HorizontalAlignment="Left" Margin="21,116,0,0" TextWrapping="Wrap" Text="Sati" VerticalAlignment="Top"/>
-            <TextBox x:Name="tbHours" HorizontalAlignment="Left" Margin="56,116,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="48" TextChanged="tbHours_TextChanged" FontSize="12"/>
+            <TextBox x:Name="tbHours" HorizontalAlignment="Left" Margin="56,116,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="48" TextChanged="TbHours_TextChanged" FontSize="12"/>
             <TextBlock HorizontalAlignment="Left" Margin="140,116,0,0" TextWrapping="Wrap" Text="Minuti" VerticalAlignment="Top"/>
-            <TextBox x:Name="tbMinutes" HorizontalAlignment="Left" Margin="195,116,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="47" TextChanged="tbMinutes_TextChanged"/>
+            <TextBox x:Name="tbMinutes" HorizontalAlignment="Left" Margin="195,116,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="47" TextChanged="TbMinutes_TextChanged"/>
 
         </Grid>
 
@@ -52,7 +52,7 @@
                 <RowDefinition Height="0.8*"/>
             </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Text="Izaberite pregled" VerticalAlignment="Center" FontSize="16"/>
-            <ListView x:Name="appListView" Grid.Row="1" SelectionChanged="appListView_SelectionChanged" SelectionMode="Single">
+            <ListView x:Name="appListView" Grid.Row="1" SelectionChanged="AppListView_SelectionChanged" SelectionMode="Single">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn  Header="Appointment ID" DisplayMemberBinding="{Binding AppointmentID}"/>
@@ -62,14 +62,14 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Button x:Name="btnRecord" Content="Prikazi karton" HorizontalAlignment="Left" Margin="415,10,0,0" VerticalAlignment="Top" Click="btnRecord_Click_1"/>
-            <Button x:Name="btnPriority" Content="Kreiranje sa prioritetom" HorizontalAlignment="Left" Margin="551,10,0,0" VerticalAlignment="Top" Click="btnPriority_Click"/>
+            <Button x:Name="btnRecord" Content="Prikazi karton" HorizontalAlignment="Left" Margin="415,10,0,0" VerticalAlignment="Top" Click="BtnRecord_Click_1"/>
+            <Button x:Name="btnPriority" Content="Kreiranje sa prioritetom" HorizontalAlignment="Left" Margin="551,10,0,0" VerticalAlignment="Top" Click="BtnPriority_Click"/>
         </Grid>
 
         <Grid Grid.Row="3" Grid.ColumnSpan="2">
-            <Button x:Name="btnCreate" Content="Kreiraj" HorizontalAlignment="Left" Margin="27,0,0,0" VerticalAlignment="Center" Click="btnCreate_Click"/>
-            <Button x:Name="btnUpdate" Content="Azuriraj" HorizontalAlignment="Left" Margin="111,0,0,0" VerticalAlignment="Center" Click="btnUpdate_Click"/>
-            <Button x:Name="btnDelete" Content="Obrisi" HorizontalAlignment="Left" Margin="187,0,0,0" VerticalAlignment="Center" Click="btnDelete_Click"/>
+            <Button x:Name="btnCreate" Content="Kreiraj" HorizontalAlignment="Left" Margin="27,0,0,0" VerticalAlignment="Center" Click="BtnCreate_Click"/>
+            <Button x:Name="btnUpdate" Content="Azuriraj" HorizontalAlignment="Left" Margin="111,0,0,0" VerticalAlignment="Center" Click="BtnUpdate_Click"/>
+            <Button x:Name="btnDelete" Content="Obrisi" HorizontalAlignment="Left" Margin="187,0,0,0" VerticalAlignment="Center" Click="BtnDelete_Click"/>
         </Grid>
     </Grid>
 </Window>

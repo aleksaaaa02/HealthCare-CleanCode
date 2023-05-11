@@ -4,20 +4,10 @@ using HealthCare.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using HealthCare.Context;
-using HealthCare.Command;
-using System.IO;
 
 namespace HealthCare.View.AppointmentView
 {
@@ -33,20 +23,16 @@ namespace HealthCare.View.AppointmentView
             InitializeComponent();
             _hospital = hospital;
             LoadData();
-            CheckIfBlock();
+            IsUserBlocked();
         }
 
-        public void WriteAction(string action)
+        public void WriteActionToFile(string action)
         {
             string stringtocsv = _hospital.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
             File.AppendAllText("../../../Resource/PatientLogs.csv",stringtocsv);
         }
 
-        
-
-
-
-        public void CheckIfBlock()
+        public void IsUserBlocked()
         {
             Patient patient = (Patient)_hospital.Current;
             using (var reader = new StreamReader("../../../Resource/PatientLogs.csv", Encoding.Default))
@@ -92,7 +78,7 @@ namespace HealthCare.View.AppointmentView
 
         }
 
-        private void tbMinutes_TextChanged(object sender, TextChangedEventArgs e)
+        private void TbMinutes_TextChanged(object sender, TextChangedEventArgs e)
         {
             string text = tbMinutes.Text;
             if(int.TryParse(text, out int minutes))
@@ -109,7 +95,7 @@ namespace HealthCare.View.AppointmentView
             }
         }
 
-        private void tbHours_TextChanged(object sender, TextChangedEventArgs e)
+        private void TbHours_TextChanged(object sender, TextChangedEventArgs e)
         {
             string text = tbHours.Text;
             if(int.TryParse(text, out int hours))
@@ -125,7 +111,7 @@ namespace HealthCare.View.AppointmentView
             }
         }
 
-        private void btnCreate_Click(object sender, RoutedEventArgs e)
+        private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
             Patient patient = (Patient)_hospital.Current;
             if (patient.Blocked)
@@ -169,12 +155,12 @@ namespace HealthCare.View.AppointmentView
                 return;
             }
             Utility.ShowInformation("Uspesno dodat pregled");
-            WriteAction("CREATE");
+            WriteActionToFile("CREATE");
             LoadData();
-            CheckIfBlock();
+            IsUserBlocked();
         }
 
-        private void appListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void AppListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (appListView.SelectedItems.Count == 1)
             {
@@ -186,7 +172,7 @@ namespace HealthCare.View.AppointmentView
             
         }
 
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
             Patient patient = (Patient)_hospital.Current;
             if (patient.Blocked)
@@ -199,10 +185,10 @@ namespace HealthCare.View.AppointmentView
                 Appointment appointment = (Appointment)appListView.SelectedItem;
                 int idForDeleting = appointment.AppointmentID;
                 Schedule.DeleteAppointment(idForDeleting);
-                WriteAction("DELETE");
+                WriteActionToFile("DELETE");
                 Utility.ShowInformation("Uspesno obrisan pregled");
                 LoadData();
-                CheckIfBlock();
+                IsUserBlocked();
             }
             else
             {
@@ -212,7 +198,7 @@ namespace HealthCare.View.AppointmentView
            
         }
 
-        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        private void BtnUpdate_Click(object sender, RoutedEventArgs e)
         {
 
             Patient patient = (Patient)_hospital.Current;
@@ -269,23 +255,23 @@ namespace HealthCare.View.AppointmentView
                 return;
             }
             Utility.ShowInformation("Uspesno azuriran pregled");
-            WriteAction("UPDATE");
+            WriteActionToFile("UPDATE");
             LoadData();
-            CheckIfBlock();
+            IsUserBlocked();
 
         }
 
-        private void btnRecord_Click(object sender, RoutedEventArgs e)
+        private void BtnRecord_Click(object sender, RoutedEventArgs e)
         {
             new PatientRecordView(_hospital).Show();
         }
 
-        private void btnRecord_Click_1(object sender, RoutedEventArgs e)
+        private void BtnRecord_Click_1(object sender, RoutedEventArgs e)
         {
             new PatientRecordView(_hospital).Show();
         }
 
-        private void btnPriority_Click(object sender, RoutedEventArgs e)
+        private void BtnPriority_Click(object sender, RoutedEventArgs e)
         {
             new PriorityAppointmentView(_hospital).Show();
         }
