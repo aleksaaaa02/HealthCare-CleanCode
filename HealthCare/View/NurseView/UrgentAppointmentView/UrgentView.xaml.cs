@@ -27,13 +27,9 @@ namespace HealthCare.View.UrgentAppointmentView
         private Patient? _patient;
         public UrgentView(Hospital hospital)
         {
-            this._hospital = hospital;
-
             InitializeComponent();
 
-            foreach (string specialization in hospital.DoctorService.GetSpecializations())
-                cbSpecialization.Items.Add(specialization);
-            cbSpecialization.SelectedIndex = 0;
+            _hospital = hospital;
 
             _model = new PatientViewModel(hospital.PatientService);
             DataContext = _model;
@@ -41,6 +37,15 @@ namespace HealthCare.View.UrgentAppointmentView
             _model.Update();
             tbJMBG.IsEnabled = false;
             _patient = null;
+
+            PopulateComboBox();
+        }
+
+        private void PopulateComboBox()
+        {
+            foreach (string specialization in _hospital.DoctorService.GetSpecializations())
+                cbSpecialization.Items.Add(specialization);
+            cbSpecialization.SelectedIndex = 0;
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -92,18 +97,18 @@ namespace HealthCare.View.UrgentAppointmentView
 
             List<Appointment> postponable = new List<Appointment>();
             foreach (Doctor doctor in specialists)
-            {
                 postponable.AddRange(Schedule.GetPostponable(duration, doctor));
-            }
+
             postponable = postponable.OrderBy(x => Schedule.GetSoonestStartingTime(x)).ToList();
 
             appointment = FillAppointmentDetails(appointment);
             appointment.TimeSlot = new TimeSlot(DateTime.MinValue, duration);
             new PostponableAppointmentsView(appointment, postponable, _hospital).ShowDialog();
         }
+
         public Appointment FillAppointmentDetails(Appointment? appointment)
         {
-            if (appointment == null)
+            if (appointment is null)
                 appointment = new Appointment();
 
             appointment.Patient = _patient;
