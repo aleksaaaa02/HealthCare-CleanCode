@@ -13,8 +13,7 @@ namespace HealthCare.Service
     {
         private readonly Inventory _inventory;
         private readonly RoomService _roomService;
-        public OrderService(string filepath, Inventory inventory, RoomService roomService)
-            : base(filepath) 
+        public OrderService(string filepath, Inventory inventory, RoomService roomService) : base(filepath) 
         {
             _inventory = inventory;
             _roomService = roomService;
@@ -24,18 +23,21 @@ namespace HealthCare.Service
         {
             int warehouseId = _roomService.GetWarehouseId();
 
-            InventoryItem restockItem = new InventoryItem(
-                0, item.EquipmentId, warehouseId, item.Quantity);
+            var restockItem = new InventoryItem(
+                item.EquipmentId, warehouseId, item.Quantity);
+
             _inventory.RestockInventoryItem(restockItem);
             item.Executed = true;
+
             Update(item);
         }
 
-        public void ExecuteOrders()
+        public void ExecuteAll()
         {
-            foreach (OrderItem item in GetAll())
-                if (!item.Executed && item.Scheduled <= DateTime.Now)
-                    Execute(item);
+            GetAll().ForEach(x => {
+                if (!x.Executed && x.Scheduled <= DateTime.Now) 
+                    Execute(x);
+            });
         }
     }
 }

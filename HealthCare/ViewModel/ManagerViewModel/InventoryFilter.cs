@@ -23,21 +23,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
             return _items;
         }
 
-        public void FilterAnyProperty(string query)
-        {
-            if (query == "") return;
-            string[] tokens = query.Split(' ');
-
-            List<InventoryItemViewModel> filtered = new List<InventoryItemViewModel>();
-            foreach (var item in _items)
-            {
-                if (HasAllTokens(item, tokens))
-                { filtered.Add(item); }
-            }
-            _items = filtered;
-        }
-
-        public void FilterQuantity(bool[] quantities)
+        public void FilterQuantity(params bool[] quantities)
         {
             if (!(quantities[0] || quantities[1] || quantities[2])) return;
 
@@ -52,7 +38,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
             _items = filtered;
         }
 
-        public void FilterEquipmentType(bool[] types)
+        public void FilterEquipmentType(params bool[] types)
         {
             if (!(types[0] || types[1] || types[2] || types[3])) return;
 
@@ -68,7 +54,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
             _items = filtered;
         }
 
-        public void FilterRoomType(bool[] types)
+        public void FilterRoomType(params bool[] types)
         {
             if (!(types[0] || types[1] || types[2] || types[3] || types[4])) return;
 
@@ -85,6 +71,20 @@ namespace HealthCare.ViewModel.ManagerViewModel
             _items = filtered;
         }
 
+        public void FilterAnyProperty(string query)
+        {
+            if (query == "") return;
+            string[] tokens = query.Split(' ');
+
+            List<InventoryItemViewModel> filtered = new List<InventoryItemViewModel>();
+            foreach (var item in _items)
+            {
+                if (HasAllTokens(item, tokens))
+                { filtered.Add(item); }
+            }
+            _items = filtered;
+        }
+
         private bool HasAllTokens(InventoryItemViewModel item, string[] tokens)
         {
             foreach (string token in tokens)
@@ -93,7 +93,8 @@ namespace HealthCare.ViewModel.ManagerViewModel
                     ContainsToken(item.Room.Name, token) ||
                     ContainsToken(item.Quantity.ToString(), token) ||
                     ContainsToken(Utility.Translate(item.Equipment.Type), token) ||
-                    ContainsToken(Utility.Translate(item.Room.Type), token)))
+                    ContainsToken(Utility.Translate(item.Room.Type), token)) ||
+                    ContainsToken(Utility.Translate(item.Equipment.IsDynamic), token))
                 { return false; }
             }
             return true;

@@ -32,7 +32,7 @@ namespace HealthCare.View.ManagerView
             if (selected is null) return;
 
             _selected = selected;
-            if (_selected.Dynamic)
+            if (_selected.IsDynamic)
                 datePicker.IsEnabled = false;
             else datePicker.IsEnabled = true;
             _model.Load(_selected);
@@ -62,13 +62,13 @@ namespace HealthCare.View.ManagerView
             var to = ((InventoryItemViewModel)lvToRoom.SelectedItem).Room.Id;
 
             var transfer = new TransferItem(equipment, quantity, DateTime.Now, false, from, to);
-            if (date is null)
+            if (date is null) {
                 _hospital.TransferService.Execute(transfer);
-            else
-            {
-                transfer.Scheduled = (DateTime)date;
-                _hospital.TransferService.Add(transfer);
+                return;
             }
+
+            transfer.Scheduled = (DateTime)date;
+            _hospital.TransferService.Add(transfer);
         }
 
         private void Validate()
@@ -76,7 +76,7 @@ namespace HealthCare.View.ManagerView
             int quantity;
             var selected = cbEquipment.SelectedItem as Equipment;
             if (selected is null)
-                throw new ValidationException("Molimo izaberite opremu za prenos.");
+                throw new ValidationException("Izaberite opremu za prenos.");
             else if (!(int.TryParse(tbQuantity.Text.Trim(), out quantity) && quantity > 0))
                 throw new ValidationException("Količina opreme za prenos mora da bude pozitivan broj.");
 
@@ -90,9 +90,9 @@ namespace HealthCare.View.ManagerView
                 throw new ValidationException("Nema dovoljno opreme da bi se izvršio prenos.");
 
             var date = datePicker.SelectedDate;
-            if (!selected.Dynamic && date is null)
+            if (!selected.IsDynamic && date is null)
                 throw new ValidationException("Pošto oprema nije dinamička obavezno je izabrati datum prenosa.");
-            else if (!selected.Dynamic && date <= DateTime.Now)
+            else if (!selected.IsDynamic && date <= DateTime.Now)
                 throw new ValidationException("Datum prenosa ne sme da bude u prošlosti.");
         }
 

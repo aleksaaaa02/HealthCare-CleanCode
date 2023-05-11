@@ -49,8 +49,8 @@ namespace HealthCare.Context
             Schedule.Load(Global.appointmentPath);
             FillAppointmentDetails();
 
-            OrderService.ExecuteOrders();
-            TransferService.ExecuteTransfers();
+            OrderService.ExecuteAll();
+            TransferService.ExecuteAll();
         }
 
         public void SaveAll()

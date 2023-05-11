@@ -22,7 +22,7 @@ namespace HealthCare.Service
 
         public List<Room> GetRoomsByType(RoomType roomType)
         {
-            return GetAll().FindAll(x => x.Type == roomType).ToList();
+            return GetAll().FindAll(x => x.Type == roomType);
         }
     }
 }

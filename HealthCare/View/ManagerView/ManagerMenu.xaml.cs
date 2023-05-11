@@ -40,7 +40,7 @@ namespace HealthCare.View.ManagerView
             new EquipmentOrderView(this, _hospital).Show();
         }
 
-        private void Button_Rearanging(object sender, RoutedEventArgs e)
+        private void Button_Rearranging(object sender, RoutedEventArgs e)
         {
             new EquipmentRearrangingView(this, _hospital).Show();
         }

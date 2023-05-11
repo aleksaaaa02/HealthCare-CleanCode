@@ -18,23 +18,16 @@ namespace HealthCare.Service
         public new void Add(T item)
         {
             if ((int)item.Key == 0)
-                AddWithNewId(item);
-            else _repository.Add(item);
+                item.Key = NextId();
+
+            base.Add(item);
         }
 
         private int NextId()
         {
-            int maxId = Count();
-            foreach (var item in _repository.Items())
-                maxId = Math.Max((int) item.Key, maxId);
-            return maxId + 1;
-        }
-
-        public int AddWithNewId(T item)
-        {
-            item.Key = NextId();
-            Add(item);
-            return (int) item.Key;
+            var max = GetAll().Max(x => x.Key);
+            if (max is null) return 1;
+            return (int)max + 1;
         }
     }
 }

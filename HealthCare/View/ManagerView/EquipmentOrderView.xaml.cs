@@ -12,7 +12,6 @@ namespace HealthCare.View.ManagerView
     public partial class EquipmentOrderView : Window
     {
         private EquipmentOrderViewModel _model;
-        private readonly Inventory _inventory;
         private readonly OrderService _orderService;
         private Window _parent;
 
@@ -20,16 +19,15 @@ namespace HealthCare.View.ManagerView
         {
             InitializeComponent();
             _parent = parent;
-            _inventory = hospital.Inventory;
             _orderService = hospital.OrderService;
 
-            _model = new EquipmentOrderViewModel(_inventory, hospital);
+            _model = new EquipmentOrderViewModel(hospital);
             DataContext = _model;
         }
 
         private void Button_Reset(object sender, RoutedEventArgs e)
         {
-            _model.Load();
+            _model.LoadAll();
         }
 
         private void Button_Exit(object sender, RoutedEventArgs e)
@@ -41,7 +39,7 @@ namespace HealthCare.View.ManagerView
         private void Button_Order(object sender, RoutedEventArgs e)
         {
             try {
-                _validate();
+                Validate();
             } catch (ValidationException ve) {
                 Utility.ShowWarning(ve.Message);
                 return;
@@ -49,26 +47,25 @@ namespace HealthCare.View.ManagerView
 
             foreach (var item in _model.Items)
                 if (item.IsSelected)
-                    _makeOrder(item.EquipmentId, int.Parse(item.OrderQuantity));
+                    MakeOrder(item.EquipmentId, int.Parse(item.OrderQuantity));
 
             Utility.ShowInformation("Poručivanje uspešno.");
-            _model.Load();
+            _model.LoadAll();
         }
 
-        private void _makeOrder(int equipmentId, int quantity)
+        private void MakeOrder(int equipmentId, int quantity)
         {
-            DateTime scheduled = DateTime.Now + new TimeSpan(24, 0, 0);
-            _orderService.AddWithNewId(
+            var scheduled = DateTime.Now + new TimeSpan(24, 0, 0);
+            _orderService.Add(
                 new OrderItem(equipmentId, quantity, scheduled, false));
         }
         
-        private void _validate()
+        private void Validate()
         {
             bool someSelected = false;
-            int quantity;
             foreach (var item in _model.Items)
             {
-                if (item.IsSelected && int.TryParse(item.OrderQuantity, out quantity) && quantity < 0)
+                if (item.IsSelected && !Validation.IsNatural(item.OrderQuantity))
                     throw new ValidationException("Količina mora da bude prirodan broj.");
 
                 someSelected |= item.IsSelected;
@@ -77,21 +74,9 @@ namespace HealthCare.View.ManagerView
                 throw new ValidationException("Nema unetih porudžbina.");
         }
 
-        public void HighlightRows(object sender, EventArgs e)
-        {
-            foreach (OrderItemViewModel item in lvDynamicEquipment.Items)
-            {
-                var row = (ListViewItem) lvDynamicEquipment.ItemContainerGenerator.ContainerFromItem(item);
-                if (item.IsSelected)
-                    row.Background = ViewGlobal.CHIGHROW;
-                else
-                    row.Background = ViewGlobal.CNEUT;
-            }
-        }
-
         private void tbQuantity_Focused(object sender, EventArgs e)
         {
-            TextBox? tb = sender as TextBox;
+            var tb = sender as TextBox;
             if (tb is null) return;
             if (tb.Text == "0")
                 tb.Text = "";
@@ -99,7 +84,7 @@ namespace HealthCare.View.ManagerView
 
         private void tbQuantity_Unfocused(object sender, EventArgs e)
         {
-            TextBox? tb = sender as TextBox;
+            var tb = sender as TextBox;
             if (tb is null) return;
             if (tb.Text == "")
                 tb.Text = "0";

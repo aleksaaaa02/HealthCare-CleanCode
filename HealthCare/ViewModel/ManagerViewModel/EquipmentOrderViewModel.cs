@@ -14,25 +14,28 @@ namespace HealthCare.ViewModel.ManagerViewModel
     {
         private readonly Inventory _inventory;
         private readonly EquipmentService _equipmentService;
-        public ObservableCollection<OrderItemViewModel> Items { get; set; }
+        public ObservableCollection<OrderItemViewModel> Items { get; }
 
-        public EquipmentOrderViewModel(Inventory inventory, Hospital hospital)
+        public EquipmentOrderViewModel(Hospital hospital)
         {
-            _inventory = inventory;
+            _inventory = hospital.Inventory;
             _equipmentService = hospital.EquipmentService;
 
             Items = new ObservableCollection<OrderItemViewModel>();
-            Load();
+            LoadAll();
         }
 
-        public void Load()
+        public void LoadAll()
         {
             Items.Clear();
-            foreach (int equipmentId in _inventory.GetLowQuantityEquipment())
+            foreach (int id in _inventory.GetLowQuantityEquipment())
             {
-                var equipment = _equipmentService.Get(equipmentId);
-                if (equipment.Dynamic)
-                    Items.Add(new OrderItemViewModel(equipment, _inventory.GetTotalQuantity(equipmentId)));
+                var equipment = _equipmentService.Get(id);
+                if (!equipment.IsDynamic)
+                    continue;
+
+                var quantity = _inventory.GetTotalQuantity(id);
+                Items.Add(new OrderItemViewModel(equipment, quantity));
             }
         }
     }
