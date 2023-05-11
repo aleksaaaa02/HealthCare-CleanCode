@@ -1,16 +1,7 @@
-﻿using HealthCare.Command;
-using HealthCare.Context;
-using HealthCare.Model;
+﻿using HealthCare.Context;
 using HealthCare.Service;
-using HealthCare.ViewModel.DoctorViewModel.UsedEquipment.Commands;
-using HealthCare.ViewModels.DoctorViewModel;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {

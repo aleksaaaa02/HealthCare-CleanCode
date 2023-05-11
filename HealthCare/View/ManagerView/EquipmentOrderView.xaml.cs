@@ -56,8 +56,7 @@ namespace HealthCare.View.ManagerView
         private void MakeOrder(int equipmentId, int quantity)
         {
             var scheduled = DateTime.Now + new TimeSpan(24, 0, 0);
-            _orderService.Add(
-                new OrderItem(equipmentId, quantity, scheduled, false));
+            _orderService.Add(new OrderItem(equipmentId, quantity, scheduled, false));
         }
         
         private void Validate()

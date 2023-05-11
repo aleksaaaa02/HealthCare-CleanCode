@@ -1,11 +1,5 @@
-﻿using HealthCare.Exceptions;
-using HealthCare.Model;
-using HealthCare.Storage;
-using System;
+﻿using HealthCare.Model;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
@@ -13,11 +7,13 @@ namespace HealthCare.Service
     {
         public RoomService(string filepath) : base(filepath) { }
 
-        internal int GetWarehouseId()
+        public int GetWarehouseId()
         {
-            Room? warehouse = GetAll().Find(x => x.Type == RoomType.Warehouse);
-            if (warehouse is null) throw new KeyNotFoundException();
-            return warehouse.Id;
+            var warehouses = GetRoomsByType(RoomType.Warehouse);
+            if (warehouses.Count == 0) 
+                throw new KeyNotFoundException();
+
+            return warehouses[0].Id;
         }
 
         public List<Room> GetRoomsByType(RoomType roomType)

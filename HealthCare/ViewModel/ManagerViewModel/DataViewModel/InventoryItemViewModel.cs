@@ -16,6 +16,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
         public int Quantity => _item.Quantity;
         public string IsDynamic => Utility.Translate(Equipment.IsDynamic);
         public Brush Color => Quantity < 5 ? Brushes.Red : Brushes.Black;
+
         public InventoryItemViewModel(InventoryItem item, Equipment equipment, Room room)
         {
             _item = item;

@@ -1,14 +1,6 @@
-﻿using HealthCare.Exceptions;
-using HealthCare.Model;
-using HealthCare.Repository;
-using HealthCare.Storage;
-using System;
-using System.Collections;
+﻿using HealthCare.Model;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
@@ -21,11 +13,12 @@ namespace HealthCare.Service
             return GetEquipmentItems(equipmentId).Sum(x => x.Quantity);
         }
 
-        public IEnumerable<int> GetLowQuantityEquipment(int threshold = 5)
+        public IEnumerable<int> GetLowQuantityEquipment(int threshold = 200)
         {
             return GetAll()
-                .Where(x => x.Quantity <= threshold)
-                .Select(x => x.EquipmentId);
+                .GroupBy(x => x.EquipmentId)
+                .Where(group => group.Sum(x => x.Quantity) < threshold)
+                .Select(group => group.Key);
         }
 
         public void RestockInventoryItem(InventoryItem item)

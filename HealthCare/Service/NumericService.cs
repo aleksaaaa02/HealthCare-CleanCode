@@ -1,13 +1,5 @@
-﻿using HealthCare.Context;
-using HealthCare.Model;
-using HealthCare.Repository;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using HealthCare.Repository;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
