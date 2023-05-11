@@ -17,12 +17,12 @@ namespace HealthCare.Model
             MedicalHistory = medicalHistory;
             Allergies = allergies;
         }
-        /*
+        
         public override string? ToString()
         {
             return "Visina: " + Height.ToString() + "\nTezina: "+ Weight.ToString() + "\nIstorija: " +string.Join(", ", MedicalHistory);
         }
-        */
+        
 
         public string[] ToCSV()
         {
