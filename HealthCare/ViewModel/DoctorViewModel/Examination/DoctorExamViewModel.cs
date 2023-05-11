@@ -2,6 +2,7 @@
 using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.ViewModel.DoctorViewModel.Examination.Commands;
+using HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,6 +13,10 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
 {
     public class DoctorExamViewModel : ViewModelBase
     {
+        private Appointment _appointment;
+        private Patient _selectedPatient;
+        private Hospital _hospital;
+
         private ObservableCollection<string> _previousDiseases;
         private string _name;
         private string _lastName;
@@ -22,15 +27,16 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
         private float _height;
         private float _weight;
         private string _disease;
+        private string _allergies;
         private string _symptoms;
         private string _conclusion;
 
 
         public IEnumerable<string> PreviousDisease => _previousDiseases;
+        public ICommand FinishExaminationCommand { get; }
+        public ICommand CancelExaminationCommand { get; }
+        public ICommand UpdatePatientCommand { get; }
 
-        private Appointment _appointment;
-        private Patient _selectedPatient;
-        private Hospital _hospital;
 
         public Patient SelectedPatient
         {
@@ -133,7 +139,15 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
                 OnPropertyChanged(nameof(Symptoms));
             }
         }
-
+        public string Allergies
+        {
+            get { return _allergies; }
+            set
+            {
+                _allergies = value;
+                OnPropertyChanged(Allergies);
+            }
+        }
         public string Conclusion
         {
             get { return _conclusion; }
@@ -144,9 +158,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             }
         }
 
-        public ICommand FinishExaminationCommand { get; }
-        public ICommand CancelExaminationCommand { get; }
-        public ICommand UpdatePatientCommand { get; }
 
         public DoctorExamViewModel(Hospital hospital, Window window, Appointment appointment, int roomId)
         {
@@ -172,6 +183,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
 
             Anamnesis anamnesis = _hospital.AnamnesisService.GetByID(_appointment.AnamnesisID);
             _symptoms = string.Join(", ", anamnesis.Symptoms);
+            _allergies = string.Join(", ", _selectedPatient.MedicalRecord.Allergies);
             _previousDiseases = new ObservableCollection<string>();
             Update();
         }

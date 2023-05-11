@@ -1,18 +1,19 @@
-﻿using HealthCare.Command;
-using HealthCare.Context;
+﻿using HealthCare.Context;
 using HealthCare.Model;
-using HealthCare.ViewModel;
+using HealthCare.View;
+using HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 
-namespace HealthCare.View.DoctorView
+namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation
 {
     public class PatientInforamtionViewModel : ViewModelBase
     {
         private ObservableCollection<string> _previousDiseases;
+        private ObservableCollection<string> _allergies;
         private Patient _selectedPatient;
         private Visibility _gridVisibility;
         private bool _isReadOnly = true;
@@ -21,19 +22,24 @@ namespace HealthCare.View.DoctorView
         private string _lastName;
         private string _jmbg;
         private DateTime _birthday;
-        private Gender _gender;
+        private string _gender;
         private float _height;
         private float _weight;
         private string _selectedDisease;
+        private string _selectedAllergy;
         private string _disease;
+        private string _allergy;
 
         public IEnumerable<string> PreviousDisease => _previousDiseases;
-        public Visibility GridVisibility => _gridVisibility;
-        public bool IsFocusable => _isFocusable;
-        public bool IsReadOnly => _isReadOnly;
+        public IEnumerable<string> Allergies => _allergies;
         public ICommand SaveChangesCommand { get; }
         public ICommand NewDiseaseCommand { get; }
         public ICommand RemoveDiseaseCommand { get; }
+        public ICommand NewAllergyCommand { get; }
+        public ICommand RemoveAllergyCommand { get; }
+        public Visibility GridVisibility => _gridVisibility;
+        public bool IsFocusable => _isFocusable;
+        public bool IsReadOnly => _isReadOnly;
 
         public string Name
         {
@@ -72,7 +78,7 @@ namespace HealthCare.View.DoctorView
                 OnPropertyChanged(nameof(Birthday));
             }
         }
-        public Gender Gender
+        public string Gender
         {
             get => _gender;
             set
@@ -108,6 +114,15 @@ namespace HealthCare.View.DoctorView
                 OnPropertyChanged(nameof(SelectedDisease));
             }
         }
+        public string SelectedAllergy
+        {
+            get => _selectedAllergy;
+            set
+            {
+                _selectedAllergy = value;
+                OnPropertyChanged(nameof(SelectedAllergy));
+            }
+        }
         public string Disease
         {
             get => _disease;
@@ -117,7 +132,16 @@ namespace HealthCare.View.DoctorView
                 OnPropertyChanged(nameof(Disease));
             }
         }
-        public PatientInforamtionViewModel(Patient patient, Hospital hospital, bool isEditing) 
+        public string Allergy
+        {
+            get => _allergy;
+            set
+            {
+                _allergy = value;
+                OnPropertyChanged(nameof(Allergy));
+            }
+        }
+        public PatientInforamtionViewModel(Patient patient, Hospital hospital, bool isEditing)
         {
             _selectedPatient = patient;
             _isFocusable = isEditing;
@@ -126,6 +150,10 @@ namespace HealthCare.View.DoctorView
             SaveChangesCommand = new SavePatientChangesCommand(hospital, patient, this);
             NewDiseaseCommand = new AddDiseaseCommand(this);
             RemoveDiseaseCommand = new RemoveDiseaseCommand(this);
+            NewAllergyCommand = new AddAllergyCommand(this);
+            RemoveAllergyCommand = new RemoveAllergyCommand(this);
+
+            _allergies = new ObservableCollection<string>();
             _previousDiseases = new ObservableCollection<string>();
             LoadDataIntoView(patient, isEditing);
         }
@@ -134,7 +162,7 @@ namespace HealthCare.View.DoctorView
             Name = patient.Name;
             LastName = patient.LastName;
             Birthday = patient.BirthDate;
-            Gender = patient.Gender;
+            Gender = Utility.Translate(patient.Gender);
             JMBG = patient.JMBG;
 
             if (patient.MedicalRecord != null)
@@ -156,12 +184,26 @@ namespace HealthCare.View.DoctorView
             }
 
         }
-        public void Update()
+        private void Update()
+        {
+            UpdateAllergies();
+            UpdateDisease();
+        }
+        
+        private void UpdateDisease()
         {
             _previousDiseases.Clear();
-            foreach(var d in _selectedPatient.MedicalRecord.MedicalHistory)
+            foreach (var disease in _selectedPatient.MedicalRecord.MedicalHistory)
             {
-                _previousDiseases.Add(d);
+                _previousDiseases.Add(disease);
+            }
+        }
+        private void UpdateAllergies()
+        {
+            _allergies.Clear();
+            foreach (var allergy in _selectedPatient.MedicalRecord.Allergies)
+            {
+                _allergies.Add(allergy);
             }
         }
         public void AddPreviousDisease(string disease)
@@ -171,6 +213,14 @@ namespace HealthCare.View.DoctorView
         public void RemovePreviousDisease(string disease)
         {
             _previousDiseases.Remove(disease);
+        }
+        public void AddAllergy(string allergy)
+        {
+            _allergies.Add(allergy);
+        }
+        public void RemoveAllergy(string allergy)
+        {
+            _allergies.Remove(allergy);
         }
 
     }

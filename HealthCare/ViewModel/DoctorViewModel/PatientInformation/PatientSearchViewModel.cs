@@ -1,24 +1,24 @@
-﻿using HealthCare.Command;
-using HealthCare.Context;
+﻿using HealthCare.Context;
 using HealthCare.Model;
-using HealthCare.ViewModels.DoctorViewModel;
+using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
+using HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace HealthCare.ViewModel.DoctorViewModel
+namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation
 {
     public class PatientSearchViewModel : ViewModelBase
     {
         private readonly Hospital _hospital;
-        
+
         private ObservableCollection<PatientViewModel> _patients;
         public IEnumerable<PatientViewModel> Patients => _patients;
-        
+
         private PatientViewModel _selectedPatient;
         public PatientViewModel SelectedPatient
         {
-            get => _selectedPatient; 
+            get => _selectedPatient;
             set
             {
                 _selectedPatient = value;
@@ -42,7 +42,7 @@ namespace HealthCare.ViewModel.DoctorViewModel
             foreach (var patient in _hospital.DoctorService.GetExaminedPatients((Doctor)_hospital.Current))
             {
                 _patients.Add(new PatientViewModel(patient));
-                
+
             }
         }
 
