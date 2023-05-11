@@ -78,16 +78,16 @@ namespace HealthCare.View
             }
         }
 
-        private static bool IsChecked(ToggleButton button)
-        {
-            return button.IsChecked is bool b && b;
-        }
-
         public static string[] GetArray(string text, char delimiter = ',')
         {
             return text.Split(delimiter)
                 .Select(x => x.Trim())
                 .ToArray();
+        }
+
+        public static string ToString(string[] arr, string delimiter = ", ")
+        {
+            return string.Join(delimiter, arr);
         }
     }
 }

@@ -1,6 +1,6 @@
 using HealthCare.Context;
 using HealthCare.Model;
-using HealthCare.Storage;
+using HealthCare.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -140,7 +140,7 @@ namespace HealthCare.Service
 
             foreach (Appointment appointment in GetDoctorAppointments(doctor))
             {
-                DateTime end = appointment.TimeSlot.GetEnd();
+                DateTime end = appointment.TimeSlot.End;
                 TimeSlot newTimeslot = new TimeSlot(end, duration);
                 if (end > DateTime.Now && end < urgent.TimeSlot.Start &&
                     doctor.IsAvailable(newTimeslot) &&
@@ -191,7 +191,7 @@ namespace HealthCare.Service
 
             foreach (Appointment a in Appointments)
             {
-                slot.Start = a.TimeSlot.GetEnd();
+                slot.Start = a.TimeSlot.End;
                 if (slot.Start >= DateTime.Now &&
                     slot.Start < postpone &&
                     CheckAvailability(appointment, slot))
@@ -220,7 +220,7 @@ namespace HealthCare.Service
 
         public static bool HasAppointmentStarted(Appointment appointment)
         {
-            return appointment.TimeSlot.Start < DateTime.Now && appointment.TimeSlot.GetEnd() > DateTime.Now;
+            return appointment.TimeSlot.Start < DateTime.Now && appointment.TimeSlot.End > DateTime.Now;
         }
 
     }

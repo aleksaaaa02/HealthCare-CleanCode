@@ -19,8 +19,10 @@ namespace HealthCare.View.PatientView
             _appointmentId = appointmentID;
             _patient = patient;
 
-            rtbAllergies.AppendText(patient.MedicalRecord.AllergiesToString());
-            rtbMedicalHistory.AppendText(patient.MedicalRecord.MedicalHistoryToString());
+            string allergies = Utility.ToString(patient.MedicalRecord.Allergies);
+            string medicalHistory = Utility.ToString(patient.MedicalRecord.MedicalHistory);
+            rtbAllergies.AppendText(allergies);
+            rtbMedicalHistory.AppendText(medicalHistory);
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

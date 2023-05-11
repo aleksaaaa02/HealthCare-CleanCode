@@ -2,7 +2,7 @@
 
 namespace HealthCare.Repository
 {
-    public class Repository<T> where T : Indentifier, ISerializable, new()
+    public class Repository<T> where T : Identifier, ISerializable, new()
     {
         private readonly string _filepath;
 

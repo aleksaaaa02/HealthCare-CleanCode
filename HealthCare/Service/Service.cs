@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace HealthCare.Service
 {
-    public abstract class Service<T> where T : Indentifier, ISerializable, new()
+    public abstract class Service<T> where T : Identifier, ISerializable, new()
     {
         protected Repository<T> _repository;
 
