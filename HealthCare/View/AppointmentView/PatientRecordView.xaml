@@ -11,15 +11,22 @@
             <RowDefinition Height="0.15*"/>
             <RowDefinition Height="0.8*"/>
         </Grid.RowDefinitions>
-        <ListView x:Name="listViewRecord" Grid.Row="2">
+        <ListView x:Name="listViewRecord" Grid.Row="2" ItemsSource="{Binding Appointments}" SelectionChanged="ListViewRecord_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn  Header="Datum pregleda" DisplayMemberBinding="{Binding TimeSlot.Start}"/>
-                    <GridViewColumn  Header="Ime doktora" DisplayMemberBinding="{Binding Doctor.Name}"/>
+                    <GridViewColumn  Header="Datum" DisplayMemberBinding="{Binding TimeSlot.Start}"/>
+                    <GridViewColumn  Header="DoktorIme" DisplayMemberBinding="{Binding Doctor.Name}"/>
                     <GridViewColumn  Header="Specijalizacija" DisplayMemberBinding="{Binding Doctor.Specialization}"/>
                 </GridView>
             </ListView.View>
         </ListView>
+        <Label Content="Sortiraj po:" HorizontalAlignment="Left" Margin="198,23,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="cbSort" HorizontalAlignment="Left" Margin="271,27,0,0" VerticalAlignment="Top" Width="163" IsEditable="True" IsSynchronizedWithCurrentItem="True" SelectedIndex="0" SelectedValuePath="Content" SelectionChanged="ComboBox_SelectionChanged">
+            <ComboBoxItem Content="Datum"/>
+            <ComboBoxItem Content="Doktor"/>
+            <ComboBoxItem Content="Specijalizacija"/>
+        </ComboBox>
+        <TextBox x:Name="tbFilter" HorizontalAlignment="Left" Margin="25,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TbFilter_TextChanged"/>
 
     </Grid>
 </Window>
