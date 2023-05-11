@@ -11,7 +11,7 @@
             <RowDefinition Height="0.15*"/>
             <RowDefinition Height="0.8*"/>
         </Grid.RowDefinitions>
-        <ListView x:Name="listViewRecord" Grid.Row="2" ItemsSource="{Binding Appointments}">
+        <ListView x:Name="listViewRecord" Grid.Row="2" ItemsSource="{Binding Appointments}" SelectionChanged="listViewRecord_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn  Header="Datum" DisplayMemberBinding="{Binding TimeSlot.Start}"/>

@@ -45,12 +45,10 @@ namespace HealthCare.View.AppointmentView
             model.Filter(tbFilter.Text);
         }
 
-     
-        private bool appointmentFilter(object obj)
+        private void listViewRecord_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var FilterObject = obj as Appointment;
-
-            return (FilterObject.Doctor.Name.Contains(tbFilter.Text,StringComparison.OrdinalIgnoreCase));
+            Appointment appointment = (Appointment)listViewRecord.SelectedItem;
+            model.showAnamnesis(appointment);
         }
     }
 }

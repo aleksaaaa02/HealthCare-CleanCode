@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -53,11 +54,41 @@ namespace HealthCare.View.AppointmentView
         public void Filter(string filterProperty)
         {
             IEnumerable<Appointment> query = (List<Appointment>)_patientAppointments.ToList().Where(
-             x => x.Doctor.Name.Contains(filterProperty, StringComparison.OrdinalIgnoreCase) ||
+             x => 
+             x.Doctor.Name.Contains(filterProperty, StringComparison.OrdinalIgnoreCase) ||
              x.Doctor.Specialization.Contains(filterProperty, StringComparison.OrdinalIgnoreCase) ||
              x.TimeSlot.Start.ToString().Contains(filterProperty, StringComparison.OrdinalIgnoreCase)
             ).ToList();
             LoadData(query.ToList());
+        }
+
+        public void showAnamnesis(Appointment appointment)
+        {
+            Anamnesis anamnesis;
+            try 
+            {
+                anamnesis = _hospital.AnamnesisService.GetByID(appointment.AnamnesisID);     
+            }
+            catch
+            {
+                MessageBox.Show("Pregled jos nije obavljen","Anamneza");
+                return;
+            }
+            Patient patient = appointment.Patient;
+            Doctor doctor = appointment.Doctor;
+            string message = "Pacijent: " + patient.Name + " " + patient.LastName + "\n" +
+                             "Doktor: " + doctor.Name + " " + doctor.LastName + "\n" +
+                             "Simptomi: " + "\n";
+            foreach(string symptom in anamnesis.Symptoms)
+            {
+                message += "   " + symptom + "\n";
+            }
+            message+= "\n";
+            message+= "Zapazanja doktora: " + anamnesis.DoctorsObservations;
+            MessageBox.Show(message,"Anamneza");
+                
+                
+
         }
     }
 }
