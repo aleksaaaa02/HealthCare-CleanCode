@@ -1,11 +1,6 @@
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.Context
 {
@@ -15,19 +10,19 @@ namespace HealthCare.Context
     }
 
     public class Hospital
-    {   
+    {
         public string Name { get; set; }
         public User? Current { get; set; }
 
+        public Inventory Inventory;
         public RoomService RoomService;
         public NurseService NurseService;
+        public OrderService OrderService;
         public DoctorService DoctorService;
         public PatientService PatientService;
-        public EquipmentService EquipmentService;
         public AnamnesisService AnamnesisService;
-        public Inventory Inventory;
-        public OrderService OrderService;
         public TransferService TransferService;
+        public EquipmentService EquipmentService;
         public NotificationService NotificationService;
 
         public Hospital() : this("Bolnica") { }
@@ -37,6 +32,7 @@ namespace HealthCare.Context
             Current = null;
 
             RoomService = new RoomService(Global.roomPath);
+            Inventory = new Inventory(Global.inventoryPath);
             NurseService = new NurseService(Global.nursePath);
             DoctorService = new DoctorService(Global.doctorPath);
             PatientService = new PatientService(Global.patientPath);
@@ -67,7 +63,7 @@ namespace HealthCare.Context
             if (Global.managerUsername == username)
             {
                 if (Global.managerPassword != password)
-                    throw new LoginException();
+                    throw new WrongPasswordException();
                 return UserRole.Manager;
             }
 
@@ -75,7 +71,7 @@ namespace HealthCare.Context
             if (u is not null)
             {
                 if (u.Password != password)
-                    throw new LoginException();
+                    throw new WrongPasswordException();
                 Current = u;
                 return UserRole.Doctor;
             }
@@ -84,7 +80,7 @@ namespace HealthCare.Context
             if (u is not null)
             {
                 if (u.Password != password)
-                    throw new LoginException();
+                    throw new WrongPasswordException();
                 Current = u;
                 return UserRole.Nurse;
             }
@@ -93,7 +89,7 @@ namespace HealthCare.Context
             if (u is not null)
             {
                 if (u.Password != password)
-                    throw new LoginException();
+                    throw new WrongPasswordException();
                 Current = u;
                 return UserRole.Patient;
             }
@@ -102,7 +98,7 @@ namespace HealthCare.Context
 
         private void FillAppointmentDetails()
         {
-            foreach(Appointment appointment in Schedule.Appointments)
+            foreach (Appointment appointment in Schedule.Appointments)
             {
                 appointment.Doctor = DoctorService.GetAccount(appointment.Doctor.JMBG);
                 appointment.Patient = PatientService.GetAccount(appointment.Patient.JMBG);

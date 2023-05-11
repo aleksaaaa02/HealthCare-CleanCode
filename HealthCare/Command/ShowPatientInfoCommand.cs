@@ -1,76 +1,75 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.View;
 using HealthCare.View.DoctorView;
+using HealthCare.ViewModel;
 using HealthCare.ViewModel.DoctorViewModel;
+using HealthCare.ViewModel.DoctorViewModel.Examination;
 using HealthCare.ViewModels.DoctorViewModel;
 
 namespace HealthCare.Command
 {
     public class ShowPatientInfoCommand : CommandBase
     {
-        // Refaktorisi tako da umesto imas oba view spojis u Jednu promenljivu jer nasljeduju ViewModel
-        // Nakon toga po isEdit promenljivoj moze se zakljuciti da li je u pitanju D ili P
         private readonly Hospital _hospital;
-        private readonly DoctorMainViewModel _doctorViewModel;
-        private readonly PatientSearchViewModel _patientSearchViewModel;
-        private readonly bool isEdit;
-        public ShowPatientInfoCommand(Hospital hospital, DoctorMainViewModel view) 
+        private readonly ViewModelBase _viewModel;
+        private readonly bool _isEdit;
+        public ShowPatientInfoCommand(Hospital hospital, ViewModelBase view, bool isEdit) 
         { 
             _hospital = hospital;
-            _doctorViewModel = view;
-            isEdit = false;
-        }
-        public ShowPatientInfoCommand(Hospital hospital, PatientSearchViewModel view)
-        {
-            _hospital = hospital;
-            _patientSearchViewModel = view;
-            isEdit = true;
+            _viewModel = view;
+            _isEdit = isEdit;
         }
 
         public override void Execute(object parameter)
         {
-            if (isEdit) {
-                EditPatient();
-            }
-            else
-            {
-                ShowPatient();    
-            }
+            Patient? patient = ExtractPatient();
+            if (patient is null) { return; }
+
+            new PatientInformationView(patient, _hospital, _isEdit).ShowDialog();
+
+            UpdateViewModel();
         }
-        private void ShowPatient()
+        private Patient? ExtractPatient()
         {
-            AppointmentViewModel appointment = _doctorViewModel.SelectedPatient;
-            if (appointment != null)
+            if (_viewModel is DoctorMainViewModel doctorMainViewModel)
             {
-                Patient patient = _hospital.PatientService.GetAccount(appointment.JMBG);
-                PatientInformationView patientInformationView = new PatientInformationView(patient, _hospital, false);
-                patientInformationView.Show();
-            }
-            else
-            {
-                Utility.ShowWarning("Morate odabrati pregled/operaciju iz tabele!");
+                var appointment = doctorMainViewModel.SelectedPatient;
+                if (appointment is null)
+                {
+                    MessageBox.Show("Morate odabrati pregled/operaciju iz tabele!", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return null;
+                }
+                return _hospital.PatientService.GetAccount(appointment.JMBG);
             }
 
-        }
-        private void EditPatient()
-        {
-            PatientViewModel selectedPatient = _patientSearchViewModel.SelectedPatient;
-            if (selectedPatient != null)
+            if (_viewModel is PatientSearchViewModel patientSearchViewModel)
             {
-                Patient patient = _hospital.PatientService.GetAccount(selectedPatient.JMBG);
-                new PatientInformationView(patient, _hospital, true).Show();
-                
+                var selectedPatient = patientSearchViewModel.SelectedPatient;
+                if (selectedPatient is null)
+                {
+                    MessageBox.Show("Morate odabrati pacijenta iz tabele!", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return null;
+                }
+                return _hospital.PatientService.GetAccount(selectedPatient.JMBG);
+
             }
-            else
+            
+            if (_viewModel is DoctorExamViewModel doctorExamViewModel)
             {
-                Utility.ShowWarning("Morate odabrati pacijenta iz tabele!");
+                var selectedPatient = doctorExamViewModel.SelectedPatient;
+                UpdateViewModel();
+                return selectedPatient;
+            }
+
+            return null;
+        }
+        private void UpdateViewModel()
+        {
+            if (_viewModel is DoctorExamViewModel doctorExamViewModel)
+            {
+                doctorExamViewModel.RefreshView();
             }
         }
     }

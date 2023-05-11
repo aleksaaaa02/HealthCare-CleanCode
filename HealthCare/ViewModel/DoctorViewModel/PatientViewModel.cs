@@ -1,10 +1,6 @@
 ﻿using HealthCare.Model;
+using HealthCare.Repository;
 using HealthCare.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.ViewModels.DoctorViewModel
 {
@@ -14,7 +10,7 @@ namespace HealthCare.ViewModels.DoctorViewModel
         public string JMBG => _patient.JMBG;
         public string NameAndLastName => _patient.Name + " " + _patient.LastName;
 
-        public string Birthday => _patient.BirthDate.ToString("d");
+        public string Birthday => Utility.ToString(_patient.BirthDate);
 
         public string Gender => _patient.Gender.ToString();
 

@@ -32,17 +32,21 @@ namespace HealthCare.View.AppointmentView
         {
             InitializeComponent();
             _hospital = hospital;
-            loadData();
-            checkIfBlock();
+            LoadData();
+            CheckIfBlock();
         }
 
-        public void writeAction(string action)
+        public void WriteAction(string action)
         {
             string stringtocsv = _hospital.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
             File.AppendAllText("../../../Resource/PatientLogs.csv",stringtocsv);
         }
 
-        public void checkIfBlock()
+        
+
+
+
+        public void CheckIfBlock()
         {
             Patient patient = (Patient)_hospital.Current;
             using (var reader = new StreamReader("../../../Resource/PatientLogs.csv", Encoding.Default))
@@ -79,7 +83,7 @@ namespace HealthCare.View.AppointmentView
                 _hospital.PatientService.UpdateAccount(patient);
             }
         }
-        public void loadData()
+        public void LoadData()
         {
             List<Appointment> appointments = Schedule.GetPatientAppointments((Patient)_hospital.Current);
             List<Doctor> doctors = _hospital.DoctorService.GetAll();
@@ -165,9 +169,9 @@ namespace HealthCare.View.AppointmentView
                 return;
             }
             Utility.ShowInformation("Uspesno dodat pregled");
-            writeAction("CREATE");
-            loadData();
-            checkIfBlock();
+            WriteAction("CREATE");
+            LoadData();
+            CheckIfBlock();
         }
 
         private void appListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -195,10 +199,10 @@ namespace HealthCare.View.AppointmentView
                 Appointment appointment = (Appointment)appListView.SelectedItem;
                 int idForDeleting = appointment.AppointmentID;
                 Schedule.DeleteAppointment(idForDeleting);
-                writeAction("DELETE");
+                WriteAction("DELETE");
                 Utility.ShowInformation("Uspesno obrisan pregled");
-                loadData();
-                checkIfBlock();
+                LoadData();
+                CheckIfBlock();
             }
             else
             {
@@ -265,10 +269,25 @@ namespace HealthCare.View.AppointmentView
                 return;
             }
             Utility.ShowInformation("Uspesno azuriran pregled");
-            writeAction("UPDATE");
-            loadData();
-            checkIfBlock();
+            WriteAction("UPDATE");
+            LoadData();
+            CheckIfBlock();
 
+        }
+
+        private void btnRecord_Click(object sender, RoutedEventArgs e)
+        {
+            new PatientRecordView(_hospital).Show();
+        }
+
+        private void btnRecord_Click_1(object sender, RoutedEventArgs e)
+        {
+            new PatientRecordView(_hospital).Show();
+        }
+
+        private void btnPriority_Click(object sender, RoutedEventArgs e)
+        {
+            new PriorityAppointmentView(_hospital).Show();
         }
     }
 }

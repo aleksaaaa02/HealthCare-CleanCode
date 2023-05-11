@@ -71,5 +71,20 @@ namespace HealthCare.Service
             });
             return items;
         }
+        public IEnumerable<InventoryItem> GetRoomItems(int roomId)
+        {
+            return GetAll().FindAll(x => x.RoomId==roomId);
+        }
+
+        public void ChangeDynamicEquipmentQuantity(Dictionary<int, int> newQuantites)
+        {
+            foreach(KeyValuePair<int, int> entry in newQuantites)
+            {
+                InventoryItem item = Get(entry.Key);
+                item.Quantity = entry.Value;
+                Update(item);
+            }
+        }
+
     }
 }

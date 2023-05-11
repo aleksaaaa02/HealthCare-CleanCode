@@ -53,9 +53,14 @@ namespace HealthCare.Service
 
 		public Patient? GetAccount(string JMBG)
 		{
-            return Get(JMBG);
+            return TryGet(JMBG);
 		}
 
+        public void UpdatePatientMedicalRecord(Patient patient, MedicalRecord medicalRecord)
+        {
+            patient.MedicalRecord = medicalRecord;
+			Update(patient);
+		}
 
         public void Subscribe(IObserver observer)
         {

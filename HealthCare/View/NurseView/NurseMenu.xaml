@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.PatientView"
         mc:Ignorable="d"
-        Title="NurseMenu" Height="250" Width="300">
+        Title="NurseMenu" Height="250" Width="300" Closing="Window_Closing">
     <Grid>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_Pacijent">
@@ -13,6 +13,9 @@
             </MenuItem>
             <MenuItem Header="_Prijem">
                 <MenuItem Header="_Prijem pacijenta" Click="mnuReception_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Hitno">
+                <MenuItem Header="_Hitni pregledi i operacije" Click="mnuUrgent_Click"/>
             </MenuItem>
         </Menu>
         <Button Content="Logout" Name="btnLogout"  HorizontalAlignment="Left" Height="35" Margin="220,160,0,0" VerticalAlignment="Top" Width="50" Click="btnLogout_Click" />
