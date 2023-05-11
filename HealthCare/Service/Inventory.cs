@@ -30,7 +30,7 @@ namespace HealthCare.Service
         {
             List<int> equipment = new List<int>();
             GetAll().ForEach(x => {
-                if (x.Quantity <= threshold)
+                if (x.Quantity < threshold)
                     equipment.Add(x.EquipmentId);
             });
             return equipment;
