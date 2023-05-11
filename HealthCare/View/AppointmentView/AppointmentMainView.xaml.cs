@@ -4,20 +4,10 @@ using HealthCare.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using HealthCare.Context;
-using HealthCare.Command;
-using System.IO;
 
 namespace HealthCare.View.AppointmentView
 {
@@ -33,20 +23,16 @@ namespace HealthCare.View.AppointmentView
             InitializeComponent();
             _hospital = hospital;
             LoadData();
-            CheckIfBlock();
+            IsUserBlocked();
         }
 
-        public void WriteAction(string action)
+        public void WriteActionToFile(string action)
         {
             string stringtocsv = _hospital.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
             File.AppendAllText("../../../Resource/PatientLogs.csv",stringtocsv);
         }
 
-        
-
-
-
-        public void CheckIfBlock()
+        public void IsUserBlocked()
         {
             Patient patient = (Patient)_hospital.Current;
             using (var reader = new StreamReader("../../../Resource/PatientLogs.csv", Encoding.Default))
@@ -169,9 +155,9 @@ namespace HealthCare.View.AppointmentView
                 return;
             }
             Utility.ShowInformation("Uspesno dodat pregled");
-            WriteAction("CREATE");
+            WriteActionToFile("CREATE");
             LoadData();
-            CheckIfBlock();
+            IsUserBlocked();
         }
 
         private void appListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -199,10 +185,10 @@ namespace HealthCare.View.AppointmentView
                 Appointment appointment = (Appointment)appListView.SelectedItem;
                 int idForDeleting = appointment.AppointmentID;
                 Schedule.DeleteAppointment(idForDeleting);
-                WriteAction("DELETE");
+                WriteActionToFile("DELETE");
                 Utility.ShowInformation("Uspesno obrisan pregled");
                 LoadData();
-                CheckIfBlock();
+                IsUserBlocked();
             }
             else
             {
@@ -269,9 +255,9 @@ namespace HealthCare.View.AppointmentView
                 return;
             }
             Utility.ShowInformation("Uspesno azuriran pregled");
-            WriteAction("UPDATE");
+            WriteActionToFile("UPDATE");
             LoadData();
-            CheckIfBlock();
+            IsUserBlocked();
 
         }
 
