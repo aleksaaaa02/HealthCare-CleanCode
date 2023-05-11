@@ -7,8 +7,6 @@ using HealthCare.View;
 using HealthCare.View.DoctorView.RoomReservation;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModels.DoctorViewModel;
-using System;
-using System.Windows;
 
 namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 {

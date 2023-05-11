@@ -5,9 +5,6 @@ using System.Windows;
 
 namespace HealthCare.View.DoctorView
 {
-    /// <summary>
-    /// Interaction logic for DoctorExamView.xaml
-    /// </summary>
     public partial class DoctorExamView : Window
     {
         public DoctorExamView(Hospital hospital, Appointment appointment, int roomId)

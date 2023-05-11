@@ -3,7 +3,6 @@ using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View;
-using HealthCare.ViewModel.DoctorViewModel.Appoinments;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.Windows;
@@ -26,7 +25,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
             _hospital = hospital;
             _isEditing = isEditing;
         }
-
 
         public override void Execute(object parameter)
         {

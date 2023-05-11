@@ -1,5 +1,4 @@
 ﻿using HealthCare.Command;
-using HealthCare.Context;
 
 namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment.Commands
 {

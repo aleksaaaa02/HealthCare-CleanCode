@@ -3,6 +3,7 @@ using HealthCare.View.ReceptionView;
 using HealthCare.View.UrgentAppointmentView;
 using System.ComponentModel;
 using System.Windows;
+
 namespace HealthCare.View.PatientView
 {
     public partial class NurseMenu : Window

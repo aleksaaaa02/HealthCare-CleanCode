@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using HealthCare.Context;
+﻿using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View.PatientView;
+using System.Windows;
 
 namespace HealthCare.View.ReceptionView
 {

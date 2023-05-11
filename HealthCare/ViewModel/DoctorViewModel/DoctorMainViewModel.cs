@@ -1,15 +1,15 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
-using HealthCare.ViewModel;
 using HealthCare.Service;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
-using System.Windows;
+using HealthCare.ViewModel;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands;
 using HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Input;
 
 namespace HealthCare.ViewModels.DoctorViewModel
 {

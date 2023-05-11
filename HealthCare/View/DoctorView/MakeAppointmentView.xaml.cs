@@ -8,8 +8,6 @@ using System.Windows.Input;
 
 namespace HealthCare.View.DoctorView
 {
-
-
     public partial class MakeAppointmentView : Window
     {
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)

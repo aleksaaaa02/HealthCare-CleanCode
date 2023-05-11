@@ -6,9 +6,7 @@ using HealthCare.View;
 using HealthCare.View.DoctorView;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModels.DoctorViewModel;
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.Windows;
 
 namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 {

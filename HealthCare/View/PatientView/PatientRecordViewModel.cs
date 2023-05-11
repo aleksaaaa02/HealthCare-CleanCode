@@ -5,9 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace HealthCare.View.AppointmentView
@@ -53,7 +50,7 @@ namespace HealthCare.View.AppointmentView
 
         public void Filter(string filterProperty)
         {
-            IEnumerable<Appointment> query = (List<Appointment>)_patientAppointments.ToList().Where(
+            IEnumerable<Appointment> query = _patientAppointments.ToList().Where(
              x => 
              x.Doctor.Name.Contains(filterProperty, StringComparison.OrdinalIgnoreCase) ||
              x.Doctor.Specialization.Contains(filterProperty, StringComparison.OrdinalIgnoreCase) ||
@@ -86,9 +83,6 @@ namespace HealthCare.View.AppointmentView
             message+= "\n";
             message+= "Zapazanja doktora: " + anamnesis.DoctorsObservations;
             MessageBox.Show(message,"Anamneza");
-                
-                
-
         }
     }
 }

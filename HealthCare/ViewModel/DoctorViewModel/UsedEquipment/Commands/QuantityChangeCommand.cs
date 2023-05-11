@@ -1,7 +1,6 @@
 ﻿using HealthCare.Command;
 using HealthCare.Exceptions;
 using HealthCare.View;
-using System.Windows;
 
 namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment.Commands
 {
