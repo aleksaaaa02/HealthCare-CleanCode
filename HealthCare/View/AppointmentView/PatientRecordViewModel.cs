@@ -62,7 +62,7 @@ namespace HealthCare.View.AppointmentView
             LoadData(query.ToList());
         }
 
-        public void showAnamnesis(Appointment appointment)
+        public void ShowAnamnesis(Appointment appointment)
         {
             Anamnesis anamnesis;
             try 

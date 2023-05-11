@@ -48,7 +48,7 @@ namespace HealthCare.View.AppointmentView
         private void listViewRecord_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Appointment appointment = (Appointment)listViewRecord.SelectedItem;
-            model.showAnamnesis(appointment);
+            model.ShowAnamnesis(appointment);
         }
     }
 }

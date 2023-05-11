@@ -43,7 +43,7 @@
                 <RowDefinition Height="0.8*"/>
             </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Izaberite doktora" VerticalAlignment="Top" FontSize="16"/>
-            <ListView x:Name="doctorListView" Grid.Row="1" Margin="10">
+            <ListView x:Name="doctorListView" Grid.Row="1" Margin="10" ItemsSource="{Binding Doctors}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn  Header="Ime" DisplayMemberBinding="{Binding Name}"/>
@@ -59,7 +59,7 @@
                 <RowDefinition Height="0.8*"/>
             </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Text="Izaberite pregled" VerticalAlignment="Center" FontSize="16"/>
-            <ListView x:Name="appointmentListView" Grid.Row="1">
+            <ListView x:Name="appointmentListView" Grid.Row="1" ItemsSource="{Binding Appointments}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn  Header="Appointment ID" DisplayMemberBinding="{Binding AppointmentID}"/>

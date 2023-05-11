@@ -26,18 +26,14 @@ namespace HealthCare.View.AppointmentView
     {
 
         Hospital _hospital;
+        PriorityAppointmentViewModel model;
         public PriorityAppointmentView(Hospital hospital)
         {
             _hospital = hospital;
+            model = new PriorityAppointmentViewModel(hospital);
+            DataContext = model;
             InitializeComponent();
-            LoadData();
-        }
-
-
-        public void LoadData()
-        {
-            List<Doctor> doctors = _hospital.DoctorService.GetAll();
-            doctorListView.ItemsSource = new ObservableCollection<Doctor>(doctors);
+            
         }
 
         public bool isValidData()
@@ -50,11 +46,13 @@ namespace HealthCare.View.AppointmentView
             }
 
             Doctor doctor = (Doctor)doctorListView.SelectedItem;
+
             int hoursStart = int.Parse(tbHoursStart.Text);
             int minutesStart = int.Parse(tbMinutesStart.Text);
 
             int hoursEnd = int.Parse(tbHoursEnd.Text);
             int minutesEnd = int.Parse(tbMinutesEnd.Text);
+
             if (!tbDate.SelectedDate.HasValue)
             {
                 Utility.ShowWarning("Molimo Vas izaberite datum");
@@ -72,22 +70,18 @@ namespace HealthCare.View.AppointmentView
                     return false;
                 }
             }
+
             if (doctorListView.SelectedItems.Count != 1)
             {
                 Utility.ShowWarning("Molimo Vas izaberite doktora");
                 return false;
             }
+
             if (hoursStart > hoursEnd || (hoursStart == hoursEnd && minutesStart >= minutesEnd))
             {
                 Utility.ShowWarning("Molimo Vas izaberite ispravan vremenski interval");
                 return false;
             }
-
-
-
-
-
-
 
             return true;
         }
@@ -98,137 +92,24 @@ namespace HealthCare.View.AppointmentView
             DateTime endDate = tbDate.SelectedDate.Value;
             Doctor doctor = (Doctor)doctorListView.SelectedItem;
             Appointment resultAppointment;
+            int hoursStart = Int32.Parse(tbHoursStart.Text);
+            int hoursEnd = Int32.Parse(tbHoursEnd.Text);
+            int minutesStart = int.Parse(tbMinutesStart.Text);
+            int minutesEnd = int.Parse(tbMinutesEnd.Text);
             if (radioDatum.IsChecked == true)
             {
-                resultAppointment = GetAppointmentByDateAndDoctor(endDate, Int32.Parse(tbHoursStart.Text), Int32.Parse(tbMinutesStart.Text), Int32.Parse(tbHoursEnd.Text), Int32.Parse(tbMinutesEnd.Text),doctor);
-                if (resultAppointment == null)
-                {
-                    resultAppointment = GetAppointmentByDate(endDate, Int32.Parse(tbHoursStart.Text), Int32.Parse(tbMinutesStart.Text), Int32.Parse(tbHoursEnd.Text), Int32.Parse(tbMinutesEnd.Text));
-                }
+                model.getAppointments(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd, doctor, "Date");
+
             }
-            else if(radioDoktor.IsChecked == true)
+            else if (radioDoktor.IsChecked == true)
             {
-                resultAppointment = GetAppointmentByDateAndDoctor(endDate, Int32.Parse(tbHoursStart.Text), Int32.Parse(tbMinutesStart.Text), Int32.Parse(tbHoursEnd.Text), Int32.Parse(tbMinutesEnd.Text), doctor);
-                if (resultAppointment == null)
-                {
-                    resultAppointment = GetAppointmentByDoctor(endDate, Int32.Parse(tbHoursStart.Text), Int32.Parse(tbMinutesStart.Text), Int32.Parse(tbHoursEnd.Text), Int32.Parse(tbMinutesEnd.Text), doctor);
-                }
-            }
-            else 
-            {
-                MessageBox.Show("Izaberite prioritet");
-                return; 
-            }
-
-
-
-            
-
-            List<Appointment> appointments = new List<Appointment>();
-            if (resultAppointment == null)
-            {
-                appointments = GetAppointmentByDoctor(Int32.Parse(tbHoursStart.Text), Int32.Parse(tbMinutesStart.Text), Int32.Parse(tbHoursEnd.Text), Int32.Parse(tbMinutesEnd.Text), doctor);
+                model.getAppointments(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd, doctor, "Doctor");
             }
             else
             {
-                appointments.Add(resultAppointment);
-            }
-            appointmentListView.ItemsSource = new ObservableCollection<Appointment>(appointments);
-
-        }
-
-
-        Appointment GetAppointmentByDoctor(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor)
-        {
-            DateTime startDate = DateTime.Today;
-            startDate = startDate.AddMinutes(15);
-            Patient patient = (Patient)_hospital.Current;
-            while (startDate<endDate)
-            {
-                TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
-                if (doctor.IsAvailable(timeSlot) && patient.IsAvailable(timeSlot))
-                {
-                    return new Appointment(patient, doctor, timeSlot, false);
-                }
-                else
-                {
-                    startDate = startDate.AddMinutes(15);
-                }
-            }
-            return null;
-        }
-
-        List<Appointment> GetAppointmentByDoctor(int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor)
-        {
-            DateTime startDate = DateTime.Today;
-            startDate = startDate.AddMinutes(15);
-            List<Appointment> appointments = new List<Appointment>();
-            Patient patient = (Patient)_hospital.Current;
-            while (appointments.Count()<3)
-            {
-                TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
-                if (doctor.IsAvailable(timeSlot) && patient.IsAvailable(timeSlot))
-                {
-                    appointments.Add(new Appointment(patient, doctor, timeSlot, false));
-                }
-                else
-                {
-                    startDate = startDate.AddMinutes(15);
-                }
-            }
-            return appointments;
-        }
-
-
-
-        Appointment GetAppointmentByDate(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd)
-        {
-            List<Doctor> doctors = _hospital.DoctorService.GetAll();
-            foreach (Doctor doctor in doctors)
-            {
-                DateTime startDate = DateTime.Today;
-                startDate = startDate.AddHours(hoursStart);
-                startDate = startDate.AddMinutes(minutesStart);
-                Patient patient = (Patient)_hospital.Current;
-                while (startDate < endDate)
-                {
-                    TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
-                    if (patient.IsAvailable(timeSlot) && doctor.IsAvailable(timeSlot))
-                    {
-                        return new Appointment(patient, doctor, timeSlot, false);
-                    }
-                    startDate = startDate.AddMinutes(15);
-                    if (startDate.Hour > hoursEnd)
-                    {
-                        startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart, minutesStart, 0);
-                    }
-                }
-            }
-            return null;
-        }
-
-        Appointment GetAppointmentByDateAndDoctor(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor)
-        {
-
-            DateTime startDate = DateTime.Today;
-            startDate = startDate.AddHours(hoursStart);
-            startDate = startDate.AddMinutes(minutesStart);
-            Patient patient = (Patient)_hospital.Current;
-            while (startDate < endDate)
-            {
-                TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
-                if (patient.IsAvailable(timeSlot) && doctor.IsAvailable(timeSlot))
-                {
-                    return new Appointment(patient, doctor, timeSlot, false);
-                }
-                startDate = startDate.AddMinutes(15);
-                if (startDate.Hour > hoursEnd)
-                {
-                    startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart, minutesStart, 0);
-                }
-            }
-
-            return null;
+                Utility.ShowWarning("Izaberite prioritet");
+                return;
+            }    
         }
 
         private void tbHoursStart_TextChanged(object sender, TextChangedEventArgs e)
@@ -299,7 +180,7 @@ namespace HealthCare.View.AppointmentView
 
         private void btnCreate_Click(object sender, RoutedEventArgs e)
         {
-            if (doctorListView.SelectedItems.Count != 1) 
+            if (appointmentListView.SelectedItems.Count != 1) 
             {
                 Utility.ShowWarning("Niste izabrali pregled");
                 return;
@@ -312,50 +193,8 @@ namespace HealthCare.View.AppointmentView
             }
             Utility.ShowInformation("Uspesno dodat pregled");
             WriteAction("CREATE");
-            LoadData();
-            CheckIfBlock();
+            model.IsUserBlocked();
         }
-
-
-
-        public void CheckIfBlock()
-        {
-            Patient patient = (Patient)_hospital.Current;
-            using (var reader = new StreamReader("../../../Resource/PatientLogs.csv", Encoding.Default))
-            {
-                string line;
-                int updateDeleteCounter = 0;
-                int createCounter = 0;
-                while ((line = reader.ReadLine()) != null)
-                {
-
-                    string[] values = line.Split('|');
-                    if (values[0] == patient.JMBG)
-                    {
-                        DateTime inputDate = DateTime.Parse(values[2]);
-                        DateTime currentDate = DateTime.Now;
-                        int daysDifference = (currentDate - inputDate).Days;
-                        if (daysDifference < 30)
-                        {
-                            if (values[1] == "CREATE") createCounter++;
-                            if (values[1] == "UPDATE" || values[1] == "DELETE") updateDeleteCounter++;
-                        }
-                    }
-
-
-                }
-                if (updateDeleteCounter >= 5 || createCounter > 8)
-                {
-                    patient.Blocked = true;
-                }
-                else
-                {
-                    patient.Blocked = false;
-                }
-                _hospital.PatientService.UpdateAccount(patient);
-            }
-        }
-
 
         public void WriteAction(string action)
         {
