@@ -1,7 +1,11 @@
 ﻿using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.View;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {
@@ -19,69 +23,86 @@ namespace HealthCare.ViewModel.ManagerViewModel
             return _items;
         }
 
-        public void FilterQuantity(params bool[] quantities)
-        {
-            if (!(quantities[0] || quantities[1] || quantities[2])) return;
-
-            _items = _items.Where(x =>
-                quantities[0] && x.Quantity == 0 ||
-                quantities[1] && x.Quantity <= 10 ||
-                quantities[2] && x.Quantity > 10).ToList();
-        }
-
-        public void FilterEquipmentType(params bool[] types)
-        {
-            if (!(types[0] || types[1] || types[2] || types[3])) return;
-
-            _items = _items.Where(x =>
-                types[0] && x.Equipment.Type.Equals(EquipmentType.Examinational) ||
-                types[1] && x.Equipment.Type.Equals(EquipmentType.Operational) ||
-                types[2] && x.Equipment.Type.Equals(EquipmentType.RoomFurniture) ||
-                types[3] && x.Equipment.Type.Equals(EquipmentType.HallwayFurniture)).ToList();
-        }
-
-        public void FilterRoomType(params bool[] types)
-        {
-            if (!(types[0] || types[1] || types[2] || types[3] || types[4])) return;
-
-            _items = _items.Where(x => 
-                types[0] && x.Room.Type.Equals(RoomType.Examinational) ||
-                types[1] && x.Room.Type.Equals(RoomType.Operational) ||
-                types[2] && x.Room.Type.Equals(RoomType.PatientCare) ||
-                types[3] && x.Room.Type.Equals(RoomType.Reception) ||
-                types[4] && x.Room.Type.Equals(RoomType.Warehouse)).ToList();
-        }
-
         public void FilterAnyProperty(string query)
         {
             if (query == "") return;
             string[] tokens = query.Split(' ');
 
-            _items = _items.Where(x => 
-                HasAllTokens(x, tokens)).ToList();
+            List<InventoryItemViewModel> filtered = new List<InventoryItemViewModel>();
+            foreach (var item in _items)
+            {
+                if (HasAllTokens(item, tokens))
+                { filtered.Add(item); }
+            }
+            _items = filtered;
+        }
+
+        public void FilterQuantity(bool[] quantities)
+        {
+            if (!(quantities[0] || quantities[1] || quantities[2])) return;
+
+            List<InventoryItemViewModel> filtered = new List<InventoryItemViewModel>();
+            foreach (var item in _items)
+            {
+                if (quantities[0] && item.Quantity == 0 ||
+                    quantities[1] && item.Quantity <= 10 ||
+                    quantities[2] && item.Quantity > 10)
+                { filtered.Add(item); }
+            }
+            _items = filtered;
+        }
+
+        public void FilterEquipmentType(bool[] types)
+        {
+            if (!(types[0] || types[1] || types[2] || types[3])) return;
+
+            List<InventoryItemViewModel> filtered = new List<InventoryItemViewModel>();
+            foreach (var item in _items)
+            {;
+                if (types[0] && item.Equipment.Type.Equals(EquipmentType.Examinational) ||
+                    types[1] && item.Equipment.Type.Equals(EquipmentType.Operational) ||
+                    types[2] && item.Equipment.Type.Equals(EquipmentType.RoomFurniture) ||
+                    types[3] && item.Equipment.Type.Equals(EquipmentType.HallwayFurniture))
+                { filtered.Add(item); }
+            }
+            _items = filtered;
+        }
+
+        public void FilterRoomType(bool[] types)
+        {
+            if (!(types[0] || types[1] || types[2] || types[3] || types[4])) return;
+
+            List<InventoryItemViewModel> filtered = new List<InventoryItemViewModel>();
+            foreach (var item in _items)
+            {
+                if (types[0] && item.Room.Type.Equals(RoomType.Examinational) ||
+                    types[1] && item.Room.Type.Equals(RoomType.Operational) ||
+                    types[2] && item.Room.Type.Equals(RoomType.PatientCare) ||
+                    types[3] && item.Room.Type.Equals(RoomType.Reception) ||
+                    types[4] && item.Room.Type.Equals(RoomType.Warehouse))
+                { filtered.Add(item); }
+            }
+            _items = filtered;
         }
 
         private bool HasAllTokens(InventoryItemViewModel item, string[] tokens)
         {
-            tokens = NormalizeTokens(tokens);
-            return tokens.Count(x =>
-                    ContainsToken(item.Equipment.Name, x) ||
-                    ContainsToken(item.Room.Name, x) ||
-                    ContainsToken(item.Quantity.ToString(), x) ||
-                    ContainsToken(Utility.Translate(item.Equipment.Type), x) ||
-                    ContainsToken(Utility.Translate(item.Room.Type), x) ||
-                    ContainsToken(Utility.Translate(item.Equipment.IsDynamic), x))
-                == tokens.Length;
-        }
-
-        private string[] NormalizeTokens(string[] tokens)
-        {
-            return tokens.Select(x => x.Trim().ToLower()).Where(x => x != "").ToArray();
+            foreach (string token in tokens)
+            {
+                if (!(ContainsToken(item.Equipment.Name, token) ||
+                    ContainsToken(item.Room.Name, token) ||
+                    ContainsToken(item.Quantity.ToString(), token) ||
+                    ContainsToken(Utility.Translate(item.Equipment.Type), token) ||
+                    ContainsToken(Utility.Translate(item.Room.Type), token)))
+                { return false; }
+            }
+            return true;
         }
 
         private bool ContainsToken(string text, string token)
         {
-            return text.ToLower().Contains(token);
+            token = token.Trim();
+            return token == "" || text.ToLower().Contains(token);
         }
     }
 }

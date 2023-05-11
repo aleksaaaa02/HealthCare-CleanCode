@@ -12,10 +12,12 @@ using HealthCare.View.UrgentAppointmentView;
 using HealthCare.Model;
 using HealthCare.View;
 using System.ComponentModel;
-using HealthCare.Service;
 
 namespace HealthCare
 {
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
     public partial class MainWindow : Window
     {
         private readonly Hospital _hospital;
@@ -24,7 +26,7 @@ namespace HealthCare
         {
             InitializeComponent();
 
-            _hospital = new Hospital();
+            _hospital = new Hospital("Venac");
             _hospital.LoadAll();
         }
 
@@ -73,7 +75,6 @@ namespace HealthCare
         {
             if (_hospital.Current is null)
                 return;
-
             foreach (Notification notification in _hospital.NotificationService.GetForUser(_hospital.Current.JMBG))
             {
                 Utility.ShowInformation(notification.Display());

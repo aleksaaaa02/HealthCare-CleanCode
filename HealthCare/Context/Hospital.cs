@@ -4,6 +4,11 @@ using HealthCare.Service;
 
 namespace HealthCare.Context
 {
+    public enum UserRole
+    {
+        Manager, Doctor, Nurse, Patient
+    }
+
     public class Hospital
     {
         public string Name { get; set; }
@@ -15,13 +20,12 @@ namespace HealthCare.Context
         public OrderService OrderService;
         public DoctorService DoctorService;
         public PatientService PatientService;
+        public AnamnesisService AnamnesisService;
         public TransferService TransferService;
         public EquipmentService EquipmentService;
-        public AnamnesisService AnamnesisService;
         public NotificationService NotificationService;
 
         public Hospital() : this("Bolnica") { }
-
         public Hospital(string name)
         {
             Name = name;
@@ -34,9 +38,10 @@ namespace HealthCare.Context
             PatientService = new PatientService(Global.patientPath);
             EquipmentService = new EquipmentService(Global.equipmentPath);
             AnamnesisService = new AnamnesisService(Global.anamnesisPath);
+            Inventory = new Inventory(Global.inventoryPath);
+            OrderService = new OrderService(Global.orderPath, Inventory, RoomService);
             TransferService = new TransferService(Global.transferPath, Inventory);
             NotificationService = new NotificationService(Global.notificationPath);
-            OrderService = new OrderService(Global.orderPath, Inventory, RoomService);
         }
 
         public void LoadAll()
@@ -44,8 +49,8 @@ namespace HealthCare.Context
             Schedule.Load(Global.appointmentPath);
             FillAppointmentDetails();
 
-            OrderService.ExecuteAll();
-            TransferService.ExecuteAll();
+            OrderService.ExecuteOrders();
+            TransferService.ExecuteTransfers();
         }
 
         public void SaveAll()
@@ -62,17 +67,31 @@ namespace HealthCare.Context
                 return UserRole.Manager;
             }
 
-            var userServices = new IUserService[] { DoctorService, NurseService, PatientService };
-            foreach (var service in userServices)
+            User? u = DoctorService.GetByUsername(username);
+            if (u is not null)
             {
-                var user = service.GetByUsername(username);
-                if (user is not null) {
-                    if (user.Password != password)
-                        throw new WrongPasswordException();
+                if (u.Password != password)
+                    throw new WrongPasswordException();
+                Current = u;
+                return UserRole.Doctor;
+            }
 
-                    Current = user;
-                    return service.GetRole();
-                }
+            u = NurseService.GetByUsername(username);
+            if (u is not null)
+            {
+                if (u.Password != password)
+                    throw new WrongPasswordException();
+                Current = u;
+                return UserRole.Nurse;
+            }
+
+            u = PatientService.GetByUsername(username);
+            if (u is not null)
+            {
+                if (u.Password != password)
+                    throw new WrongPasswordException();
+                Current = u;
+                return UserRole.Patient;
             }
             throw new UsernameNotFoundException();
         }

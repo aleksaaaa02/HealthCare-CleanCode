@@ -1,4 +1,10 @@
 ﻿using HealthCare.Repository;
+using System;
+using System.Collections.Generic;
+using System.IO.Packaging;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
@@ -38,7 +44,7 @@ namespace HealthCare.Model
 
         public string AllergiesToString()
         {
-            return string.Join(", ", Allergies);    
+            return string.Join(", ",Allergies);    
         }
 
         public string MedicalHistoryToString()

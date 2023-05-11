@@ -1,8 +1,12 @@
 ﻿using HealthCare.Context;
+using HealthCare.Model;
 using HealthCare.Service;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {
@@ -10,37 +14,26 @@ namespace HealthCare.ViewModel.ManagerViewModel
     {
         private readonly Inventory _inventory;
         private readonly EquipmentService _equipmentService;
-        public ObservableCollection<OrderItemViewModel> Items { get; }
+        public ObservableCollection<OrderItemViewModel> Items { get; set; }
 
-        public EquipmentOrderViewModel(Hospital hospital)
+        public EquipmentOrderViewModel(Inventory inventory, Hospital hospital)
         {
-            _inventory = hospital.Inventory;
+            _inventory = inventory;
             _equipmentService = hospital.EquipmentService;
 
             Items = new ObservableCollection<OrderItemViewModel>();
-            LoadAll();
+            Load();
         }
 
-        public void LoadAll()
+        public void Load()
         {
             Items.Clear();
-            var items = new List<OrderItemViewModel>();
-            foreach (int id in _inventory.GetLowQuantityEquipment())
+            foreach (int equipmentId in _inventory.GetLowQuantityEquipment())
             {
-                var equipment = _equipmentService.Get(id);
-                if (!equipment.IsDynamic)
-                    continue;
-
-                var quantity = _inventory.GetTotalQuantity(id);
-                items.Add(new OrderItemViewModel(equipment, quantity));
+                var equipment = _equipmentService.Get(equipmentId);
+                if (equipment.Dynamic)
+                    Items.Add(new OrderItemViewModel(equipment, _inventory.GetTotalQuantity(equipmentId)));
             }
-
-            Sort(items).ForEach(x => Items.Add(x));
-        }
-
-        public List<OrderItemViewModel> Sort(List<OrderItemViewModel> items)
-        {
-            return items.OrderBy(x => x.CurrentQuantity).ToList();
         }
     }
 }

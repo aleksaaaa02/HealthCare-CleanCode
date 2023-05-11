@@ -1,12 +1,20 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Context;
+using HealthCare.Model;
+using Microsoft.VisualBasic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls.Primitives;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace HealthCare.View
 {
     public static class Utility
     {
+
         public static void ShowInformation(string message)
         {
             MessageBox.Show(message, "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -78,16 +86,12 @@ namespace HealthCare.View
             }
         }
 
-        private static bool IsChecked(ToggleButton button)
-        {
-            return button.IsChecked is bool b && b;
-        }
-
         public static string[] GetArray(string text, char delimiter = ',')
         {
-            return text.Split(delimiter)
-                .Select(x => x.Trim())
-                .ToArray();
+            string[] tokens = text.Split(delimiter);
+            for (int i = 0; i < tokens.Length; ++i)
+                tokens[i] = tokens[i].Trim();
+            return tokens;
         }
     }
 }
