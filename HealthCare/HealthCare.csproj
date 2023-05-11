@@ -7,9 +7,4 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Storage\" />
-    <Folder Include="Observer\" />
-  </ItemGroup>
-
 </Project>

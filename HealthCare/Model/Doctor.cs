@@ -1,29 +1,24 @@
-﻿using HealthCare;
-using HealthCare.Repository;
+﻿using HealthCare.Repository;
 using HealthCare.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
 
 namespace HealthCare.Model
 {
     public class Doctor : User, ISerializable
     {
         public string Specialization { get; set; }
-        
-        public Doctor(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address, string userName, string password, Gender gender, string specialization) : base(name, lastName, jMBG, birthDate, phoneNumber, address, userName, password, gender)
-        {
-            Specialization = specialization;
 
-        }
         public Doctor() : base()
         {
             Specialization = "";
         }
-
+        public Doctor(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address, string userName, string password, Gender gender, string specialization)
+            : base(name, lastName, jMBG, birthDate, phoneNumber, address, userName, password, gender)
+        {
+            Specialization = specialization;
+        }
 
         public bool IsAvailable(TimeSlot term)
         {
@@ -37,10 +32,10 @@ namespace HealthCare.Model
             }
             return true;
         }
+
         public bool IsCapable(string NeededSpecialization)
         {
             return Specialization == NeededSpecialization;
-            
         }
 
         public new string[] ToCSV()

@@ -1,24 +1,10 @@
 ﻿using HealthCare.Context;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace HealthCare.View.ManagerView
 {
-    /// <summary>
-    /// Interaction logic for ManagerMenu.xaml
-    /// </summary>
     public partial class ManagerMenu : Window
     {
         private MainWindow _loginWindow;
@@ -40,20 +26,20 @@ namespace HealthCare.View.ManagerView
             new EquipmentOrderView(this, _hospital).Show();
         }
 
-        private void Button_Rearanging(object sender, RoutedEventArgs e)
+        private void Button_Rearranging(object sender, RoutedEventArgs e)
         {
             new EquipmentRearrangingView(this, _hospital).Show();
         }
 
         private void Button_Logout(object sender, RoutedEventArgs e)
         {
-            Hide();
+            Close();
             _loginWindow.Show();
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            _loginWindow.ExitApp();
+            _loginWindow.Show();
         }
     }
 }

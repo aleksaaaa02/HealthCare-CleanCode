@@ -1,14 +1,12 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.ViewModel.DoctorViewModel.PatientInformation;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 
 namespace HealthCare.View.DoctorView
 {
-    /// <summary>
-    /// Interaction logic for Window1.xaml
-    /// </summary>
     public partial class PatientInformationView : Window
     {
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)

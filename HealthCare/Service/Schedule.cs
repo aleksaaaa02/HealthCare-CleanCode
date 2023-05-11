@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using HealthCare.Context;
 using HealthCare.Model;
-using HealthCare.Storage;
-using System.Windows;
-using HealthCare.Command;
+using HealthCare.Repository;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HealthCare.Service
 {
@@ -19,223 +15,178 @@ namespace HealthCare.Service
         {
             return Appointments.Max(s => s.AppointmentID) + 1;
         }
+
+        public static bool CheckAvailability(Appointment appointment, TimeSlot slot)
+        {
+            return appointment.Doctor.IsAvailable(slot) && appointment.Patient.IsAvailable(slot);
+        }
+
         public static List<Appointment> GetDoctorAppointments(Doctor Doctor)
         {
-            List<Appointment> DoctorAppointments = new List<Appointment>();
-            foreach (Appointment appointment in Appointments)
-            {
-                if (appointment.Doctor.Equals(Doctor))
-                {
-                    DoctorAppointments.Add(appointment);
-                }
-            }
-            return DoctorAppointments;
+            return Appointments.Where(x => x.Doctor.Equals(Doctor)).ToList();
         }
 
         public static List<Appointment> GetDoctorAppointmentsForDays(Doctor doctor, DateTime start, int days)
         {
-            List<Appointment> appointments = new List<Appointment>();
             DateTime end = start.AddDays(days);
-            foreach (Appointment appointment in GetDoctorAppointments(doctor))
-            {
-                if (appointment.TimeSlot.InBetweenDates(start, end))
-                {
-                    appointments.Add(appointment);
-                }
-            }
-            return appointments;
-
+            return GetDoctorAppointments(doctor).Where(x => 
+                    x.TimeSlot.InBetweenDates(start, end)).ToList();
         }
+
         public static List<Appointment> GetPatientAppointments(Patient Patient)
         {
-            List<Appointment> PatientAppointments = new List<Appointment>();
-            foreach (Appointment appointment in Appointments)
-            {
-                if (appointment.Patient.Equals(Patient))
-                {
-                    PatientAppointments.Add(appointment);
-                }
-            }
-            return PatientAppointments;
+            return Appointments.Where(x => x.Patient.Equals(Patient)).ToList();
         }
 
         public static bool CreateAppointment(Appointment appointment)
         {
-            if (appointment.Patient.IsAvailable(appointment.TimeSlot) && appointment.Doctor.IsAvailable(appointment.TimeSlot))
-            {
-                appointment.AppointmentID = NextId();
-                Appointments.Add(appointment);
-                Save(Global.appointmentPath);
-                return true;
-            }
-            return false;
+            if (!CheckAvailability(appointment, appointment.TimeSlot))
+                return false;
+
+            appointment.AppointmentID = NextId();
+            Appointments.Add(appointment);
+            Save(Global.appointmentPath);
+            return true;
         }
 
         public static bool UpdateAppointment(Appointment updatedAppointment)
         {
-            Appointment appointment = Appointments.Find(x => x.AppointmentID == updatedAppointment.AppointmentID);
-            int appointmentIndex = Appointments.IndexOf(appointment);
-            if (appointmentIndex != -1)
-            {
-                Appointments.RemoveAt(appointmentIndex);
-                if (updatedAppointment.Patient.IsAvailable(updatedAppointment.TimeSlot) && updatedAppointment.Doctor.IsAvailable(updatedAppointment.TimeSlot))
-                {
-                    Appointments.Insert(appointmentIndex, updatedAppointment);
-                    Save(Global.appointmentPath);
-                    return true;
+            int index = Appointments.FindIndex(x => x.AppointmentID == updatedAppointment.AppointmentID);
+            if (index == -1) return false;
 
-                }
-                else
-                {
-                    Appointments.Insert(appointmentIndex, appointment);
-                    Save(Global.appointmentPath);
-                    return false;
-
-                }
-            }
-            else
-            {
+            if (!CheckAvailability(updatedAppointment, updatedAppointment.TimeSlot))
                 return false;
-            }
+
+            Appointments[index] = updatedAppointment;
+            Save(Global.appointmentPath);
+            return true;
         }
 
         public static void DeleteAppointment(int appointmentID)
         {
             Appointment? appointment = Appointments.Find(x => x.AppointmentID == appointmentID);
-            if (appointment != null) 
+
+            if (appointment is not null) 
             {
                 Appointments.Remove(appointment);
                 Save(Global.appointmentPath);
             }
-
         }
 
         public static Appointment GetAppointment(int appointmentID)
         {
-            return Appointments.Find(x => x.AppointmentID == appointmentID);
+            var appointment = Appointments.Find(x => x.AppointmentID == appointmentID);
+            if (appointment is null) throw new KeyNotFoundException();
+            return appointment;
         }
-
 
         public static void Load(string filepath)
         {
             CsvStorage<Appointment> csvStorage = new CsvStorage<Appointment>(filepath);
             Appointments = csvStorage.Load();
         }
-        public static void Save(string filepath) 
+
+        public static void Save(string filepath)
         {
             CsvStorage<Appointment> csvStorage = new CsvStorage<Appointment>(filepath);
             csvStorage.Save(Appointments);
         }
 
-        public static Appointment? GetStartingAppointment(string JMBG)
+        public static Appointment? TryGetReceptionAppointment(Patient patient)
         {
-            DateTime reception = DateTime.Now;
+            TimeSlot reception = new TimeSlot(DateTime.Now, new TimeSpan(0, 15, 0));
 
-            foreach(Appointment appointment in Appointments)
-            {
-                if(!appointment.IsOperation && reception<appointment.TimeSlot.Start 
-                    && reception >= appointment.TimeSlot.Start.AddMinutes(-15) 
-                    && appointment.Patient.JMBG == JMBG)
-                {
-                    return appointment;
-                }
-            }
-            return null;
+            return GetPatientAppointments(patient).Find(x =>
+                    !x.IsOperation && reception.Contains(x.TimeSlot.Start));
         }
 
-        public static Appointment? GetUrgent(TimeSpan duration, List<Doctor> specialists)
+        public static Appointment? TryGetUrgent(TimeSpan duration, List<Doctor> specialists)
         {
-            DateTime soonest = DateTime.MaxValue;
-            Doctor chosen = new Doctor();
             Appointment urgent = new Appointment();
+            urgent.TimeSlot = new TimeSlot(DateTime.MaxValue, duration);
 
             foreach (Doctor doctor in specialists)
-            {
-                if (doctor.IsAvailable(new TimeSlot(DateTime.Now, duration)))
-                {
-                    chosen = doctor;
-                    soonest = DateTime.Now;
-                    break;
-                }
+                urgent = GetUrgentForDoctor(urgent, doctor);
 
-                foreach (Appointment appointment in GetDoctorAppointments(doctor))
+            DateTime twoHours = DateTime.Now + new TimeSpan(2, 0, 0);
+            if (urgent.TimeSlot.Start > twoHours)
+                return null;
+            return urgent;
+        }
+
+        public static Appointment GetUrgentForDoctor(Appointment urgent, Doctor doctor)
+        {
+            TimeSpan duration = urgent.TimeSlot.Duration;
+
+            if (doctor.IsAvailable(new TimeSlot(DateTime.Now, duration)))
+            {
+                urgent.TimeSlot.Start = DateTime.Now;
+                urgent.Doctor = doctor;
+                return urgent;
+            }
+
+            foreach (Appointment appointment in GetDoctorAppointments(doctor))
+            {
+                DateTime end = appointment.TimeSlot.End;
+                TimeSlot newTimeslot = new TimeSlot(end, duration);
+
+                if (end > DateTime.Now && end < urgent.TimeSlot.Start &&
+                    doctor.IsAvailable(newTimeslot) &&
+                    urgent.Patient.IsAvailable(newTimeslot))
                 {
-                    DateTime end = appointment.TimeSlot.GetEnd();
-                    if (end > DateTime.Now &&
-                        doctor.IsAvailable(new TimeSlot(end, duration))
-                        && end < soonest)
-                    {
-                        soonest = end;
-                        chosen = doctor;
-                    }
+                    urgent.TimeSlot.Start = end;
+                    urgent.Doctor = doctor;
                 }
             }
 
-            if (soonest > (DateTime.Now + new TimeSpan(2, 0, 0)))
-                return null;
-            urgent.Doctor = chosen;
-            urgent.TimeSlot = new TimeSlot(soonest, duration);
             return urgent;
         }
 
         public static List<Appointment> GetPostponable(TimeSpan duration, Doctor specialist)
         {
-            List<Appointment> postponable = new List<Appointment>();
-
-            foreach (Appointment appointment in GetDoctorAppointments(specialist))
-            {
-                DateTime start = appointment.TimeSlot.Start;
-                if (start >= DateTime.Now)
-                    postponable.Add(appointment);
-            }
-
+            var postponable = GetDoctorAppointments(specialist).FindAll(x => x.TimeSlot.Start >= DateTime.Now);
             return FilterPostponable(duration, postponable);
         }
 
         public static List<Appointment> FilterPostponable(TimeSpan duration, List<Appointment> postponable)
         {
-            List<Appointment> filtered = new List<Appointment>();
             postponable = postponable.OrderBy(x => x.TimeSlot.Start).ToList();
+            var filtered = new List<Appointment>();
 
             for (int i = 0; i < postponable.Count - 1; i++)
-            {
                 if (postponable[i].TimeSlot.Start + duration <= postponable[i + 1].TimeSlot.Start)
                     filtered.Add(postponable[i]);
-            }
+
             if (postponable.Count > 0)
                 filtered.Add(postponable.Last());
+
             return filtered;
         }
 
         public static List<Appointment> GetPossibleIntersections(Appointment appointment)
         {
-            List<Appointment> appointments = new List<Appointment>();
-            foreach (Appointment a in Appointments)
-            {
-                if (a.Doctor.Equals(appointment.Doctor) && 
-                    a.TimeSlot.Overlaps(appointment.TimeSlot) &&
-                    a.Patient.Equals(appointment.Patient))
-                    appointments.Add(a);
-            }
-            return appointments;
+            return Appointments.FindAll(x =>
+                        x.AppointmentID != appointment.AppointmentID &&
+                        (x.Patient.Equals(appointment.Patient) ||
+                        x.Doctor.Equals(appointment.Doctor)) &&
+                        x.TimeSlot.Overlaps(appointment.TimeSlot));
         }
 
         public static DateTime GetSoonestStartingTime(Appointment appointment)
         {
-            DateTime? postpone = null;
+            DateTime postpone = DateTime.MaxValue;
+            TimeSlot slot = new TimeSlot(appointment.TimeSlot);
 
             foreach (Appointment a in Appointments)
             {
-                TimeSlot slot = new TimeSlot(a.TimeSlot.GetEnd(), appointment.TimeSlot.Duration);
-                if (slot.Start < DateTime.Now) continue;
-
-                if (appointment.Doctor.IsAvailable(slot) && appointment.Patient.IsAvailable(slot))
-                    if (postpone is null || slot.Start < postpone)
-                        postpone = slot.Start;
+                slot.Start = a.TimeSlot.End;
+                if (slot.Start >= DateTime.Now &&
+                    slot.Start < postpone &&
+                    CheckAvailability(appointment, slot))
+                    postpone = slot.Start;
             }
-            if (postpone is not null)
-                return (DateTime)postpone;
-            return Appointments.OrderBy(x => x.TimeSlot.GetEnd()).Last().TimeSlot.GetEnd();
+
+            return postpone;
         }
 
         public static void PostponeAppointment(Appointment appointment)
@@ -248,6 +199,7 @@ namespace HealthCare.Service
         {
             foreach (Appointment app in GetPossibleIntersections(appointment))
                 PostponeAppointment(app);
+
             appointment.AppointmentID = NextId();
             appointment.IsUrgent = true;
             Appointments.Add(appointment);
@@ -256,8 +208,7 @@ namespace HealthCare.Service
 
         public static bool HasAppointmentStarted(Appointment appointment)
         {
-            return appointment.TimeSlot.Start < DateTime.Now && appointment.TimeSlot.GetEnd() > DateTime.Now;
+            return appointment.TimeSlot.Start < DateTime.Now && appointment.TimeSlot.End > DateTime.Now;
         }
-
     }
 }

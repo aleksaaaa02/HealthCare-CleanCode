@@ -1,14 +1,9 @@
 ﻿using HealthCare.Repository;
 using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
-    public class OrderItem : Indentifier, ISerializable
+    public class OrderItem : Identifier, ISerializable
     {
         public override object Key { get => Id; set => Id = (int)value; }
         public int Id { get; set; }

@@ -1,5 +1,6 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModel.DoctorViewModel.RoomReservation.Commands;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,7 +30,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation
 
         public RoomReservationViewModel(Hospital hospital, Appointment appointment, Window window) {
             _hospital = hospital;
-            ReservateRoomCommand = new ReservateRoomCommand(hospital, window, this, appointment);
+            ReservateRoomCommand = new ReserveRoomCommand(hospital, window, this, appointment);
             Update(appointment);
         }
 

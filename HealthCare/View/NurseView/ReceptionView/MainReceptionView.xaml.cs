@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using HealthCare.Context;
+﻿using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View.PatientView;
+using System.Windows;
 
 namespace HealthCare.View.ReceptionView
 {
@@ -34,7 +31,7 @@ namespace HealthCare.View.ReceptionView
                 return;
             }
 
-            Appointment? starting = Schedule.GetStartingAppointment(JMBG);
+            Appointment? starting = Schedule.TryGetReceptionAppointment(patient);
             if (starting is null)
             {
                 Utility.ShowWarning("Pacijent nema preglede u narednih 15 minuta.");

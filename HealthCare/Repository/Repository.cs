@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Collections.Generic;
 
 namespace HealthCare.Repository
 {
-    public class Repository<T> where T : Indentifier, ISerializable, new()
+    public class Repository<T> where T : Identifier, ISerializable, new()
     {
         private readonly string _filepath;
 

@@ -1,20 +1,13 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
-using Microsoft.VisualBasic;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace HealthCare.View
 {
     public static class Utility
     {
-
         public static void ShowInformation(string message)
         {
             MessageBox.Show(message, "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -88,10 +81,19 @@ namespace HealthCare.View
 
         public static string[] GetArray(string text, char delimiter = ',')
         {
-            string[] tokens = text.Split(delimiter);
-            for (int i = 0; i < tokens.Length; ++i)
-                tokens[i] = tokens[i].Trim();
-            return tokens;
+            return text.Split(delimiter)
+                .Select(x => x.Trim())
+                .ToArray();
+        }
+
+        public static string ToString(string[] arr, string delimiter = ", ")
+        {
+            return string.Join(delimiter, arr);
+        }
+
+        public static string ToString(DateTime date)
+        {
+            return date.ToString(Global.dateFormat);
         }
     }
 }

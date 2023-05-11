@@ -25,16 +25,24 @@
         </Grid.RowDefinitions>
 
         <Label Content="Dinamička oprema" Style="{StaticResource SmallHeader}"
-               VerticalAlignment="Center" HorizontalAlignment="Center" Margin="50 0"/>
+               VerticalAlignment="Center" HorizontalAlignment="Center" Margin="50 0 50 10"/>
 
         <ListView Grid.Row="1" Name="lvDynamicEquipment" ItemsSource="{Binding Items}">
+            <ListView.Resources>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                            <Setter Property="Background" Value="LightGreen" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Resources>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="auto" Header=" ">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox Name="cbSelect" IsChecked="{Binding IsSelected}"
-                                          Checked="HighlightRows" Unchecked="HighlightRows"/>
+                                <CheckBox Name="cbSelect" IsChecked="{Binding IsSelected, Mode=TwoWay}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -62,9 +70,9 @@
                     <GridViewColumn Width="auto" Header="Narudžbina">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Name="tbQuantity" 
-                                         Text="{Binding OrderQuantity, Mode=TwoWay}" 
-                                         GotFocus="tbQuantity_Focused" LostFocus="tbQuantity_Unfocused"/>
+                                <TextBox Name="tbQuantity" Width="50"
+                                         Text="{Binding OrderQuantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         GotFocus="tbQuantity_Focused" LostFocus="tbQuantity_Unfocused" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

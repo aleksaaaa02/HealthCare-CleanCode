@@ -1,23 +1,17 @@
-using HealthCare.View.AppointmentView;
-
 using HealthCare.Context;
 using HealthCare.Exceptions;
-
+using HealthCare.Model;
+using HealthCare.Service;
+using HealthCare.View;
+using HealthCare.View.AppointmentView;
 using HealthCare.View.DoctorView;
 using HealthCare.View.ManagerView;
 using HealthCare.View.PatientView;
-using System.Windows;
-using HealthCare.View.ReceptionView;
-using HealthCare.View.UrgentAppointmentView;
-using HealthCare.Model;
-using HealthCare.View;
 using System.ComponentModel;
+using System.Windows;
 
 namespace HealthCare
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private readonly Hospital _hospital;
@@ -26,7 +20,7 @@ namespace HealthCare
         {
             InitializeComponent();
 
-            _hospital = new Hospital("Venac");
+            _hospital = new Hospital();
             _hospital.LoadAll();
         }
 
@@ -75,6 +69,7 @@ namespace HealthCare
         {
             if (_hospital.Current is null)
                 return;
+
             foreach (Notification notification in _hospital.NotificationService.GetForUser(_hospital.Current.JMBG))
             {
                 Utility.ShowInformation(notification.Display());

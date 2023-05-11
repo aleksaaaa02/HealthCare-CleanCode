@@ -1,9 +1,5 @@
 ﻿using HealthCare.Repository;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
@@ -11,28 +7,29 @@ namespace HealthCare.Model
     {
         public DateTime Start { get; set; }
         public TimeSpan Duration { get; set; }
+        public DateTime End => Start + Duration;
 
         public TimeSlot() : this(DateTime.MinValue, TimeSpan.Zero) { }
-
+        public TimeSlot(TimeSlot other) : this(other.Start, other.Duration) { }
         public TimeSlot(DateTime start, TimeSpan duration)
         {
             Start = start;
             Duration = duration;
         }
 
-        public DateTime GetEnd() 
-        {
-            return Start + Duration;
-        }
         public bool Overlaps(TimeSlot term)
-
         {
-            return term.Start < GetEnd() && term.GetEnd() > Start;
+            return InBetweenDates(term.Start, term.End);
         }
 
         public bool InBetweenDates(DateTime start, DateTime end)
         {
-            return start < GetEnd() && end > Start;
+            return start < End && end > Start;
+        }
+
+        public bool Contains(DateTime date)
+        {
+            return Start < date && End > date;
         }
 
         public override string ToString()

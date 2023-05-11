@@ -1,10 +1,4 @@
 ﻿using HealthCare.Repository;
-using System;
-using System.Collections.Generic;
-using System.IO.Packaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
@@ -15,13 +9,7 @@ namespace HealthCare.Model
         public string[] MedicalHistory { get; set; }
         public string[] Allergies { get; set; }
 
-        public MedicalRecord(float height, float weight, string[] medicalHistory)
-        {
-            Height = height;
-            Weight = weight;
-            MedicalHistory = medicalHistory;
-            Allergies = new string[0];
-        }
+        public MedicalRecord() : this(0, 0, new string[0], new string[0]) { }
         public MedicalRecord(float height, float weight, string[] medicalHistory, string[] allergies)
         {
             Height = height;
@@ -29,28 +17,12 @@ namespace HealthCare.Model
             MedicalHistory = medicalHistory;
             Allergies = allergies;
         }
-
-        public MedicalRecord() 
-        { 
-            MedicalHistory = new string[0];
-            Allergies = new string[0];
-        }
-
-
+        
         public override string? ToString()
         {
             return "Visina: " + Height.ToString() + "\nTezina: "+ Weight.ToString() + "\nIstorija: " +string.Join(", ", MedicalHistory);
         }
-
-        public string AllergiesToString()
-        {
-            return string.Join(", ",Allergies);    
-        }
-
-        public string MedicalHistoryToString()
-        {
-            return string.Join(", ", MedicalHistory);
-        }
+        
 
         public string[] ToCSV()
         {
@@ -58,7 +30,7 @@ namespace HealthCare.Model
             string allergies = Utility.ToString(Allergies);
             return new string[] {Height.ToString(), Weight.ToString(), medicalHistory, allergies};
         }
-
+        
         public void FromCSV(string[] values)
         {
             Height = float.Parse(values[0]);

@@ -1,19 +1,7 @@
 ﻿using HealthCare.Model;
-using HealthCare.Service;
 using HealthCare.View.ReceptionView;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace HealthCare.View.PatientView
 {
@@ -23,9 +11,10 @@ namespace HealthCare.View.PatientView
         private CreatePatientView? _patientView;
         public AddMedicalRecordView(NurseMainView window)
         {
+            InitializeComponent();
             _nurseView = window;
             _patientView = null;
-            InitializeComponent();
+
             if (_nurseView._record is not null)
             {
                 tbHeight.Text = _nurseView._record.Height.ToString();
@@ -39,9 +28,9 @@ namespace HealthCare.View.PatientView
 
         public AddMedicalRecordView(CreatePatientView patientView)
         {
+            InitializeComponent();
             _patientView = patientView;
             _nurseView = null;
-            InitializeComponent();
             _patientView._record = new MedicalRecord();
         }
 
@@ -69,7 +58,7 @@ namespace HealthCare.View.PatientView
 
             if (_nurseView is not null)
                 _nurseView._record = medicalRecord;
-            else
+            else if (_patientView is not null)
                 _patientView._record = medicalRecord;
             Close();  
         }

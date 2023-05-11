@@ -2,6 +2,7 @@
 using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.ViewModel.DoctorViewModel.Examination.Commands;
+using HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,7 +13,12 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
 {
     public class DoctorExamViewModel : ViewModelBase
     {
+        private Appointment _appointment;
+        private Patient _selectedPatient;
+        private Hospital _hospital;
+
         private ObservableCollection<string> _previousDiseases;
+        private ObservableCollection<string> _allergies;
         private string _name;
         private string _lastName;
         private string _jmbg;
@@ -25,12 +31,11 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
         private string _symptoms;
         private string _conclusion;
 
-
+        public IEnumerable<string> Allergies => _allergies;
         public IEnumerable<string> PreviousDisease => _previousDiseases;
-
-        private Appointment _appointment;
-        private Patient _selectedPatient;
-        private Hospital _hospital;
+        public ICommand FinishExaminationCommand { get; }
+        public ICommand CancelExaminationCommand { get; }
+        public ICommand UpdatePatientCommand { get; }
 
         public Patient SelectedPatient
         {
@@ -41,7 +46,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
                 OnPropertyChanged(nameof(SelectedPatient));
             }
         }
-
         public string Name
         {
             get { return _name; }
@@ -133,7 +137,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
                 OnPropertyChanged(nameof(Symptoms));
             }
         }
-
         public string Conclusion
         {
             get { return _conclusion; }
@@ -144,16 +147,14 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             }
         }
 
-        public ICommand FinishExaminationCommand { get; }
-        public ICommand CancelExaminationCommand { get; }
-        public ICommand UpdatePatientCommand { get; }
 
         public DoctorExamViewModel(Hospital hospital, Window window, Appointment appointment, int roomId)
         {
             _hospital = hospital;
             _appointment = appointment;
-            _selectedPatient = _appointment.Patient;
-
+            _selectedPatient = hospital.PatientService.Get(appointment.Patient.Key);
+            
+            
             UpdatePatientCommand = new ShowPatientInfoCommand(hospital, this, true);
             CancelExaminationCommand = new CancelCommand(window);
             FinishExaminationCommand = new FinishExaminationCommand(hospital, window, appointment, this, roomId);
@@ -170,17 +171,31 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             _height = _selectedPatient.MedicalRecord.Height;
             _weight = _selectedPatient.MedicalRecord.Weight;
 
-            Anamnesis anamnesis = _hospital.AnamnesisService.GetByID(_appointment.AnamnesisID);
+            Anamnesis anamnesis = _hospital.AnamnesisService.Get(_appointment.AnamnesisID);
             _symptoms = string.Join(", ", anamnesis.Symptoms);
             _previousDiseases = new ObservableCollection<string>();
+            _allergies = new ObservableCollection<string>();
             Update();
         }
         private void Update()
+        {
+            UpdateDiseases();
+            UpdateAllergies();
+        }
+        private void UpdateDiseases()
         {
             _previousDiseases.Clear();
             foreach (var disease in _selectedPatient.MedicalRecord.MedicalHistory)
             {
                 _previousDiseases.Add(disease);
+            }
+        }
+        private void UpdateAllergies()
+        {
+            _allergies.Clear();
+            foreach (var allergy in _selectedPatient.MedicalRecord.Allergies)
+            {
+                _allergies.Add(allergy);
             }
         }
         public void RefreshView()

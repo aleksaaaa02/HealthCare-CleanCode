@@ -2,25 +2,20 @@
 using HealthCare.Context;
 using HealthCare.Exceptions;
 using HealthCare.Model;
+using HealthCare.View;
 using HealthCare.View.DoctorView;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation.Commands
 {
-
-    public class ReservateRoomCommand : CommandBase
+    public class ReserveRoomCommand : CommandBase
     {
         private readonly Hospital _hospital;
         private readonly RoomReservationViewModel _roomReservationViewModel;
         private readonly Window _window;
         private Appointment _appointment;
 
-        public ReservateRoomCommand(Hospital hospital, Window window, RoomReservationViewModel viewModel, Appointment appointment) { 
+        public ReserveRoomCommand(Hospital hospital, Window window, RoomReservationViewModel viewModel, Appointment appointment) { 
             _hospital = hospital;
             _roomReservationViewModel = viewModel;
             _window = window;
@@ -37,15 +32,14 @@ namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation.Commands
                 StartExamination(roomId);
             } catch(ValidationException ve)
             {
-                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Utility.ShowWarning(ve.Message);
             }
-            
-
         }
         private void StartExamination(int roomId)
         {
             new DoctorExamView(_hospital, _appointment, roomId).Show();
         }
+
         private void Validate()
         {
             if (_roomReservationViewModel.SelectedRoom == null)

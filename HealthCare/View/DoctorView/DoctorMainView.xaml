@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.DoctorView"
         mc:Ignorable="d"
-        Title="DoctorMainView" Height="550" Width="800">
+        Title="DoctorMainView" Height="550" Width="800"
+        Closing="Window_Closing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -23,7 +24,7 @@
                 <Button Width="Auto" Height="40" Margin="10" Content="Prikazi pacijenta" Command="{Binding ShowDetailedPatientInfoCommand}"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="Pretrazi pacijente" Command="{Binding ShowPatientSearchCommand}"/>
                 <Label Margin="0 15"/>
-                <Button x:Name="LogOut" Width="Auto" Height="40" Margin="10" Content="Odjava" Click="LogOut_Click"/>
+                <Button x:Name="LogOut" Width="Auto" Height="40" Margin="10" Content="Odjava" Command="{Binding LogOutCommand}"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Column="1">
@@ -34,10 +35,11 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center">
                 <TextBlock Text="Pocetni datum filtriranja: " VerticalAlignment="Center"/>
-                <DatePicker Margin="20 0" SelectedDate="{Binding StartDate}"/>
+                <DatePicker Margin="20 0" Focusable="False" SelectedDate="{Binding StartDate}"/>
                 <TextBlock Text="Broj Dana:" VerticalAlignment="Center"/>
                 <TextBox Width="75" Margin="20 0" Text="{Binding NumberOfDays}"/>
                 <Button Width="75" Content="Primeni" Command="{Binding ApplyFilterCommand}"/>
+                <Button Width="75" Content="Resetuj" Command="{Binding ResetFilterCommand}"/>
             </StackPanel>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -45,7 +47,7 @@
                     <ColumnDefinition Width="7*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Row="2">
-                    <ListView x:Name="AppointmentsListView" Grid.ColumnSpan="2" SelectedItem="{Binding SelectedPatient}" ItemsSource="{Binding Appointments}" SelectionMode="Single">
+                    <ListView x:Name="AppointmentsListView" Grid.ColumnSpan="2" SelectedItem="{Binding SelectedAppointment}" ItemsSource="{Binding Appointments}" SelectionMode="Single">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="ID" DisplayMemberBinding="{Binding AppointmentID}">

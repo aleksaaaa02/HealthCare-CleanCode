@@ -1,9 +1,4 @@
 ﻿using HealthCare.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
@@ -15,27 +10,26 @@ namespace HealthCare.Model
         HallwayFurniture
     }
 
-    public class Equipment : Indentifier, ISerializable
+    public class Equipment : Identifier, ISerializable
     {
         public override object Key { get => Id; set => Id = (int)value; }
         public int Id { get; set; }
         public string Name { get; set; }
         public EquipmentType Type { get; set; }
-        public bool Dynamic { get; set; }
+        public bool IsDynamic { get; set; }
 
         public Equipment() : this(0, "", EquipmentType.Examinational, false) { }
-
         public Equipment(int id, string name, EquipmentType type, bool dynamic)
         {
             Id = id;
             Name = name;
             Type = type;
-            Dynamic = dynamic;
+            IsDynamic = dynamic;
         }
 
         public string[] ToCSV()
         {
-            return new string[] { Id.ToString(), Name, Type.ToString(), Dynamic.ToString() };
+            return new string[] { Id.ToString(), Name, Type.ToString(), IsDynamic.ToString() };
         }
 
         public void FromCSV(string[] values)
@@ -43,7 +37,7 @@ namespace HealthCare.Model
             Id = int.Parse(values[0]);
             Name = values[1];
             Type = Utility.Parse<EquipmentType>(values[2]);
-            Dynamic = bool.Parse(values[3]);
+            IsDynamic = bool.Parse(values[3]);
         }
     }
 }

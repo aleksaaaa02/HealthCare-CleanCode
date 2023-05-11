@@ -1,9 +1,5 @@
 ﻿using HealthCare.Repository;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
@@ -12,7 +8,7 @@ namespace HealthCare.Model
         Male,
         Female
     }
-    public class User : Indentifier, ISerializable
+    public class User : Identifier, ISerializable
     {
         public override object Key { get => JMBG; set => JMBG = (string)value; }
         public string Name { get; set; }
@@ -25,6 +21,7 @@ namespace HealthCare.Model
         public string Password { get; set; }
         public Gender Gender { get; set; }
 
+        public User() : this("", "", "", DateTime.MinValue, "", "", "", "", Gender.Female) { }
         public User(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address, string userName, string password, Gender gender)
         {
             Name = name;
@@ -38,14 +35,11 @@ namespace HealthCare.Model
             Gender = gender;
         }
 
-        public User() : this("", "", "", DateTime.MinValue, "", "", "", "", Gender.Female)
-        {
-        }
-
         public string[] ToCSV()
         {
-            string[] csvValues = { Name, LastName, JMBG, Utility.ToString(BirthDate), PhoneNumber, Address, UserName, Password, Gender.ToString() };
-            return csvValues;
+            return new string[] { 
+                Name, LastName, JMBG, Utility.ToString(BirthDate), 
+                PhoneNumber, Address, UserName, Password, Gender.ToString() };
         }
 
         public void FromCSV(string[] values)
@@ -63,8 +57,7 @@ namespace HealthCare.Model
 
         public override bool Equals(object? obj)
         {
-            return obj is User user &&
-                   JMBG == user.JMBG;
+            return obj is User user && JMBG == user.JMBG;
         }
 
         public override int GetHashCode()

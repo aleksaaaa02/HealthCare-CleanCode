@@ -1,9 +1,6 @@
 ﻿using HealthCare.Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
@@ -15,8 +12,7 @@ namespace HealthCare.Model
 
         public TransferItem() : this(0, 0, DateTime.MinValue, false, 0, 0) { }
         public TransferItem(int equipmentId, int quantity, DateTime scheduled, bool executed, int fromRoom, int toRoom) :
-            this(0, equipmentId, quantity, scheduled, executed, fromRoom, toRoom)
-        { }
+            this(0, equipmentId, quantity, scheduled, executed, fromRoom, toRoom) { }
         public TransferItem(int id, int equipmentId, int quantity, DateTime scheduled, bool executed, int fromRoom, int toRoom)
             : base(id, equipmentId, quantity, scheduled, executed)
         {

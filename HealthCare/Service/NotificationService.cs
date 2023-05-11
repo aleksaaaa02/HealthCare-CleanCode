@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
@@ -13,7 +11,8 @@ namespace HealthCare.Service
 
         public List<Notification> GetForUser(string userJmbg)
         {
-            return GetAll().FindAll(x => !x.Seen && x.UserJmbgs.Contains(userJmbg));
+            return GetAll().FindAll(x => 
+                !x.Seen && x.Recipients.Contains(userJmbg));
         }
     }
 }

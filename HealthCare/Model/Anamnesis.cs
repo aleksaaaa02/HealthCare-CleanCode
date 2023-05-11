@@ -1,15 +1,8 @@
 ﻿using HealthCare.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Media3D;
-using System.Windows.Navigation;
 
 namespace HealthCare.Model
 {
-    public class Anamnesis : Indentifier, ISerializable
+    public class Anamnesis : Identifier, ISerializable
     {
         public override object Key { get => ID; set => ID = (int)value; }
         public int ID { get; set; }
