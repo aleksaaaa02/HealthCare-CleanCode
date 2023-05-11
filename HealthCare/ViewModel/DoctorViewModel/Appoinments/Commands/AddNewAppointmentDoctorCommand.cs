@@ -1,12 +1,14 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Command;
+using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View;
+using HealthCare.ViewModel.DoctorViewModel.Appoinments;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.Windows;
 
-namespace HealthCare.Command
+namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
 {
     public class AddNewAppointmentDoctorCommand : CommandBase
     {
@@ -16,7 +18,7 @@ namespace HealthCare.Command
         private readonly Hospital _hospital;
         private readonly bool _isEditing;
 
-        public AddNewAppointmentDoctorCommand(Hospital hospital,MakeAppointmentViewModel viewModel, DoctorMainViewModel docMainViewModel, Window window, bool isEditing)
+        public AddNewAppointmentDoctorCommand(Hospital hospital, MakeAppointmentViewModel viewModel, DoctorMainViewModel docMainViewModel, Window window, bool isEditing)
         {
             _makeAppointmentViewModel = viewModel;
             _doctorMainViewModel = docMainViewModel;

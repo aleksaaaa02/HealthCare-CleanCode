@@ -1,22 +1,23 @@
 ﻿using System.Windows;
+using HealthCare.Command;
 using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.View;
 using HealthCare.View.DoctorView;
 using HealthCare.ViewModel;
-using HealthCare.ViewModel.DoctorViewModel;
 using HealthCare.ViewModel.DoctorViewModel.Examination;
+using HealthCare.ViewModel.DoctorViewModel.PatientInformation;
 using HealthCare.ViewModels.DoctorViewModel;
 
-namespace HealthCare.Command
+namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 {
     public class ShowPatientInfoCommand : CommandBase
     {
         private readonly Hospital _hospital;
         private readonly ViewModelBase _viewModel;
         private readonly bool _isEdit;
-        public ShowPatientInfoCommand(Hospital hospital, ViewModelBase view, bool isEdit) 
-        { 
+        public ShowPatientInfoCommand(Hospital hospital, ViewModelBase view, bool isEdit)
+        {
             _hospital = hospital;
             _viewModel = view;
             _isEdit = isEdit;
@@ -55,11 +56,10 @@ namespace HealthCare.Command
                 return _hospital.PatientService.GetAccount(selectedPatient.JMBG);
 
             }
-            
+
             if (_viewModel is DoctorExamViewModel doctorExamViewModel)
             {
                 var selectedPatient = doctorExamViewModel.SelectedPatient;
-                UpdateViewModel();
                 return selectedPatient;
             }
 

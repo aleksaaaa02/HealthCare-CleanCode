@@ -21,42 +21,17 @@ namespace HealthCare.Service
         }
         public static List<Appointment> GetDoctorAppointments(Doctor Doctor)
         {
-            List<Appointment> DoctorAppointments = new List<Appointment>();
-            foreach (Appointment appointment in Appointments)
-            {
-                if (appointment.Doctor.Equals(Doctor))
-                {
-                    DoctorAppointments.Add(appointment);
-                }
-            }
-            return DoctorAppointments;
+            return Appointments.Where(x => x.Doctor.Equals(Doctor)).ToList();
         }
 
         public static List<Appointment> GetDoctorAppointmentsForDays(Doctor doctor, DateTime start, int days)
         {
-            List<Appointment> appointments = new List<Appointment>();
             DateTime end = start.AddDays(days);
-            foreach (Appointment appointment in GetDoctorAppointments(doctor))
-            {
-                if (appointment.TimeSlot.InBetweenDates(start, end))
-                {
-                    appointments.Add(appointment);
-                }
-            }
-            return appointments;
-
+            return GetDoctorAppointments(doctor).Where(x => x.TimeSlot.InBetweenDates(start, end)).ToList();
         }
         public static List<Appointment> GetPatientAppointments(Patient Patient)
         {
-            List<Appointment> PatientAppointments = new List<Appointment>();
-            foreach (Appointment appointment in Appointments)
-            {
-                if (appointment.Patient.Equals(Patient))
-                {
-                    PatientAppointments.Add(appointment);
-                }
-            }
-            return PatientAppointments;
+            return Appointments.Where(x => x.Patient.Equals(Patient)).ToList();
         }
 
         public static bool CreateAppointment(Appointment appointment)
@@ -102,7 +77,7 @@ namespace HealthCare.Service
         public static void DeleteAppointment(int appointmentID)
         {
             Appointment? appointment = Appointments.Find(x => x.AppointmentID == appointmentID);
-            if (appointment != null) 
+            if (appointment is not null) 
             {
                 Appointments.Remove(appointment);
                 Save(Global.appointmentPath);
