@@ -76,7 +76,7 @@ namespace HealthCare.View.UrgentAppointmentView
             TimeSpan duration = new TimeSpan(0, int.Parse(tbDuration.Text), 0);
             List<Doctor> specialists = _hospital.DoctorService.GetBySpecialization(cbSpecialization.SelectedValue.ToString());
 
-            Appointment? appointment = Schedule.GetUrgent(duration, specialists);
+            Appointment? appointment = Schedule.TryGetUrgent(duration, specialists);
             if (appointment is not null)
             {
                 appointment = FillAppointmentDetails(appointment);
