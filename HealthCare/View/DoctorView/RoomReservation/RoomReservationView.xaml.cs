@@ -5,9 +5,6 @@ using System.Windows;
 
 namespace HealthCare.View.DoctorView.RoomReservation
 {
-    /// <summary>
-    /// Interaction logic for RoomReservationView.xaml
-    /// </summary>
     public partial class RoomReservationView : Window
     {
         public RoomReservationView(Hospital hospital, Appointment appointment)
