@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Printing;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using System.Windows.Media.Media3D;
-using HealthCare.Repository;
+﻿using HealthCare.Repository;
 using HealthCare.Service;
-using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HealthCare.Model
 {
