@@ -40,15 +40,21 @@ namespace HealthCare.View.AppointmentView
             model.Sort(cbSort.SelectedValue.ToString());
         }
 
-        private void tbFilter_TextChanged(object sender, TextChangedEventArgs e)
+        private void TbFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
             model.Filter(tbFilter.Text);
         }
 
-        private void listViewRecord_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListViewRecord_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Appointment appointment = (Appointment)listViewRecord.SelectedItem;
-            model.ShowAnamnesis(appointment);
+
+            if (listViewRecord.SelectedItems.Count == 1)
+            {
+                model.ShowAnamnesis(appointment);
+            }
+
+
         }
     }
 }

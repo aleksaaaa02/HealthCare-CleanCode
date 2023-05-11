@@ -11,7 +11,7 @@
             <RowDefinition Height="0.15*"/>
             <RowDefinition Height="0.8*"/>
         </Grid.RowDefinitions>
-        <ListView x:Name="listViewRecord" Grid.Row="2" ItemsSource="{Binding Appointments}" SelectionChanged="listViewRecord_SelectionChanged">
+        <ListView x:Name="listViewRecord" Grid.Row="2" ItemsSource="{Binding Appointments}" SelectionChanged="ListViewRecord_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn  Header="Datum" DisplayMemberBinding="{Binding TimeSlot.Start}"/>
@@ -26,7 +26,7 @@
             <ComboBoxItem Content="Doktor"/>
             <ComboBoxItem Content="Specijalizacija"/>
         </ComboBox>
-        <TextBox x:Name="tbFilter" HorizontalAlignment="Left" Margin="25,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="tbFilter_TextChanged"/>
+        <TextBox x:Name="tbFilter" HorizontalAlignment="Left" Margin="25,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TbFilter_TextChanged"/>
 
     </Grid>
 </Window>

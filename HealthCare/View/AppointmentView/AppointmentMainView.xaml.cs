@@ -78,7 +78,7 @@ namespace HealthCare.View.AppointmentView
 
         }
 
-        private void tbMinutes_TextChanged(object sender, TextChangedEventArgs e)
+        private void TbMinutes_TextChanged(object sender, TextChangedEventArgs e)
         {
             string text = tbMinutes.Text;
             if(int.TryParse(text, out int minutes))
@@ -95,7 +95,7 @@ namespace HealthCare.View.AppointmentView
             }
         }
 
-        private void tbHours_TextChanged(object sender, TextChangedEventArgs e)
+        private void TbHours_TextChanged(object sender, TextChangedEventArgs e)
         {
             string text = tbHours.Text;
             if(int.TryParse(text, out int hours))
@@ -111,7 +111,7 @@ namespace HealthCare.View.AppointmentView
             }
         }
 
-        private void btnCreate_Click(object sender, RoutedEventArgs e)
+        private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
             Patient patient = (Patient)_hospital.Current;
             if (patient.Blocked)
@@ -160,7 +160,7 @@ namespace HealthCare.View.AppointmentView
             IsUserBlocked();
         }
 
-        private void appListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void AppListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (appListView.SelectedItems.Count == 1)
             {
@@ -172,7 +172,7 @@ namespace HealthCare.View.AppointmentView
             
         }
 
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
             Patient patient = (Patient)_hospital.Current;
             if (patient.Blocked)
@@ -198,7 +198,7 @@ namespace HealthCare.View.AppointmentView
            
         }
 
-        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        private void BtnUpdate_Click(object sender, RoutedEventArgs e)
         {
 
             Patient patient = (Patient)_hospital.Current;
@@ -261,17 +261,17 @@ namespace HealthCare.View.AppointmentView
 
         }
 
-        private void btnRecord_Click(object sender, RoutedEventArgs e)
+        private void BtnRecord_Click(object sender, RoutedEventArgs e)
         {
             new PatientRecordView(_hospital).Show();
         }
 
-        private void btnRecord_Click_1(object sender, RoutedEventArgs e)
+        private void BtnRecord_Click_1(object sender, RoutedEventArgs e)
         {
             new PatientRecordView(_hospital).Show();
         }
 
-        private void btnPriority_Click(object sender, RoutedEventArgs e)
+        private void BtnPriority_Click(object sender, RoutedEventArgs e)
         {
             new PriorityAppointmentView(_hospital).Show();
         }

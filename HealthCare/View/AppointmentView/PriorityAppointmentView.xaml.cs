@@ -36,7 +36,7 @@ namespace HealthCare.View.AppointmentView
             
         }
 
-        public bool isValidData()
+        public bool IsValidData()
         {
             Patient patient = (Patient)_hospital.Current;
             if (patient.Blocked)
@@ -86,9 +86,9 @@ namespace HealthCare.View.AppointmentView
             return true;
         }
 
-        private void btnShow_Click(object sender, RoutedEventArgs e)
+        private void BtnShow_Click(object sender, RoutedEventArgs e)
         {
-            if (!isValidData()) return;
+            if (!IsValidData()) return;
             DateTime endDate = tbDate.SelectedDate.Value;
             Doctor doctor = (Doctor)doctorListView.SelectedItem;
             Appointment resultAppointment;
@@ -112,7 +112,7 @@ namespace HealthCare.View.AppointmentView
             }    
         }
 
-        private void tbHoursStart_TextChanged(object sender, TextChangedEventArgs e)
+        private void TbHoursStart_TextChanged(object sender, TextChangedEventArgs e)
         {
             string text = tbHoursStart.Text;
             if (int.TryParse(text, out int hours))
@@ -128,7 +128,7 @@ namespace HealthCare.View.AppointmentView
             }
         }
 
-        private void tbHoursEnd_TextChanged(object sender, TextChangedEventArgs e)
+        private void TbHoursEnd_TextChanged(object sender, TextChangedEventArgs e)
         {
             string text = tbHoursEnd.Text;
             if (int.TryParse(text, out int hours))
@@ -144,7 +144,7 @@ namespace HealthCare.View.AppointmentView
             }
         }
 
-        private void tbMinutesStart_TextChanged(object sender, TextChangedEventArgs e)
+        private void TbMinutesStart_TextChanged(object sender, TextChangedEventArgs e)
         {
             string text = tbMinutesStart.Text;
             if (int.TryParse(text, out int minutes))
@@ -161,7 +161,7 @@ namespace HealthCare.View.AppointmentView
             }
         }
 
-        private void tbMinutesEnd_TextChanged(object sender, TextChangedEventArgs e)
+        private void TbMinutesEnd_TextChanged(object sender, TextChangedEventArgs e)
         {
             string text = tbMinutesEnd.Text;
             if (int.TryParse(text, out int minutes))
@@ -178,7 +178,7 @@ namespace HealthCare.View.AppointmentView
             }
         }
 
-        private void btnCreate_Click(object sender, RoutedEventArgs e)
+        private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
             if (appointmentListView.SelectedItems.Count != 1) 
             {
