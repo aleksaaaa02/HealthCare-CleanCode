@@ -1,8 +1,12 @@
-﻿using HealthCare.Repository;
+﻿using HealthCare;
+using HealthCare.Repository;
 using HealthCare.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace HealthCare.Model
 {

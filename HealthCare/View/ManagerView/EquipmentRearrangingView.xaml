@@ -9,11 +9,11 @@
         SizeToContent="WidthAndHeight" Closed="Window_Closed">
     <Window.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource RoundedButton}">
-            <Setter Property="Width" Value="90" />
-            <Setter Property="Height" Value="40" />
+            <Setter Property="Width" Value="70" />
+            <Setter Property="Height" Value="35" />
             <Setter Property="Margin" Value="5 0" />
         </Style>
-        <Style TargetType="{x:Type ListViewItem}">
+        <Style TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         </Style>
     </Window.Resources>
@@ -76,21 +76,21 @@
                     <GridViewColumn Width="auto" Header="Prostorija">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding RoomName}" Foreground="{Binding Color}" TextAlignment="Right"/>
+                                <TextBlock Text="{Binding RoomName}" TextAlignment="Right"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Width="auto" Header="Tip prostorije">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding RoomType}" Foreground="{Binding Color}" TextAlignment="Right"/>
+                                <TextBlock Text="{Binding RoomType}" TextAlignment="Right"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Width="auto" Header="Trenutno stanje">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Quantity}" Foreground="{Binding Color}" TextAlignment="Left"/>
+                                <TextBlock Text="{Binding Quantity}" TextAlignment="Left"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

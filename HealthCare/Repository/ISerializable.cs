@@ -1,4 +1,6 @@
-﻿namespace HealthCare.Repository
+﻿using System.Linq;
+
+namespace HealthCare.Repository
 {
     public interface ISerializable
     {

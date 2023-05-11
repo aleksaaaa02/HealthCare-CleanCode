@@ -1,4 +1,10 @@
 ﻿using HealthCare.Repository;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
@@ -6,7 +12,10 @@ namespace HealthCare.Model
     {
         public override object Key {
             get => Id;
-            set { Id = (int)value; } 
+            set
+            {
+                Id = (int)value;
+            } 
         }
         public int Id { get; set; }
         public int EquipmentId { get; set; }
@@ -14,8 +23,6 @@ namespace HealthCare.Model
         public int Quantity { get; set; }
         public InventoryItem() : this(0) { }
         public InventoryItem(int id) : this(id, 0, 0, 0) { }
-        public InventoryItem(int equipmentId, int roomId, int quantity) :
-            this(0, equipmentId, roomId, quantity) { }
         public InventoryItem(int id, int equipmentId, int roomId, int quantity)
         {
             Id = id;
@@ -39,17 +46,6 @@ namespace HealthCare.Model
             EquipmentId = int.Parse(values[1]);
             RoomId = int.Parse(values[2]);
             Quantity = int.Parse(values[3]);
-        }
-
-        public override bool Equals(object? obj)
-        {
-            return obj is InventoryItem item && (Id == item.Id || 
-                (EquipmentId == item.EquipmentId && RoomId == item.RoomId));
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
     }
 }

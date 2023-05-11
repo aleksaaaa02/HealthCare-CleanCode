@@ -1,4 +1,9 @@
 ﻿using HealthCare.Repository;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
@@ -8,7 +13,7 @@ namespace HealthCare.Model
         public int Id { get; set; }
         public string Text { get; set; }
         public bool Seen { get; set; }
-        public string[] Recipients { get; set; }
+        public string[] UserJmbgs { get; set; }
         public Notification() : this("", new string[0]) { }
         public Notification(string text, params string[] userJmbgs) :
             this(0, text, false, userJmbgs)
@@ -19,7 +24,7 @@ namespace HealthCare.Model
             Id = id;
             Text = text;
             Seen = seen;
-            Recipients = userJmbgs;
+            UserJmbgs = userJmbgs;
         }
 
         public string Display()
@@ -30,14 +35,14 @@ namespace HealthCare.Model
 
         public string[] ToCSV()
         {
-            string jmbgs = Utility.ToString(Recipients);
+            string jmbgs = Utility.ToString(UserJmbgs);
             return new string[] { Id.ToString(), jmbgs, Text, Seen.ToString() };
         }
 
         public void FromCSV(string[] values)
         {
             Id = int.Parse(values[0]);
-            Recipients = values[1].Split("|");
+            UserJmbgs = values[1].Split("|");
             Text = values[2];
             Seen = bool.Parse(values[3]);
         }

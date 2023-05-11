@@ -1,10 +1,25 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
+using System.Windows.Markup;
 using HealthCare.Model;
+using HealthCare.Observer;
+using HealthCare.Storage;
+using HealthCare.View.PatientView;
 
 namespace HealthCare.Service
 {
-    public class PatientService : Service<Patient>, IUserService
+	public class PatientService : Service<Patient>
 	{
-		public PatientService(string filepath) : base(filepath) { }
+		private List<IObserver> observers;
+
+		public PatientService(string filepath) : base(filepath)
+		{
+            observers = new List<IObserver>();
+        }
 
 		public bool CreateAccount(Patient newPatient)
 		{
@@ -47,14 +62,27 @@ namespace HealthCare.Service
 			Update(patient);
 		}
 
+        public void Subscribe(IObserver observer)
+        {
+			observers.Add(observer);
+        }
+
+        public void Unsubscribe(IObserver observer)
+        {
+			observers.Remove(observer);
+        }
+
+        public void NotifyObservers()
+        {
+            foreach(var observer in observers)
+			{
+				observer.Update();
+			}
+        }
+
         public User? GetByUsername(string username)
         {
             return GetAll().Find(x => x.UserName == username);
-        }
-
-        public UserRole GetRole()
-        {
-            return UserRole.Patient;
         }
     }
 }
