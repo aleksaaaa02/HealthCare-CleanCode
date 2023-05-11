@@ -28,10 +28,10 @@
             <TextBlock HorizontalAlignment="Left" Margin="176,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Minuti kraj:" Width="80"/>
             <TextBlock HorizontalAlignment="Left" Margin="176,103,0,0" TextWrapping="Wrap" Text="Minuti pocetak" VerticalAlignment="Top"/>
             <TextBlock HorizontalAlignment="Left" Margin="21,140,0,0" TextWrapping="Wrap" Text="Sati kraj:" VerticalAlignment="Top"/>
-            <TextBox x:Name="tbHoursStart" HorizontalAlignment="Left" Margin="103,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62"/>
-            <TextBox x:Name="tbMinutesStart" HorizontalAlignment="Left" Margin="276,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62"/>
-            <TextBox x:Name="tbHoursEnd" HorizontalAlignment="Left" Margin="103,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62"/>
-            <TextBox x:Name="tbMinutesEnd" HorizontalAlignment="Left" Margin="276,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62"/>
+            <TextBox x:Name="tbHoursStart" HorizontalAlignment="Left" Margin="103,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="tbHoursStart_TextChanged" Text="0"/>
+            <TextBox x:Name="tbMinutesStart" HorizontalAlignment="Left" Margin="276,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="tbMinutesStart_TextChanged" Text="0"/>
+            <TextBox x:Name="tbHoursEnd" HorizontalAlignment="Left" Margin="103,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="tbHoursEnd_TextChanged" Text="23"/>
+            <TextBox x:Name="tbMinutesEnd" HorizontalAlignment="Left" Margin="276,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="tbMinutesEnd_TextChanged" Text="59"/>
             <RadioButton x:Name="radioDoktor" Content="Doktor" HorizontalAlignment="Left" Margin="241,63,0,0" VerticalAlignment="Top"/>
             <RadioButton x:Name="radioDatum" Content="Datum" HorizontalAlignment="Left" Margin="325,62,0,0" VerticalAlignment="Top"/>
 
@@ -72,7 +72,8 @@
         </Grid>
 
         <Grid Grid.Row="3" Grid.ColumnSpan="2">
-            <Button x:Name="btnCreate" Content="Kreiraj pregled" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" RenderTransformOrigin="-0.701,-0.27" Click="btnCreate_Click"/>
+            <Button x:Name="btnShow" Content="Prikazi preglede" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" RenderTransformOrigin="-0.701,-0.27" Click="btnShow_Click" Width="95"/>
+            <Button x:Name="btnCreate" Content="Kreiraj pregled" HorizontalAlignment="Left" Margin="131,0,0,0" VerticalAlignment="Center" Width="90" Click="btnCreate_Click"/>
         </Grid>
     </Grid>
 </Window>
