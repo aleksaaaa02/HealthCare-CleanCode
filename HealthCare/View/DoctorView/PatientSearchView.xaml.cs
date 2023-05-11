@@ -1,5 +1,5 @@
 ﻿using HealthCare.Context;
-using HealthCare.ViewModel.DoctorViewModel;
+using HealthCare.ViewModel.DoctorViewModel.PatientInformation;
 using System.Windows;
 
 namespace HealthCare.View.DoctorView

@@ -1,11 +1,5 @@
 ﻿using HealthCare.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Diagnostics;
-using System.Windows.Input;
 
 namespace HealthCare.Service
 {
@@ -18,32 +12,30 @@ namespace HealthCare.Service
             _inventory = inventory;
         }
 
-        public bool Execute(TransferItem transfer) {
-            InventoryItem reduceItem = new InventoryItem(
-                0, transfer.EquipmentId, transfer.FromRoom, transfer.Quantity);
-            InventoryItem restockItem = new InventoryItem(
-                0, transfer.EquipmentId, transfer.ToRoom, transfer.Quantity);
+        public void Execute(TransferItem transfer) {
+            var reduceItem = new InventoryItem(
+                transfer.EquipmentId, transfer.FromRoom, transfer.Quantity);
+            var restockItem = new InventoryItem(
+                transfer.EquipmentId, transfer.ToRoom, transfer.Quantity);
 
             if (!_inventory.TryReduceInventoryItem(reduceItem))
-                return false;
+                return;
 
             _inventory.RestockInventoryItem(restockItem);
             transfer.Executed = true;
 
-            if (!Contains(transfer.Id)) 
+            if (transfer.Id == 0) 
                 Add(transfer);
-            else Update(transfer);
-            return true;
+            else 
+                Update(transfer);
         }
 
-        public int ExecuteTransfers()
+        public void ExecuteAll()
         {
-            int failed = 0;
             GetAll().ForEach(x => {
-                if (!x.Executed && x.Scheduled <= DateTime.Now && !Execute(x))
-                    ++failed;
+                if (!x.Executed && x.Scheduled <= DateTime.Now)
+                    Execute(x);
             });
-            return failed;
         }
     }
 }

@@ -54,7 +54,7 @@
                 </ListView>
             </Grid>
             <Grid Grid.Row = "2" Margin="10 0">
-                <Button Content="Azuriraj zdravstveni karton" Width="150" Margin="0 5" Command="{Binding UpdatePatientCommand}"/>
+                <Button Content="Azuriraj zdravstveni karton" Width="150" Height="30" Margin="0 5" Command="{Binding UpdatePatientCommand}"/>
             </Grid>
         </Grid>
         <Grid Grid.Column="1">
@@ -68,11 +68,26 @@
                     <TextBlock Text="Anamneza" HorizontalAlignment="Left" FontSize="24" FontWeight="Bold"/>
 
                     <Label Content="Simptomi:" HorizontalAlignment="Left"/>
-                    <TextBox VerticalScrollBarVisibility="Visible" Text="{Binding Symptoms}" Height="100" Focusable="False"/>
+                    <TextBox VerticalScrollBarVisibility="Visible" Text="{Binding Symptoms}" VerticalContentAlignment="Top" Height="100" Focusable="False"/>
 
                     <Label Content="Zapazanja:" HorizontalAlignment="Left"/>
-                    <TextBox VerticalScrollBarVisibility="Visible" Height="125" Text="{Binding Conclusion}"/>
-                </StackPanel>
+                    <TextBox VerticalScrollBarVisibility="Visible" Text="{Binding Conclusion}" VerticalContentAlignment="Top" Height="125"/>
+                    <ScrollViewer Height="150"  Margin="0 5 0 0">
+                        <ListView ItemsSource="{Binding Allergies}" SelectionMode="Single">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Naziv Alergije" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Padding="0 0 20 0"  Text="{Binding}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </ScrollViewer>
+                 </StackPanel>
             </ScrollViewer>
             <StackPanel Grid.Row="1" VerticalAlignment="Center">
                 <Button Content="Zavrsi Pregled" HorizontalAlignment="Center" Margin="0 0 0 5" Width="120" Height="30" Command="{Binding FinishExaminationCommand}"  VerticalAlignment="Center"/>

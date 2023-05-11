@@ -28,7 +28,7 @@
         <Button Grid.Row="0" Grid.Column="1"
                 Content="Poručivanje dinamičke opreme" Click="Button_Ordering" />
         <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                Content="Raspoređivanje opreme" Click="Button_Rearanging" />
+                Content="Raspoređivanje opreme" Click="Button_Rearranging" />
         <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                 Content="Odjava" Click="Button_Logout" />
     </Grid>

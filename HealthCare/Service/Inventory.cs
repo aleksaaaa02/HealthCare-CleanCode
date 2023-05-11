@@ -1,44 +1,29 @@
-﻿using HealthCare.Exceptions;
-using HealthCare.Model;
-using HealthCare.Repository;
-using HealthCare.Storage;
-using System;
-using System.Collections;
+﻿using HealthCare.Model;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
-    public class Inventory : Service<InventoryItem>
+    public class Inventory : NumericService<InventoryItem>
     {
         public Inventory(string filepath) : base(filepath) { }
 
         public int GetTotalQuantity(int equipmentId)
         {
-            int quantity = 0;
-            GetAll().ForEach(x => { 
-                if (x.EquipmentId == equipmentId) 
-                    quantity += x.Quantity; 
-            });
-            return quantity;
+            return GetEquipmentItems(equipmentId).Sum(x => x.Quantity);
         }
 
-        public IEnumerable<int> GetLowQuantityEquipment(int threshold = 5)
+        public IEnumerable<int> GetLowQuantityEquipment(int threshold = 200)
         {
-            List<int> equipment = new List<int>();
-            GetAll().ForEach(x => {
-                if (x.Quantity <= threshold)
-                    equipment.Add(x.EquipmentId);
-            });
-            return equipment;
+            return GetAll()
+                .GroupBy(x => x.EquipmentId)
+                .Where(group => group.Sum(x => x.Quantity) < threshold)
+                .Select(group => group.Key);
         }
 
         public void RestockInventoryItem(InventoryItem item)
         {
-            InventoryItem? found = TryGet(item.Key);
+            var found = GetAll().Find(x => x.Equals(item));
 
             if (found is not null) {
                 found.Quantity += item.Quantity;
@@ -49,7 +34,7 @@ namespace HealthCare.Service
 
         public bool TryReduceInventoryItem(InventoryItem item)
         {
-            InventoryItem? found = TryGet(item.Key);
+            var found = GetAll().Find(x => x.Equals(item));
 
             if (found is null || found.Quantity < item.Quantity)
                     return false;
@@ -64,16 +49,12 @@ namespace HealthCare.Service
 
         public IEnumerable<InventoryItem> GetEquipmentItems(int equipmentId)
         {
-            List<InventoryItem> items = new List<InventoryItem>();
-            GetAll().ForEach(x => {
-                if (x.EquipmentId == equipmentId)
-                    items.Add(x);
-            });
-            return items;
+            return GetAll().Where(x => x.EquipmentId == equipmentId);
         }
+
         public IEnumerable<InventoryItem> GetRoomItems(int roomId)
         {
-            return GetAll().FindAll(x => x.RoomId==roomId);
+            return GetAll().Where(x => x.RoomId == roomId);
         }
 
         public void ChangeDynamicEquipmentQuantity(Dictionary<int, int> newQuantites)

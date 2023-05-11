@@ -13,8 +13,6 @@
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         </Style>
         <Style x:Key="filterButton" TargetType="ToggleButton">
-            <EventSetter Event="Checked" Handler="Filter_View" />
-            <EventSetter Event="Unchecked" Handler="Filter_View" />
             <Setter Property="Margin" Value="10 3" />
         </Style>
         <Style TargetType="CheckBox" BasedOn="{StaticResource filterButton}" />
@@ -40,22 +38,25 @@
         <DockPanel Grid.Row="1" Grid.Column="0" Margin="10 0">
             <StackPanel DockPanel.Dock="Top">
                 <Label Content="Tip prostorije:"/>
-                <CheckBox Name="cbExaminationalRT" Content="za preglede"/>
-                <CheckBox Name="cbOperationalRT" Content="operaciona"/>
-                <CheckBox Name="cbPatientCareRT" Content="smestaj bolesnika"/>
-                <CheckBox Name="cbReceptionRT" Content="recepcija"/>
-                <CheckBox Name="cbWarehouseRT" Content="magacin"/>
+                <CheckBox Content="za preglede" IsChecked="{Binding TgExaminationalRm, Mode=TwoWay}"/>
+                <CheckBox Content="operaciona" IsChecked="{Binding TgOperationalRm, Mode=TwoWay}"/>
+                <CheckBox Content="smestaj bolesnika" IsChecked="{Binding TgPatientCareRm, Mode=TwoWay}"/>
+                <CheckBox Content="recepcija" IsChecked="{Binding TgReceptionRm, Mode=TwoWay}"/>
+                <CheckBox Content="magacin" IsChecked="{Binding TgWarehouseRm, Mode=TwoWay}"/>
                 
                 <Label Content="Tip opreme:" Margin="0 10 0 0"/>
-                <CheckBox Name="cbExaminationalET" Content="za preglede"/>
-                <CheckBox Name="cbOperationalET" Content="operaciona"/>
-                <CheckBox Name="cbFurnitureET" Content="sobni namestaj"/>
-                <CheckBox Name="cbHallwayET" Content="oprema za hodnike"/>
+                <CheckBox Content="za preglede" IsChecked="{Binding TgExaminationalEq, Mode=TwoWay}"/>
+                <CheckBox Content="operaciona" IsChecked="{Binding TgOperationalEq, Mode=TwoWay}"/>
+                <CheckBox Content="sobni namestaj" IsChecked="{Binding TgFurnitureEq, Mode=TwoWay}"/>
+                <CheckBox Content="oprema za hodnike" IsChecked="{Binding TgHallwayEq, Mode=TwoWay}"/>
                 
                 <Label Content="Kolicina:" Margin="0 10 0 0"/>
-                <RadioButton Name="rbNone"  GroupName="gnQuantity" Content="nema na stanju"/>
-                <RadioButton Name="rbLittle"  GroupName="gnQuantity" Content="0 - 10"/>
-                <RadioButton Name="rbLot"  GroupName="gnQuantity" Content="vise od 10"/>
+                <RadioButton GroupName="gnQuantity" Content="nema na stanju" 
+                             IsChecked="{Binding TgNone, Mode=TwoWay}"/>
+                <RadioButton GroupName="gnQuantity" Content="0 - 10" 
+                             IsChecked="{Binding TgLittle, Mode=TwoWay}"/>
+                <RadioButton GroupName="gnQuantity" Content="vise od 10" 
+                             IsChecked="{Binding TgLot, Mode=TwoWay}"/>
             </StackPanel>
             <StackPanel Margin="0 10">
                 <Button Content="Resetuj" Click="Button_Reset" Margin="20 5" />
@@ -65,7 +66,7 @@
 
         <DockPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="30 0">
             <Label Content="Pretraga:" VerticalAlignment="Center" />
-            <TextBox Name="searchBar" Margin="20 0 0 0" TextChanged="Filter_View" />
+            <TextBox Margin="20 0 0 0" Text="{Binding TbQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </DockPanel>
 
         <ListView Grid.Row="1" Grid.Column="1" Name="lvItems" ItemsSource="{Binding Items}">
