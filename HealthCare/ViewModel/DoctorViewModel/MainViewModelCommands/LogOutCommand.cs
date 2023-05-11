@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using HealthCare.Command;
+﻿using HealthCare.Command;
+using System.Windows;
 
 namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 {

@@ -1,13 +1,11 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
-using HealthCare.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.View.AppointmentView
 {
@@ -24,7 +22,6 @@ namespace HealthCare.View.AppointmentView
             Doctors = new ObservableCollection<Doctor>();
             Appointments = new ObservableCollection<Appointment>();
             LoadDoctors(hospital.DoctorService.GetAll());
-            
         }
 
         public void LoadDoctors(List<Doctor> doctors)
@@ -45,7 +42,7 @@ namespace HealthCare.View.AppointmentView
             }
         }
 
-        public void getAppointments(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor, String priority)
+        public void getAppointments(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor, string priority)
         {
             Appointment resultAppointment;
             if (priority=="Date")
@@ -75,6 +72,7 @@ namespace HealthCare.View.AppointmentView
             }
             LoadAppointments(appointments);
         }
+
         public Appointment GetAppointmentByDoctor(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor)
         {
             DateTime startDate = DateTime.Today;
@@ -168,7 +166,7 @@ namespace HealthCare.View.AppointmentView
         public void IsUserBlocked()
         {
             Patient patient = (Patient)_hospital.Current;
-            using (var reader = new StreamReader("../../../Resource/PatientLogs.csv", Encoding.Default))
+            using (var reader = new StreamReader(Global.patientLogsPath, Encoding.Default))
             {
                 string line;
                 int updateDeleteCounter = 0;

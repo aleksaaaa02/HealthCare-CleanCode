@@ -1,18 +1,14 @@
-using HealthCare.View.AppointmentView;
-
 using HealthCare.Context;
 using HealthCare.Exceptions;
-
+using HealthCare.Model;
+using HealthCare.Service;
+using HealthCare.View;
+using HealthCare.View.AppointmentView;
 using HealthCare.View.DoctorView;
 using HealthCare.View.ManagerView;
 using HealthCare.View.PatientView;
-using System.Windows;
-using HealthCare.View.ReceptionView;
-using HealthCare.View.UrgentAppointmentView;
-using HealthCare.Model;
-using HealthCare.View;
 using System.ComponentModel;
-using HealthCare.Service;
+using System.Windows;
 
 namespace HealthCare
 {

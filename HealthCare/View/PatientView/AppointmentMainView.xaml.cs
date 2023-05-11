@@ -11,13 +11,9 @@ using System.Windows.Controls;
 
 namespace HealthCare.View.AppointmentView
 {
-    /// <summary>
-    /// Interaction logic for AppointmentMainView.xaml
-    /// </summary>
     public partial class AppointmentMainView : Window
     {
         Hospital _hospital;
-        Appointment selectedAppointment;
         public AppointmentMainView(Hospital hospital)
         {
             InitializeComponent();
@@ -29,13 +25,13 @@ namespace HealthCare.View.AppointmentView
         public void WriteActionToFile(string action)
         {
             string stringtocsv = _hospital.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
-            File.AppendAllText("../../../Resource/PatientLogs.csv",stringtocsv);
+            File.AppendAllText(Global.patientLogsPath, stringtocsv);
         }
 
         public void IsUserBlocked()
         {
             Patient patient = (Patient)_hospital.Current;
-            using (var reader = new StreamReader("../../../Resource/PatientLogs.csv", Encoding.Default))
+            using (var reader = new StreamReader(Global.patientLogsPath, Encoding.Default))
             {
                 string line;
                 int updateDeleteCounter = 0;

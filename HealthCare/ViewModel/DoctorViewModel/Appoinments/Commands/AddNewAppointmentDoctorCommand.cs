@@ -26,7 +26,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
             _isEditing = isEditing;
         }
 
-
         public override void Execute(object parameter)
         {
             if (_makeAppointmentViewModel.SelectedPatient is null)
