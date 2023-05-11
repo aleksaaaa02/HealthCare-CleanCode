@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,42 +21,17 @@ namespace HealthCare.Service
         }
         public static List<Appointment> GetDoctorAppointments(Doctor Doctor)
         {
-            List<Appointment> DoctorAppointments = new List<Appointment>();
-            foreach (Appointment appointment in Appointments)
-            {
-                if (appointment.Doctor.Equals(Doctor))
-                {
-                    DoctorAppointments.Add(appointment);
-                }
-            }
-            return DoctorAppointments;
+            return Appointments.Where(x => x.Doctor.Equals(Doctor)).ToList();
         }
 
         public static List<Appointment> GetDoctorAppointmentsForDays(Doctor doctor, DateTime start, int days)
         {
-            List<Appointment> appointments = new List<Appointment>();
             DateTime end = start.AddDays(days);
-            foreach (Appointment appointment in GetDoctorAppointments(doctor))
-            {
-                if (appointment.TimeSlot.InBetweenDates(start, end))
-                {
-                    appointments.Add(appointment);
-                }
-            }
-            return appointments;
-
+            return GetDoctorAppointments(doctor).Where(x => x.TimeSlot.InBetweenDates(start, end)).ToList();
         }
         public static List<Appointment> GetPatientAppointments(Patient Patient)
         {
-            List<Appointment> PatientAppointments = new List<Appointment>();
-            foreach (Appointment appointment in Appointments)
-            {
-                if (appointment.Patient.Equals(Patient))
-                {
-                    PatientAppointments.Add(appointment);
-                }
-            }
-            return PatientAppointments;
+            return Appointments.Where(x => x.Patient.Equals(Patient)).ToList();
         }
 
         public static bool CreateAppointment(Appointment appointment)
@@ -102,7 +77,8 @@ namespace HealthCare.Service
         public static void DeleteAppointment(int appointmentID)
         {
             Appointment? appointment = Appointments.Find(x => x.AppointmentID == appointmentID);
-            if (appointment != null)
+
+            if (appointment is not null) 
             {
                 Appointments.Remove(appointment);
                 Save(Global.appointmentPath);
@@ -139,13 +115,6 @@ namespace HealthCare.Service
             return GetPatientAppointments(patient).Find(x =>
                     !x.IsOperation && reception < x.TimeSlot.Start
                     && reception >= x.TimeSlot.Start.AddMinutes(-15));
-
-            /*foreach (Appointment appointment in GetPatientAppointments(patient))
-                if (!appointment.IsOperation && reception<appointment.TimeSlot.Start 
-                    && reception >= appointment.TimeSlot.Start.AddMinutes(-15))
-                    return appointment;
-
-            return null;*/
         }
 
         public static Appointment? TryGetUrgent(TimeSpan duration, List<Doctor> specialists)
@@ -193,14 +162,6 @@ namespace HealthCare.Service
         public static List<Appointment> GetPostponable(TimeSpan duration, Doctor specialist)
         {
             var postponable = GetDoctorAppointments(specialist).FindAll(x => x.TimeSlot.Start >= DateTime.Now);
-
-            /*foreach (Appointment appointment in GetDoctorAppointments(specialist))
-            {
-                DateTime start = appointment.TimeSlot.Start;
-                if (start >= DateTime.Now)
-                    postponable.Add(appointment);
-            }*/
-
             return FilterPostponable(duration, postponable);
         }
 
@@ -225,15 +186,6 @@ namespace HealthCare.Service
                         (x.Patient.Equals(appointment.Patient) ||
                         x.Doctor.Equals(appointment.Doctor)) &&
                         x.TimeSlot.Overlaps(appointment.TimeSlot));
-
-            /*foreach (Appointment a in Appointments)
-            {
-                if (a.Doctor.Equals(appointment.Doctor) && 
-                    a.TimeSlot.Overlaps(appointment.TimeSlot) &&
-                    a.Patient.Equals(appointment.Patient))
-                    appointments.Add(a);
-            }
-            return appointments;*/
         }
 
         public static DateTime GetSoonestStartingTime(Appointment appointment)

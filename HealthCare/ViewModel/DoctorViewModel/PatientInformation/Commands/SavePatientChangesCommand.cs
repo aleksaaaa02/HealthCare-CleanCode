@@ -1,19 +1,21 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Command;
+using HealthCare.Context;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.View;
-using HealthCare.View.DoctorView;
+using HealthCare.ViewModel.DoctorViewModel.PatientInformation;
 using System.Linq;
 using System.Windows;
 
-namespace HealthCare.Command
+namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 {
     public class SavePatientChangesCommand : CommandBase
     {
         private readonly PatientInforamtionViewModel _viewModel;
         private readonly Hospital _hospital;
         private readonly Patient _selectedPatient;
-        public SavePatientChangesCommand(Hospital hospital, Patient patient, PatientInforamtionViewModel viewModel) {
+        public SavePatientChangesCommand(Hospital hospital, Patient patient, PatientInforamtionViewModel viewModel)
+        {
             _hospital = hospital;
             _viewModel = viewModel;
             _selectedPatient = patient;
@@ -38,8 +40,8 @@ namespace HealthCare.Command
             float weight = _viewModel.Weight;
             float height = _viewModel.Height;
             string[] medicalHistory = _viewModel.PreviousDisease.ToArray();
-            
-            MedicalRecord updatedMedicalRecord = new MedicalRecord(height, weight, medicalHistory);
+            string[] allergies = _viewModel.Allergies.ToArray();
+            MedicalRecord updatedMedicalRecord = new MedicalRecord(height, weight, medicalHistory, allergies);
 
             _hospital.PatientService.UpdatePatientMedicalRecord(_selectedPatient, updatedMedicalRecord);
 
@@ -51,7 +53,7 @@ namespace HealthCare.Command
         }
         private void Validate()
         {
-            if(_viewModel.Weight <= 0)
+            if (_viewModel.Weight <= 0)
             {
                 throw new ValidationException("Neispravan unos tezine");
             }

@@ -1,5 +1,4 @@
-﻿using HealthCare.Command;
-using HealthCare.Context;
+﻿using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.ViewModel;
 using HealthCare.Service;
@@ -7,6 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Windows;
+using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
+using HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands;
+using HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands;
 
 namespace HealthCare.ViewModels.DoctorViewModel
 {
@@ -26,6 +29,8 @@ namespace HealthCare.ViewModels.DoctorViewModel
         public ICommand ApplyFilterCommand { get; }
         public ICommand ShowPatientSearchCommand { get; }
         public ICommand StartExaminationCommand { get; }
+        public ICommand ResetFilterCommand { get; }
+        public ICommand LogOutCommand { get; }
 
         public DateTime StartDate
         {
@@ -56,12 +61,14 @@ namespace HealthCare.ViewModels.DoctorViewModel
             }
         }
 
-        public DoctorMainViewModel(Hospital hospital)
+        public DoctorMainViewModel(Hospital hospital, MainWindow mainWindow, Window window)
         {
             _hospital = hospital;
             _appointments = new ObservableCollection<AppointmentViewModel>();
             Update();
 
+            ResetFilterCommand = new ResetFilterCommand(this);
+            LogOutCommand = new LogOutCommand(mainWindow, window);
             CreateAppointmentViewCommand = new MakeAppointmentNavigationCommand(hospital, this);
             EditAppointmentCommand = new EditAppointmentDoctorCommand(hospital, this);
             DeleteAppointmentCommand = new DeleteAppointmentCommand(hospital, this);

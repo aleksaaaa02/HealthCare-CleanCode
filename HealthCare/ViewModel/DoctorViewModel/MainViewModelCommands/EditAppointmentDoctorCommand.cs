@@ -1,14 +1,16 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Command;
+using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View;
 using HealthCare.View.DoctorView;
+using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Windows;
 
-namespace HealthCare.Command
+namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 {
     public class EditAppointmentDoctorCommand : CommandBase
     {
@@ -17,7 +19,7 @@ namespace HealthCare.Command
         public EditAppointmentDoctorCommand(Hospital hospital, DoctorMainViewModel viewModel)
         {
             _hospital = hospital;
-            _doctorMainViewModel = viewModel;   
+            _doctorMainViewModel = viewModel;
         }
 
         public override void Execute(object parameter)
@@ -36,7 +38,7 @@ namespace HealthCare.Command
         private void EditSelectedAppointment()
         {
             AppointmentViewModel appointmentViewModel = _doctorMainViewModel.SelectedPatient;
-            Appointment selectedAppointment = Schedule.GetAppointment(Convert.ToInt32(appointmentViewModel.AppointmentID));
+            Appointment selectedAppointment = Schedule.GetAppointment(appointmentViewModel.AppointmentID);
             MakeAppointmentView makeAppointmentView = new MakeAppointmentView(_hospital, _doctorMainViewModel, selectedAppointment);
             makeAppointmentView.ShowDialog();
         }
@@ -49,11 +51,11 @@ namespace HealthCare.Command
                 throw new ValidationException("Morate odabrati pregled/operaciju iz tabele!");
             }
 
-            Appointment selectedAppointment = Schedule.GetAppointment(Convert.ToInt32(appointmentViewModel.AppointmentID));
+            Appointment selectedAppointment = Schedule.GetAppointment(appointmentViewModel.AppointmentID);
             if (selectedAppointment == null)
             {
                 throw new ValidationException("Ups doslo je do greske");
-                
+
             }
 
         }

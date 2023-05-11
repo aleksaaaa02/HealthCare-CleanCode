@@ -1,4 +1,5 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Command;
+using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View;
@@ -7,14 +8,14 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Windows;
 
-namespace HealthCare.Command
+namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 {
     class ApplyFilterCommand : CommandBase
     {
         private readonly DoctorMainViewModel _doctorMainViewModel;
         private readonly Hospital _hospital;
-        public ApplyFilterCommand(Hospital hospital, DoctorMainViewModel viewModel) 
-        { 
+        public ApplyFilterCommand(Hospital hospital, DoctorMainViewModel viewModel)
+        {
             _doctorMainViewModel = viewModel;
             _hospital = hospital;
         }
