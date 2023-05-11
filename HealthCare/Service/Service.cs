@@ -1,25 +1,24 @@
-﻿using HealthCare.Model;
-using HealthCare.Repository;
-using System;
+﻿using HealthCare.Repository;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
     public abstract class Service<T> where T : Indentifier, ISerializable, new()
     {
         protected Repository<T> _repository;
+
         public Service(string filepath)
         {
             _repository = new Repository<T>(filepath);
         }
+
+        // can return null if not found
         public T? TryGet(object id)
         {
             return _repository.Get(id);
         }
 
+        // must return an object
         public T Get(object id)
         {
             T? item = _repository.Get(id);

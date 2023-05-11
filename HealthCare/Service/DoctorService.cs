@@ -1,14 +1,11 @@
 ﻿using HealthCare.Model;
-using HealthCare.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
-    public class DoctorService : Service<Doctor>
+    public class DoctorService : Service<Doctor>, IUserService
     {
         public DoctorService(string filePath) : base(filePath) { }  
 
@@ -35,7 +32,7 @@ namespace HealthCare.Service
             return GetAll();
         }
 
-        public Doctor? GetByUsername(string username)
+        public User? GetByUsername(string username)
         {
             return GetAll().Find(x => x.UserName == username);
         }
@@ -59,6 +56,11 @@ namespace HealthCare.Service
             foreach (Doctor doctor in GetAll())
                 specializations.Add(doctor.Specialization);
             return specializations;
+        }
+
+        public UserRole GetRole()
+        {
+            return UserRole.Doctor;
         }
     }
 }

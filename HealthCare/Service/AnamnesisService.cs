@@ -1,10 +1,4 @@
 using HealthCare.Model;
-using HealthCare.Storage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
@@ -19,7 +13,8 @@ namespace HealthCare.Service
 
         public int AddAnamnesis(Anamnesis anamnesis)
         {
-            return AddWithNewId(anamnesis);
+            Add(anamnesis);
+            return anamnesis.ID;
         }
     }
 }

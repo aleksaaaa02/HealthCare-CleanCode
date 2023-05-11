@@ -1,6 +1,5 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
-using HealthCare.Observer;
 using HealthCare.Service;
 using HealthCare.ViewModel.NurseViewModel;
 using System;
