@@ -1,10 +1,5 @@
 ﻿using HealthCare.Command;
 using HealthCare.ViewModels.DoctorViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 {
@@ -19,6 +14,5 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
         {
             _viewModel.Update();
         }
-
     }
 }

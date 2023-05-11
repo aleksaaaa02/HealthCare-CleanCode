@@ -67,7 +67,7 @@ namespace HealthCare.View.AppointmentView
             Anamnesis anamnesis;
             try 
             {
-                anamnesis = _hospital.AnamnesisService.GetByID(appointment.AnamnesisID);     
+                anamnesis = _hospital.AnamnesisService.Get(appointment.AnamnesisID);     
             }
             catch
             {

@@ -1,7 +1,8 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Context;
+using HealthCare.Model;
+using System;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls.Primitives;
 
 namespace HealthCare.View
 {
@@ -88,6 +89,11 @@ namespace HealthCare.View
         public static string ToString(string[] arr, string delimiter = ", ")
         {
             return string.Join(delimiter, arr);
+        }
+
+        public static string ToString(DateTime date)
+        {
+            return date.ToString(Global.dateFormat);
         }
     }
 }

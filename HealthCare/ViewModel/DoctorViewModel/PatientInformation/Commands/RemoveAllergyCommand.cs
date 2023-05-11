@@ -1,11 +1,6 @@
 ﻿using HealthCare.Command;
 using HealthCare.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using HealthCare.View;
 
 namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 {
@@ -26,7 +21,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
             
             } catch(ValidationException ve)
             {
-                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Utility.ShowWarning(ve.Message);
             }
 
         }
@@ -36,7 +31,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
             {
                 throw new ValidationException("Morate odabrati alergiju koju zelite da uklonite.");
             }
-
         }
     }
 }

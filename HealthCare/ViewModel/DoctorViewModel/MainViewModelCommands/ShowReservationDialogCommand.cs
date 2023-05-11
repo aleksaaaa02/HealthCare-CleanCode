@@ -3,6 +3,7 @@ using HealthCare.Context;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.View;
 using HealthCare.View.DoctorView.RoomReservation;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModels.DoctorViewModel;
@@ -15,6 +16,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
     {
         private readonly Hospital _hospital;
         private readonly DoctorMainViewModel _viewModel;
+
         public ShowReservationDialogCommand(Hospital hospital, DoctorMainViewModel viewModel)
         {
             _hospital = hospital;
@@ -23,22 +25,22 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 
         public override void Execute(object parameter)
         {
-
             try
             {
                 Validate();
-                AppointmentViewModel selectedAppointment = _viewModel.SelectedPatient;
+                AppointmentViewModel selectedAppointment = _viewModel.SelectedAppointment;
                 Appointment appointment = Schedule.GetAppointment(selectedAppointment.AppointmentID);
                 new RoomReservationView(_hospital, appointment).Show();
             }
             catch (ValidationException ve)
             {
-                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Utility.ShowWarning(ve.Message);
             }
         }
+
         private void Validate()
         {
-            AppointmentViewModel selectedAppointment = _viewModel.SelectedPatient;
+            AppointmentViewModel selectedAppointment = _viewModel.SelectedAppointment;
             if (selectedAppointment is null)
             {
                 throw new ValidationException("Morate odabrati pregled iz tabele!");

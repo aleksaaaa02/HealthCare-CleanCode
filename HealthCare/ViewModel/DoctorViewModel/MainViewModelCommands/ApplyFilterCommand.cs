@@ -32,7 +32,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
             }
             catch (ValidationException ve)
             {
-                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+                Utility.ShowWarning(ve.Message);
             }
         }
         private void Validate()

@@ -1,6 +1,5 @@
 ﻿using HealthCare.Model;
-using HealthCare.Repository;
-using HealthCare.ViewModel;
+using HealthCare.View;
 
 namespace HealthCare.ViewModel.DoctorViewModel.DataViewModel
 {
@@ -10,7 +9,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.DataViewModel
         public string JMBG => _patient.JMBG;
         public string NameAndLastName => _patient.Name + " " + _patient.LastName;
         public string Birthday => Utility.ToString(_patient.BirthDate);
-        public string Gender => _patient.Gender.ToString();
+        public string Gender => Utility.Translate(_patient.Gender);
 
         public PatientViewModel(Patient patient)
         {

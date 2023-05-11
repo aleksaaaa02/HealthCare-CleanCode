@@ -11,8 +11,8 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
         public ShowPatientSearchViewCommand(Hospital hospital)
         {
             _hospital = hospital;
-
         }
+
         public override void Execute(object parameter)
         {
             new PatientSearchView(_hospital).Show();

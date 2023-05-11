@@ -27,6 +27,11 @@ namespace HealthCare.Model
             return start < End && end > Start;
         }
 
+        public bool Contains(DateTime date)
+        {
+            return Start < date && End > date;
+        }
+
         public override string ToString()
         {
             return Utility.ToString(Start) + "|" + Utility.ToString(Duration);

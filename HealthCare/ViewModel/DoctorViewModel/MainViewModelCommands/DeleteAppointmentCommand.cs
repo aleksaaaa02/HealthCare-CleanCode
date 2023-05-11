@@ -13,11 +13,9 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 {
     class DeleteAppointmentCommand : CommandBase
     {
-        private readonly Hospital _hospital;
         private readonly DoctorMainViewModel _viewModel;
-        public DeleteAppointmentCommand(Hospital hospital, DoctorMainViewModel mainViewModel)
+        public DeleteAppointmentCommand(DoctorMainViewModel mainViewModel)
         {
-            _hospital = hospital;
             _viewModel = mainViewModel;
         }
 
@@ -26,22 +24,22 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
             try
             {
                 Validate();
-                AppointmentViewModel a = _viewModel.SelectedPatient;
-                Appointment appointmnet = Schedule.GetAppointment(a.AppointmentID);
+                AppointmentViewModel a = _viewModel.SelectedAppointment;
+                Appointment appointment = Schedule.GetAppointment(a.AppointmentID);
 
-                Schedule.DeleteAppointment(appointmnet.AppointmentID);
+                Schedule.DeleteAppointment(appointment.AppointmentID);
                 _viewModel.Update();
             }
             catch (ValidationException ve)
             {
-                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Utility.ShowWarning(ve.Message);
             }
         }
 
         private void Validate()
         {
 
-            var selectedAppointmentId = _viewModel.SelectedPatient?.AppointmentID;
+            var selectedAppointmentId = _viewModel.SelectedAppointment?.AppointmentID;
             if (selectedAppointmentId is null)
             {
                 throw new ValidationException("Odaberite pregled/operaciju iz tabele!");

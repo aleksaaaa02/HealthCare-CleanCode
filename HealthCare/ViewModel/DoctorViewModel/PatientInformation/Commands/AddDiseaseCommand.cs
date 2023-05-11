@@ -1,7 +1,6 @@
 ﻿using HealthCare.Command;
 using HealthCare.Exceptions;
-using HealthCare.ViewModel.DoctorViewModel.PatientInformation;
-using System.Windows;
+using HealthCare.View;
 
 namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 {
@@ -13,6 +12,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
         {
             _viewModel = viewModel;
         }
+
         public override void Execute(object parameter)
         {
             try
@@ -22,9 +22,10 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
             }
             catch (ValidationException ve)
             {
-                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Utility.ShowWarning(ve.Message);
             }
         }
+
         private void Validate()
         {
             if (string.IsNullOrWhiteSpace(_viewModel.Disease))

@@ -6,11 +6,6 @@ namespace HealthCare.Service
     {
         public AnamnesisService(string filepath) : base(filepath) { }
 
-        public Anamnesis? GetByID(int ID)
-        {
-            return Get(ID);
-        }
-
         public int AddAnamnesis(Anamnesis anamnesis)
         {
             Add(anamnesis);

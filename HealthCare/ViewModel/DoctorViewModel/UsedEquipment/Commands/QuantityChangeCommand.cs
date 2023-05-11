@@ -1,5 +1,6 @@
 ﻿using HealthCare.Command;
 using HealthCare.Exceptions;
+using HealthCare.View;
 using System.Windows;
 
 namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment.Commands
@@ -22,7 +23,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment.Commands
             }
             catch (ValidationException ve) 
             {
-                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+                Utility.ShowWarning(ve.Message);
             }
         }
         private void Validate()
