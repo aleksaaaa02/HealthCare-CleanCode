@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using HealthCare.Command;
+﻿using HealthCare.Command;
 using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.View;

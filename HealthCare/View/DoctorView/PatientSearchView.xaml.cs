@@ -4,9 +4,6 @@ using System.Windows;
 
 namespace HealthCare.View.DoctorView
 {
-    /// <summary>
-    /// Interaction logic for PatientSearchView.xaml
-    /// </summary>
     public partial class PatientSearchView : Window
     {
         public PatientSearchView(Hospital hospital)

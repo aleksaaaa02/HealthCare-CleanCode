@@ -4,7 +4,6 @@ using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.View;
 using System.Linq;
-using System.Windows;
 
 namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 {
