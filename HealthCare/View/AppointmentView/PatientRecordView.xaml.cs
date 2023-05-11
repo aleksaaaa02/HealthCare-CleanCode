@@ -4,7 +4,11 @@ using HealthCare.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Data;
+using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,18 +27,30 @@ namespace HealthCare.View.AppointmentView
     /// </summary>
     public partial class PatientRecordView : Window
     {
-        Hospital _hospital;
-        public void LoadData()
-        {
-            List<Appointment> appointments = Schedule.GetPatientAppointments((Patient)_hospital.Current);
-            listViewRecord.ItemsSource = new ObservableCollection<Appointment>(appointments);
-        }
-
+        PatientRecordViewModel model;
         public PatientRecordView(Hospital hospital)
         {
-            _hospital = hospital;
-            InitializeComponent();
-            LoadData();
+            model = new PatientRecordViewModel(hospital);
+            DataContext = model;
+            InitializeComponent();           
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            model.Sort(cbSort.SelectedValue.ToString());
+        }
+
+        private void tbFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            model.Filter(tbFilter.Text);
+        }
+
+     
+        private bool appointmentFilter(object obj)
+        {
+            var FilterObject = obj as Appointment;
+
+            return (FilterObject.Doctor.Name.Contains(tbFilter.Text,StringComparison.OrdinalIgnoreCase));
         }
     }
 }

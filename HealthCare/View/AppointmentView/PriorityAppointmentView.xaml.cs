@@ -57,7 +57,7 @@ namespace HealthCare.View.AppointmentView
                 resultAppointment = GetAppointmentByDateAndDoctor(endDate, Int32.Parse(tbHoursStart.Text), Int32.Parse(tbMinutesStart.Text), Int32.Parse(tbHoursEnd.Text), Int32.Parse(tbMinutesEnd.Text), doctor);
                 if (resultAppointment == null)
                 {
-                    resultAppointment = GetAppointmentByDoctor(doctor);
+                    resultAppointment = GetAppointmentByDoctor(endDate, Int32.Parse(tbHoursStart.Text), Int32.Parse(tbMinutesStart.Text), Int32.Parse(tbHoursEnd.Text), Int32.Parse(tbMinutesEnd.Text), doctor);
                 }
             }
 
@@ -68,12 +68,12 @@ namespace HealthCare.View.AppointmentView
         }
 
 
-        Appointment GetAppointmentByDoctor(Doctor doctor)
+        Appointment GetAppointmentByDoctor(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor)
         {
             DateTime startDate = DateTime.Today;
             startDate = startDate.AddMinutes(15);
             Patient patient = (Patient)_hospital.Current;
-            while (true)
+            while (startDate<endDate)
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
                 if (doctor.IsAvailable(timeSlot) && patient.IsAvailable(timeSlot))
@@ -85,6 +85,7 @@ namespace HealthCare.View.AppointmentView
                     startDate = startDate.AddMinutes(15);
                 }
             }
+            return null;
         }
 
         Appointment GetAppointmentByDate(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd)
