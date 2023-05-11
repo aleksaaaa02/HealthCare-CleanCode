@@ -102,7 +102,7 @@ namespace HealthCare.Service
         public static void DeleteAppointment(int appointmentID)
         {
             Appointment? appointment = Appointments.Find(x => x.AppointmentID == appointmentID);
-            if (appointment != null) 
+            if (appointment != null)
             {
                 Appointments.Remove(appointment);
                 Save(Global.appointmentPath);
@@ -121,13 +121,13 @@ namespace HealthCare.Service
             CsvStorage<Appointment> csvStorage = new CsvStorage<Appointment>(filepath);
             Appointments = csvStorage.Load();
         }
-        public static void Save(string filepath) 
+        public static void Save(string filepath)
         {
             CsvStorage<Appointment> csvStorage = new CsvStorage<Appointment>(filepath);
             csvStorage.Save(Appointments);
         }
 
-        public static bool CheckAvailability(Appointment appointment,TimeSlot slot)
+        public static bool CheckAvailability(Appointment appointment, TimeSlot slot)
         {
             return appointment.Doctor.IsAvailable(slot) && appointment.Patient.IsAvailable(slot);
         }
@@ -136,7 +136,7 @@ namespace HealthCare.Service
         {
             DateTime reception = DateTime.Now;
 
-            return GetPatientAppointments(patient).Find(x=>
+            return GetPatientAppointments(patient).Find(x =>
                     !x.IsOperation && reception < x.TimeSlot.Start
                     && reception >= x.TimeSlot.Start.AddMinutes(-15));
 
@@ -166,8 +166,8 @@ namespace HealthCare.Service
         {
             TimeSpan duration = urgent.TimeSlot.Duration;
 
-            if (doctor.IsAvailable(new TimeSlot(DateTime.Now, duration))) 
-            { 
+            if (doctor.IsAvailable(new TimeSlot(DateTime.Now, duration)))
+            {
                 urgent.TimeSlot.Start = DateTime.Now;
                 urgent.Doctor = doctor;
                 return urgent;
@@ -225,7 +225,7 @@ namespace HealthCare.Service
                         (x.Patient.Equals(appointment.Patient) ||
                         x.Doctor.Equals(appointment.Doctor)) &&
                         x.TimeSlot.Overlaps(appointment.TimeSlot));
-            
+
             /*foreach (Appointment a in Appointments)
             {
                 if (a.Doctor.Equals(appointment.Doctor) && 
@@ -238,26 +238,19 @@ namespace HealthCare.Service
 
         public static DateTime GetSoonestStartingTime(Appointment appointment)
         {
-            DateTime? postpone = null;
-            TimeSlot slot = appointment.TimeSlot;
-            int c;
+            DateTime postpone = DateTime.MaxValue;
+            TimeSlot slot = new TimeSlot(appointment.TimeSlot);
 
             foreach (Appointment a in Appointments)
             {
-                if (a.AppointmentID == 14)
-                    c = 2;
                 slot.Start = a.TimeSlot.GetEnd();
                 if (slot.Start >= DateTime.Now &&
-                    (postpone is null || slot.Start < postpone) &&
+                    slot.Start < postpone &&
                     CheckAvailability(appointment, slot))
                     postpone = slot.Start;
             }
 
-            if (postpone is not null)
-                return (DateTime)postpone;
-
-            var last = Appointments.OrderBy(x => x.TimeSlot.GetEnd()).Last();
-            return last.TimeSlot.GetEnd();
+            return postpone;
         }
 
         public static void PostponeAppointment(Appointment appointment)
