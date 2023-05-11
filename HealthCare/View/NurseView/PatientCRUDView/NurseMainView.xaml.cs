@@ -30,6 +30,7 @@ namespace HealthCare.View.PatientView
         private PatientViewModel _model;
         private Patient? _patient;
         public MedicalRecord? _record;
+        private List<TextBox> _textBoxes;
 
         public NurseMainView(Hospital hospital)
         {
@@ -43,6 +44,9 @@ namespace HealthCare.View.PatientView
             _model.Update();
             _patient = null;
             _record = null;
+
+            _textBoxes = new List<TextBox> { tbName, tbLastName, tbAddress, tbBirthDate,
+                                            tbUsername, tbPassword, tbJMBG, tbPhoneNumber};
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -89,7 +93,8 @@ namespace HealthCare.View.PatientView
         private void lvPatients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _patient = (Patient) lvPatients.SelectedItem;
-            if (_patient is null) { return; }
+            if (_patient is null) return; 
+
             tbName.Text = _patient.Name;
             tbLastName.Text = _patient.LastName;
             tbJMBG.Text = _patient.JMBG;
@@ -98,19 +103,21 @@ namespace HealthCare.View.PatientView
             tbPhoneNumber.Text = _patient.PhoneNumber;
             tbUsername.Text = _patient.UserName;
             tbBirthDate.Text = _patient.BirthDate.ToString();
+
             if (_patient.Gender == Gender.Male)
                 cbMale.IsChecked = true;
             else cbFemale.IsChecked = true;
+
             if (_patient.Blocked == true)
                 chbBlocked.IsChecked = true;
             else chbBlocked.IsChecked = false;
+
             _record = _patient.MedicalRecord;
         }
 
         private void MedicalRecord_Click(object sender, RoutedEventArgs e)
         {
             new AddMedicalRecordView(this).ShowDialog();
-            
         }
 
         private void Update_Click(object sender, RoutedEventArgs e)
@@ -136,6 +143,7 @@ namespace HealthCare.View.PatientView
             _patient.BirthDate = DateTime.Parse(tbBirthDate.Text);
             _patient.PhoneNumber = tbPhoneNumber.Text;
             _patient.Address = tbAddress.Text;
+
             if (cbMale.IsChecked is bool Checked && Checked)
                 _patient.Gender = Gender.Male;
             else _patient.Gender = Gender.Female;
@@ -154,25 +162,16 @@ namespace HealthCare.View.PatientView
 
         public void ClearBoxes()
         {
-            tbName.Clear();
-            tbLastName.Clear();
-            tbAddress.Clear();
-            tbBirthDate.Clear();
-            tbUsername.Clear();
-            tbPassword.Clear();
-            tbJMBG.Clear();
-            tbPhoneNumber.Clear();
+            foreach (var textBox in _textBoxes)
+                textBox.Clear();
             _patient = null;
             _record = null;
         }
 
         public bool Validate()
         {
-            return tbName.Text != "" && tbLastName.Text != "" && 
-                tbAddress.Text != "" && tbBirthDate.Text != "" &&
-                DateTime.TryParse(tbBirthDate.Text, out _) && 
-                tbJMBG.Text != "" && tbPhoneNumber.Text != "" &&
-                tbUsername.Text != "" && tbPassword.Text != "";
+            return DateTime.TryParse(tbBirthDate.Text, out _) &&
+                   _textBoxes.Count(x => x.Text.Trim() == "") == 0;
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)

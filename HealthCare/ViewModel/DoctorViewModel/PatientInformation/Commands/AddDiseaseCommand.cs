@@ -1,15 +1,16 @@
-﻿using HealthCare.Exceptions;
-using HealthCare.View.DoctorView;
+﻿using HealthCare.Command;
+using HealthCare.Exceptions;
+using HealthCare.ViewModel.DoctorViewModel.PatientInformation;
 using System.Windows;
 
-namespace HealthCare.Command
+namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 {
     public class AddDiseaseCommand : CommandBase
     {
         private readonly PatientInforamtionViewModel _viewModel;
 
-        public AddDiseaseCommand(PatientInforamtionViewModel viewModel) 
-        { 
+        public AddDiseaseCommand(PatientInforamtionViewModel viewModel)
+        {
             _viewModel = viewModel;
         }
         public override void Execute(object parameter)
@@ -19,15 +20,16 @@ namespace HealthCare.Command
                 Validate();
                 _viewModel.AddPreviousDisease(_viewModel.Disease);
             }
-            catch (ValidationException ve) {
+            catch (ValidationException ve)
+            {
                 MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }                  
+            }
         }
         private void Validate()
         {
-            if (_viewModel.Disease == null)
+            if (string.IsNullOrWhiteSpace(_viewModel.Disease))
             {
-                throw new ValidationException("Morate uneti bolest u polje");  
+                throw new ValidationException("Morate uneti bolest u polje");
             }
         }
     }

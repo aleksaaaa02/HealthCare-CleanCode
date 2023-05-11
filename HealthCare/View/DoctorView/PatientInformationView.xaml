@@ -5,16 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.DoctorView"
         mc:Ignorable="d"
-        Title="PatinentInformationWindow" Height="700" Width="800">
+        Title="PatinentInformationWindow" Height="780" Width="900">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.1*"/>
-            <RowDefinition Height="0.40*"/>
-            <RowDefinition Height="0.40*"/>
-            <RowDefinition Height="0.10*"/>
+            <RowDefinition Height="0.27*"/>
+            <RowDefinition Height="0.33*"/>
+            <RowDefinition Height="0.35*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Informacije o pacijentu" FontSize="24" Margin="40 10 0 0"/>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -32,10 +30,12 @@
                 <Label Content="Datum Rodjenja"/>
                 <DatePicker Text="{Binding Birthday}" Focusable="False" IsHitTestVisible="False"/>
                 <Label Content="Pol"/>
-                <TextBox Text="{Binding Gender}" IsReadOnly="True"/>
+                <TextBox Text="{Binding Gender}" IsReadOnly="True" Margin="0 0 0 60"/>
+                <Button Content="Sacuvaj rezultate" Command="{Binding SaveChangesCommand}" FontSize="20" Width="250" IsEnabled="{Binding IsFocusable}" Visibility="{Binding GridVisibility}"/>
+
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.1*"/>
                 <RowDefinition Height="0.9*"/>
@@ -45,39 +45,71 @@
                     <ColumnDefinition Width="0.4*"/>
                     <ColumnDefinition Width="0.6*"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="40 0 0 0">
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="40 0 0 0">
                     <Label Content="Visina (cm):"/>
                     <TextBox Text="{Binding Height}" VerticalContentAlignment="Center" IsReadOnly="{Binding IsReadOnly}" Width="40" TextAlignment="Center" PreviewTextInput="NumberValidationTextBox"/>
                     <Label Content="Tezina (kg):" Margin="50 0 0 0"/>
                     <TextBox Text="{Binding Weight}" VerticalContentAlignment="Center"  IsReadOnly="{Binding IsReadOnly}" Width="40" TextAlignment="Center" PreviewTextInput="NumberValidationTextBox"/>
                 </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Horizontal" Visibility="{Binding GridVisibility}">
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Visibility="{Binding GridVisibility}">
                     <Label Content="Naziv Bolesti:" Margin="50 0 0 0"/>
                     <TextBox Text="{Binding Disease}" VerticalContentAlignment="Center"  IsReadOnly="{Binding IsReadOnly}" Width="125" TextAlignment="Center"/>
                     <Button Content="Dodaj" Command="{Binding NewDiseaseCommand}" Margin=" 10 0 0 0"/>
                     <Button Content="Ukloni" Command="{Binding RemoveDiseaseCommand}" Margin=" 10 0 0 0"/>
                 </StackPanel>
                 </Grid>
-            <Grid Grid.Row="3">
-                <ListView Margin="40 10 40 10" ItemsSource="{Binding PreviousDisease}" SelectedItem="{Binding SelectedDisease}" SelectionMode="Single">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Naziv Bolesti">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Padding="0 0 20 0"  Text="{Binding}"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+            <Grid Grid.Row="2">
+                <ScrollViewer>
+                    <Grid>
+                        <ListView Margin="40 10 40 0" ItemsSource="{Binding PreviousDisease}" SelectedItem="{Binding SelectedDisease}" SelectionMode="Single">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Naziv Bolesti">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Padding="0 0 20 0"  Text="{Binding}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </ScrollViewer>
             </Grid>
         </Grid>
-        <Grid Grid.Row="4" VerticalAlignment="Center">
-            <StackPanel>
-                <Button Content="Sacuvaj rezultate" Command="{Binding SaveChangesCommand}" FontSize="20" Width="250" IsEnabled="{Binding IsFocusable}" Visibility="{Binding GridVisibility}"/>
-            </StackPanel>
+        <Grid Grid.Row="3" Margin="0 5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.9*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Visibility="{Binding GridVisibility}">
+                    <Label Content="Naziv Alergije:" Margin="50 0 0 0"/>
+                    <TextBox Text="{Binding Allergy}" VerticalContentAlignment="Center"  IsReadOnly="{Binding IsReadOnly}" Width="125" TextAlignment="Center"/>
+                    <Button Content="Dodaj" Command="{Binding NewAllergyCommand}" Margin=" 10 0 0 0"/>
+                    <Button Content="Ukloni" Command="{Binding RemoveAllergyCommand}" Margin=" 10 0 0 0"/>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="2">
+                <ScrollViewer>
+                    <Grid>
+                        <ListView Margin="40 10 40 0" ItemsSource="{Binding Allergies}" SelectedItem="{Binding SelectedAllergy}" SelectionMode="Single">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Naziv Alergije" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Padding="0 0 20 0"  Text="{Binding}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

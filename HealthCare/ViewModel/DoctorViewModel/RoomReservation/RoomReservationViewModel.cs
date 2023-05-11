@@ -1,5 +1,6 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModel.DoctorViewModel.RoomReservation.Commands;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

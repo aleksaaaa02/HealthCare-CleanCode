@@ -1,14 +1,16 @@
-﻿using HealthCare.Exceptions;
-using HealthCare.View.DoctorView;
+﻿using HealthCare.Command;
+using HealthCare.Exceptions;
+using HealthCare.ViewModel.DoctorViewModel.PatientInformation;
 using System.Windows;
 
-namespace HealthCare.Command
+namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 {
     public class RemoveDiseaseCommand : CommandBase
-    {          
+    {
 
         private readonly PatientInforamtionViewModel _viewModel;
-        public RemoveDiseaseCommand(PatientInforamtionViewModel viewModel) {
+        public RemoveDiseaseCommand(PatientInforamtionViewModel viewModel)
+        {
             _viewModel = viewModel;
         }
         public override void Execute(object parameter)
@@ -27,7 +29,7 @@ namespace HealthCare.Command
         }
         private void Validate()
         {
-            if (string.IsNullOrWhiteSpace(_viewModel.SelectedDisease))
+            if (_viewModel.SelectedDisease is null)
             {
                 throw new ValidationException("Morate odabrati bolest koju zelite da uklonite.");
             }

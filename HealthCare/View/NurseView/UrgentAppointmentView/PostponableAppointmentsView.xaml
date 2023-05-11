@@ -12,10 +12,11 @@
         <ListView  Margin="10,40,10,60" Name="lvAppointments" ItemsSource="{Binding Appointments}" Height="200" VerticalAlignment="Top" SelectionChanged="lvAppointments_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn  Header="Appointment ID" DisplayMemberBinding="{Binding AppointmentID}"/>
-                    <GridViewColumn  Header="Ime pacijenta" DisplayMemberBinding="{Binding Patient.Name}"/>
-                    <GridViewColumn  Header="Ime doktora" DisplayMemberBinding="{Binding Doctor.Name}"/>
-                    <GridViewColumn  Header="Datum pregleda" DisplayMemberBinding="{Binding TimeSlot.Start}"/>
+                    <GridViewColumn  Header="Appointment ID" DisplayMemberBinding="{Binding Appointment.AppointmentID}"/>
+                    <GridViewColumn  Header="Ime doktora" DisplayMemberBinding="{Binding Appointment.Doctor.Name}"/>
+                    <GridViewColumn  Header="Prezime doktora" DisplayMemberBinding="{Binding Appointment.Patient.LastName}"/>
+                    <GridViewColumn  Header="Datum pregleda" DisplayMemberBinding="{Binding Appointment.TimeSlot.Start}"/>
+                    <GridViewColumn  Header="Vreme odlaganja" DisplayMemberBinding="{Binding RescheduleTime}"/>
                 </GridView>
             </ListView.View>
         </ListView>

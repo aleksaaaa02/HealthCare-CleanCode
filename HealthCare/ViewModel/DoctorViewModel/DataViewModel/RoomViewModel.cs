@@ -1,7 +1,7 @@
 ﻿using HealthCare.Model;
 using HealthCare.View;
 
-namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation
+namespace HealthCare.ViewModel.DoctorViewModel.DataViewModel
 {
     public class RoomViewModel : ViewModelBase
     {
@@ -11,7 +11,8 @@ namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation
         public string RoomType => Utility.Translate(_room.Type);
 
 
-        public RoomViewModel(Room room) {
+        public RoomViewModel(Room room)
+        {
             _room = room;
         }
     }
