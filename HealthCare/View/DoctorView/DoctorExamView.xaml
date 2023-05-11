@@ -68,10 +68,13 @@
                     <TextBlock Text="Anamneza" HorizontalAlignment="Left" FontSize="24" FontWeight="Bold"/>
 
                     <Label Content="Simptomi:" HorizontalAlignment="Left"/>
-                    <TextBox VerticalScrollBarVisibility="Visible" Text="{Binding Symptoms}" Height="100" Focusable="False"/>
+                    <TextBox VerticalScrollBarVisibility="Visible" Text="{Binding Symptoms}" VerticalContentAlignment="Top" Height="100" Focusable="False"/>
+
+                    <Label Content="Alergije:" HorizontalAlignment="Left"/>
+                    <TextBox VerticalScrollBarVisibility="Visible" Text="{Binding Allergies}" VerticalContentAlignment="Top" Height="100" Focusable="False"/>
 
                     <Label Content="Zapazanja:" HorizontalAlignment="Left"/>
-                    <TextBox VerticalScrollBarVisibility="Visible" Height="125" Text="{Binding Conclusion}"/>
+                    <TextBox VerticalScrollBarVisibility="Visible" Text="{Binding Conclusion}" VerticalContentAlignment="Top" Height="125"/>
                 </StackPanel>
             </ScrollViewer>
             <StackPanel Grid.Row="1" VerticalAlignment="Center">

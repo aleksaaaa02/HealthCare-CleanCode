@@ -16,21 +16,13 @@ namespace HealthCare.View.DoctorView
         {
             _loginWindow = loginWindow;
             InitializeComponent();
-            DataContext = new DoctorMainViewModel(hospital);
+            DataContext = new DoctorMainViewModel(hospital, loginWindow, this);
+            
         }
 
-        private void LogOut_Click(object sender, RoutedEventArgs e)
-        {
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {            
             _loginWindow.Show();
-            this.Hide();
         }
-
-        
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            e.Cancel = true;
-            _loginWindow.ExitApp();
-        }
-        
     }
 }
