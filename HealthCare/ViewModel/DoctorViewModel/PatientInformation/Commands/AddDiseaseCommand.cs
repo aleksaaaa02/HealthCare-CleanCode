@@ -27,7 +27,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
         }
         private void Validate()
         {
-            if (string.IsNullOrWhiteSpace(_viewModel.Allergy))
+            if (string.IsNullOrWhiteSpace(_viewModel.Disease))
             {
                 throw new ValidationException("Morate uneti bolest u polje");
             }

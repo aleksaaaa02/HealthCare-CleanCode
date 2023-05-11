@@ -18,6 +18,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
         private Hospital _hospital;
 
         private ObservableCollection<string> _previousDiseases;
+        private ObservableCollection<string> _allergies;
         private string _name;
         private string _lastName;
         private string _jmbg;
@@ -27,16 +28,14 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
         private float _height;
         private float _weight;
         private string _disease;
-        private string _allergies;
         private string _symptoms;
         private string _conclusion;
 
-
+        public IEnumerable<string> Allergies => _allergies;
         public IEnumerable<string> PreviousDisease => _previousDiseases;
         public ICommand FinishExaminationCommand { get; }
         public ICommand CancelExaminationCommand { get; }
         public ICommand UpdatePatientCommand { get; }
-
 
         public Patient SelectedPatient
         {
@@ -47,7 +46,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
                 OnPropertyChanged(nameof(SelectedPatient));
             }
         }
-
         public string Name
         {
             get { return _name; }
@@ -139,15 +137,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
                 OnPropertyChanged(nameof(Symptoms));
             }
         }
-        public string Allergies
-        {
-            get { return _allergies; }
-            set
-            {
-                _allergies = value;
-                OnPropertyChanged(Allergies);
-            }
-        }
         public string Conclusion
         {
             get { return _conclusion; }
@@ -183,16 +172,29 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
 
             Anamnesis anamnesis = _hospital.AnamnesisService.GetByID(_appointment.AnamnesisID);
             _symptoms = string.Join(", ", anamnesis.Symptoms);
-            _allergies = string.Join(", ", _selectedPatient.MedicalRecord.Allergies);
             _previousDiseases = new ObservableCollection<string>();
+            _allergies = new ObservableCollection<string>();
             Update();
         }
         private void Update()
+        {
+            UpdateDiseases();
+            UpdateAllergies();
+        }
+        private void UpdateDiseases()
         {
             _previousDiseases.Clear();
             foreach (var disease in _selectedPatient.MedicalRecord.MedicalHistory)
             {
                 _previousDiseases.Add(disease);
+            }
+        }
+        private void UpdateAllergies()
+        {
+            _allergies.Clear();
+            foreach (var allergy in _selectedPatient.MedicalRecord.Allergies)
+            {
+                _allergies.Add(allergy);
             }
         }
         public void RefreshView()

@@ -21,7 +21,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
             try
             {
                 Validate();
-                string selectedAllergy = _viewModel.Allergy;
+                string selectedAllergy = _viewModel.SelectedAllergy;
                 _viewModel.RemoveAllergy(selectedAllergy);
             
             } catch(ValidationException ve)

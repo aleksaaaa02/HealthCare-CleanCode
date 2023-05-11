@@ -60,7 +60,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
             if (_viewModel is DoctorExamViewModel doctorExamViewModel)
             {
                 var selectedPatient = doctorExamViewModel.SelectedPatient;
-                UpdateViewModel();
                 return selectedPatient;
             }
 
