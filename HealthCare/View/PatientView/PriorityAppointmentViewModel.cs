@@ -1,11 +1,14 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace HealthCare.View.AppointmentView
 {
@@ -42,8 +45,10 @@ namespace HealthCare.View.AppointmentView
             }
         }
 
-        public void getAppointments(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor, string priority)
+        public void getAppointments(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor, String priority)
         {
+            endDate = endDate.AddHours(hoursEnd);
+            endDate = endDate.AddMinutes(minutesEnd);
             Appointment resultAppointment;
             if (priority=="Date")
             {
@@ -72,7 +77,6 @@ namespace HealthCare.View.AppointmentView
             }
             LoadAppointments(appointments);
         }
-
         public Appointment GetAppointmentByDoctor(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor)
         {
             DateTime startDate = DateTime.Today;
@@ -88,6 +92,10 @@ namespace HealthCare.View.AppointmentView
                 else
                 {
                     startDate = startDate.AddMinutes(15);
+                    if (startDate.Hour >= hoursEnd && startDate.Minute>=minutesEnd)
+                    {
+                        startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart, minutesStart, 0);
+                    }
                 }
             }
             return null;
@@ -106,10 +114,7 @@ namespace HealthCare.View.AppointmentView
                 {
                     appointments.Add(new Appointment(patient, doctor, timeSlot, false));
                 }
-                else
-                {
-                    startDate = startDate.AddMinutes(15);
-                }
+                startDate = startDate.AddMinutes(15);
             }
             return appointments;
         }
@@ -131,7 +136,7 @@ namespace HealthCare.View.AppointmentView
                         return new Appointment(patient, doctor, timeSlot, false);
                     }
                     startDate = startDate.AddMinutes(15);
-                    if (startDate.Hour > hoursEnd)
+                    if (startDate.Hour >= hoursEnd && startDate.Minute >= minutesEnd)
                     {
                         startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart, minutesStart, 0);
                     }
@@ -155,7 +160,7 @@ namespace HealthCare.View.AppointmentView
                     return new Appointment(patient, doctor, timeSlot, false);
                 }
                 startDate = startDate.AddMinutes(15);
-                if (startDate.Hour > hoursEnd)
+                if (startDate.Hour >= hoursEnd && startDate.Minute >= minutesEnd)
                 {
                     startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart, minutesStart, 0);
                 }
@@ -166,7 +171,7 @@ namespace HealthCare.View.AppointmentView
         public void IsUserBlocked()
         {
             Patient patient = (Patient)_hospital.Current;
-            using (var reader = new StreamReader(Global.patientLogsPath, Encoding.Default))
+            using (var reader = new StreamReader("../../../Resource/PatientLogs.csv", Encoding.Default))
             {
                 string line;
                 int updateDeleteCounter = 0;
