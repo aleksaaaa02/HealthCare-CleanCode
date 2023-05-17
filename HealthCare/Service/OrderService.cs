@@ -7,6 +7,7 @@ namespace HealthCare.Service
     {
         private readonly Inventory _inventory;
         private readonly RoomService _roomService;
+
         public OrderService(string filepath, Inventory inventory, RoomService roomService) : base(filepath) 
         {
             _inventory = inventory;

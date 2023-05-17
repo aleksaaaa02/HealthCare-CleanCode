@@ -1,6 +1,6 @@
 using HealthCare.Context;
 using HealthCare.Model;
-using HealthCare.Storage;
+using HealthCare.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +15,12 @@ namespace HealthCare.Service
         {
             return Appointments.Max(s => s.AppointmentID) + 1;
         }
+
+        public static bool CheckAvailability(Appointment appointment, TimeSlot slot)
+        {
+            return appointment.Doctor.IsAvailable(slot) && appointment.Patient.IsAvailable(slot);
+        }
+
         public static List<Appointment> GetDoctorAppointments(Doctor Doctor)
         {
             return Appointments.Where(x => x.Doctor.Equals(Doctor)).ToList();
@@ -23,8 +29,10 @@ namespace HealthCare.Service
         public static List<Appointment> GetDoctorAppointmentsForDays(Doctor doctor, DateTime start, int days)
         {
             DateTime end = start.AddDays(days);
-            return GetDoctorAppointments(doctor).Where(x => x.TimeSlot.InBetweenDates(start, end)).ToList();
+            return GetDoctorAppointments(doctor).Where(x => 
+                    x.TimeSlot.InBetweenDates(start, end)).ToList();
         }
+
         public static List<Appointment> GetPatientAppointments(Patient Patient)
         {
             return Appointments.Where(x => x.Patient.Equals(Patient)).ToList();
@@ -32,42 +40,26 @@ namespace HealthCare.Service
 
         public static bool CreateAppointment(Appointment appointment)
         {
-            if (appointment.Patient.IsAvailable(appointment.TimeSlot) && appointment.Doctor.IsAvailable(appointment.TimeSlot))
-            {
-                appointment.AppointmentID = NextId();
-                Appointments.Add(appointment);
-                Save(Global.appointmentPath);
-                return true;
-            }
-            return false;
+            if (!CheckAvailability(appointment, appointment.TimeSlot))
+                return false;
+
+            appointment.AppointmentID = NextId();
+            Appointments.Add(appointment);
+            Save(Global.appointmentPath);
+            return true;
         }
 
         public static bool UpdateAppointment(Appointment updatedAppointment)
         {
-            Appointment appointment = Appointments.Find(x => x.AppointmentID == updatedAppointment.AppointmentID);
-            int appointmentIndex = Appointments.IndexOf(appointment);
-            if (appointmentIndex != -1)
-            {
-                Appointments.RemoveAt(appointmentIndex);
-                if (updatedAppointment.Patient.IsAvailable(updatedAppointment.TimeSlot) && updatedAppointment.Doctor.IsAvailable(updatedAppointment.TimeSlot))
-                {
-                    Appointments.Insert(appointmentIndex, updatedAppointment);
-                    Save(Global.appointmentPath);
-                    return true;
+            int index = Appointments.FindIndex(x => x.AppointmentID == updatedAppointment.AppointmentID);
+            if (index == -1) return false;
 
-                }
-                else
-                {
-                    Appointments.Insert(appointmentIndex, appointment);
-                    Save(Global.appointmentPath);
-                    return false;
-
-                }
-            }
-            else
-            {
+            if (!CheckAvailability(updatedAppointment, updatedAppointment.TimeSlot))
                 return false;
-            }
+
+            Appointments[index] = updatedAppointment;
+            Save(Global.appointmentPath);
+            return true;
         }
 
         public static void DeleteAppointment(int appointmentID)
@@ -79,38 +71,33 @@ namespace HealthCare.Service
                 Appointments.Remove(appointment);
                 Save(Global.appointmentPath);
             }
-
         }
 
         public static Appointment GetAppointment(int appointmentID)
         {
-            return Appointments.Find(x => x.AppointmentID == appointmentID);
+            var appointment = Appointments.Find(x => x.AppointmentID == appointmentID);
+            if (appointment is null) throw new KeyNotFoundException();
+            return appointment;
         }
-
 
         public static void Load(string filepath)
         {
             CsvStorage<Appointment> csvStorage = new CsvStorage<Appointment>(filepath);
             Appointments = csvStorage.Load();
         }
+
         public static void Save(string filepath)
         {
             CsvStorage<Appointment> csvStorage = new CsvStorage<Appointment>(filepath);
             csvStorage.Save(Appointments);
         }
 
-        public static bool CheckAvailability(Appointment appointment, TimeSlot slot)
-        {
-            return appointment.Doctor.IsAvailable(slot) && appointment.Patient.IsAvailable(slot);
-        }
-
         public static Appointment? TryGetReceptionAppointment(Patient patient)
         {
-            DateTime reception = DateTime.Now;
+            TimeSlot reception = new TimeSlot(DateTime.Now, new TimeSpan(0, 15, 0));
 
             return GetPatientAppointments(patient).Find(x =>
-                    !x.IsOperation && reception < x.TimeSlot.Start
-                    && reception >= x.TimeSlot.Start.AddMinutes(-15));
+                    !x.IsOperation && reception.Contains(x.TimeSlot.Start));
         }
 
         public static Appointment? TryGetUrgent(TimeSpan duration, List<Doctor> specialists)
@@ -140,8 +127,9 @@ namespace HealthCare.Service
 
             foreach (Appointment appointment in GetDoctorAppointments(doctor))
             {
-                DateTime end = appointment.TimeSlot.GetEnd();
+                DateTime end = appointment.TimeSlot.End;
                 TimeSlot newTimeslot = new TimeSlot(end, duration);
+
                 if (end > DateTime.Now && end < urgent.TimeSlot.Start &&
                     doctor.IsAvailable(newTimeslot) &&
                     urgent.Patient.IsAvailable(newTimeslot))
@@ -153,7 +141,6 @@ namespace HealthCare.Service
 
             return urgent;
         }
-
 
         public static List<Appointment> GetPostponable(TimeSpan duration, Doctor specialist)
         {
@@ -172,6 +159,7 @@ namespace HealthCare.Service
 
             if (postponable.Count > 0)
                 filtered.Add(postponable.Last());
+
             return filtered;
         }
 
@@ -191,7 +179,7 @@ namespace HealthCare.Service
 
             foreach (Appointment a in Appointments)
             {
-                slot.Start = a.TimeSlot.GetEnd();
+                slot.Start = a.TimeSlot.End;
                 if (slot.Start >= DateTime.Now &&
                     slot.Start < postpone &&
                     CheckAvailability(appointment, slot))
@@ -220,8 +208,7 @@ namespace HealthCare.Service
 
         public static bool HasAppointmentStarted(Appointment appointment)
         {
-            return appointment.TimeSlot.Start < DateTime.Now && appointment.TimeSlot.GetEnd() > DateTime.Now;
+            return appointment.TimeSlot.Start < DateTime.Now && appointment.TimeSlot.End > DateTime.Now;
         }
-
     }
 }

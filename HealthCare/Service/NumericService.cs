@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace HealthCare.Service
 {
-    public abstract class NumericService<T> : Service<T> where T : Indentifier, ISerializable, new()
+    public abstract class NumericService<T> : Service<T> where T : Identifier, ISerializable, new()
     {
         protected NumericService(string filepath) : base(filepath) { }
 

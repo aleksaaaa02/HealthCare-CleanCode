@@ -1,8 +1,8 @@
-﻿using System;
+﻿using HealthCare.Model;
+using HealthCare.Service;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using HealthCare.Model;
-using HealthCare.Service;
 
 namespace HealthCare.ViewModel.NurseViewModel
 {

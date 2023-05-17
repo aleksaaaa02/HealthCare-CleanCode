@@ -19,10 +19,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 
         public override void Execute(object parameter)
         {
-
-            MakeAppointmentView makeAppointmentView = new MakeAppointmentView(_hospital, _viewModel);
-            makeAppointmentView.ShowDialog();
-
+            new MakeAppointmentView(_hospital, _viewModel).ShowDialog();
         }
     }
 }

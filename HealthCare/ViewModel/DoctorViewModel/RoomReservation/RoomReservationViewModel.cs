@@ -30,7 +30,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation
 
         public RoomReservationViewModel(Hospital hospital, Appointment appointment, Window window) {
             _hospital = hospital;
-            ReservateRoomCommand = new ReservateRoomCommand(hospital, window, this, appointment);
+            ReservateRoomCommand = new ReserveRoomCommand(hospital, window, this, appointment);
             Update(appointment);
         }
 

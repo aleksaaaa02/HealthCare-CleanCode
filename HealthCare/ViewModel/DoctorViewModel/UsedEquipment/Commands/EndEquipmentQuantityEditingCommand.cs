@@ -1,6 +1,5 @@
 ﻿using HealthCare.Command;
 using HealthCare.Context;
-using System;
 using System.Collections.Generic;
 using System.Windows;
 
@@ -11,12 +10,14 @@ namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment.Commands
         private readonly UsedDynamicEquipmentViewModel _viewModel;
         private readonly Window _window;
         private readonly Hospital _hospital;
+
         public EndEquipmentQuantityEditingCommand(Hospital hospital, Window window, UsedDynamicEquipmentViewModel viewModel) 
         {
             _viewModel = viewModel;
             _hospital = hospital;
             _window = window;
         }
+
         public override void Execute(object parameter)
         {
             _window.Close();
@@ -26,7 +27,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment.Commands
                 newQuantities.Add(equipment.InventoryId, equipment.CurrentQuantity);
             }
             _hospital.Inventory.ChangeDynamicEquipmentQuantity(newQuantities);
-
         }
     }
 }

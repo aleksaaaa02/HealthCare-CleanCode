@@ -6,7 +6,6 @@ using HealthCare.View;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Windows;
 
 namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 {
@@ -32,7 +31,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
             }
             catch (ValidationException ve)
             {
-                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+                Utility.ShowWarning(ve.Message);
             }
         }
         private void Validate()

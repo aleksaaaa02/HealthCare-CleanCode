@@ -10,7 +10,7 @@ namespace HealthCare.Model
         HallwayFurniture
     }
 
-    public class Equipment : Indentifier, ISerializable
+    public class Equipment : Identifier, ISerializable
     {
         public override object Key { get => Id; set => Id = (int)value; }
         public int Id { get; set; }
@@ -19,7 +19,6 @@ namespace HealthCare.Model
         public bool IsDynamic { get; set; }
 
         public Equipment() : this(0, "", EquipmentType.Examinational, false) { }
-
         public Equipment(int id, string name, EquipmentType type, bool dynamic)
         {
             Id = id;

@@ -13,11 +13,7 @@ namespace HealthCare.Model
         public int AnamnesisID { get; set; }
         public bool IsUrgent { get; set; }
 
-        public Appointment() : this(new Patient(), new Doctor(), new TimeSlot(), false)
-        {
-
-        }
-
+        public Appointment() : this(new Patient(), new Doctor(), new TimeSlot(), false) { }
         public Appointment(Patient patient, Doctor doctor, TimeSlot timeSlot, bool isOperation)
         {
             Patient = patient;
@@ -28,20 +24,11 @@ namespace HealthCare.Model
             IsUrgent = false;
         }
 
-        public Appointment(Patient patient, Doctor doctor, TimeSlot timeSlot, bool isOperation, int anamnesisID)
-        {
-            Patient = patient;
-            Doctor = doctor;
-            TimeSlot = timeSlot;
-            IsOperation = isOperation;
-            AnamnesisID = anamnesisID;
-            IsUrgent = false;
-        }
-
         public string[] ToCSV()
         {
-            string[] csvValues = { AppointmentID.ToString(), Patient.JMBG.ToString(), Doctor.JMBG.ToString(), TimeSlot.ToString(), IsOperation.ToString(), AnamnesisID.ToString(), IsUrgent.ToString() };
-            return csvValues;
+            return new string[] { 
+                AppointmentID.ToString(), Patient.JMBG.ToString(), Doctor.JMBG.ToString(), 
+                TimeSlot.ToString(), IsOperation.ToString(), AnamnesisID.ToString(), IsUrgent.ToString() };
         }
 
         public void FromCSV(string[] values)

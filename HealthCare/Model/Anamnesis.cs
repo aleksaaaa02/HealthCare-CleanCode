@@ -2,7 +2,7 @@
 
 namespace HealthCare.Model
 {
-    public class Anamnesis : Indentifier, ISerializable
+    public class Anamnesis : Identifier, ISerializable
     {
         public override object Key { get => ID; set => ID = (int)value; }
         public int ID { get; set; }

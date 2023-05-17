@@ -3,9 +3,7 @@ using HealthCare.Context;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.View;
-using HealthCare.ViewModel.DoctorViewModel.PatientInformation;
 using System.Linq;
-using System.Windows;
 
 namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 {
@@ -14,12 +12,14 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
         private readonly PatientInforamtionViewModel _viewModel;
         private readonly Hospital _hospital;
         private readonly Patient _selectedPatient;
+
         public SavePatientChangesCommand(Hospital hospital, Patient patient, PatientInforamtionViewModel viewModel)
         {
             _hospital = hospital;
             _viewModel = viewModel;
             _selectedPatient = patient;
         }
+
         public override void Execute(object parameter)
         {
             try
@@ -27,11 +27,11 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
                 Validate();
 
                 UpdatePatientMedicalRecord();
-                ShowSuccesMessage();
+                ShowSuccessMessage();
             }
             catch (ValidationException ve)
             {
-                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Utility.ShowWarning(ve.Message);
             }
         }
 
@@ -44,13 +44,13 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
             MedicalRecord updatedMedicalRecord = new MedicalRecord(height, weight, medicalHistory, allergies);
 
             _hospital.PatientService.UpdatePatientMedicalRecord(_selectedPatient, updatedMedicalRecord);
-
         }
 
-        private void ShowSuccesMessage()
+        private void ShowSuccessMessage()
         {
-            MessageBox.Show("Pacijent uspesno sacuvan!", "Obavestenje", MessageBoxButton.OK, MessageBoxImage.Information);
+            Utility.ShowInformation("Pacijent uspesno sacuvan!");
         }
+
         private void Validate()
         {
             if (_viewModel.Weight <= 0)

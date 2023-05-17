@@ -2,7 +2,7 @@
 
 namespace HealthCare.Model
 {
-    public class InventoryItem : Indentifier, ISerializable
+    public class InventoryItem : Identifier, ISerializable
     {
         public override object Key {
             get => Id;
@@ -12,6 +12,7 @@ namespace HealthCare.Model
         public int EquipmentId { get; set; }
         public int RoomId { get; set; }
         public int Quantity { get; set; }
+
         public InventoryItem() : this(0) { }
         public InventoryItem(int id) : this(id, 0, 0, 0) { }
         public InventoryItem(int equipmentId, int roomId, int quantity) :

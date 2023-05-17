@@ -23,7 +23,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment
                 _currentQuantity = value;
                 OnPropertyChanged(nameof(CurrentQuantity));
             }
-
         }
 
         public EquipmentViewModel(Equipment equipment, InventoryItem inventoryItem)

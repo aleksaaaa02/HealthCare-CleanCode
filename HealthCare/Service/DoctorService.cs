@@ -1,5 +1,4 @@
 ﻿using HealthCare.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,14 +15,13 @@ namespace HealthCare.Service
         public List<Patient> GetExaminedPatients(Doctor doctor)
         {
             HashSet<Patient> patients = new HashSet<Patient>();
-            foreach (var appointmnet in Schedule.Appointments)
+            foreach (var appointment in Schedule.Appointments)
             {
-                if (appointmnet.Doctor.Equals(doctor))
+                if (appointment.Doctor.Equals(doctor))
                 {
-                    patients.Add(appointmnet.Patient);
+                    patients.Add(appointment.Patient);
                 }
             }
-
             return patients.ToList();
         }
 
@@ -37,25 +35,14 @@ namespace HealthCare.Service
             return GetAll().Find(x => x.UserName == username);
         }
 
-        public List<Doctor> GetBySpecialization(String specialization)
+        public List<Doctor> GetBySpecialization(string specialization)
         {
-            List<Doctor> specialists = new List<Doctor>();
-
-            foreach(Doctor doctor in GetAll())
-            {
-                if (doctor.Specialization == specialization)
-                    specialists.Add(doctor);
-            }
-
-            return specialists;
+            return GetAll().Where(x => x.IsCapable(specialization)).ToList();
         }
 
-        public HashSet<string> GetSpecializations()
+        public List<string> GetSpecializations()
         {
-            HashSet<string> specializations = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            foreach (Doctor doctor in GetAll())
-                specializations.Add(doctor.Specialization);
-            return specializations;
+            return GetAll().Select(x => x.Specialization).Distinct().ToList();
         }
 
         public UserRole GetRole()

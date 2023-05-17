@@ -7,9 +7,6 @@ using System.Windows.Input;
 
 namespace HealthCare.View.DoctorView
 {
-    /// <summary>
-    /// Interaction logic for Window1.xaml
-    /// </summary>
     public partial class PatientInformationView : Window
     {
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)

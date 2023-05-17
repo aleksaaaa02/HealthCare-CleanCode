@@ -2,12 +2,12 @@
 
 namespace HealthCare.Repository
 {
-    public abstract class Indentifier
+    public abstract class Identifier
     {
         public abstract object Key { get; set; }
 
         public override bool Equals(object? obj) {
-            return obj is Indentifier item &&
+            return obj is Identifier item &&
                    EqualityComparer<object>.Default.Equals(Key, item.Key);
         }
 

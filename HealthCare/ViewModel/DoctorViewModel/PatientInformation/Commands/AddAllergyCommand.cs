@@ -1,11 +1,6 @@
 ﻿using HealthCare.Command;
 using HealthCare.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using HealthCare.View;
 
 namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 {
@@ -17,6 +12,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
         {
             _viewModel = viewModel;
         }
+
         public override void Execute(object parameter)
         {
             try
@@ -26,13 +22,13 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
                 
             } catch(ValidationException ve) 
             {
-                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Utility.ShowWarning(ve.Message);
             }
         }
 
         private void Validate()
         {
-            if(string.IsNullOrWhiteSpace(_viewModel.Allergy))
+            if (string.IsNullOrWhiteSpace(_viewModel.Allergy))
             {
                 throw new ValidationException("Morate uneti alergiju u polje");
             }

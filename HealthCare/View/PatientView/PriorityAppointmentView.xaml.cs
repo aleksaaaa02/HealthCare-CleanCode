@@ -2,26 +2,12 @@
 using HealthCare.Model;
 using HealthCare.Service;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace HealthCare.View.AppointmentView
 {
-    /// <summary>
-    /// Interaction logic for PriorityAppointmentView.xaml
-    /// </summary>
     public partial class PriorityAppointmentView : Window
     {
 
@@ -29,11 +15,10 @@ namespace HealthCare.View.AppointmentView
         PriorityAppointmentViewModel model;
         public PriorityAppointmentView(Hospital hospital)
         {
+            InitializeComponent();
             _hospital = hospital;
             model = new PriorityAppointmentViewModel(hospital);
             DataContext = model;
-            InitializeComponent();
-            
         }
 
         public bool IsValidData()
@@ -44,8 +29,6 @@ namespace HealthCare.View.AppointmentView
                 Utility.ShowWarning("Zao nam je, ali vas profil je blokiran");
                 return false;
             }
-
-            Doctor doctor = (Doctor)doctorListView.SelectedItem;
 
             int hoursStart = int.Parse(tbHoursStart.Text);
             int minutesStart = int.Parse(tbMinutesStart.Text);
@@ -82,7 +65,6 @@ namespace HealthCare.View.AppointmentView
                 Utility.ShowWarning("Molimo Vas izaberite ispravan vremenski interval");
                 return false;
             }
-
             return true;
         }
 
@@ -92,10 +74,11 @@ namespace HealthCare.View.AppointmentView
             DateTime endDate = tbDate.SelectedDate.Value;
             Doctor doctor = (Doctor)doctorListView.SelectedItem;
             Appointment resultAppointment;
-            int hoursStart = Int32.Parse(tbHoursStart.Text);
-            int hoursEnd = Int32.Parse(tbHoursEnd.Text);
+            int hoursStart = int.Parse(tbHoursStart.Text);
+            int hoursEnd = int.Parse(tbHoursEnd.Text);
             int minutesStart = int.Parse(tbMinutesStart.Text);
             int minutesEnd = int.Parse(tbMinutesEnd.Text);
+
             if (radioDatum.IsChecked == true)
             {
                 model.getAppointments(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd, doctor, "Date");
@@ -170,7 +153,6 @@ namespace HealthCare.View.AppointmentView
                 {
                     tbMinutesEnd.Text = "0";
                 }
-
             }
             else
             {
@@ -199,7 +181,7 @@ namespace HealthCare.View.AppointmentView
         public void WriteAction(string action)
         {
             string stringtocsv = _hospital.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
-            File.AppendAllText("../../../Resource/PatientLogs.csv", stringtocsv);
+            File.AppendAllText(Global.patientLogsPath, stringtocsv);
         }
     }
 

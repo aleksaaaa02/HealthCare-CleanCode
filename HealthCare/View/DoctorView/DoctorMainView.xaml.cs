@@ -5,9 +5,6 @@ using System.Windows;
 
 namespace HealthCare.View.DoctorView
 {
-    /// <summary>
-    /// Interaction logic for DoctorMainView.xaml
-    /// </summary>
     public partial class DoctorMainView : Window
     {
         private MainWindow _loginWindow;
@@ -16,8 +13,7 @@ namespace HealthCare.View.DoctorView
         {
             _loginWindow = loginWindow;
             InitializeComponent();
-            DataContext = new DoctorMainViewModel(hospital, loginWindow, this);
-            
+            DataContext = new DoctorMainViewModel(hospital, this);
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)

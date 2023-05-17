@@ -57,9 +57,9 @@ namespace HealthCare.Service
             return GetAll().Where(x => x.RoomId == roomId);
         }
 
-        public void ChangeDynamicEquipmentQuantity(Dictionary<int, int> newQuantites)
+        public void ChangeDynamicEquipmentQuantity(Dictionary<int, int> newQuantities)
         {
-            foreach(KeyValuePair<int, int> entry in newQuantites)
+            foreach(KeyValuePair<int, int> entry in newQuantities)
             {
                 InventoryItem item = Get(entry.Key);
                 item.Quantity = entry.Value;

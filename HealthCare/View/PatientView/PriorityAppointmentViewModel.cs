@@ -25,7 +25,6 @@ namespace HealthCare.View.AppointmentView
             Doctors = new ObservableCollection<Doctor>();
             Appointments = new ObservableCollection<Appointment>();
             LoadDoctors(hospital.DoctorService.GetAll());
-            
         }
 
         public void LoadDoctors(List<Doctor> doctors)

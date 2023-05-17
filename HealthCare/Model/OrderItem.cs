@@ -3,7 +3,7 @@ using System;
 
 namespace HealthCare.Model
 {
-    public class OrderItem : Indentifier, ISerializable
+    public class OrderItem : Identifier, ISerializable
     {
         public override object Key { get => Id; set => Id = (int)value; }
         public int Id { get; set; }

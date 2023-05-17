@@ -3,7 +3,6 @@ using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View;
-using HealthCare.ViewModel.DoctorViewModel.Appoinments;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.Windows;
@@ -27,19 +26,18 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
             _isEditing = isEditing;
         }
 
-
         public override void Execute(object parameter)
         {
             if (_makeAppointmentViewModel.SelectedPatient is null)
             {
-                ShowErrorMessageBox("Morate odabrati pacijenta!");
+                Utility.ShowWarning("Morate odabrati pacijenta!");
                 return;
             }
 
-            Patient patient = _hospital.PatientService.GetAccount(_makeAppointmentViewModel.SelectedPatient.JMBG);
+            Patient? patient = _hospital.PatientService.GetAccount(_makeAppointmentViewModel.SelectedPatient.JMBG);
             if (patient is null)
             {
-                ShowErrorMessageBox("Oops... Doslo je do greske probajte ponovo!");
+                Utility.ShowError("Oops... Doslo je do greske probajte ponovo!");
                 return;
             }
 
@@ -53,12 +51,11 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
             {
                 if (!Schedule.CreateAppointment(newAppointment))
                 {
-                    ShowErrorMessageBox("Doktor ili pacijent je zauzet u ovom terminu, odaberite drugi termin");
+                    Utility.ShowWarning("Doktor ili pacijent je zauzet u ovom terminu, odaberite drugi termin");
                     return;
                 }
                 else
                 {
-
                     _doctorMainViewModel.Update();
                     _window.Close();
                 }
@@ -68,10 +65,10 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
 
         private void EditAppointment(Appointment newAppointment)
         {
-            newAppointment.AppointmentID = Convert.ToInt32(_doctorMainViewModel.SelectedPatient.AppointmentID);
+            newAppointment.AppointmentID = Convert.ToInt32(_doctorMainViewModel.SelectedAppointment.AppointmentID);
             if (!Schedule.UpdateAppointment(newAppointment))
             {
-                ShowErrorMessageBox("Doktor ili pacijent je zauzet u ovom terminu, odaberite drugi termin");
+                Utility.ShowWarning("Doktor ili pacijent je zauzet u ovom terminu, odaberite drugi termin");
                 return;
             }
 
@@ -87,11 +84,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
 
             Appointment newAppointment = new Appointment(patient, (Doctor)_hospital.Current, timeSlot, _makeAppointmentViewModel.IsOperation);
             return newAppointment;
-        }
-
-        private void ShowErrorMessageBox(string message)
-        {
-            MessageBox.Show(message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }
 }

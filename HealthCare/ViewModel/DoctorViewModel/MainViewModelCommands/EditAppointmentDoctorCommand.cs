@@ -6,9 +6,7 @@ using HealthCare.View;
 using HealthCare.View.DoctorView;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModels.DoctorViewModel;
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.Windows;
 
 namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 {
@@ -31,13 +29,13 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
             }
             catch (ValidationException ve)
             {
-                MessageBox.Show(ve.Message, "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Utility.ShowWarning(ve.Message);
             }
         }
 
         private void EditSelectedAppointment()
         {
-            AppointmentViewModel appointmentViewModel = _doctorMainViewModel.SelectedPatient;
+            AppointmentViewModel appointmentViewModel = _doctorMainViewModel.SelectedAppointment;
             Appointment selectedAppointment = Schedule.GetAppointment(appointmentViewModel.AppointmentID);
             MakeAppointmentView makeAppointmentView = new MakeAppointmentView(_hospital, _doctorMainViewModel, selectedAppointment);
             makeAppointmentView.ShowDialog();
@@ -45,7 +43,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 
         private void Validate()
         {
-            AppointmentViewModel appointmentViewModel = _doctorMainViewModel.SelectedPatient;
+            AppointmentViewModel appointmentViewModel = _doctorMainViewModel.SelectedAppointment;
             if (appointmentViewModel == null)
             {
                 throw new ValidationException("Morate odabrati pregled/operaciju iz tabele!");
@@ -55,7 +53,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
             if (selectedAppointment == null)
             {
                 throw new ValidationException("Ups doslo je do greske");
-
             }
 
         }

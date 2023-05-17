@@ -1,7 +1,6 @@
-﻿using HealthCare.Repository;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace HealthCare.Storage
+namespace HealthCare.Repository
 {
     public class CsvStorage<T> where T : ISerializable, new()
     {

@@ -152,8 +152,9 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
         {
             _hospital = hospital;
             _appointment = appointment;
-            _selectedPatient = _appointment.Patient;
-
+            _selectedPatient = hospital.PatientService.Get(appointment.Patient.Key);
+            
+            
             UpdatePatientCommand = new ShowPatientInfoCommand(hospital, this, true);
             CancelExaminationCommand = new CancelCommand(window);
             FinishExaminationCommand = new FinishExaminationCommand(hospital, window, appointment, this, roomId);
@@ -170,7 +171,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             _height = _selectedPatient.MedicalRecord.Height;
             _weight = _selectedPatient.MedicalRecord.Weight;
 
-            Anamnesis anamnesis = _hospital.AnamnesisService.GetByID(_appointment.AnamnesisID);
+            Anamnesis anamnesis = _hospital.AnamnesisService.Get(_appointment.AnamnesisID);
             _symptoms = string.Join(", ", anamnesis.Symptoms);
             _previousDiseases = new ObservableCollection<string>();
             _allergies = new ObservableCollection<string>();
