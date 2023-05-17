@@ -1,14 +1,16 @@
 ﻿using HealthCare.Command;
 using HealthCare.Context;
 using HealthCare.Model;
-using HealthCare.ViewModel;
+using HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands;
+using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
+using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 
-namespace HealthCare.ViewModels.DoctorViewModel
+namespace HealthCare.ViewModel.DoctorViewModel.Appoinments
 {
     public class MakeAppointmentViewModel : ViewModelBase
     {
@@ -28,10 +30,11 @@ namespace HealthCare.ViewModels.DoctorViewModel
         public ICommand CancelCommand { get; }
         public ICommand SubmitCommand { get; }
 
-        public DateTime StartDate 
-        { 
+        public DateTime StartDate
+        {
             get { return _startDate; }
-            set {
+            set
+            {
                 if (value < DateTime.Today)
                 {
                     _startDate = DateTime.Today;
@@ -97,16 +100,17 @@ namespace HealthCare.ViewModels.DoctorViewModel
                 else
                 {
                     _duration = value;
-                }           
+                }
                 OnPropertyChanged(nameof(Duration));
             }
         }
-        public PatientViewModel SelectedPatient { 
+        public PatientViewModel SelectedPatient
+        {
             get { return _selectedPatient; }
-            set 
-            { 
+            set
+            {
                 _selectedPatient = value;
-                OnPropertyChanged(nameof(SelectedPatient));    
+                OnPropertyChanged(nameof(SelectedPatient));
             }
         }
         public MakeAppointmentViewModel(Hospital hospital, DoctorMainViewModel DoctorViewModel, Window window)
@@ -114,7 +118,7 @@ namespace HealthCare.ViewModels.DoctorViewModel
             // For New Appointment
             _hospital = hospital;
             CancelCommand = new CancelCommand(window);
-            SubmitCommand = new AddNewAppointmentDoctorCommand(hospital ,this,  DoctorViewModel, window, false);
+            SubmitCommand = new AddNewAppointmentDoctorCommand(hospital, this, DoctorViewModel, window, false);
             _patients = new ObservableCollection<PatientViewModel>();
             Update();
         }
@@ -131,20 +135,20 @@ namespace HealthCare.ViewModels.DoctorViewModel
             _patients = new ObservableCollection<PatientViewModel>();
             _selected = appointment.Patient;
             Update();
-            
+
             CancelCommand = new CancelCommand(window);
             SubmitCommand = new AddNewAppointmentDoctorCommand(_hospital, this, DoctorViewModel, window, true);
- 
+
         }
         public void Update()
         {
             _patients.Clear();
-            foreach(Patient patient in _hospital.PatientService.GetAll())
+            foreach (Patient patient in _hospital.PatientService.GetAll())
             {
-                if(_selected == patient) { SelectedPatient = new PatientViewModel(patient); }
+                if (_selected == patient) { SelectedPatient = new PatientViewModel(patient); }
                 _patients.Add(new PatientViewModel(patient));
             }
         }
-       
+
     }
 }

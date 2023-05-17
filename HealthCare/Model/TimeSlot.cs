@@ -1,9 +1,5 @@
 ﻿using HealthCare.Repository;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.Model
 {
@@ -18,6 +14,11 @@ namespace HealthCare.Model
         {
             Start = start;
             Duration = duration;
+        }
+        public TimeSlot(TimeSlot other)
+        {
+            Start = other.Start;
+            Duration = other.Duration;
         }
 
         public DateTime GetEnd() 

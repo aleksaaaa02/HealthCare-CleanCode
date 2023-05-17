@@ -2,7 +2,10 @@
 using HealthCare.Model;
 using HealthCare.View.PatientView;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace HealthCare.View.ReceptionView
 {
@@ -11,6 +14,7 @@ namespace HealthCare.View.ReceptionView
         private Hospital _hospital;
         public MedicalRecord? _record;
         private string _jmbg;
+        private List<TextBox> _textBoxes;
         public CreatePatientView(Hospital hospital, string jmbg)
         {
             InitializeComponent();
@@ -21,17 +25,19 @@ namespace HealthCare.View.ReceptionView
 
             tbJMBG.IsEnabled = false;
             tbJMBG.Text = jmbg;
+
+            _textBoxes = new List<TextBox> { tbName, tbLastName, tbAddress, tbBirthDate,
+                                            tbUsername, tbPassword, tbJMBG, tbPhoneNumber};
         }
 
         private void btnMedicalRecord_Click(object sender, RoutedEventArgs e)
         {
             new AddMedicalRecordView(this).ShowDialog();
         }
-        public bool ValidateFields()
+        public bool Validate()
         {
-            return tbName.Text != "" && tbLastName.Text != "" && tbAddress.Text != "" && tbBirthDate.Text != "" &&
-                DateTime.TryParse(tbBirthDate.Text, out _) && tbJMBG.Text != "" && tbPhoneNumber.Text != "" &&
-                tbUsername.Text != "" && tbPassword.Text != "";
+            return DateTime.TryParse(tbBirthDate.Text, out _) &&
+                   _textBoxes.Count(x => x.Text.Trim() == "") == 0;
         }
 
         public Patient CreatePatient()
@@ -69,7 +75,7 @@ namespace HealthCare.View.ReceptionView
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            if (!ValidateFields())
+            if (!Validate())
             {
                 Utility.ShowWarning("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
                 return;

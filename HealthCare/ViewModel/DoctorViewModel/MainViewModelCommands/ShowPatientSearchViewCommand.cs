@@ -1,15 +1,17 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Command;
+using HealthCare.Context;
 using HealthCare.View.DoctorView;
 
-namespace HealthCare.Command
+namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 {
     public class ShowPatientSearchViewCommand : CommandBase
     {
         private Hospital _hospital;
 
-        public ShowPatientSearchViewCommand(Hospital hospital) {
+        public ShowPatientSearchViewCommand(Hospital hospital)
+        {
             _hospital = hospital;
-        
+
         }
         public override void Execute(object parameter)
         {
