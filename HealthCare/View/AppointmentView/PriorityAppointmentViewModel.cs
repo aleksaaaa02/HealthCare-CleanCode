@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace HealthCare.View.AppointmentView
 {
@@ -47,6 +48,8 @@ namespace HealthCare.View.AppointmentView
 
         public void getAppointments(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor, String priority)
         {
+            endDate = endDate.AddHours(hoursEnd);
+            endDate = endDate.AddMinutes(minutesEnd);
             Appointment resultAppointment;
             if (priority=="Date")
             {
@@ -90,6 +93,10 @@ namespace HealthCare.View.AppointmentView
                 else
                 {
                     startDate = startDate.AddMinutes(15);
+                    if (startDate.Hour >= hoursEnd && startDate.Minute>=minutesEnd)
+                    {
+                        startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart, minutesStart, 0);
+                    }
                 }
             }
             return null;
@@ -108,10 +115,7 @@ namespace HealthCare.View.AppointmentView
                 {
                     appointments.Add(new Appointment(patient, doctor, timeSlot, false));
                 }
-                else
-                {
-                    startDate = startDate.AddMinutes(15);
-                }
+                startDate = startDate.AddMinutes(15);
             }
             return appointments;
         }
@@ -133,7 +137,7 @@ namespace HealthCare.View.AppointmentView
                         return new Appointment(patient, doctor, timeSlot, false);
                     }
                     startDate = startDate.AddMinutes(15);
-                    if (startDate.Hour > hoursEnd)
+                    if (startDate.Hour >= hoursEnd && startDate.Minute >= minutesEnd)
                     {
                         startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart, minutesStart, 0);
                     }
@@ -157,7 +161,7 @@ namespace HealthCare.View.AppointmentView
                     return new Appointment(patient, doctor, timeSlot, false);
                 }
                 startDate = startDate.AddMinutes(15);
-                if (startDate.Hour > hoursEnd)
+                if (startDate.Hour >= hoursEnd && startDate.Minute >= minutesEnd)
                 {
                     startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart, minutesStart, 0);
                 }
