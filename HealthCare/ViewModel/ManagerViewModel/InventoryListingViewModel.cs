@@ -2,9 +2,6 @@
 using HealthCare.Service;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Windows.Navigation;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {
@@ -22,7 +19,6 @@ namespace HealthCare.ViewModel.ManagerViewModel
             _equipmentService = hospital.EquipmentService;
             _roomService = hospital.RoomService;
             Items = new ObservableCollection<InventoryItemViewModel>();
-            _tgBoxes = new ObservableCollection<bool>();
 
             _models = GetModels();
             LoadAll();
@@ -31,19 +27,16 @@ namespace HealthCare.ViewModel.ManagerViewModel
         public void Filter()
         {
             InventoryFilter filter = new InventoryFilter(_models);
-
-            var searchParams = TgBoxes.ToArray();
-
-            filter.FilterQuantity(searchParams);
-            filter.FilterEquipmentType(searchParams);
-            filter.FilterRoomType(searchParams);
-            filter.FilterAnyProperty(_tbQuery);
+            filter.FilterQuantity(TgNone, TgLittle, TgLot);
+            filter.FilterEquipmentType(TgExaminationalEq, TgOperationalEq, TgFurnitureEq, TgHallwayEq);
+            filter.FilterRoomType(TgExaminationalRm, TgOperationalRm, TgPatientCareRm, TgReceptionRm, TgWarehouseRm);
+            filter.FilterAnyProperty(TbQuery);
             LoadModels(filter.GetFiltered());
         }
 
         public void LoadAll()
         {
-            ResetElements();
+            InitializeButtons();
             LoadModels(_models);
         }
 
@@ -64,47 +57,95 @@ namespace HealthCare.ViewModel.ManagerViewModel
             return models;
         }
 
+        private void InitializeButtons()
+        {
+            TgExaminationalRm = false;
+            TgOperationalRm = false;
+            TgPatientCareRm = false;
+            TgReceptionRm = false;
+            TgWarehouseRm = false;
+
+            TgExaminationalEq = false;
+            TgOperationalEq = false;
+            TgFurnitureEq = false;
+            TgHallwayEq = false;
+
+            TgNone = false;
+            TgLittle = false;
+            TgLot = false;
+
+            TbQuery = "";
+        }
+
+        private bool _tgNone, _tgLittle, _tgLot;
+        private bool _tgExaminationalEq, _tgOperationalEq, _tgFurnitureEq, _tgHallwayEq;
+        private bool _tgExaminationalRm, _tgOperationalRm, _tgPatientCareRm, _tgReceptionRm, _tgWarehouseRm;
         private string _tbQuery = "";
+
+        public bool TgNone
+        {
+            get => _tgNone;
+            set { _tgNone = value; OnPropertyChanged(); Filter(); }
+        }
+        public bool TgLittle
+        {
+            get => _tgLittle;
+            set { _tgLittle = value; OnPropertyChanged(); Filter(); }
+        }
+        public bool TgLot
+        {
+            get => _tgLot;
+            set { _tgLot = value; OnPropertyChanged(); Filter(); }
+        }
+        public bool TgExaminationalEq
+        {
+            get => _tgExaminationalEq;
+            set { _tgExaminationalEq = value; OnPropertyChanged(); Filter(); }
+        }
+        public bool TgOperationalEq
+        {
+            get => _tgOperationalEq;
+            set { _tgOperationalEq = value; OnPropertyChanged(); Filter(); }
+        }
+        public bool TgFurnitureEq
+        {
+            get => _tgFurnitureEq;
+            set { _tgFurnitureEq = value; OnPropertyChanged(); Filter(); }
+        }
+        public bool TgHallwayEq
+        {
+            get => _tgHallwayEq;
+            set { _tgHallwayEq = value; OnPropertyChanged(); Filter(); }
+        }
+        public bool TgExaminationalRm
+        {
+            get => _tgExaminationalRm;
+            set { _tgExaminationalRm = value; OnPropertyChanged(); Filter(); }
+        }
+        public bool TgOperationalRm
+        {
+            get => _tgOperationalRm;
+            set { _tgOperationalRm = value; OnPropertyChanged(); Filter(); }
+        }
+        public bool TgPatientCareRm
+        {
+            get => _tgPatientCareRm;
+            set { _tgPatientCareRm = value; OnPropertyChanged(); Filter(); }
+        }
+        public bool TgReceptionRm
+        {
+            get => _tgReceptionRm;
+            set { _tgReceptionRm = value; OnPropertyChanged(); Filter(); }
+        }
+        public bool TgWarehouseRm
+        {
+            get => _tgWarehouseRm;
+            set { _tgWarehouseRm = value; OnPropertyChanged(); Filter(); }
+        }
         public string TbQuery
         {
             get => _tbQuery;
-            set
-            {
-                _tbQuery = value;
-                OnPropertyChanged();
-                Filter();
-            }
-        }
-
-        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Replace) 
-                Filter();
-        }
-        
-        private ObservableCollection<bool> _tgBoxes;
-        public ObservableCollection<bool> TgBoxes
-        {
-            get => _tgBoxes;
-            set
-            {
-                _tgBoxes = value;
-                OnPropertyChanged();
-                Filter();
-            }
-        }
-
-        private void InitializeBoxCollection()
-        {
-            TgBoxes.Clear();
-            for (int i = 0; i < 12; i++)
-                TgBoxes.Add(false);
-        }
-
-        private void ResetElements()
-        {
-            InitializeBoxCollection();
-            TbQuery = "";
+            set { _tbQuery = value; OnPropertyChanged(); Filter(); }
         }
     }
 }
