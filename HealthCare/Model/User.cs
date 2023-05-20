@@ -1,4 +1,5 @@
 ﻿using HealthCare.Repository;
+using HealthCare.Serialize;
 using System;
 
 namespace HealthCare.Model
@@ -8,9 +9,8 @@ namespace HealthCare.Model
         Male,
         Female
     }
-    public class User : Identifier, ISerializable
+    public class User : IKey, ISerializable
     {
-        public override object Key { get => JMBG; set => JMBG = (string)value; }
         public string Name { get; set; }
         public string LastName { get; set; }
         public string JMBG { get; set; }
@@ -35,14 +35,20 @@ namespace HealthCare.Model
             Gender = gender;
         }
 
-        public string[] ToCSV()
+        public object Key
+        {
+            get => JMBG;
+            set { JMBG = (string)value; }
+        }
+
+        public string[] Serialize()
         {
             return new string[] { 
                 Name, LastName, JMBG, Utility.ToString(BirthDate), 
                 PhoneNumber, Address, UserName, Password, Gender.ToString() };
         }
 
-        public void FromCSV(string[] values)
+        public void Deserialize(string[] values)
         {
             Name = values[0];
             LastName = values[1];

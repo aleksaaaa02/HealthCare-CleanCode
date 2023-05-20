@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace HealthCare.Repository
+namespace HealthCare.Serialize
 {
-    public static class Serializer<T> where T : ISerializable, new()
+    public class CsvSerializer<T> : ISerializer<T> where T : ISerializable, new()
     {
-        private static readonly char _delimiter = ',';
+        private static readonly char _sep = ',';
 
-        public static void ToCSV(string filepath, List<T> objects)
+        public void SerializeAll(string filepath, List<T> objects)
         {
             ValidateFile(filepath);
 
@@ -15,13 +15,13 @@ namespace HealthCare.Repository
             {
                 foreach (T obj in objects)
                 {
-                    string line = string.Join(_delimiter.ToString(), obj.ToCSV());
+                    string line = string.Join(_sep, obj.Serialize());
                     streamWriter.WriteLine(line);
                 }
             }
         }
 
-        public static List<T> FromCSV(string filepath)
+        public List<T> DeserializeAll(string filepath)
         {
             ValidateFile(filepath);
 
@@ -30,9 +30,9 @@ namespace HealthCare.Repository
             {
                 if (line.Trim() == "") continue;
 
-                string[] csvValues = line.Split(_delimiter);
+                string[] csvValues = line.Split(_sep);
                 T obj = new T();
-                obj.FromCSV(csvValues);
+                obj.Deserialize(csvValues);
                 objects.Add(obj);
             }
 

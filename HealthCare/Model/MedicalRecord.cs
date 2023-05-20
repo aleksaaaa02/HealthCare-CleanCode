@@ -1,4 +1,4 @@
-﻿using HealthCare.Repository;
+﻿using HealthCare.Serialize;
 
 namespace HealthCare.Model
 {
@@ -23,15 +23,14 @@ namespace HealthCare.Model
             return "Visina: " + Height.ToString() + "\nTezina: "+ Weight.ToString() + "\nIstorija: " +string.Join(", ", MedicalHistory);
         }
         
-
-        public string[] ToCSV()
+        public string[] Serialize()
         {
             string medicalHistory = Utility.ToString(MedicalHistory);
             string allergies = Utility.ToString(Allergies);
             return new string[] {Height.ToString(), Weight.ToString(), medicalHistory, allergies};
         }
         
-        public void FromCSV(string[] values)
+        public void Deserialize(string[] values)
         {
             Height = float.Parse(values[0]);
             Weight = float.Parse(values[1]);

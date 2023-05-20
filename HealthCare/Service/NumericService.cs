@@ -1,9 +1,10 @@
 ﻿using HealthCare.Repository;
+using HealthCare.Serialize;
 using System.Linq;
 
 namespace HealthCare.Service
 {
-    public abstract class NumericService<T> : Service<T> where T : Identifier, ISerializable, new()
+    public abstract class NumericService<T> : Service<T> where T : IKey, ISerializable, new()
     {
         protected NumericService(string filepath) : base(filepath) { }
 

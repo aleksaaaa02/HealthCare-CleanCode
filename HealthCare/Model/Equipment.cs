@@ -1,4 +1,5 @@
 ﻿using HealthCare.Repository;
+using HealthCare.Serialize;
 
 namespace HealthCare.Model
 {
@@ -10,9 +11,8 @@ namespace HealthCare.Model
         HallwayFurniture
     }
 
-    public class Equipment : Identifier, ISerializable
+    public class Equipment : IKey, ISerializable
     {
-        public override object Key { get => Id; set => Id = (int)value; }
         public int Id { get; set; }
         public string Name { get; set; }
         public EquipmentType Type { get; set; }
@@ -26,13 +26,18 @@ namespace HealthCare.Model
             Type = type;
             IsDynamic = dynamic;
         }
+        public object Key
+        {
+            get => Id;
+            set { Id = (int)value; }
+        }
 
-        public string[] ToCSV()
+        public string[] Serialize()
         {
             return new string[] { Id.ToString(), Name, Type.ToString(), IsDynamic.ToString() };
         }
 
-        public void FromCSV(string[] values)
+        public void Deserialize(string[] values)
         {
             Id = int.Parse(values[0]);
             Name = values[1];

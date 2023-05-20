@@ -1,11 +1,11 @@
 ﻿using HealthCare.Repository;
+using HealthCare.Serialize;
 using System;
 
 namespace HealthCare.Model
 {
-    public class OrderItem : Identifier, ISerializable
+    public class OrderItem : IKey, ISerializable
     {
-        public override object Key { get => Id; set => Id = (int)value; }
         public int Id { get; set; }
         public int EquipmentId { get; set; }
         public int Quantity { get; set; }
@@ -24,21 +24,27 @@ namespace HealthCare.Model
             Executed = executed;
         }
 
-        public virtual void FromCSV(string[] values)
+        public object Key
+        {
+            get => Id;
+            set { Id = (int)value; }
+        }
+
+        public virtual string[] Serialize()
+        {
+            return new string[] { 
+                Id.ToString(), EquipmentId.ToString(), 
+                Quantity.ToString(), Utility.ToString(Scheduled), 
+                Executed.ToString() };
+        }
+
+        public virtual void Deserialize(string[] values)
         {
             Id = int.Parse(values[0]);
             EquipmentId = int.Parse(values[1]);
             Quantity = int.Parse(values[2]);
             Scheduled = Utility.ParseDate(values[3]);
             Executed = bool.Parse(values[4]);
-        }
-
-        public virtual string[] ToCSV()
-        {
-            return new string[] { 
-                Id.ToString(), EquipmentId.ToString(), 
-                Quantity.ToString(), Utility.ToString(Scheduled), 
-                Executed.ToString() };
         }
     }
 }

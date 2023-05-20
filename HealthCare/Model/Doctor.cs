@@ -1,4 +1,4 @@
-﻿using HealthCare.Repository;
+﻿using HealthCare.Serialize;
 using HealthCare.Service;
 using System;
 using System.Collections.Generic;
@@ -38,13 +38,13 @@ namespace HealthCare.Model
             return Specialization == NeededSpecialization;
         }
 
-        public new string[] ToCSV()
+        public new string[] Serialize()
         {
-            string[] userValues = base.ToCSV();
+            string[] userValues = base.Serialize();
             return userValues.Concat(new string[] { Specialization }).ToArray();
         }
 
-        public new void FromCSV(string[] values)
+        public new void Deserialize(string[] values)
         {
             Name = values[0];
             LastName = values[1];

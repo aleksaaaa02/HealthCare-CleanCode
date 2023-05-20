@@ -1,4 +1,4 @@
-﻿using HealthCare.Repository;
+﻿using HealthCare.Serialize;
 using HealthCare.Service;
 using System;
 using System.Collections.Generic;
@@ -34,18 +34,18 @@ namespace HealthCare.Model
             return true;
         }
 
-        public new string[] ToCSV()
+        public new string[] Serialize()
         {
-            string[] userValues = base.ToCSV();
+            string[] userValues = base.Serialize();
             string[] patientValues = {Blocked.ToString()};
             string[] medicalRecordValues = {""};
             if (MedicalRecord != null)
-                medicalRecordValues = MedicalRecord.ToCSV();
+                medicalRecordValues = MedicalRecord.Serialize();
             string[] csvValues = userValues.Concat(patientValues).Concat(medicalRecordValues).ToArray();
             return csvValues;
         }
 
-        public new void FromCSV(string[] values)
+        public new void Deserialize(string[] values)
         {
             Name = values[0];
             LastName = values[1];
@@ -59,7 +59,7 @@ namespace HealthCare.Model
 
             Blocked = bool.Parse(values[9]);
             MedicalRecord = new MedicalRecord();
-            MedicalRecord.FromCSV(Utility.SubArray(values, 10, 4));
+            MedicalRecord.Deserialize(Utility.SubArray(values, 10, 4));
         }
     }
 }

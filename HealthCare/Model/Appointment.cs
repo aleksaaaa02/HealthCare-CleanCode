@@ -1,9 +1,10 @@
 ﻿using HealthCare.Repository;
+using HealthCare.Serialize;
 using System;
 
 namespace HealthCare.Model
 {
-    public class Appointment : ISerializable
+    public class Appointment : IKey, ISerializable
     {
         public int AppointmentID { get; set; }
         public Patient Patient { get; set; }
@@ -24,14 +25,20 @@ namespace HealthCare.Model
             IsUrgent = false;
         }
 
-        public string[] ToCSV()
+        public object Key
+        {
+            get => AppointmentID;
+            set { AppointmentID = (int)value; }
+        }
+
+        public string[] Serialize()
         {
             return new string[] { 
                 AppointmentID.ToString(), Patient.JMBG.ToString(), Doctor.JMBG.ToString(), 
                 TimeSlot.ToString(), IsOperation.ToString(), AnamnesisID.ToString(), IsUrgent.ToString() };
         }
 
-        public void FromCSV(string[] values)
+        public void Deserialize(string[] values)
         {
             AppointmentID = int.Parse(values[0]);
             Patient = new Patient();

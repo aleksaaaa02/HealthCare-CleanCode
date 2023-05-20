@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using HealthCare.Serialize;
 
 namespace HealthCare.Repository
 {
@@ -14,12 +15,14 @@ namespace HealthCare.Repository
 
         public List<T> Load()
         {
-            return Serializer<T>.FromCSV(_filepath);
+            ISerializer<T> serializer = new CsvSerializer<T>();
+            return serializer.DeserializeAll(_filepath);
         }
 
         public void Save(List<T> objects)
         {
-            Serializer<T>.ToCSV(_filepath, objects);
+            ISerializer<T> serializer = new CsvSerializer<T>();
+            serializer.SerializeAll(_filepath, objects);
         }
     }
 }

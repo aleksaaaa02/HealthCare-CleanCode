@@ -1,4 +1,4 @@
-﻿using HealthCare.Repository;
+﻿using HealthCare.Serialize;
 using System;
 using System.Linq;
 
@@ -6,7 +6,6 @@ namespace HealthCare.Model
 {
     public class TransferItem : OrderItem
     {
-        public override object Key { get => Id; set => Id = (int) value; }
         public int FromRoom { get; set; }
         public int ToRoom { get; set; }
 
@@ -20,17 +19,17 @@ namespace HealthCare.Model
             ToRoom = toRoom;
         }
 
-        public override void FromCSV(string[] values)
+        public override string[] Serialize()
         {
-            base.FromCSV(Utility.SubArray(values, 0, 5));
-            FromRoom = int.Parse(values[5]);
-            ToRoom = int.Parse(values[6]);
+            return base.Serialize().Concat(
+                new string[] { FromRoom.ToString(), ToRoom.ToString() }).ToArray();
         }
 
-        public override string[] ToCSV()
+        public override void Deserialize(string[] values)
         {
-            return base.ToCSV().Concat(
-                new string[] { FromRoom.ToString(), ToRoom.ToString() }).ToArray();
+            base.Deserialize(Utility.SubArray(values, 0, 5));
+            FromRoom = int.Parse(values[5]);
+            ToRoom = int.Parse(values[6]);
         }
     }
 }

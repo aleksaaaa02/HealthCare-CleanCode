@@ -1,13 +1,10 @@
 ﻿using HealthCare.Repository;
+using HealthCare.Serialize;
 
 namespace HealthCare.Model
 {
-    public class InventoryItem : Identifier, ISerializable
+    public class InventoryItem : IKey, ISerializable
     {
-        public override object Key {
-            get => Id;
-            set { Id = (int)value; } 
-        }
         public int Id { get; set; }
         public int EquipmentId { get; set; }
         public int RoomId { get; set; }
@@ -25,7 +22,13 @@ namespace HealthCare.Model
             Quantity = quantity;
         }
 
-        public string[] ToCSV()
+        public object Key
+        {
+            get => Id;
+            set { Id = (int)value; }
+        }
+
+        public string[] Serialize()
         {
             return new string[] {
                 Id.ToString(),
@@ -34,7 +37,7 @@ namespace HealthCare.Model
                 Quantity.ToString()};
         }
 
-        public void FromCSV(string[] values)
+        public void Deserialize(string[] values)
         {
             Id = int.Parse(values[0]);
             EquipmentId = int.Parse(values[1]);
@@ -42,6 +45,7 @@ namespace HealthCare.Model
             Quantity = int.Parse(values[3]);
         }
 
+        // TODO adjust to be only Id check
         public override bool Equals(object? obj)
         {
             return obj is InventoryItem item && (Id == item.Id || 

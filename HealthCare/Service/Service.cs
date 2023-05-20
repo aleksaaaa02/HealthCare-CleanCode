@@ -1,27 +1,28 @@
 ﻿using HealthCare.Repository;
+using HealthCare.Serialize;
 using System.Collections.Generic;
 
 namespace HealthCare.Service
 {
-    public abstract class Service<T> where T : Identifier, ISerializable, new()
+    public abstract class Service<T> where T : IKey, ISerializable, new()
     {
-        protected Repository<T> _repository;
+        protected FileRepository<T> _repository;
 
         public Service(string filepath)
         {
-            _repository = new Repository<T>(filepath);
+            _repository = new FileRepository<T>(filepath);
         }
 
         // can return null if not found
-        public T? TryGet(object id)
+        public T? TryGet(object key)
         {
-            return _repository.Get(id);
+            return _repository.Get(key);
         }
 
-        // must return an object
-        public T Get(object id)
+        // throws an error if object not found
+        public T Get(object key)
         {
-            T? item = _repository.Get(id);
+            T? item = _repository.Get(key);
             if (item is null) throw new KeyNotFoundException();
             return item;
         }
@@ -31,9 +32,9 @@ namespace HealthCare.Service
             _repository.Add(item);
         }
 
-        public void Remove(object id)
+        public void Remove(object key)
         {
-            _repository.Remove(id);
+            _repository.Remove(key);
         }
 
         public void Update(T item)
@@ -41,9 +42,9 @@ namespace HealthCare.Service
             _repository.Update(item);
         }
 
-        public bool Contains(object id)
+        public bool Contains(object key)
         {
-            return _repository.Contains(id);
+            return _repository.Contains(key);
         }
 
         public int Count()
@@ -53,7 +54,7 @@ namespace HealthCare.Service
 
         public List<T> GetAll()
         {
-            return _repository.Items();
+            return _repository.Load();
         }
     }
 }

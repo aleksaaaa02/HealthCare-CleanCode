@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace HealthCare.Repository
+namespace HealthCare.Serialize
 {
     public static class Utility
     {
@@ -17,7 +17,7 @@ namespace HealthCare.Repository
             return TimeSpan.ParseExact(str, Global.timeSpanFormat, CultureInfo.InvariantCulture);
         }
 
-        public static T Parse<T>(string str) 
+        public static T Parse<T>(string str)
         {
             return (T)Enum.Parse(typeof(T), str);
         }

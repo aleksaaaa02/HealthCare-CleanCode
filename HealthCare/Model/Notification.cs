@@ -1,10 +1,10 @@
 ﻿using HealthCare.Repository;
+using HealthCare.Serialize;
 
 namespace HealthCare.Model
 {
-    public class Notification : Identifier, ISerializable
+    public class Notification : IKey, ISerializable
     {
-        public override object Key { get => Id; set => Id = (int)value; }
         public int Id { get; set; }
         public string Text { get; set; }
         public bool Seen { get; set; }
@@ -27,13 +27,19 @@ namespace HealthCare.Model
             return Text;
         }
 
-        public string[] ToCSV()
+        public object Key
+        {
+            get => Id;
+            set { Id = (int)value; }
+        }
+
+        public string[] Serialize()
         {
             string recipients = Utility.ToString(Recipients);
             return new string[] { Id.ToString(), recipients, Text, Seen.ToString() };
         }
 
-        public void FromCSV(string[] values)
+        public void Deserialize(string[] values)
         {
             Id = int.Parse(values[0]);
             Recipients = values[1].Split("|");

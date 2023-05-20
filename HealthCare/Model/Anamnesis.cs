@@ -1,10 +1,10 @@
 ﻿using HealthCare.Repository;
+using HealthCare.Serialize;
 
 namespace HealthCare.Model
 {
-    public class Anamnesis : Identifier, ISerializable
+    public class Anamnesis : IKey, ISerializable
     {
-        public override object Key { get => ID; set => ID = (int)value; }
         public int ID { get; set; }
         public string DoctorsObservations { get; set; }
         public string[] Symptoms { get; set; }
@@ -23,18 +23,24 @@ namespace HealthCare.Model
             Symptoms = symptoms;
         }
 
-        public void FromCSV(string[] values)
+        public object Key
         {
-            ID = int.Parse(values[0]);
-            DoctorsObservations = values[1];
-            Symptoms = values[2].Split("|");
+            get => ID;
+            set => ID = (int)value;
         }
 
-        public string[] ToCSV()
+        public string[] Serialize()
         {
             string symptoms = string.Join("|", Symptoms);
             string[] csvValues = { ID.ToString(), DoctorsObservations, symptoms };
             return csvValues;
+        }
+
+        public void Deserialize(string[] values)
+        {
+            ID = int.Parse(values[0]);
+            DoctorsObservations = values[1];
+            Symptoms = values[2].Split("|");
         }
     }
 }
