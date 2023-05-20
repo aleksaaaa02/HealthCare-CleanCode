@@ -19,6 +19,11 @@ namespace HealthCare.Context
         public EquipmentService EquipmentService;
         public AnamnesisService AnamnesisService;
         public NotificationService NotificationService;
+        
+        public TreatmentReferralService TreatmentReferralService;
+        public SpecialistReferralService SpecialistReferralService;
+        public MedicationService MedicationService;
+        public PrescriptionService PrescriptionService;
 
         public Hospital() : this("Bolnica") { }
 
@@ -37,6 +42,11 @@ namespace HealthCare.Context
             TransferService = new TransferService(Global.transferPath, Inventory);
             NotificationService = new NotificationService(Global.notificationPath);
             OrderService = new OrderService(Global.orderPath, Inventory, RoomService);
+
+            TreatmentReferralService = new TreatmentReferralService(Global.treatmentReferralPath);
+            SpecialistReferralService = new SpecialistReferralService(Global.specialistReferralPath);
+            MedicationService = new MedicationService(Global.medicationPath);
+            PrescriptionService = new PrescriptionService(Global.prescriptionPath);
         }
 
         public void LoadAll()
