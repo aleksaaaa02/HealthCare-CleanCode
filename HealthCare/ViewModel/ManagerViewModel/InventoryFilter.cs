@@ -31,25 +31,25 @@ namespace HealthCare.ViewModel.ManagerViewModel
 
         public void FilterEquipmentType(bool[] search)
         {
-            if (!(search[3] || search[4] || search[5] || search[6])) return;
+            if (!(search[0] || search[1] || search[2] || search[3])) return;
 
             _items = _items.Where(x =>
-                search[3] && x.Equipment.Type.Equals(EquipmentType.Examinational) ||
-                search[4] && x.Equipment.Type.Equals(EquipmentType.Operational) ||
-                search[5] && x.Equipment.Type.Equals(EquipmentType.RoomFurniture) ||
-                search[6] && x.Equipment.Type.Equals(EquipmentType.HallwayFurniture)).ToList();
+                search[0] && x.Equipment.Type.Equals(EquipmentType.Examinational) ||
+                search[1] && x.Equipment.Type.Equals(EquipmentType.Operational) ||
+                search[2] && x.Equipment.Type.Equals(EquipmentType.RoomFurniture) ||
+                search[3] && x.Equipment.Type.Equals(EquipmentType.HallwayFurniture)).ToList();
         }
 
         public void FilterRoomType(bool[] search)
         {
-            if (!(search[7] || search[8] || search[9] || search[10] || search[11])) return;
+            if (!(search[0] || search[1] || search[2] || search[3] || search[4])) return;
 
             _items = _items.Where(x => 
-                search[7] && x.Room.Type.Equals(RoomType.Examinational) ||
-                search[8] && x.Room.Type.Equals(RoomType.Operational) ||
-                search[9] && x.Room.Type.Equals(RoomType.PatientCare) ||
-                search[10] && x.Room.Type.Equals(RoomType.Reception) ||
-                search[11] && x.Room.Type.Equals(RoomType.Warehouse)).ToList();
+                search[0] && x.Room.Type.Equals(RoomType.Examinational) ||
+                search[1] && x.Room.Type.Equals(RoomType.Operational) ||
+                search[2] && x.Room.Type.Equals(RoomType.PatientCare) ||
+                search[3] && x.Room.Type.Equals(RoomType.Reception) ||
+                search[4] && x.Room.Type.Equals(RoomType.Warehouse)).ToList();
         }
 
         public void FilterAnyProperty(string query)
