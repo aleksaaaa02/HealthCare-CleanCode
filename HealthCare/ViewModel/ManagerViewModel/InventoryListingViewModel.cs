@@ -24,8 +24,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
             _roomService = hospital.RoomService;
             Items = new ObservableCollection<InventoryItemViewModel>();
             BoxSelectionArgs = new ObservableCollection<bool>();
-            BoxSelectionArgs.CollectionChanged += CollectionChanged;
-
+            
             _models = GetModels();
             LoadAll();
         }
@@ -44,13 +43,13 @@ namespace HealthCare.ViewModel.ManagerViewModel
             filter.FilterRoomType(roomArgs);
             filter.FilterAnyProperty(_searchQuery);
 
-            LoadModels(filter.GetFiltered());
+            LoadModels(filter.Items);
         }
 
         public void LoadAll()
         {
-            SearchQuery = "";
             InitializeBoxCollection();
+            SearchQuery = "";
             LoadModels(_models);
         }
 
@@ -72,16 +71,18 @@ namespace HealthCare.ViewModel.ManagerViewModel
 
         private void CollectionChanged(object? sender, NotifyCollectionChangedEventArgs args)
         {
-            var collection = sender as ObservableCollection<bool>;
-            if (collection != null && collection.Count == 12)
-                Filter();
+            Filter();
         }
 
         private void InitializeBoxCollection()
         {
+            BoxSelectionArgs.CollectionChanged -= CollectionChanged;
+
             BoxSelectionArgs.Clear();
             for (int i = 0; i < 12; i++)
                 BoxSelectionArgs.Add(false);
+
+            BoxSelectionArgs.CollectionChanged += CollectionChanged;
         }
 
         private string _searchQuery = "";
@@ -92,7 +93,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
             {
                 _searchQuery = value;
                 OnPropertyChanged();
-                if (value != "") Filter();
+                Filter();
             }
         }
     }

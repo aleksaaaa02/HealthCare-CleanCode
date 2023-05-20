@@ -7,76 +7,70 @@ namespace HealthCare.ViewModel.ManagerViewModel
 {
     internal class InventoryFilter
     {
-        private List<InventoryItemViewModel> _items;
+        public List<InventoryItemViewModel> Items { get; private set; }
 
         public InventoryFilter(List<InventoryItemViewModel> items)
         {
-            _items = items;
+            Items = items;
         }
 
-        public List<InventoryItemViewModel> GetFiltered()
+        public void FilterQuantity(bool[] args)
         {
-            return _items;
+            if (args.All(b => !b)) return;
+
+            Items = Items.Where(x =>
+                args[0] && x.Quantity == 0 ||
+                args[1] && x.Quantity <= 10 ||
+                args[2] && x.Quantity > 10).ToList();
         }
 
-        public void FilterQuantity(bool[] search)
+        public void FilterEquipmentType(bool[] args)
         {
-            if (!(search[0] || search[1] || search[2])) return;
+            if (args.All(b => !b)) return;
 
-            _items = _items.Where(x =>
-                search[0] && x.Quantity == 0 ||
-                search[1] && x.Quantity <= 10 ||
-                search[2] && x.Quantity > 10).ToList();
+            Items = Items.Where(x => Enumerable.Range(0, 4)
+                .Any(i => args[i] && x.Equipment.Type.Equals((EquipmentType)i))
+            ).ToList();
         }
 
-        public void FilterEquipmentType(bool[] search)
+        public void FilterRoomType(bool[] args)
         {
-            if (!(search[0] || search[1] || search[2] || search[3])) return;
+            if (args.All(b => !b)) return;
 
-            _items = _items.Where(x =>
-                search[0] && x.Equipment.Type.Equals(EquipmentType.Examinational) ||
-                search[1] && x.Equipment.Type.Equals(EquipmentType.Operational) ||
-                search[2] && x.Equipment.Type.Equals(EquipmentType.RoomFurniture) ||
-                search[3] && x.Equipment.Type.Equals(EquipmentType.HallwayFurniture)).ToList();
-        }
-
-        public void FilterRoomType(bool[] search)
-        {
-            if (!(search[0] || search[1] || search[2] || search[3] || search[4])) return;
-
-            _items = _items.Where(x => 
-                search[0] && x.Room.Type.Equals(RoomType.Examinational) ||
-                search[1] && x.Room.Type.Equals(RoomType.Operational) ||
-                search[2] && x.Room.Type.Equals(RoomType.PatientCare) ||
-                search[3] && x.Room.Type.Equals(RoomType.Reception) ||
-                search[4] && x.Room.Type.Equals(RoomType.Warehouse)).ToList();
+            Items = Items.Where(x => Enumerable.Range(0, 5)
+                .Any(i => args[i] && x.Room.Type.Equals((RoomType)i))
+            ).ToList();
         }
 
         public void FilterAnyProperty(string query)
         {
-            if (query == "") return;
-            string[] tokens = query.Split(' ');
+            if (string.IsNullOrWhiteSpace(query)) return;
+            string[] tokens = GetTokens(query);
 
-            _items = _items.Where(x =>
-                HasAllTokens(x, tokens)).ToList();
+            Items = Items.Where(x =>
+                HasAllTokens(x, tokens)
+            ).ToList();
         }
 
         private bool HasAllTokens(InventoryItemViewModel item, string[] tokens)
         {
-            tokens = NormalizeTokens(tokens);
-            return tokens.Count(x =>
-                    ContainsToken(item.Equipment.Name, x) ||
-                    ContainsToken(item.Room.Name, x) ||
-                    ContainsToken(item.Quantity.ToString(), x) ||
-                    ContainsToken(Utility.Translate(item.Equipment.Type), x) ||
-                    ContainsToken(Utility.Translate(item.Room.Type), x) ||
-                    ContainsToken(Utility.Translate(item.Equipment.IsDynamic), x))
-                == tokens.Length;
+            var searchParameters = new string[] {
+                Utility.Translate(item.Equipment.IsDynamic),
+                Utility.Translate(item.Equipment.Type),
+                Utility.Translate(item.Room.Type),
+                item.Quantity.ToString(),
+                item.Equipment.Name,
+                item.Room.Name,
+            };
+
+            return tokens.Count(token =>
+                searchParameters.Any(p => ContainsToken(p, token))
+            ) == tokens.Length;
         }
 
-        private string[] NormalizeTokens(string[] tokens)
+        private string[] GetTokens(string text, string sep = " ")
         {
-            return tokens.Select(x => x.Trim().ToLower()).Where(x => x != "").ToArray();
+            return text.Split(sep).Select(x => x.Trim().ToLower()).ToArray();
         }
 
         private bool ContainsToken(string text, string token)
