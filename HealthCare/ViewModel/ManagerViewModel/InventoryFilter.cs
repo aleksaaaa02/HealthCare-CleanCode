@@ -57,7 +57,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
             if (query == "") return;
             string[] tokens = query.Split(' ');
 
-            _items = _items.Where(x => 
+            _items = _items.Where(x =>
                 HasAllTokens(x, tokens)).ToList();
         }
 

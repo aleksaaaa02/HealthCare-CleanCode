@@ -2,7 +2,8 @@ namespace HealthCare.Context
 {
     public static class Global
     {
-        public const string dirPath = "../../../Resource/";
+        private const string dirPath = "../../../Resource/";
+
         public const string roomPath = dirPath + "rooms.csv";
         public const string orderPath = dirPath + "orders.csv";
         public const string nursePath = dirPath + "nurses.csv";
