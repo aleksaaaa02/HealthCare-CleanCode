@@ -222,6 +222,5 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation
         {
             _allergies.Remove(allergy);
         }
-
     }
 }
