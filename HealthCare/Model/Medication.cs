@@ -11,9 +11,8 @@ namespace HealthCare.Model
         public string[] Ingredients { get; set; }
         public Medication() { }
         
-        public Medication(int id, string name, string description, string[] ingredients)
+        public Medication(string name, string description, string[] ingredients)
         {
-            Id = id;
             Name = name;
             Description = description;
             Ingredients = ingredients;
