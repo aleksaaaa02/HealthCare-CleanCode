@@ -6,35 +6,35 @@ namespace HealthCare.Model
     {
         public override object Key { get => Id; set { Id = (int)value; } }
         public int Id { get; set; }
-        public string DoctorId { get; set; }
-        public string PatientId { get; set; }
-        public string Specialzation { get; set; }
+        public string DoctorJMBG { get; set; }
+        public string PatientJMBG { get; set; }
+        public string Specialization { get; set; }
         public string ReferredDoctorId { get; set; }
 
         public SpecialistReferral() { }
 
-        public SpecialistReferral(string doctorId, string patientId, int id, string specialzation, string referredDoctorId)
+        public SpecialistReferral(string doctorId, string patientId, int id, string specialization, string referredDoctorId)
         {
-            DoctorId = doctorId;
-            PatientId = patientId;
+            DoctorJMBG = doctorId;
+            PatientJMBG = patientId;
             Id = id;
-            Specialzation = specialzation;
+            Specialization = specialization;
             ReferredDoctorId = referredDoctorId;
         }
 
         public void FromCSV(string[] values)
         {
             Id = int.Parse(values[0]);
-            DoctorId = values[1];
-            PatientId = values[2];
-            Specialzation = values[3];
+            DoctorJMBG = values[1];
+            PatientJMBG = values[2];
+            Specialization = values[3];
             ReferredDoctorId = values[4];
 
         }
 
         public string[] ToCSV()
         {
-            return new string[] { Id.ToString(), DoctorId, PatientId, Specialzation, ReferredDoctorId};
+            return new string[] { Id.ToString(), DoctorJMBG, PatientJMBG, Specialization, ReferredDoctorId};
         }
     }
 }

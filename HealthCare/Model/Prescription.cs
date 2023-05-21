@@ -17,19 +17,19 @@ namespace HealthCare.Model
         public int MedicationId { get; set; }
         public int DailyDosage { get; set; }
         public int HoursBetweenConsumption { get; set; }
-        public int MedicationDurationDays { get; set; }
+        public int ConsumptionDays { get; set; }
         public MealTime Instruction { get; set; }
-        public string PatientId { get; set; }
+        public string PatientJMBG { get; set; }
         public Prescription() { }
-        public Prescription(int id, int medicationId, MealTime instruction, string patientId, int dailyDosage, int hoursBetweenConsumption, int medicationConsumptionDays)
+        public Prescription(int id, int medicationId, MealTime instruction, string patientJMBG, int dailyDosage, int hoursBetweenConsumption, int consumptionDays)
         {
             Id = id;
             MedicationId = medicationId;
             Instruction = instruction;
-            PatientId = patientId;
+            PatientJMBG = patientJMBG;
             DailyDosage = dailyDosage;
             HoursBetweenConsumption = hoursBetweenConsumption;
-            MedicationDurationDays = medicationConsumptionDays;
+            ConsumptionDays = consumptionDays;
         }
 
         public void FromCSV(string[] values)
@@ -37,16 +37,16 @@ namespace HealthCare.Model
             Id = int.Parse(values[0]);
             MedicationId = int.Parse(values[1]);
             Instruction = Utility.Parse<MealTime>(values[2]);
-            PatientId = values[3];
+            PatientJMBG = values[3];
             DailyDosage = int.Parse(values[4]);
             HoursBetweenConsumption = int.Parse(values[5]);
-            MedicationDurationDays = int.Parse(values[6]);
+            ConsumptionDays = int.Parse(values[6]);
 
         }   
 
         public string[] ToCSV()
         {
-            return new string[] { Id.ToString(), MedicationId.ToString(), Instruction.ToString(), PatientId, DailyDosage.ToString(), HoursBetweenConsumption.ToString(), MedicationDurationDays.ToString() };
+            return new string[] { Id.ToString(), MedicationId.ToString(), Instruction.ToString(), PatientJMBG, DailyDosage.ToString(), HoursBetweenConsumption.ToString(), ConsumptionDays.ToString() };
         }
     }
 }
