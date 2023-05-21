@@ -31,34 +31,34 @@
         <Grid Grid.Column="1" Margin="10 10">
             <ScrollViewer>
                 <Grid>
-                    <ListView SelectionMode="Single">
+                    <ListView SelectionMode="Single" ItemsSource="{Binding Medications}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="ID" Width="125">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Padding="0 0 20 0"  Text="{Binding}"/>
+                                            <TextBlock Padding="0 0 20 0"  Text="{Binding MedicationId}"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn Header="Naziv" Width="125">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Padding="0 0 20 0"  Text="{Binding}"/>
+                                            <TextBlock Padding="0 0 20 0"  Text="{Binding MedicationName}"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn Header="Opis" Width="125">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Padding="0 0 20 0"  Text="{Binding}"/>
+                                            <TextBlock Padding="0 0 20 0"  Text="{Binding Description}"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn Header="Potreban?" Width="125">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <CheckBox IsChecked="False"/>
+                                            <CheckBox IsChecked="{Binding InitialTherapy}"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

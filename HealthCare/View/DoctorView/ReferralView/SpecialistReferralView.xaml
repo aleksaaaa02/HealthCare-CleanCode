@@ -20,36 +20,40 @@
                 <TextBlock Text="Uput za doktora ili specijalizaciju" FontSize="14" FontWeight="DemiBold"/>
                 <Label Margin="0 50"/>
                 <Label Content="Specijalizacija"/>
-                <TextBox />
+                <TextBox Text="{Binding Specialization}" IsEnabled="{Binding IsSpecializationReferral}"/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Uput za specijalizaciju?" VerticalAlignment="Center"/>
+                    <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsSpecializationReferral}"/>
+                </StackPanel>
             </StackPanel>
-            <StackPanel Grid.Row="1">
-                <Button Content="Izdaj Uput"/>
+            <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                <Button Content="Izdaj Uput" Height="30" Command="{Binding MakeSpecialistReferralCommand}"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Column="1" Margin="10 10">
             <ScrollViewer>
                 <Grid>
-                    <ListView SelectionMode="Single">
+                    <ListView SelectionMode="Single" ItemsSource="{Binding Doctors}" SelectedItem="{Binding SelectedDoctor}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="JMBG" Width="125">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Padding="0 0 20 0"  Text="{Binding}"/>
+                                            <TextBlock Padding="0 0 20 0"  Text="{Binding JMBG}"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn Header="Ime i prezime" Width="125">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Padding="0 0 20 0"  Text="{Binding}"/>
+                                            <TextBlock Padding="0 0 20 0"  Text="{Binding NameAndLastName}"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn Header="Specijalizacija" Width="125">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Padding="0 0 20 0"  Text="{Binding}"/>
+                                            <TextBlock Padding="0 0 20 0"  Text="{Binding Specialization}"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
