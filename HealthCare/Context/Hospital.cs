@@ -18,6 +18,7 @@ namespace HealthCare.Context
         public TransferService TransferService;
         public EquipmentService EquipmentService;
         public AnamnesisService AnamnesisService;
+        public RenovationService RenovationService;
         public NotificationService NotificationService;
 
         public Hospital() : this("Bolnica") { }
@@ -30,6 +31,7 @@ namespace HealthCare.Context
             RoomService = new RoomService(Global.roomPath);
             Inventory = new Inventory(Global.inventoryPath);
             NurseService = new NurseService(Global.nursePath);
+            RenovationService = new RenovationService(Inventory);
             DoctorService = new DoctorService(Global.doctorPath);
             PatientService = new PatientService(Global.patientPath);
             EquipmentService = new EquipmentService(Global.equipmentPath);

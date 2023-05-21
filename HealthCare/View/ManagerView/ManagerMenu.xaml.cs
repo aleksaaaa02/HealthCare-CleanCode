@@ -31,6 +31,11 @@ namespace HealthCare.View.ManagerView
             new EquipmentRearrangingView(this, _hospital).Show();
         }
 
+        private void Button_Renovation(object sender, RoutedEventArgs e)
+        {
+            new RenovationView(this, _hospital).Show();
+        }
+
         private void Button_Logout(object sender, RoutedEventArgs e)
         {
             Close();

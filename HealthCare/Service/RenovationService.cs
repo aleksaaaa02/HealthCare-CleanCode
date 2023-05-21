@@ -17,5 +17,10 @@ namespace HealthCare.Service
         {
             // Schedule.OccupyRoom(new RoomAppointment(roomId, span));
         }
+
+        internal bool RoomFree(int roomId, TimeSlot slot)
+        {
+            return true;
+        }
     }
 }
