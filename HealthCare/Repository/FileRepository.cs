@@ -3,7 +3,7 @@ using HealthCare.Serialize;
 
 namespace HealthCare.Repository
 {
-    public class FileRepository<T> : IRepository<T> where T : IKey, ISerializable, new()
+    public class FileRepository<T> : IRepository<T> where T : RepositoryItem, new() // remove new()
     {
         private readonly ISerializer<T> _serializer;
         private readonly string _filepath;
@@ -40,11 +40,10 @@ namespace HealthCare.Repository
 
         public void Update(T item)
         {
-            object key = item.Key;
-            if (!Contains(key)) return;
-
             var items = Load();
-            int i = items.FindIndex(x => x.Key.Equals(key));
+            int i = items.FindIndex(x => x.Equals(item));
+            if (i == -1) return;
+
             items[i] = item;
             Save(items);
         }

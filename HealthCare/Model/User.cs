@@ -9,7 +9,7 @@ namespace HealthCare.Model
         Male,
         Female
     }
-    public class User : IKey, ISerializable
+    public class User : RepositoryItem
     {
         public string Name { get; set; }
         public string LastName { get; set; }
@@ -35,20 +35,20 @@ namespace HealthCare.Model
             Gender = gender;
         }
 
-        public object Key
+        public override object Key
         {
             get => JMBG;
             set { JMBG = (string)value; }
         }
 
-        public string[] Serialize()
+        public override string[] Serialize()
         {
             return new string[] { 
                 Name, LastName, JMBG, Utility.ToString(BirthDate), 
                 PhoneNumber, Address, UserName, Password, Gender.ToString() };
         }
 
-        public void Deserialize(string[] values)
+        public override void Deserialize(string[] values)
         {
             Name = values[0];
             LastName = values[1];
@@ -59,16 +59,6 @@ namespace HealthCare.Model
             UserName = values[6];
             Password = values[7];
             Gender = Utility.Parse<Gender>(values[8]);
-        }
-
-        public override bool Equals(object? obj)
-        {
-            return obj is User user && JMBG == user.JMBG;
-        }
-
-        public override int GetHashCode()
-        {
-            return JMBG.GetHashCode();
         }
     }
 }

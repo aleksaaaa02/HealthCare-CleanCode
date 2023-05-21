@@ -3,7 +3,7 @@ using HealthCare.Serialize;
 
 namespace HealthCare.Model
 {
-    public class InventoryItem : IKey, ISerializable
+    public class InventoryItem : RepositoryItem
     {
         public int Id { get; set; }
         public int EquipmentId { get; set; }
@@ -22,13 +22,13 @@ namespace HealthCare.Model
             Quantity = quantity;
         }
 
-        public object Key
+        public override object Key
         {
             get => Id;
             set { Id = (int)value; }
         }
 
-        public string[] Serialize()
+        public override string[] Serialize()
         {
             return new string[] {
                 Id.ToString(),
@@ -37,24 +37,12 @@ namespace HealthCare.Model
                 Quantity.ToString()};
         }
 
-        public void Deserialize(string[] values)
+        public override void Deserialize(string[] values)
         {
             Id = int.Parse(values[0]);
             EquipmentId = int.Parse(values[1]);
             RoomId = int.Parse(values[2]);
             Quantity = int.Parse(values[3]);
-        }
-
-        // TODO adjust to be only Id check
-        public override bool Equals(object? obj)
-        {
-            return obj is InventoryItem item && (Id == item.Id || 
-                (EquipmentId == item.EquipmentId && RoomId == item.RoomId));
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
     }
 }

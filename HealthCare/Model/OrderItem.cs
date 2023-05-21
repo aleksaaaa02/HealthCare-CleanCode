@@ -4,7 +4,7 @@ using System;
 
 namespace HealthCare.Model
 {
-    public class OrderItem : IKey, ISerializable
+    public class OrderItem : RepositoryItem
     {
         public int Id { get; set; }
         public int EquipmentId { get; set; }
@@ -24,13 +24,13 @@ namespace HealthCare.Model
             Executed = executed;
         }
 
-        public object Key
+        public override object Key
         {
             get => Id;
             set { Id = (int)value; }
         }
 
-        public virtual string[] Serialize()
+        public override string[] Serialize()
         {
             return new string[] { 
                 Id.ToString(), EquipmentId.ToString(), 
@@ -38,7 +38,7 @@ namespace HealthCare.Model
                 Executed.ToString() };
         }
 
-        public virtual void Deserialize(string[] values)
+        public override void Deserialize(string[] values)
         {
             Id = int.Parse(values[0]);
             EquipmentId = int.Parse(values[1]);

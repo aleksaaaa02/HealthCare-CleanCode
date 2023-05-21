@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace HealthCare.Model
 {
-    public class Doctor : User, ISerializable
+    public class Doctor : User
     {
         public string Specialization { get; set; }
 
@@ -38,13 +38,13 @@ namespace HealthCare.Model
             return Specialization == NeededSpecialization;
         }
 
-        public new string[] Serialize()
+        public override string[] Serialize()
         {
             string[] userValues = base.Serialize();
             return userValues.Concat(new string[] { Specialization }).ToArray();
         }
 
-        public new void Deserialize(string[] values)
+        public override void Deserialize(string[] values)
         {
             Name = values[0];
             LastName = values[1];

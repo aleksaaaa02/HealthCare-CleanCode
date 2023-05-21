@@ -11,7 +11,7 @@ namespace HealthCare.Model
         Reception,
         Warehouse
     }
-    public class Room : IKey, ISerializable
+    public class Room : RepositoryItem
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -25,18 +25,18 @@ namespace HealthCare.Model
             Type = type;
         }
 
-        public object Key
+        public override object Key
         {
             get => Id;
             set { Id = (int)value; }
         }
 
-        public string[] Serialize()
+        public override string[] Serialize()
         {
             return new string[] { Id.ToString(), Name, Type.ToString() };
         }
 
-        public void Deserialize(string[] values)
+        public override void Deserialize(string[] values)
         {
             Id = int.Parse(values[0]);
             Name = values[1];

@@ -3,7 +3,7 @@ using HealthCare.Serialize;
 
 namespace HealthCare.Repository
 {
-    public interface IRepository<T> where T : IKey, ISerializable, new()
+    public interface IRepository<T> where T : RepositoryItem
     {
         T? Get(object key);
         void Add(T item);

@@ -4,7 +4,7 @@ using System;
 
 namespace HealthCare.Model
 {
-    public class Appointment : IKey, ISerializable
+    public class Appointment : RepositoryItem
     {
         public int AppointmentID { get; set; }
         public Patient Patient { get; set; }
@@ -25,20 +25,20 @@ namespace HealthCare.Model
             IsUrgent = false;
         }
 
-        public object Key
+        public override object Key
         {
             get => AppointmentID;
             set { AppointmentID = (int)value; }
         }
 
-        public string[] Serialize()
+        public override string[] Serialize()
         {
             return new string[] { 
                 AppointmentID.ToString(), Patient.JMBG.ToString(), Doctor.JMBG.ToString(), 
                 TimeSlot.ToString(), IsOperation.ToString(), AnamnesisID.ToString(), IsUrgent.ToString() };
         }
 
-        public void Deserialize(string[] values)
+        public override void Deserialize(string[] values)
         {
             AppointmentID = int.Parse(values[0]);
             Patient = new Patient();

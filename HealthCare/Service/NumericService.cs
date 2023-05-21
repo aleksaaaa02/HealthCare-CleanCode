@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace HealthCare.Service
 {
-    public abstract class NumericService<T> : Service<T> where T : IKey, ISerializable, new()
+    public abstract class NumericService<T> : Service<T> where T : RepositoryItem, new()
     {
         protected NumericService(string filepath) : base(filepath) { }
 

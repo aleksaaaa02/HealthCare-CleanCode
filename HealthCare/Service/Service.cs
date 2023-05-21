@@ -4,13 +4,19 @@ using System.Collections.Generic;
 
 namespace HealthCare.Service
 {
-    public abstract class Service<T> where T : IKey, ISerializable, new()
+    public abstract class Service<T> where T : RepositoryItem, new() // remove new()
     {
-        protected FileRepository<T> _repository;
+        protected IRepository<T> _repository;
 
+        // remove constructor
         public Service(string filepath)
         {
             _repository = new FileRepository<T>(filepath);
+        }
+
+        public Service(IRepository<T> repository)
+        {
+            _repository = repository;
         }
 
         // can return null if not found

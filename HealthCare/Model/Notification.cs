@@ -3,7 +3,7 @@ using HealthCare.Serialize;
 
 namespace HealthCare.Model
 {
-    public class Notification : IKey, ISerializable
+    public class Notification : RepositoryItem
     {
         public int Id { get; set; }
         public string Text { get; set; }
@@ -27,19 +27,19 @@ namespace HealthCare.Model
             return Text;
         }
 
-        public object Key
+        public override object Key
         {
             get => Id;
             set { Id = (int)value; }
         }
 
-        public string[] Serialize()
+        public override string[] Serialize()
         {
             string recipients = Utility.ToString(Recipients);
             return new string[] { Id.ToString(), recipients, Text, Seen.ToString() };
         }
 
-        public void Deserialize(string[] values)
+        public override void Deserialize(string[] values)
         {
             Id = int.Parse(values[0]);
             Recipients = values[1].Split("|");

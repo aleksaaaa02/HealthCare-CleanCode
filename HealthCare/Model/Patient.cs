@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace HealthCare.Model
 {
-    public class Patient : User, ISerializable
+    public class Patient : User
     {
         public bool Blocked { get; set; }
         public MedicalRecord? MedicalRecord { get; set; }
@@ -34,7 +34,7 @@ namespace HealthCare.Model
             return true;
         }
 
-        public new string[] Serialize()
+        public override string[] Serialize()
         {
             string[] userValues = base.Serialize();
             string[] patientValues = {Blocked.ToString()};
@@ -45,7 +45,7 @@ namespace HealthCare.Model
             return csvValues;
         }
 
-        public new void Deserialize(string[] values)
+        public override void Deserialize(string[] values)
         {
             Name = values[0];
             LastName = values[1];
