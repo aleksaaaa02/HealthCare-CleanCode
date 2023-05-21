@@ -171,7 +171,7 @@ namespace HealthCare.View.AppointmentView
         public void IsUserBlocked()
         {
             Patient patient = (Patient)_hospital.Current;
-            using (var reader = new StreamReader("../../../Resource/PatientLogs.csv", Encoding.Default))
+            using (var reader = new StreamReader(Global.patientLogsPath, Encoding.Default))
             {
                 string line;
                 int updateDeleteCounter = 0;

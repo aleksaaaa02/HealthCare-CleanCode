@@ -19,37 +19,37 @@ namespace HealthCare.ViewModel.ManagerViewModel
             return _items;
         }
 
-        public void FilterQuantity(params bool[] quantities)
+        public void FilterQuantity(bool[] search)
         {
-            if (!(quantities[0] || quantities[1] || quantities[2])) return;
+            if (!(search[0] || search[1] || search[2])) return;
 
             _items = _items.Where(x =>
-                quantities[0] && x.Quantity == 0 ||
-                quantities[1] && x.Quantity <= 10 ||
-                quantities[2] && x.Quantity > 10).ToList();
+                search[0] && x.Quantity == 0 ||
+                search[1] && x.Quantity <= 10 ||
+                search[2] && x.Quantity > 10).ToList();
         }
 
-        public void FilterEquipmentType(params bool[] types)
+        public void FilterEquipmentType(bool[] search)
         {
-            if (!(types[0] || types[1] || types[2] || types[3])) return;
+            if (!(search[0] || search[1] || search[2] || search[3])) return;
 
             _items = _items.Where(x =>
-                types[0] && x.Equipment.Type.Equals(EquipmentType.Examinational) ||
-                types[1] && x.Equipment.Type.Equals(EquipmentType.Operational) ||
-                types[2] && x.Equipment.Type.Equals(EquipmentType.RoomFurniture) ||
-                types[3] && x.Equipment.Type.Equals(EquipmentType.HallwayFurniture)).ToList();
+                search[0] && x.Equipment.Type.Equals(EquipmentType.Examinational) ||
+                search[1] && x.Equipment.Type.Equals(EquipmentType.Operational) ||
+                search[2] && x.Equipment.Type.Equals(EquipmentType.RoomFurniture) ||
+                search[3] && x.Equipment.Type.Equals(EquipmentType.HallwayFurniture)).ToList();
         }
 
-        public void FilterRoomType(params bool[] types)
+        public void FilterRoomType(bool[] search)
         {
-            if (!(types[0] || types[1] || types[2] || types[3] || types[4])) return;
+            if (!(search[0] || search[1] || search[2] || search[3] || search[4])) return;
 
-            _items = _items.Where(x =>
-                types[0] && x.Room.Type.Equals(RoomType.Examinational) ||
-                types[1] && x.Room.Type.Equals(RoomType.Operational) ||
-                types[2] && x.Room.Type.Equals(RoomType.PatientCare) ||
-                types[3] && x.Room.Type.Equals(RoomType.Reception) ||
-                types[4] && x.Room.Type.Equals(RoomType.Warehouse)).ToList();
+            _items = _items.Where(x => 
+                search[0] && x.Room.Type.Equals(RoomType.Examinational) ||
+                search[1] && x.Room.Type.Equals(RoomType.Operational) ||
+                search[2] && x.Room.Type.Equals(RoomType.PatientCare) ||
+                search[3] && x.Room.Type.Equals(RoomType.Reception) ||
+                search[4] && x.Room.Type.Equals(RoomType.Warehouse)).ToList();
         }
 
         public void FilterAnyProperty(string query)
