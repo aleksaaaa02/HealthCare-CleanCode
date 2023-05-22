@@ -141,6 +141,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             FinishExaminationCommand = new FinishExaminationCommand(hospital, window, appointment, this, roomId);
             MakeSpecialistReferralCommand = new ShowSpecialistReferralViewCommand(hospital, _selectedPatient);
             MakeTreatmentReferralCommand = new ShowTreatmentReferralViewCommand(hospital, _selectedPatient);
+            MakePrescriptionCommand = new ShowPrescriptionViewCommand(hospital, _selectedPatient);
             LoadView();
         }
         private void LoadView()
