@@ -20,12 +20,12 @@
                 <TextBlock Text="Uput za bolnicko lecenje" FontSize="14" FontWeight="DemiBold"/>
                 <Label Margin="0 50"/>
                 <Label Content="Broj dana na bolnickom lecenju"/>
-                <TextBox />
+                <TextBox x:Name="DaysOfTreatment" Text="{Binding DaysOfTreatment}"/>
                 <Label Content="Dodatna ispitivanja"/>
-                <TextBox Height="50" VerticalAlignment="Top"/>
+                <TextBox Height="50" VerticalAlignment="Top" Text="{Binding AdditionalExamination}"/>
             </StackPanel>
             <StackPanel Grid.Row="1">
-                <Button Content="Izdaj Uput"/>
+                <Button Content="Izdaj Uput" Command="{Binding MakeTreatmentReferralCommand}"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Column="1" Margin="10 10">
@@ -48,10 +48,10 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Header="Opis" Width="125">
+                                <GridViewColumn Header="Vise detalja" Width="Auto">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Padding="0 0 20 0"  Text="{Binding Description}"/>
+                                            <Button Content="Prikazi" Width="Auto" Command="{Binding ShowMedicationInformationCommand}"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

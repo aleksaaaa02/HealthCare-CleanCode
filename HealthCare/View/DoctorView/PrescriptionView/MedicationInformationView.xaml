@@ -14,16 +14,16 @@
         <StackPanel Grid.Row="0">
             <TextBlock Text="Informacije o leku" FontSize="24" FontWeight="DemiBold"/>
             <Label Content="ID leka:"/>
-            <TextBox Margin="0 0 0 30"/>
+            <TextBox Margin="0 0 0 30" Text="{Binding ID}" Focusable="False"/>
             <Label Content="Naziv leka:"/>
-            <TextBox Margin="0 0 0 30"/>
+            <TextBox Margin="0 0 0 30" Text="{Binding Name}" Focusable="False"/>
             <Label Content="Opis leka:"/>
-            <TextBox Margin="0 0 0 30"/>
+            <TextBox Margin="0 0 0 30" Text="{Binding Description}" Focusable="False"/>
             <Label Content="Supstance u leku:"/>
         </StackPanel>
         <ScrollViewer Grid.Row="1">
             <Grid>
-                <ListView SelectionMode="Single">
+                <ListView SelectionMode="Single" ItemsSource="{Binding MedicationIngredients}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Naziv supstance" Width="100">
