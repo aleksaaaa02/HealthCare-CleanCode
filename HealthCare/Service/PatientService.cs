@@ -65,7 +65,11 @@ namespace HealthCare.Service
 			{
                 AddTreatmentReferral(medicalRecord, referralID);
 			}
-			AddSpecialistReferral(medicalRecord, referralID);
+			else
+			{
+				AddSpecialistReferral(medicalRecord, referralID);
+			}
+			UpdatePatientMedicalRecord(patient, medicalRecord);
 
 		}
         private void AddSpecialistReferral(MedicalRecord medicalRecord, int referralID)
