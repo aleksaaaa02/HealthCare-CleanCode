@@ -43,6 +43,8 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals
             _medications = new ObservableCollection<MedicationViewModel>();
             _hospital = hospital;
             ExaminedPatient = patient;
+            AdditionalExamination = "";
+            DaysOfTreatment = 0;
 
             MakeTreatmentReferralCommand = new AddTreatmentReferralCommand(hospital, this);
 
@@ -58,5 +60,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals
             }
         
         }
+
     }
 }

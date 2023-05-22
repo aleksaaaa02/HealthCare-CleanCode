@@ -22,6 +22,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
             try
             {
                 MakeReferral();
+                Utility.ShowInformation("Uput za doktora specijalistu uspesno dodat");
             }
             catch (ValidationException ex){
                 Utility.ShowWarning(ex.Message);  

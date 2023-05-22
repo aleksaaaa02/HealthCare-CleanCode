@@ -1,6 +1,8 @@
 ﻿
 using HealthCare.Model;
 using HealthCare.View;
+using HealthCare.ViewModel.DoctorViewModel.Referrals.Commands;
+using System.Windows.Input;
 
 namespace HealthCare.ViewModel.DoctorViewModel.DataViewModel
 {
@@ -22,10 +24,13 @@ namespace HealthCare.ViewModel.DoctorViewModel.DataViewModel
                 OnPropertyChanged(nameof(InitialTherapy));
             }
         }        
+        public ICommand ShowMedicationInformationCommand { get; }
         public MedicationViewModel(Medication medication)
         {
             _medication = medication;
             _initialTherapy = false;
+
+            ShowMedicationInformationCommand = new ShowMedicationCommand(medication);
         }
     }
 }
