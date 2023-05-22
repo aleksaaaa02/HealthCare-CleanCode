@@ -21,9 +21,8 @@ namespace HealthCare.Model
         public MealTime Instruction { get; set; }
         public string PatientJMBG { get; set; }
         public Prescription() { }
-        public Prescription(int id, int medicationId, MealTime instruction, string patientJMBG, int dailyDosage, int hoursBetweenConsumption, int consumptionDays)
+        public Prescription(int medicationId, MealTime instruction, string patientJMBG, int dailyDosage, int hoursBetweenConsumption, int consumptionDays)
         {
-            Id = id;
             MedicationId = medicationId;
             Instruction = instruction;
             PatientJMBG = patientJMBG;

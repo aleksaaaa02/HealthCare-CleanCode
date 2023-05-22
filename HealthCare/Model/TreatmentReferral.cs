@@ -9,20 +9,18 @@ namespace HealthCare.Model
         public int Id { get; set; }
         public int DaysOfTreatment { get; set; }
         public string DoctorJMBG { get; set; }
-        public string PatientJMBG { get; set; }
         public int[] Therapy { get; set; }
         public string[] AdditionalExamination { get; set; }
+        public bool IsUsed { get; set; }
 
         public TreatmentReferral() { }
-
-        public TreatmentReferral(int id, int daysOfTreatment, string doctorJMBG, string patientJMBG, int[] therapy, string[] additionalExamination)
+        public TreatmentReferral(int daysOfTreatment, string doctorJMBG, int[] therapy, string[] additionalExamination)
         {
-            Id = id;
             DaysOfTreatment = daysOfTreatment;
             DoctorJMBG = doctorJMBG;
-            PatientJMBG = patientJMBG;
             Therapy = therapy;
             AdditionalExamination = additionalExamination;
+            IsUsed = false;
         }
 
         public void FromCSV(string[] values)
@@ -30,14 +28,20 @@ namespace HealthCare.Model
             Id = int.Parse(values[0]);
             DaysOfTreatment = int.Parse(values[1]);
             DoctorJMBG = values[2];
-            PatientJMBG = values[3];
-            Therapy = Array.ConvertAll(values[4].Split("|"), int.Parse);
+            IsUsed = bool.Parse(values[3]);
+            if (!string.IsNullOrWhiteSpace(values[4]))
+            {
+                Therapy = Array.ConvertAll(values[4].Split("|"), int.Parse);
+            } else
+            {
+                Therapy = new int[0];
+            }
             AdditionalExamination = values[5].Split("|");
         }
 
         public string[] ToCSV()
         {
-            return new string[] { Id.ToString(), DaysOfTreatment.ToString(), DoctorJMBG, PatientJMBG, Utility.ToString(Therapy), Utility.ToString(AdditionalExamination)};
+            return new string[] { Id.ToString(), DaysOfTreatment.ToString(), DoctorJMBG, IsUsed.ToString(), Utility.ToString(Therapy), Utility.ToString(AdditionalExamination)};
         }
     }
 }

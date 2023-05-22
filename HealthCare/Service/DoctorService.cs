@@ -40,6 +40,11 @@ namespace HealthCare.Service
             return GetAll().Where(x => x.IsCapable(specialization)).ToList();
         }
 
+        public Doctor GetFirstBySpecialization(string specialization)
+        {
+            return GetBySpecialization(specialization).FirstOrDefault();
+        }
+
         public List<string> GetSpecializations()
         {
             return GetAll().Select(x => x.Specialization).Distinct().ToList();
