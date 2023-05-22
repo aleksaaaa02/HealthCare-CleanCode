@@ -33,6 +33,10 @@ namespace HealthCare.Model
             }
             return true;
         }
+        public bool IsAllergic(string[] ingredients)
+        {
+            return ingredients.Any(x => MedicalRecord.Allergies.Contains(x));
+        }
 
         public new string[] ToCSV()
         {
