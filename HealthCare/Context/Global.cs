@@ -18,7 +18,7 @@ namespace HealthCare.Context
         public const string notificationPath = dirPath + "notifications.csv";
 
         public const string medicationPath = dirPath + "medications.csv";
-        public const string prescriptionPath = dirPath + "presriptions.csv";
+        public const string prescriptionPath = dirPath + "prescriptions.csv";
         public const string treatmentReferralPath = dirPath + "treatment_referrals.csv";
         public const string specialistReferralPath = dirPath + "specialist_referrals.csv";
 
