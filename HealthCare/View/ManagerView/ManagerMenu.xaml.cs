@@ -1,4 +1,5 @@
 ﻿using HealthCare.Context;
+using HealthCare.ViewModel.ManagerViewModel;
 using System;
 using System.ComponentModel;
 using System.Windows;
@@ -23,7 +24,7 @@ namespace HealthCare.View.ManagerView
         }
         private void Button_Ordering(object sender, RoutedEventArgs e)
         {
-            new EquipmentOrderView(this, _hospital).Show();
+            new EquipmentOrderView(this, _hospital, new EquipmentOrderViewModel(_hospital)).Show();
         }
 
         private void Button_Rearranging(object sender, RoutedEventArgs e)

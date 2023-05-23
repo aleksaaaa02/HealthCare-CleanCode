@@ -2,6 +2,7 @@
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.View.ManagerView.RenovationView;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModel.ManagerViewModel;
 using System;
@@ -69,11 +70,11 @@ namespace HealthCare.View.ManagerView
             if (selected.Count == 1)
             {
                 // TODO
-                // new SplittingRoomRenovationView(selected[0]);
+                new SplittingRenovationView(selected[0]);
             }
             else
             {
-                // new JoiningRoomDialog(selected);
+                new Joini(selected);
             }
         }
 

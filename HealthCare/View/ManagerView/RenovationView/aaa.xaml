@@ -1,0 +1,91 @@
+﻿<Window x:Class="HealthCare.View.ManagerView.RenovationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HealthCare.View.ManagerView"
+        mc:Ignorable="d"
+        Title="RoomRenovationView" MinHeight="500" MinWidth="400"
+        SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource RoundedButton}">
+            <Setter Property="Width" Value="70" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="Margin" Value="5 0" />
+        </Style>
+        <Style TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="20 0 20 20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.10*"/>
+            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="0.75*"/>
+            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="0.15*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Renoviranje prostorija" Style="{StaticResource SmallHeader}"
+               HorizontalAlignment="Center" Margin="50 0"
+               Grid.ColumnSpan="2"/>
+
+        <Label Content="Pametno renoviranje:" HorizontalAlignment="Right"
+               Grid.Row="1" Margin="5 0 5 10"/>
+        <CheckBox Name="cbComplex" HorizontalAlignment="Left" Margin="5 0 5 10"
+               Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" 
+               Unchecked="lvRooms_SelectionChanged"/>
+
+        <ListView Grid.Row="2" Grid.ColumnSpan="2" Name="lvRooms" ItemsSource="{Binding Items}" 
+                  SelectionChanged="lvRooms_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="auto" Header="Id">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RoomId}" TextAlignment="Right"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="auto" Header="Soba">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RoomName}" TextAlignment="Right"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="auto" Header="Tip sobe">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RoomType}" TextAlignment="Left"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Label Grid.Row="3" Content="Početak renoviranja:" 
+               HorizontalAlignment="Right"/>
+        <DatePicker Name="StartDatePicker" Margin="5 5" 
+                    Grid.Row="3" Grid.Column="1"/>
+
+        <Label Grid.Row="4" Content="Kraj renoviranja:" 
+               HorizontalAlignment="Right"/>
+        <DatePicker Name="EndDatePicker" Margin="5 5" 
+                    Grid.Row="4" Grid.Column="1"/>
+
+        <Button Content="Nazad" Click="Button_Exit"
+                    Grid.Row="5" HorizontalAlignment="Right"/>
+        <Button Content="Renoviraj" FontWeight="Bold" Click="Button_Renovate"
+                    Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left"/>
+    </Grid>
+</Window>

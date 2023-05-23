@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Service
 {
-    public class RenovationService
+    public class RenovationService : NumericService<Renovation>
     {
-        public RenovationService(Inventory inventory)
+        private readonly Inventory _inventory;
+        public RenovationService(string filepath, Inventory inventory) : base(filepath)
         {
-            // _inventory = inventory;
+            _inventory = inventory;
         }
+
         public void ScheduleRenovation(int roomId, TimeSpan span)
         {
             // Schedule.OccupyRoom(new RoomAppointment(roomId, span));
