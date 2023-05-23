@@ -1,4 +1,6 @@
+using HealthCare.Context;
 using HealthCare.Model;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace HealthCare.Service
@@ -80,6 +82,20 @@ namespace HealthCare.Service
         {
             medicalRecord.TreatmentReferrals = medicalRecord.TreatmentReferrals.Concat(new int[] { referralID }).ToArray();
         }
+
+		public List<SpecialistReferral> GetPatientsReferrals(Patient patient, Hospital hospital) {
+            List<SpecialistReferral> patientsReferrals = new List<SpecialistReferral>();
+			SpecialistReferral referral;
+
+			foreach (int id in patient.MedicalRecord.SpecialistReferrals)
+			{
+				referral = hospital.SpecialistReferralService.Get(id);
+				if (!referral.IsUsed)
+					patientsReferrals.Add(referral);
+			}
+			
+			return patientsReferrals;
+		}
 
         public UserRole GetRole()
         {

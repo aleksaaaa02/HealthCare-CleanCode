@@ -1,5 +1,6 @@
 ﻿using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
