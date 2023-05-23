@@ -2,18 +2,14 @@
 
 namespace HealthCare.Model
 {
-    public class Medication : Identifier, ISerializable
+    public class Medication : Equipment, ISerializable
     {
-        public override object Key { get => Id; set { Id = (int) value; } }
-        public int Id { get; set; }
-        public string Name { get; set; }
         public string Description { get; set; }
         public string[] Ingredients { get; set; }
         public Medication() { }
         
-        public Medication(string name, string description, string[] ingredients)
+        public Medication(int id, string name, string description, string[] ingredients) : base(id,name,EquipmentType.Medication,true)
         {
-            Name = name;
             Description = description;
             Ingredients = ingredients;
         }

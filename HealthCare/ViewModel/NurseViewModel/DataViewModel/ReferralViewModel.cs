@@ -2,7 +2,7 @@
 
 namespace HealthCare.ViewModel.NurseViewModel.DataViewModel
 {
-    internal class ReferralViewModel
+    public class ReferralViewModel
     {
         public SpecialistReferral SpecialistReferral { get; set; }
         public string FromName { get; set; }

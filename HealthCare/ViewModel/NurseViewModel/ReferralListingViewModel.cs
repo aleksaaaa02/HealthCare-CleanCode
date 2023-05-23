@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace HealthCare.ViewModel.NurseViewModel
 {
-    internal class ReferralListingViewModel
+    public class ReferralListingViewModel
     {
         public ObservableCollection<ReferralViewModel> Referrals { get; set; }
         private Hospital _hospital;

@@ -1,4 +1,5 @@
 ﻿using HealthCare.Repository;
+using System;
 
 namespace HealthCare.Model 
 {
@@ -20,8 +21,9 @@ namespace HealthCare.Model
         public int ConsumptionDays { get; set; }
         public MealTime Instruction { get; set; }
         public string PatientJMBG { get; set; }
+        public DateTime Start { get; set; }
         public Prescription() { }
-        public Prescription(int medicationId, MealTime instruction, string patientJMBG, int dailyDosage, int hoursBetweenConsumption, int consumptionDays)
+        public Prescription(int medicationId, MealTime instruction, string patientJMBG, int dailyDosage, int hoursBetweenConsumption, int consumptionDays, DateTime start)
         {
             MedicationId = medicationId;
             Instruction = instruction;
@@ -29,6 +31,7 @@ namespace HealthCare.Model
             DailyDosage = dailyDosage;
             HoursBetweenConsumption = hoursBetweenConsumption;
             ConsumptionDays = consumptionDays;
+            Start = start;
         }
 
         public void FromCSV(string[] values)
@@ -40,12 +43,12 @@ namespace HealthCare.Model
             DailyDosage = int.Parse(values[4]);
             HoursBetweenConsumption = int.Parse(values[5]);
             ConsumptionDays = int.Parse(values[6]);
-
+            Start = Utility.ParseDate(values[7]);
         }   
 
         public string[] ToCSV()
         {
-            return new string[] { Id.ToString(), MedicationId.ToString(), Instruction.ToString(), PatientJMBG, DailyDosage.ToString(), HoursBetweenConsumption.ToString(), ConsumptionDays.ToString() };
+            return new string[] { Id.ToString(), MedicationId.ToString(), Instruction.ToString(), PatientJMBG, DailyDosage.ToString(), HoursBetweenConsumption.ToString(), ConsumptionDays.ToString(), Utility.ToString(Start) };
         }
     }
 }

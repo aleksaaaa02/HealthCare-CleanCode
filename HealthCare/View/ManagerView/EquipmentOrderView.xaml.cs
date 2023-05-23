@@ -21,7 +21,7 @@ namespace HealthCare.View.ManagerView
             _parent = parent;
             _orderService = hospital.OrderService;
 
-            _model = new EquipmentOrderViewModel(hospital);
+            _model = new EquipmentOrderViewModel(hospital,false);
             DataContext = _model;
         }
 
