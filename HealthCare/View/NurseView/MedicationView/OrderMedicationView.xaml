@@ -24,13 +24,31 @@
                     <GridViewColumn Width="auto" Header=" ">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox Name="cbSelect" IsChecked="{Binding IsSelected, Mode=TwoWay}" />
+                                <CheckBox Name="cbSelect" IsChecked="{Binding IsSelected, Mode=TwoWay}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="Auto" Header="ID" DisplayMemberBinding="{Binding Id}"/>
-                    <GridViewColumn Width="Auto" Header="Ime" DisplayMemberBinding="{Binding Name}"/>
-                    <GridViewColumn Width="Auto" Header="Kolicina" DisplayMemberBinding="{Binding CurrentQuantity}"/>
+                    <GridViewColumn Width="Auto" Header="ID">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Id}" TextAlignment="Right" Foreground="{Binding Color}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto" Header="Ime">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" TextAlignment="Right" Foreground="{Binding Color}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto" Header="Kolicina">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CurrentQuantity}" TextAlignment="Right" Foreground="{Binding Color}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Width="auto" Header="Narudžbina">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>

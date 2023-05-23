@@ -1,5 +1,6 @@
 ﻿using HealthCare.Model;
 using HealthCare.View;
+using System.Windows.Media;
 
 namespace HealthCare.ViewModel.NurseViewModel.DataViewModel
 {
@@ -7,6 +8,7 @@ namespace HealthCare.ViewModel.NurseViewModel.DataViewModel
     {
         private readonly Medication _medication;
         private bool _isSelected;
+        public Brush Color => CurrentQuantity == 0 ? Brushes.Red : Brushes.Black;
         public bool IsSelected
         {
             get => _isSelected;
