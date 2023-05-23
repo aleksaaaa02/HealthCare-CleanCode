@@ -3,6 +3,7 @@ using HealthCare.Model;
 using System.Windows;
 using HealthCare.ViewModel.NurseViewModel;
 using System.Windows.Controls;
+using HealthCare.View.NurseView.PrescriptionView;
 
 namespace HealthCare.View.NurseView.ReferralView
 {
@@ -43,6 +44,18 @@ namespace HealthCare.View.NurseView.ReferralView
             }
 
             new PatientsReferralsView(_patient,_hospital).ShowDialog();
+        }
+
+        private void btnPrescribe_Click(object sender, RoutedEventArgs e)
+        {
+            if (_patient is null)
+            {
+                Utility.ShowWarning("Izaberite pacijenta.");
+                return;
+            }
+
+            new PatientsPrescriptionsView(_patient,_hospital).ShowDialog();
+
         }
     }
 }

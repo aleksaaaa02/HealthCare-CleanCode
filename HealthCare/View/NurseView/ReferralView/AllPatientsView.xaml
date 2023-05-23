@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.NurseView.ReferralView"
         mc:Ignorable="d"
-        Title="AllPatientsView" Height="450" Width="300">
+        Title="AllPatientsView" Height="450" Width="490">
     <Grid>
         <Label Content="Pacijenti" Name="lblTitle" HorizontalAlignment="Left" Margin="10,00,0,0" FontSize="17" FontWeight="Bold" VerticalAlignment="Top"/>
 
@@ -20,6 +20,7 @@
         </ListView>
 
         <Button Content="Prikaži upute" Name="btnShow" HorizontalAlignment="Left" Height="35" Margin="10,350,0,0" VerticalAlignment="Top" Width="130" Click="btnShow_Click"/>
+        <Button Content="Prikaži recepte" Name="btnPrescribe" HorizontalAlignment="Left" Height="35" Margin="170,350,0,0" VerticalAlignment="Top" Width="130" Click="btnPrescribe_Click"/>
         <Button Content="Izadji" Name="btnClose"  HorizontalAlignment="Right" Height="35" Margin="0,350,10,0" VerticalAlignment="Top" Width="130" Click="Exit_Click"/>
 
     </Grid>

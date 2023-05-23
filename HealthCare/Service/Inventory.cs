@@ -15,6 +15,7 @@ namespace HealthCare.Service
 
         public IEnumerable<int> GetLowQuantityEquipment(int threshold = 200)
         {
+            var a = GetAll();
             return GetAll()
                 .GroupBy(x => x.EquipmentId)
                 .Where(group => group.Sum(x => x.Quantity) < threshold)

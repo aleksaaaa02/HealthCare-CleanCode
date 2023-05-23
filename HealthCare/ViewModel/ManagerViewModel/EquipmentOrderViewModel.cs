@@ -16,7 +16,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
 
         public EquipmentOrderViewModel(Hospital hospital, bool isMedication)
         {
-            _inventory = hospital.Inventory;
+            _inventory = hospital.EquipmentInventory;
             _equipmentService = hospital.EquipmentService;
             _isMedication = isMedication;
 

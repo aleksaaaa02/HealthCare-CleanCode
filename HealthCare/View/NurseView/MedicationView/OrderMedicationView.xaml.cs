@@ -2,63 +2,56 @@
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
-using HealthCare.ViewModel.ManagerViewModel;
+using HealthCare.ViewModel.NurseViewModel;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace HealthCare.View.ManagerView
+namespace HealthCare.View.NurseView.OrderMedicationView
 {
-    public partial class EquipmentOrderView : Window
+    public partial class OrderMedicineView : Window
     {
-        private EquipmentOrderViewModel _model;
-        private readonly OrderService _orderService;
-        private Window _parent;
-
-        public EquipmentOrderView(Window parent, Hospital hospital)
+        private MedicationOrderListingViewModel _model;
+        private readonly OrderService _service;
+        public OrderMedicineView(Hospital hospital)
         {
             InitializeComponent();
-            _parent = parent;
-            _orderService = hospital.EquipmentOrderService;
-
-            _model = new EquipmentOrderViewModel(hospital,false);
+            _service = hospital.MedicationOrderService;
+            _model = new MedicationOrderListingViewModel(hospital);
             DataContext = _model;
         }
 
-        private void Button_Reset(object sender, RoutedEventArgs e)
+        private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            _model.LoadAll();
-        }
-
-        private void Button_Exit(object sender, RoutedEventArgs e)
-        {
-            _parent.Show();
             Close();
         }
 
-        private void Button_Order(object sender, RoutedEventArgs e)
+        private void btnOrder_Click(object sender, RoutedEventArgs e)
         {
-            try {
+            try
+            {
                 Validate();
-            } catch (ValidationException ve) {
+            }
+            catch (ValidationException ve)
+            {
                 Utility.ShowWarning(ve.Message);
                 return;
             }
 
             foreach (var item in _model.Items)
                 if (item.IsSelected)
-                    MakeOrder(item.EquipmentId, int.Parse(item.OrderQuantity));
+                    MakeOrder(item.Id, int.Parse(item.OrderQuantity));
 
             Utility.ShowInformation("Poručivanje uspešno.");
             _model.LoadAll();
         }
 
-        private void MakeOrder(int equipmentId, int quantity)
+        private void MakeOrder(int medicationID, int quantity)
         {
             var scheduled = DateTime.Now + new TimeSpan(24, 0, 0);
-            _orderService.Add(new OrderItem(equipmentId, quantity, scheduled, false));
+            _service.Add(new OrderItem(medicationID, quantity, scheduled, false));
         }
-        
+
         private void Validate()
         {
             bool someSelected = false;
@@ -87,12 +80,6 @@ namespace HealthCare.View.ManagerView
             if (tb is null) return;
             if (tb.Text == "")
                 tb.Text = "0";
-        }
-
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            _parent.IsEnabled = true;
-            Close();
         }
     }
 }

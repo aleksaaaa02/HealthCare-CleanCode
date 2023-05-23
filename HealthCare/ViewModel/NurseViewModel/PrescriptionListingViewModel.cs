@@ -2,6 +2,7 @@
 using HealthCare.Model;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 using System.Collections.ObjectModel;
+using System.IO.Packaging;
 
 namespace HealthCare.ViewModel.NurseViewModel
 {
@@ -16,11 +17,16 @@ namespace HealthCare.ViewModel.NurseViewModel
             _patient = patient;
         }
 
-        public void Update() {
+        public void Update()
+        {
             Prescriptions.Clear();
-            foreach (Prescription prescription in _hospital.PrescriptionService.GetPatientsPrescriptions(_patient.JMBG))
+            foreach (Prescription prescription in _hospital.PrescriptionService.GetPatientsPrescriptions(_patient.JMBG)) {
+                Doctor doctor = _hospital.DoctorService.Get(prescription.DoctorJMBG);
                 Prescriptions.Add(new PrescriptionViewModel(prescription,
-                    _hospital.Inventory.GetTotalQuantity(prescription.MedicationId)));
+                _hospital.EquipmentInventory.GetTotalQuantity(prescription.MedicationId),
+                _hospital.MedicationService.Get(prescription.MedicationId).Name,
+                doctor.Name + " " + doctor.LastName));
+            }
         }
     }
 }
