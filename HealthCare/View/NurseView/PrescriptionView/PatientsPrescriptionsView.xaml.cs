@@ -30,6 +30,12 @@ namespace HealthCare.View.NurseView.PrescriptionView
         private void lvPrescriptions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _prescription = (PrescriptionViewModel) lvPrescriptions.SelectedItem;
+            if (_prescription is null) {
+                btnUse.IsEnabled = true;
+                btnProlonge.IsEnabled = true;
+                return;
+            }
+
             if (_prescription.Prescription.FirstUse)
             {
                 btnUse.IsEnabled = true;

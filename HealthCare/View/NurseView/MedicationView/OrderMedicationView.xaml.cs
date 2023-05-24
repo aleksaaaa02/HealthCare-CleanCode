@@ -9,11 +9,11 @@ using System.Windows.Controls;
 
 namespace HealthCare.View.NurseView.OrderMedicationView
 {
-    public partial class OrderMedicineView : Window
+    public partial class OrderMedicationView : Window
     {
         private MedicationOrderListingViewModel _model;
         private readonly OrderService _service;
-        public OrderMedicineView(Hospital hospital)
+        public OrderMedicationView(Hospital hospital)
         {
             InitializeComponent();
             _service = hospital.MedicationOrderService;

@@ -47,7 +47,7 @@ namespace HealthCare.View.PatientView
 
         private void mnuOrder_Click(object sender, RoutedEventArgs e)
         {
-            new OrderMedicineView(_hospital).ShowDialog();
+            new OrderMedicationView(_hospital).ShowDialog();
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)

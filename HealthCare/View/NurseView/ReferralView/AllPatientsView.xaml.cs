@@ -37,25 +37,30 @@ namespace HealthCare.View.NurseView.ReferralView
 
         private void btnShow_Click(object sender, RoutedEventArgs e)
         {
-            if(_patient is null)
-            {
-                Utility.ShowWarning("Izaberite pacijenta.");
+            if (!Validate())
                 return;
-            }
 
             new PatientsReferralsView(_patient,_hospital).ShowDialog();
         }
 
         private void btnPrescribe_Click(object sender, RoutedEventArgs e)
         {
-            if (_patient is null)
-            {
-                Utility.ShowWarning("Izaberite pacijenta.");
+            if (!Validate())
                 return;
-            }
 
             new PatientsPrescriptionsView(_patient,_hospital).ShowDialog();
 
         }
+
+        private bool Validate()
+        {
+            if (_patient is null)
+            {
+                Utility.ShowWarning("Izaberite pacijenta.");
+                return false;
+            }
+            return true;
+        }
+
     }
 }
