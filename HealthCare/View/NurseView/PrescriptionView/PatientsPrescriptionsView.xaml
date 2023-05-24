@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.NurseView.PrescriptionView"
         mc:Ignorable="d"
-        Title="PatientsPrescriptionsView" Height="450" Width="800">
+        Title="PatientsPrescriptionsView" Height="450" Width="700">
     <Grid>
         <Label Content="Recepti" Name="lblTitle" HorizontalAlignment="Left" Margin="10,00,0,0" FontSize="17" FontWeight="Bold" VerticalAlignment="Top"/>
 
@@ -19,20 +19,76 @@
         <ListView Margin="10,110,10,80" Name="lvPrescriptions" ItemsSource="{Binding Prescriptions}" SelectionChanged="lvPrescriptions_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="Auto" Header="ID" DisplayMemberBinding="{Binding Prescription.Id}" />
-                    <GridViewColumn Width="Auto" Header="Lek" DisplayMemberBinding="{Binding MedicationName}"/>
-                    <GridViewColumn Width="Auto" Header="Dnevna doza" DisplayMemberBinding="{Binding Prescription.DailyDosage}" />
-                    <GridViewColumn Width="Auto" Header="Dani konzumiranja" DisplayMemberBinding="{Binding Prescription.ConsumptionDays}" />
-                    <GridViewColumn Width="Auto" Header="Uputstvo" DisplayMemberBinding="{Binding MealTime}" />
-                    <GridViewColumn Width="Auto" Header="Datum pocetka" DisplayMemberBinding="{Binding Prescription.Start}" />
-                    <GridViewColumn Width="Auto" Header="Doktor" DisplayMemberBinding="{Binding DoctorName}"/>
+                    <GridViewColumn Width="Auto" Header="ID">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Prescription.Id}" TextAlignment="Right" Foreground="{Binding Color}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto" Header="Lek">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding MedicationName}" TextAlignment="Right" Foreground="{Binding Color}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto" Header="Dnevna doza">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Prescription.DailyDosage}" TextAlignment="Right" Foreground="{Binding Color}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto" Header="Dani konzumiranja">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Prescription.ConsumptionDays}" TextAlignment="Right" Foreground="{Binding Color}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto" Header="Uputstvo">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding MealTime}" TextAlignment="Right" Foreground="{Binding Color}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto" Header="Datum pocetka">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Date}" TextAlignment="Right" Foreground="{Binding Color}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto" Header="Doktor">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DoctorName}" TextAlignment="Right" Foreground="{Binding Color}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto" Header="Prvi put?">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding FirstUse}" TextAlignment="Right" Foreground="{Binding Color}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto" Header="Lek na stanju?">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Empty}" TextAlignment="Right" Foreground="{Binding Color}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
 
         <Button Content="Iskoristi recept" Name="btnUse" HorizontalAlignment="Left" Height="35" Margin="10,350,0,0" VerticalAlignment="Top" Width="130" Click="btnUse_Click"/>
         <Button Content="Produzi recept" Name="btnProlonge" HorizontalAlignment="Left" Height="35" Margin="170,350,0,0" VerticalAlignment="Top" Width="130" Click="btnProlonge_Click"/>
-        <Button Content="Zakazi pregled" Name="btnMakeAppointment" HorizontalAlignment="Left" Height="35" Margin="340,350,0,0" VerticalAlignment="Top" Width="130" Click="btnMakeAppointment_Click"/>
+        <Button Content="Zakazi pregled" Name="btnMakeAppointment" HorizontalAlignment="Left" Height="35" Margin="330,350,0,0" VerticalAlignment="Top" Width="130" Click="btnMakeAppointment_Click"/>
         <Button Content="Izadji" Name="btnClose"  HorizontalAlignment="Right" Height="35" Margin="0,350,10,0" VerticalAlignment="Top" Width="130" Click="btnClose_Click"/>
 
     </Grid>

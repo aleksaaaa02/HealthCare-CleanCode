@@ -6,7 +6,6 @@ using HealthCare.View;
 using HealthCare.View.AppointmentView;
 using HealthCare.View.DoctorView;
 using HealthCare.View.ManagerView;
-using HealthCare.View.NurseView.OrderMedicationView;
 using HealthCare.View.PatientView;
 using System.ComponentModel;
 using System.Windows;
@@ -27,9 +26,8 @@ namespace HealthCare
 
         private void btnQuitApp_Click(object sender, RoutedEventArgs e)
         {
-            new OrderMedicineView(_hospital).ShowDialog();
-            //_hospital.SaveAll();
-            //ExitApp();
+            _hospital.SaveAll();
+            ExitApp();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)

@@ -2,7 +2,6 @@
 using HealthCare.Model;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 using System.Collections.ObjectModel;
-using System.IO.Packaging;
 
 namespace HealthCare.ViewModel.NurseViewModel
 {
@@ -23,7 +22,7 @@ namespace HealthCare.ViewModel.NurseViewModel
             foreach (Prescription prescription in _hospital.PrescriptionService.GetPatientsPrescriptions(_patient.JMBG)) {
                 Doctor doctor = _hospital.DoctorService.Get(prescription.DoctorJMBG);
                 Prescriptions.Add(new PrescriptionViewModel(prescription,
-                _hospital.EquipmentInventory.GetTotalQuantity(prescription.MedicationId),
+                _hospital.MedicationInventory.GetTotalQuantity(prescription.MedicationId),
                 _hospital.MedicationService.Get(prescription.MedicationId).Name,
                 doctor.Name + " " + doctor.LastName));
             }

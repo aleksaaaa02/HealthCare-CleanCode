@@ -30,6 +30,16 @@ namespace HealthCare.View.NurseView.PrescriptionView
         private void lvPrescriptions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _prescription = (PrescriptionViewModel) lvPrescriptions.SelectedItem;
+            if (_prescription.Prescription.FirstUse)
+            {
+                btnUse.IsEnabled = true;
+                btnProlonge.IsEnabled = false;
+            }
+            else {
+                btnUse.IsEnabled = false;
+                btnProlonge.IsEnabled = true;
+            }
+
         }
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
@@ -47,11 +57,15 @@ namespace HealthCare.View.NurseView.PrescriptionView
                 Utility.ShowWarning("Vec ste iskoristili recept.");
                 return;
             }
+
+            if (!GiveMedication(prescription))
+                return;
+
             prescription.FirstUse = false;
-            prescription.Start = DateTime.Now;
+            prescription.Start = DateTime.Now.Date;
             _hospital.PrescriptionService.Update(prescription);
 
-            GiveMedication(prescription);
+            _model.Update();
         }
 
         private void btnProlonge_Click(object sender, RoutedEventArgs e)
@@ -65,15 +79,18 @@ namespace HealthCare.View.NurseView.PrescriptionView
                 return;
             }
 
-            if (prescription.Start.AddDays(prescription.ConsumptionDays - 1) < DateTime.Now) {
+            if (prescription.Start.AddDays(prescription.ConsumptionDays - 1) > DateTime.Now) {
                 Utility.ShowWarning("Nije vam isteklo vreme.");
                 return;
             }
 
-            prescription.Start = DateTime.Now;
+            if (!GiveMedication(prescription))
+                return;
+
+            prescription.Start = DateTime.Now.Date;
             _hospital.PrescriptionService.Update(prescription);
 
-            GiveMedication(prescription);
+            _model.Update();
         }
 
         private void btnMakeAppointment_Click(object sender, RoutedEventArgs e)
@@ -115,17 +132,18 @@ namespace HealthCare.View.NurseView.PrescriptionView
             _model.Update();
         }
 
-        private void GiveMedication(Prescription prescription) {
+        private bool GiveMedication(Prescription prescription) {
             var reduceItem = new InventoryItem(
             prescription.MedicationId, _hospital.RoomService.GetWarehouseId(), prescription.GetQuantity());
 
             if (!_hospital.MedicationInventory.TryReduceInventoryItem(reduceItem))
             {
                 Utility.ShowError("Nema lekova na stanju.");
-                return;
+                return false;
             }
 
             Utility.ShowInformation("Uspesno izdati lekovi.");
+            return true;
         }
 
         private bool Validate()
