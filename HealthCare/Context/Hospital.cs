@@ -24,7 +24,8 @@ namespace HealthCare.Context
         public SpecialistReferralService SpecialistReferralService;
         public MedicationService MedicationService;
         public PrescriptionService PrescriptionService;
-
+        public TherapyService TherapyService;
+        public PrescriptionService TherapyPrescriptionService;
         public Hospital() : this("Bolnica") { }
 
         public Hospital(string name)
@@ -47,6 +48,8 @@ namespace HealthCare.Context
             SpecialistReferralService = new SpecialistReferralService(Global.specialistReferralPath);
             MedicationService = new MedicationService(Global.medicationPath);
             PrescriptionService = new PrescriptionService(Global.prescriptionPath);
+            TherapyService = new TherapyService(Global.therapyPath);
+            TherapyPrescriptionService = new PrescriptionService(Global.therapyPrescriptionPath);
         }
 
         public void LoadAll()

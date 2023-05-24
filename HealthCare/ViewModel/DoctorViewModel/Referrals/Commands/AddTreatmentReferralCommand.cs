@@ -3,6 +3,7 @@ using HealthCare.Context;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.View;
+using HealthCare.View.DoctorView.ReferralView;
 using System.Collections.Generic;
 
 namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
@@ -11,10 +12,12 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
     {
         private readonly Hospital _hospital;
         private readonly TreatmentReferralViewModel _treatmentReferralViewModel;
+        private readonly Patient _examinedPatient;
         public AddTreatmentReferralCommand(Hospital hospital, TreatmentReferralViewModel treatmentReferralViewModel) 
         { 
             _hospital = hospital;
             _treatmentReferralViewModel = treatmentReferralViewModel;
+            _examinedPatient = treatmentReferralViewModel.ExaminedPatient;
         }
         public override void Execute(object parameter)
         {
@@ -31,20 +34,23 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
 
         private void MakeReferral()
         {
-            int[] initialTherapy = GetTherapy();
-            Patient patient = _treatmentReferralViewModel.ExaminedPatient;
+            List<int> medication = GetMedication();
             int daysOfTreatment = _treatmentReferralViewModel.DaysOfTreatment;
             string doctorJMBG = _hospital.Current.JMBG;
             string[] additionalExamination = Utility.GetArray(_treatmentReferralViewModel.AdditionalExamination);
             
-            CheckPatientAllergies(patient, initialTherapy);
-            
-            TreatmentReferral treatmentReferral = new TreatmentReferral(daysOfTreatment, doctorJMBG, initialTherapy, additionalExamination);
+            CheckPatientAllergies(_examinedPatient, medication);
+
+
+
+            GetTherapy(medication);
+
+            TreatmentReferral treatmentReferral = new TreatmentReferral(daysOfTreatment, doctorJMBG, 1, additionalExamination);
             _hospital.TreatmentReferralService.Add(treatmentReferral);
-            _hospital.PatientService.AddReferral(patient.JMBG, treatmentReferral.Id, true);
+            _hospital.PatientService.AddReferral(_examinedPatient.JMBG, treatmentReferral.Id, true);
         }
 
-        private int[] GetTherapy()
+        private List<int> GetMedication()
         {
             List<int> selectedMedication = new List<int>();
             foreach(var medication in _treatmentReferralViewModel.Medications)
@@ -54,9 +60,9 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
                     selectedMedication.Add(medication.MedicationId);
                 }
             }
-            return selectedMedication.ToArray();
+            return selectedMedication;
         }
-        private void CheckPatientAllergies(Patient patient, int[] therapy)
+        private void CheckPatientAllergies(Patient patient, List<int> therapy)
         {
             foreach(int MedicationID in therapy)
             {
@@ -65,6 +71,18 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
                 if (patient.IsAllergic(medication.Ingredients)) 
                     throw new ValidationException("Pacijent je alergican na lek: " + medication.Name);
             }
+        }
+        private int GetTherapy(List<int> medication) 
+        {   
+            Therapy therapy = new Therapy(new List<int>(), _examinedPatient.JMBG);
+
+            foreach(int MedicationID in medication)
+            {
+                new TherapyInformation(_hospital, _examinedPatient, MedicationID, therapy).ShowDialog();
+            }
+            _hospital.TherapyService.Add(therapy);
+
+            return therapy.Id;
         }
     }
 }
