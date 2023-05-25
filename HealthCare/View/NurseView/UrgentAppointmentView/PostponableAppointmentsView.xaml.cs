@@ -2,6 +2,7 @@
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.NurseViewModel;
+using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;

@@ -79,6 +79,21 @@ namespace HealthCare.View
             }
         }
 
+        public static string Translate(MealTime mealTime)
+        {
+            switch (mealTime)
+            {
+                case MealTime.AfterMeal:
+                    return "posle jela";
+                case MealTime.BeforeMeal:
+                    return "pre jela";
+                case MealTime.DuringMeal:
+                    return "tokom jela";
+                default:
+                    return "bilo kad";
+            }
+        }
+
         public static string[] GetArray(string text, char delimiter = ',')
         {
             return text.Split(delimiter)

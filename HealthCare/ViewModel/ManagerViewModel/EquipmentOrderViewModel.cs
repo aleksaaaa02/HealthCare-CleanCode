@@ -1,4 +1,5 @@
 ﻿using HealthCare.Context;
+using HealthCare.Model;
 using HealthCare.Service;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,12 +11,14 @@ namespace HealthCare.ViewModel.ManagerViewModel
     {
         private readonly Inventory _inventory;
         private readonly EquipmentService _equipmentService;
+        private bool _isMedication;
         public ObservableCollection<OrderItemViewModel> Items { get; }
 
-        public EquipmentOrderViewModel(Hospital hospital)
+        public EquipmentOrderViewModel(Hospital hospital, bool isMedication)
         {
-            _inventory = hospital.Inventory;
+            _inventory = hospital.EquipmentInventory;
             _equipmentService = hospital.EquipmentService;
+            _isMedication = isMedication;
 
             Items = new ObservableCollection<OrderItemViewModel>();
             LoadAll();
@@ -28,7 +31,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
             foreach (int id in _inventory.GetLowQuantityEquipment())
             {
                 var equipment = _equipmentService.Get(id);
-                if (!equipment.IsDynamic)
+                if (!equipment.IsDynamic || (!equipment.Type.Equals(EquipmentType.Medication) && _isMedication))
                     continue;
 
                 var quantity = _inventory.GetTotalQuantity(id);

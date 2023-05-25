@@ -9,10 +9,12 @@ namespace HealthCare.Context
         public string Name { get; set; }
         public User? Current { get; set; }
 
-        public Inventory Inventory;
+        public Inventory EquipmentInventory;
+        public Inventory MedicationInventory;
         public RoomService RoomService;
         public NurseService NurseService;
-        public OrderService OrderService;
+        public OrderService EquipmentOrderService;
+        public OrderService MedicationOrderService;
         public DoctorService DoctorService;
         public PatientService PatientService;
         public TransferService TransferService;
@@ -33,15 +35,17 @@ namespace HealthCare.Context
             Current = null;
 
             RoomService = new RoomService(Global.roomPath);
-            Inventory = new Inventory(Global.inventoryPath);
+            EquipmentInventory = new Inventory(Global.equipmentInventoryPath);
+            MedicationInventory = new Inventory(Global.medicationInventoryPath);
             NurseService = new NurseService(Global.nursePath);
             DoctorService = new DoctorService(Global.doctorPath);
             PatientService = new PatientService(Global.patientPath);
             EquipmentService = new EquipmentService(Global.equipmentPath);
             AnamnesisService = new AnamnesisService(Global.anamnesisPath);
-            TransferService = new TransferService(Global.transferPath, Inventory);
+            TransferService = new TransferService(Global.transferPath, EquipmentInventory);
             NotificationService = new NotificationService(Global.notificationPath);
-            OrderService = new OrderService(Global.orderPath, Inventory, RoomService);
+            EquipmentOrderService = new OrderService(Global.orderPath, EquipmentInventory, RoomService);
+            MedicationOrderService = new OrderService(Global.medicationOrderPath, MedicationInventory, RoomService);
 
             TreatmentReferralService = new TreatmentReferralService(Global.treatmentReferralPath);
             SpecialistReferralService = new SpecialistReferralService(Global.specialistReferralPath);
@@ -54,7 +58,8 @@ namespace HealthCare.Context
             Schedule.Load(Global.appointmentPath);
             FillAppointmentDetails();
 
-            OrderService.ExecuteAll();
+            EquipmentOrderService.ExecuteAll();
+            MedicationOrderService.ExecuteAll();
             TransferService.ExecuteAll();
         }
 

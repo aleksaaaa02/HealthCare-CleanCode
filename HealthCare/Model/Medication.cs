@@ -4,13 +4,13 @@ namespace HealthCare.Model
 {
     public class Medication : Identifier, ISerializable
     {
-        public override object Key { get => Id; set { Id = (int) value; } }
+        public override object Key { get => Id; set { Id = (int)value; } }
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string[] Ingredients { get; set; }
         public Medication() { }
-        
+
         public Medication(string name, string description, string[] ingredients)
         {
             Name = name;
@@ -20,7 +20,7 @@ namespace HealthCare.Model
 
         public string[] ToCSV()
         {
-            return new string[] { Id.ToString(), Name, Description,  Utility.ToString(Ingredients)};
+            return new string[] { Id.ToString(), Name, Description, Utility.ToString(Ingredients) };
         }
 
         public void FromCSV(string[] values)

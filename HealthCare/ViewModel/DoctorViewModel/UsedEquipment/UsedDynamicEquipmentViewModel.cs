@@ -44,7 +44,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment
         {
             _usedDynamicEquipment.Clear();
 
-            foreach(InventoryItem inventoryItem in _hospital.Inventory.GetRoomItems(_roomId))
+            foreach(InventoryItem inventoryItem in _hospital.EquipmentInventory.GetRoomItems(_roomId))
             {
                 Equipment equipment = _hospital.EquipmentService.Get(inventoryItem.EquipmentId);
                 if (equipment.IsDynamic)

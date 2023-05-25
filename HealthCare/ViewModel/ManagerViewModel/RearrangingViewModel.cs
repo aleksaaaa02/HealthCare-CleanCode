@@ -30,7 +30,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
 
             foreach (Room room in _hospital.RoomService.GetAll()) {
                 var item = new InventoryItem(0, equipment.Id, room.Id, 0);
-                var found = _hospital.Inventory.GetAll().Find(x => x.Equals(item));
+                var found = _hospital.EquipmentInventory.GetAll().Find(x => x.Equals(item));
 
                 if (found is not null) {
                     item.Quantity = found.Quantity;

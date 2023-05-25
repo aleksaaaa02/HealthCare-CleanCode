@@ -40,7 +40,7 @@ namespace HealthCare.Service
 
         public static bool CreateAppointment(Appointment appointment)
         {
-            if (!CheckAvailability(appointment, appointment.TimeSlot))
+            if (!CheckAvailability(appointment, appointment.TimeSlot) || appointment.TimeSlot.Start<DateTime.Now)
                 return false;
 
             appointment.AppointmentID = NextId();
