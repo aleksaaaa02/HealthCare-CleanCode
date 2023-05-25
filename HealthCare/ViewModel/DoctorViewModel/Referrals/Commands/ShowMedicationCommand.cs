@@ -1,5 +1,4 @@
-﻿
-using HealthCare.Command;
+﻿using HealthCare.Command;
 using HealthCare.Model;
 using HealthCare.View.DoctorView.PrescriptionView;
 

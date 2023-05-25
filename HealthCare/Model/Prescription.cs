@@ -25,7 +25,7 @@ namespace HealthCare.Model
         public DateTime Start { get; set; }
         public bool FirstUse { get; set; }
         public Prescription() { }
-        public Prescription(int medicationId, MealTime instruction, string patientJMBG,string doctorJMBG, int dailyDosage, int hoursBetweenConsumption, int consumptionDays, DateTime start, bool firstUse)
+        public Prescription(int medicationId, MealTime instruction, string patientJMBG,string doctorJMBG, int dailyDosage, int hoursBetweenConsumption, int consumptionDays)
         {
             MedicationId = medicationId;
             Instruction = instruction;
@@ -34,8 +34,8 @@ namespace HealthCare.Model
             DailyDosage = dailyDosage;
             HoursBetweenConsumption = hoursBetweenConsumption;
             ConsumptionDays = consumptionDays;
-            Start = start;
-            FirstUse = firstUse;
+            Start = DateTime.Now;
+            FirstUse = false;
         }
 
         public int GetQuantity()

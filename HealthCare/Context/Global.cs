@@ -23,6 +23,8 @@ namespace HealthCare.Context
         public const string prescriptionPath = dirPath + "prescriptions.csv";
         public const string treatmentReferralPath = dirPath + "treatment_referrals.csv";
         public const string specialistReferralPath = dirPath + "specialist_referrals.csv";
+        public const string therapyPrescriptionPath = dirPath + "therapy_prescriptions.csv";
+        public const string therapyPath = dirPath + "therapy.csv";
 
         public const string managerUsername = "admin";
         public const string managerPassword = "admin";
