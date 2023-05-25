@@ -24,7 +24,7 @@ namespace HealthCare.View.ManagerView
         }
         private void Button_Ordering(object sender, RoutedEventArgs e)
         {
-            new EquipmentOrderView(this, _hospital, new EquipmentOrderViewModel(_hospital)).Show();
+            new EquipmentOrderView(this, _hospital).Show();
         }
 
         private void Button_Rearranging(object sender, RoutedEventArgs e)
@@ -34,7 +34,7 @@ namespace HealthCare.View.ManagerView
 
         private void Button_Renovation(object sender, RoutedEventArgs e)
         {
-            new RenovationView(this, _hospital).Show();
+            new RenovationListingView(this, _hospital).Show();
         }
 
         private void Button_Logout(object sender, RoutedEventArgs e)

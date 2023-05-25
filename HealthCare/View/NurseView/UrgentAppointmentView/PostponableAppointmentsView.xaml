@@ -21,7 +21,7 @@
             </ListView.View>
         </ListView>
 
-        <Button Content="Odloži" Name="btnAdd" HorizontalAlignment="Left" Height="35" Margin="10,250,0,0" VerticalAlignment="Top" Width="130" Click="btnAdd_Click"/>
-        <Button Content="Izađi" Name="btnClose" HorizontalAlignment="Left" Height="35" Margin="160,250,0,0" VerticalAlignment="Top" Width="130" Click="btnClose_Click"/>
+        <Button Content="Odlozi" Name="btnAdd" HorizontalAlignment="Left" Height="35" Margin="10,250,0,0" VerticalAlignment="Top" Width="130" Click="btnAdd_Click"/>
+        <Button Content="Izadji" Name="btnClose" HorizontalAlignment="Left" Height="35" Margin="160,250,0,0" VerticalAlignment="Top" Width="130" Click="btnClose_Click"/>
     </Grid>
 </Window>

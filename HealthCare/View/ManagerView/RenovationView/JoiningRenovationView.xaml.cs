@@ -1,4 +1,7 @@
-﻿using System;
+﻿using HealthCare.Context;
+using HealthCare.Model;
+using HealthCare.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,14 +17,34 @@ using System.Windows.Shapes;
 
 namespace HealthCare.View.ManagerView.RenovationView
 {
-    /// <summary>
-    /// Interaction logic for JoiningRenovationView.xaml
-    /// </summary>
     public partial class JoiningRenovationView : Window
     {
-        public JoiningRenovationView()
+        private readonly Hospital _hospital;
+        private readonly RoomService _roomService;
+        private readonly JoiningRenovationService _joiningRenovationService;
+
+        public JoiningRenovationView(Hospital hospital, List<int> roomIds)
         {
             InitializeComponent();
+
+            _hospital = hospital;
+            _roomService = hospital.RoomService;
+            _joiningRenovationService = new JoiningRenovationService("");
+        }
+
+        private void PopulateComboBox()
+        {
+            cbType.ItemsSource = Enum.GetValues(typeof(RoomType));
+        }
+
+        private void Button_Exit(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Renovate(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

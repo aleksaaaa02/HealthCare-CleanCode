@@ -47,7 +47,7 @@ namespace HealthCare.View.ManagerView
             }
 
             CreateTransfer();
-            Utility.ShowInformation("Uspešna operacija.");
+            Utility.ShowInformation("Uspesna operacija.");
             tbQuantity.Text = "";
             datePicker.SelectedDate = null;
             _model.Load(_selected);
@@ -78,22 +78,22 @@ namespace HealthCare.View.ManagerView
             if (selected is null)
                 throw new ValidationException("Izaberite opremu za prenos.");
             else if (!(int.TryParse(tbQuantity.Text.Trim(), out quantity) && quantity > 0))
-                throw new ValidationException("Količina opreme za prenos mora da bude pozitivan broj.");
+                throw new ValidationException("Kolicina opreme za prenos mora da bude pozitivan broj.");
 
             var from = (InventoryItemViewModel)lvFromRoom.SelectedItem;
             var to = (InventoryItemViewModel)lvToRoom.SelectedItem;
             if (from is null || to is null)
                 throw new ValidationException("Izaberite sobe za prenos iz obe tabele.");
             else if (from.Room.Id == to.Room.Id)
-                throw new ValidationException("Prenos opreme iz sobe u nju samu nije moguć.");
+                throw new ValidationException("Prenos opreme iz sobe u nju samu nije moguc.");
             else if (from.Quantity < quantity)
-                throw new ValidationException("Nema dovoljno opreme da bi se izvršio prenos.");
+                throw new ValidationException("Nema dovoljno opreme da bi se izvrsio prenos.");
 
             var date = datePicker.SelectedDate;
             if (!selected.IsDynamic && date is null)
-                throw new ValidationException("Pošto oprema nije dinamička obavezno je izabrati datum prenosa.");
+                throw new ValidationException("Posto oprema nije dinamicka obavezno je izabrati datum prenosa.");
             else if (!selected.IsDynamic && date <= DateTime.Now)
-                throw new ValidationException("Datum prenosa ne sme da bude u prošlosti.");
+                throw new ValidationException("Datum prenosa ne sme da bude u proslosti.");
         }
 
         private void Window_Closed(object sender, EventArgs e)

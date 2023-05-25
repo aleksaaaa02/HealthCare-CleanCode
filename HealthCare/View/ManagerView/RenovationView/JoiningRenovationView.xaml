@@ -5,8 +5,82 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.ManagerView.RenovationView"
         mc:Ignorable="d"
-        Title="JoiningRenovationView" Height="450" Width="800">
-    <Grid>
+        Title="JoiningRenovationView" MinHeight="300" MinWidth="400"
+        SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource RoundedButton}">
+            <Setter Property="Width" Value="70" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="Margin" Value="5 0" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="20 0 20 20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1.5*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="6*" />
+        </Grid.ColumnDefinitions>
+        <Label Content="Spajanje prostorija" Style="{StaticResource SmallHeader}"
+               HorizontalAlignment="Center" Margin="50 0 50 15"
+               Grid.ColumnSpan="2"/>
         
+        <Label Grid.Row="1" Content="Prostorije koje se spajaju:"
+               HorizontalAlignment="Center" 
+               FontSize="12"/>
+        
+        <ListView Grid.Row="1" Grid.Column="1" Name="lvRooms" ItemsSource="{Binding Rooms}"
+                  Margin="0 10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="auto" Header="Id">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RoomId}" TextAlignment="Right"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="auto" Header="Prostorije">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RoomName}" TextAlignment="Right"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="auto" Header="Tip prostorije">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RoomType}" TextAlignment="Left"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Label Grid.Row="2" Content="Naziv nove prostorije:"
+               HorizontalAlignment="Right" FontSize="12"/>
+
+        <TextBox Grid.Row="2" Grid.Column="1" Name="tbName" FontSize="12" 
+                 Margin="5 10" Width="160" HorizontalAlignment="Left"/>
+
+        <Label Grid.Row="3" Content="Tip nove prostorije:"
+               HorizontalAlignment="Right" FontSize="12"/>
+
+        <ComboBox Grid.Row="3" Grid.Column="1" Name="cbType" FontSize="12" 
+                 Margin="5 10" Width="160" HorizontalAlignment="Left"/>
+
+        <Button Content="Nazad" Click="Button_Exit"
+                    Grid.Row="5" HorizontalAlignment="Right"/>
+        <Button Content="Renoviraj" FontWeight="Bold" Click="Button_Renovate"
+                    Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left"/>
     </Grid>
 </Window>

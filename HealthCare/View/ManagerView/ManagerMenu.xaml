@@ -25,9 +25,9 @@
         
         <Button Content="Oprema bolnice" Click="Button_Equipment" />
         <Button Grid.Column="1"
-                Content="Poručivanje dinamičke opreme" Click="Button_Ordering" />
+                Content="Porucivanje dinamicke opreme" Click="Button_Ordering" />
         <Button Grid.Row="1"
-                Content="Raspoređivanje opreme" Click="Button_Rearranging" />
+                Content="Rasporedjivanje opreme" Click="Button_Rearranging" />
         <Button Grid.Row="1" Grid.Column="1"
                 Content="Renoviranje prostorija" Click="Button_Renovation" />
         <Button Grid.Row="2" Grid.ColumnSpan="2"

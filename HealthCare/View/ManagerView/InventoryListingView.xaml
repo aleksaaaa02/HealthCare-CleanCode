@@ -108,7 +108,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="auto" Header="Dinamička">
+                    <GridViewColumn Width="auto" Header="Dinamicka">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding IsDynamic}" TextAlignment="Right" Margin="10 0"/>

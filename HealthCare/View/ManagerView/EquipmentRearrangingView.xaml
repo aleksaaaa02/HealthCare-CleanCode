@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.ManagerView"
         mc:Ignorable="d"
-        Title="Raspoređivanje opreme" MinHeight="500" MinWidth="550"
+        Title="Rasporedjivanje opreme" MinHeight="500" MinWidth="550"
         SizeToContent="WidthAndHeight" Closed="Window_Closed">
     <Window.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource RoundedButton}">
@@ -36,7 +36,7 @@
                   ItemsSource="{Binding Equipment}" DisplayMemberPath="Name" 
                   SelectionChanged="cb_SelectionChanged" />
         
-        <Label Grid.Row="1" Content="Količina koja se prenosi:"
+        <Label Grid.Row="1" Content="Kolicina koja se prenosi:"
                VerticalAlignment="Center" HorizontalAlignment="Right" 
                FontSize="12" Margin="5 5 5 20"/>
         <TextBox Grid.Row="1" Grid.Column="1" Name="tbQuantity" FontSize="12" 

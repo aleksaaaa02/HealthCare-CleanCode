@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthCare.Context;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,14 +15,14 @@ using System.Windows.Shapes;
 
 namespace HealthCare.View.ManagerView.RenovationView
 {
-    /// <summary>
-    /// Interaction logic for SplittingRenovationView.xaml
-    /// </summary>
     public partial class SplittingRenovationView : Window
     {
-        public SplittingRenovationView()
+        private readonly Hospital _hospital;
+        public SplittingRenovationView(Hospital hospital, int roomId)
         {
             InitializeComponent();
+            
+            _hospital = hospital;
         }
     }
 }

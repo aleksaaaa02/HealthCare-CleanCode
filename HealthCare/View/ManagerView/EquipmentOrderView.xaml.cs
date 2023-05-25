@@ -49,7 +49,7 @@ namespace HealthCare.View.ManagerView
                 if (item.IsSelected)
                     MakeOrder(item.EquipmentId, int.Parse(item.OrderQuantity));
 
-            Utility.ShowInformation("Poručivanje uspešno.");
+            Utility.ShowInformation("Porucivanje uspesno.");
             _model.LoadAll();
         }
 
@@ -65,12 +65,12 @@ namespace HealthCare.View.ManagerView
             foreach (var item in _model.Items)
             {
                 if (item.IsSelected && !Validation.IsNatural(item.OrderQuantity))
-                    throw new ValidationException("Količina mora da bude prirodan broj.");
+                    throw new ValidationException("Kolicina mora da bude prirodan broj.");
 
                 someSelected |= item.IsSelected;
             }
             if (!someSelected)
-                throw new ValidationException("Nema unetih porudžbina.");
+                throw new ValidationException("Nema unetih porudzbina.");
         }
 
         private void tbQuantity_Focused(object sender, EventArgs e)

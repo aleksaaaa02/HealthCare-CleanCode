@@ -31,7 +31,7 @@ namespace HealthCare.Context
             RoomService = new RoomService(Global.roomPath);
             Inventory = new Inventory(Global.inventoryPath);
             NurseService = new NurseService(Global.nursePath);
-            RenovationService = new RenovationService(Inventory);
+            RenovationService = new RenovationService(Global.renovationPath, Inventory);
             DoctorService = new DoctorService(Global.doctorPath);
             PatientService = new PatientService(Global.patientPath);
             EquipmentService = new EquipmentService(Global.equipmentPath);

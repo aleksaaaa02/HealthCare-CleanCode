@@ -10,7 +10,7 @@ namespace HealthCare.View
     {
         public static void ShowInformation(string message)
         {
-            MessageBox.Show(message, "Obaveštenje", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show(message, "Obavestenje", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         // For user induced errors
@@ -22,7 +22,7 @@ namespace HealthCare.View
         // For INTERNAL errors
         public static void ShowError(string message)
         {
-            MessageBox.Show(message, "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(message, "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         public static MessageBoxResult ShowConfirmation(string message)
@@ -41,9 +41,9 @@ namespace HealthCare.View
             switch (gender)
             {
                 case Gender.Female:
-                    return "žensko";
+                    return "zensko";
                 default:
-                    return "muško";
+                    return "musko";
             }
         }
 

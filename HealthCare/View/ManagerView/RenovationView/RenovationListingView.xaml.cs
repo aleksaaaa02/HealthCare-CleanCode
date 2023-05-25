@@ -23,18 +23,20 @@ using System.Windows.Shapes;
 namespace HealthCare.View.ManagerView
 {
     /// <summary>
-    /// Interaction logic for RenovationView.xaml
+    /// Interaction logic for RenovationListingView.xaml
     /// </summary>
-    public partial class RenovationView : Window
+    public partial class RenovationListingView : Window
     {
+        private readonly Hospital _hospital;
         private readonly Window _parent;
         private readonly RoomService _roomService;
         private readonly RenovationService _renovationService;
 
-        public RenovationView(Window parent, Hospital hospital)
+        public RenovationListingView(Window parent, Hospital hospital)
         {
             InitializeComponent();
 
+            _hospital = hospital;
             _parent = parent;
             _roomService = hospital.RoomService;
             _renovationService = hospital.RenovationService;
@@ -58,24 +60,19 @@ namespace HealthCare.View.ManagerView
                 return;
             }
 
+            var selected = GetSelectedIds();
             lvRooms.SelectedItems.Clear();
 
             if (GetMaxSelectionCount() == 1) {
                 // zakazi renoviranje za jednu sobu
-                Utility.ShowInformation("Uspešno zakazano renoviranje sobe.");
+                Utility.ShowInformation("Uspesno zakazano renoviranje sobe.");
                 return;
             }
 
-            var selected = GetSelectedIds();
             if (selected.Count == 1)
-            {
-                // TODO
-                new SplittingRenovationView(selected[0]);
-            }
+                new SplittingRenovationView(_hospital, selected[0]).ShowDialog();
             else
-            {
-                new Joini(selected);
-            }
+                new JoiningRenovationView(_hospital, selected).ShowDialog();
         }
 
         private void Validate()
@@ -89,7 +86,7 @@ namespace HealthCare.View.ManagerView
             var endDate = EndDatePicker.SelectedDate;
 
             if (startDate is null || endDate is null)
-                throw new ValidationException("Nisu izabrani datum početka i kraja renoviranja.");
+                throw new ValidationException("Nisu izabrani datum pocetka i kraja renoviranja.");
 
             var slot = new TimeSlot((DateTime)startDate, (DateTime)endDate);
 

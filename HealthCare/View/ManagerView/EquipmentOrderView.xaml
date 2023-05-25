@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.ManagerView"
         mc:Ignorable="d"
-        Title="Nabavka dinamičke opreme" MinHeight="500" MinWidth="400"
+        Title="Nabavka dinamicke opreme" MinHeight="500" MinWidth="400"
         SizeToContent="WidthAndHeight" Closed="Window_Closed">
     <Window.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource RoundedButton}">
@@ -24,7 +24,7 @@
             <RowDefinition Height="0.15*"/>
         </Grid.RowDefinitions>
 
-        <Label Content="Dinamička oprema" Style="{StaticResource SmallHeader}"
+        <Label Content="Dinamicka oprema" Style="{StaticResource SmallHeader}"
                VerticalAlignment="Center" HorizontalAlignment="Center" Margin="50 0 50 10"/>
 
         <ListView Grid.Row="1" Name="lvDynamicEquipment" ItemsSource="{Binding Items}">
@@ -67,7 +67,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="auto" Header="Narudžbina">
+                    <GridViewColumn Width="auto" Header="Narudzbina">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Name="tbQuantity" Width="50"
@@ -89,7 +89,7 @@
 
             <Button Content="Nazad" Click="Button_Exit"/>
             <Button Content="Resetuj" Grid.Column="1" Click="Button_Reset"/>
-            <Button Content="Poruči" Grid.Column="2" FontWeight="Bold"
+            <Button Content="Poruci" Grid.Column="2" FontWeight="Bold"
                     Click="Button_Order"/>
         </Grid>
     </Grid>
