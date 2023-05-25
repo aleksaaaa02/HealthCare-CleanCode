@@ -7,15 +7,7 @@ namespace HealthCare.Service
     public class SpecialistReferralService : NumericService<SpecialistReferral>
     {
         public SpecialistReferralService(string filepath) : base(filepath) {}
-        private SpecialistReferralService(IRepository<SpecialistReferral> repository) : base(repository) { }
-
-        private static SpecialistReferralService? _instance = null;
-        public static SpecialistReferralService GetInstance(IRepository<SpecialistReferral> repository)
-        {
-            if (_instance is not null) return _instance;
-            _instance = new SpecialistReferralService(repository);
-            return _instance;
-        }
+        public SpecialistReferralService(IRepository<SpecialistReferral> repository) : base(repository) { }
 
         public List<SpecialistReferral> GetPatientsReferrals(Patient patient)
         {

@@ -16,18 +16,10 @@ namespace HealthCare.Service
             _roomService = (RoomService)ServiceProvider.services["RoomService"];
         }
 
-        private OrderService(IRepository<OrderItem> repository) : base(repository)
+        public OrderService(IRepository<OrderItem> repository) : base(repository)
         {
             _inventory = (Inventory)ServiceProvider.services["EquipmentInventory"];
             _roomService = (RoomService)ServiceProvider.services["RoomService"];
-        }
-
-        private static OrderService? _instance = null;
-        public static OrderService GetInstance(IRepository<OrderItem> repository)
-        {
-            if (_instance is not null) return _instance;
-            _instance = new OrderService(repository);
-            return _instance;
         }
 
         public void Execute(OrderItem item)

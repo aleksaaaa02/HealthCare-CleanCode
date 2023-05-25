@@ -14,17 +14,9 @@ namespace HealthCare.Service
             _inventory = (Inventory)ServiceProvider.services["EquipmentInventory"];
         }
 
-        private TransferService(IRepository<TransferItem> repository) : base(repository) 
+        public TransferService(IRepository<TransferItem> repository) : base(repository) 
         {
             _inventory = (Inventory)ServiceProvider.services["EquipmentInventory"];
-        }
-
-        private static TransferService? _instance = null;
-        public static TransferService GetInstance(IRepository<TransferItem> repository)
-        {
-            if (_instance is not null) return _instance;
-            _instance = new TransferService(repository);
-            return _instance;
         }
 
         public void Execute(TransferItem transfer) {

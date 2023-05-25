@@ -14,25 +14,27 @@ namespace HealthCare.Context
 
         public static void BuildServices()
         {
-            services["AnamnesisService"]        = AnamnesisService.GetInstance(new FileRepository<Anamnesis>(Global.anamnesisPath));
-            services["AppointmentService"]      = AppointmentService.GetInstance(new FileRepository<Appointment>(Global.appointmentPath));
-            services["DoctorService"]           = DoctorService.GetInstance(new FileRepository<Doctor>(Global.doctorPath));
-            services["EquipmentService"]        = EquipmentService.GetInstance(new FileRepository<Equipment>(Global.equipmentPath));
-            services["EquipmentService"]        = EquipmentService.GetInstance(new FileRepository<Equipment>(Global.equipmentPath));
-            services["EquipmentInventory"]      = Inventory.GetInstance(new FileRepository < InventoryItem >(Global.equipmentInventoryPath));
-            services["MedicationInventory"]     = Inventory.GetInstance(new FileRepository<InventoryItem>(Global.medicationInventoryPath));
-            services["MedicationService"]       = MedicationService.GetInstance(new FileRepository<Medication>(Global.medicationPath));
-            services["NotificationService"]     = NotificationService.GetInstance(new FileRepository<Notification>(Global.notificationPath));
-            services["NurseService"]            = NurseService.GetInstance(new FileRepository<User>(Global.nursePath));
-            services["RoomService"]             = RoomService.GetInstance(new FileRepository<Room>(Global.roomPath));
-            services["EquipmentOrderService"]   = OrderService.GetInstance(new FileRepository<OrderItem>(Global.orderPath));
-            services["MedicationOrderService"]  = OrderService.GetInstance(new FileRepository<OrderItem>(Global.medicationOrderPath));
-            services["PatientService"]          = PatientService.GetInstance(new FileRepository<Patient>(Global.patientPath));
-            services["PrescriptionService"]     = PrescriptionService.GetInstance(new FileRepository<Prescription>(Global.prescriptionPath));
-            services["SpecialistReferralService"] = SpecialistReferralService.GetInstance(new FileRepository<SpecialistReferral>(Global.specialistReferralPath));
-            services["TherapyService"]          = TherapyService.GetInstance(new FileRepository<Therapy>(Global.therapyPath));
-            services["TransferService"]         = TransferService.GetInstance(new FileRepository<TransferItem>(Global.transferPath));
-            services["TreatmentReferralService"] = TreatmentReferralService.GetInstance(new FileRepository<TreatmentReferral>(Global.treatmentReferralPath));
+            services["SpecialistReferralService"] = new SpecialistReferralService(new FileRepository<SpecialistReferral>(Global.specialistReferralPath));
+            services["TreatmentReferralService"]  = new TreatmentReferralService(new FileRepository<TreatmentReferral>(Global.treatmentReferralPath));
+            services["NotificationService"]     = new NotificationService(new FileRepository<Notification>(Global.notificationPath));
+            services["PrescriptionService"]     = new PrescriptionService(new FileRepository<Prescription>(Global.prescriptionPath));
+            services["EquipmentInventory"]      = new Inventory(new FileRepository < InventoryItem >(Global.equipmentInventoryPath));
+            services["MedicationInventory"]     = new Inventory(new FileRepository<InventoryItem>(Global.medicationInventoryPath));
+            services["AppointmentService"]      = new AppointmentService(new FileRepository<Appointment>(Global.appointmentPath));
+            services["MedicationService"]       = new MedicationService(new FileRepository<Medication>(Global.medicationPath));
+            services["EquipmentService"]        = new EquipmentService(new FileRepository<Equipment>(Global.equipmentPath));
+            services["AnamnesisService"]        = new AnamnesisService(new FileRepository<Anamnesis>(Global.anamnesisPath));
+            services["TherapyService"]          = new TherapyService(new FileRepository<Therapy>(Global.therapyPath));
+            services["PatientService"]          = new PatientService(new FileRepository<Patient>(Global.patientPath));
+            services["DoctorService"]           = new DoctorService(new FileRepository<Doctor>(Global.doctorPath));
+            services["NurseService"]            = new NurseService(new FileRepository<User>(Global.nursePath));
+            services["RoomService"]             = new RoomService(new FileRepository<Room>(Global.roomPath));
+
+            services["MedicationOrderService"]  = new OrderService(new FileRepository<OrderItem>(Global.medicationOrderPath));
+            services["EquipmentOrderService"]   = new OrderService(new FileRepository<OrderItem>(Global.orderPath));
+            services["TransferService"]         = new TransferService(new FileRepository<TransferItem>(Global.transferPath));
+
+            // services["Schedule"] = new Schedule();
         }
     }
 }

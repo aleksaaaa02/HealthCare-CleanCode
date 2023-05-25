@@ -7,15 +7,7 @@ namespace HealthCare.Service
     public class RoomService : NumericService<Room>
     {
         public RoomService(string filepath) : base(filepath) { }
-        private RoomService(IRepository<Room> repository) : base(repository) { }
-
-        private static RoomService? _instance = null;
-        public static RoomService GetInstance(IRepository<Room> repository)
-        {
-            if (_instance is not null) return _instance;
-            _instance = new RoomService(repository);
-            return _instance;
-        }
+        public RoomService(IRepository<Room> repository) : base(repository) { }
 
         public int GetWarehouseId()
         {

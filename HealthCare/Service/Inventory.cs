@@ -8,15 +8,7 @@ namespace HealthCare.Service
     public class Inventory : NumericService<InventoryItem>
     {
         public Inventory(string filepath) : base(filepath) { }
-        private Inventory(IRepository<InventoryItem> repository) : base(repository) { }
-
-        private static Inventory? _instance = null;
-        public static Inventory GetInstance(IRepository<InventoryItem> repository)
-        {
-            if (_instance is not null) return _instance;
-            _instance = new Inventory(repository);
-            return _instance;
-        }
+        public Inventory(IRepository<InventoryItem> repository) : base(repository) { }
 
         public int GetTotalQuantity(int equipmentId)
         {
