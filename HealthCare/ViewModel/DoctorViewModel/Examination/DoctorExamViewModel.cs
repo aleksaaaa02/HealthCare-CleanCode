@@ -1,6 +1,7 @@
 ﻿using HealthCare.Command;
 using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.Examination.Commands;
 using HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands;
 using System;
@@ -13,9 +14,10 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
 {
     public class DoctorExamViewModel : ViewModelBase
     {
+        private readonly AnamnesisService _anamnesisService;
+        private readonly PatientService _patientService;
         private Appointment _appointment;
         private Patient _selectedPatient;
-        private Hospital _hospital;
 
         private ObservableCollection<string> _previousDiseases;
         private ObservableCollection<string> _allergies;
@@ -130,18 +132,19 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
         }
 
 
-        public DoctorExamViewModel(Hospital hospital, Window window, Appointment appointment, int roomId)
+        public DoctorExamViewModel(Window window, Appointment appointment, int roomId)
         {
-            _hospital = hospital;
+            _anamnesisService = (AnamnesisService)ServiceProvider.services["AnamnesisService"];
+            _patientService = (PatientService)ServiceProvider.services["PatientService"];
             _appointment = appointment;
-            _selectedPatient = hospital.PatientService.Get(appointment.Patient.Key);
+            _selectedPatient = _patientService.Get(appointment.Patient.Key);
             
             
-            UpdatePatientCommand = new ShowPatientInfoCommand(hospital, this, true);
-            FinishExaminationCommand = new FinishExaminationCommand(hospital, window, appointment, this, roomId);
-            MakeSpecialistReferralCommand = new ShowSpecialistReferralViewCommand(hospital, _selectedPatient);
-            MakeTreatmentReferralCommand = new ShowTreatmentReferralViewCommand(hospital, _selectedPatient);
-            MakePrescriptionCommand = new ShowPrescriptionViewCommand(hospital, _selectedPatient);
+            UpdatePatientCommand = new ShowPatientInfoCommand(this, true);
+            FinishExaminationCommand = new FinishExaminationCommand(window, appointment, this, roomId);
+            MakeSpecialistReferralCommand = new ShowSpecialistReferralViewCommand(_selectedPatient);
+            MakeTreatmentReferralCommand = new ShowTreatmentReferralViewCommand(_selectedPatient);
+            MakePrescriptionCommand = new ShowPrescriptionViewCommand(_selectedPatient);
             LoadView();
         }
         private void LoadView()
@@ -152,7 +155,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             _height = _selectedPatient.MedicalRecord.Height;
             _weight = _selectedPatient.MedicalRecord.Weight;
 
-            Anamnesis anamnesis = _hospital.AnamnesisService.Get(_appointment.AnamnesisID);
+            Anamnesis anamnesis = _anamnesisService.Get(_appointment.AnamnesisID);
             _symptoms = string.Join(", ", anamnesis.Symptoms);
             _previousDiseases = new ObservableCollection<string>();
             _allergies = new ObservableCollection<string>();
