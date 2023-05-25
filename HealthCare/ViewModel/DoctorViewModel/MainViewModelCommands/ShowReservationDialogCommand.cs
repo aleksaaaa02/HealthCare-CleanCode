@@ -12,12 +12,10 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 {
     public class ShowReservationDialogCommand : CommandBase
     {
-        private readonly Hospital _hospital;
         private readonly DoctorMainViewModel _viewModel;
 
-        public ShowReservationDialogCommand(Hospital hospital, DoctorMainViewModel viewModel)
+        public ShowReservationDialogCommand(DoctorMainViewModel viewModel)
         {
-            _hospital = hospital;
             _viewModel = viewModel;
         }
 
@@ -28,7 +26,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
                 Validate();
                 AppointmentViewModel selectedAppointment = _viewModel.SelectedAppointment;
                 Appointment appointment = Schedule.GetAppointment(selectedAppointment.AppointmentID);
-                new RoomReservationView(_hospital, appointment).Show();
+                new RoomReservationView( appointment).Show();
             }
             catch (ValidationException ve)
             {

@@ -1,5 +1,6 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +10,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions
 {
     public class PrescriptionViewModel : ViewModelBase
     {
-        private readonly Hospital _hospital;
+        private readonly MedicationService _medicationService;
         private ObservableCollection<MedicationViewModel> _medications;
         private readonly Patient _examinedPatient;
         private MedicationViewModel _selectedMedication;
@@ -27,14 +28,14 @@ namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions
         public int ConsumptionDays { get; set; }
 
         public ICommand MakePrescriptionCommand { get; }
-        public PrescriptionViewModel(Hospital hospital, Patient patient) 
+        public PrescriptionViewModel(Patient patient) 
         {
+            _medicationService = (MedicationService)ServiceProvider.services["MedicationService"];
             _examinedPatient = patient;
-            _hospital = hospital;
             BeforeMeal = true;
             _medications = new ObservableCollection<MedicationViewModel>();
 
-            MakePrescriptionCommand = new AddPrescriptionCommand(hospital, patient, this);
+            MakePrescriptionCommand = new AddPrescriptionCommand(patient, this);
 
             Update();
         }
@@ -42,7 +43,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions
         private void Update()
         {
             _medications.Clear();
-            foreach(var medication in _hospital.MedicationService.GetAll())
+            foreach(var medication in _medicationService.GetAll())
             {
                 _medications.Add(new MedicationViewModel(medication));
             }

@@ -2,18 +2,21 @@
 using HealthCare.Context;
 using HealthCare.Exceptions;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.View;
 
 namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions
 {
     public class AddPrescriptionCommand : CommandBase
     {
-        private readonly Hospital _hospital;
+        private readonly PrescriptionService _prescriptionService;
+        private readonly MedicationService _medicationService;
         private Patient _patient;
         private PrescriptionViewModel _prescriptionViewModel;
-        public AddPrescriptionCommand(Hospital hospital, Patient patient, PrescriptionViewModel prescriptionViewModel) 
+        public AddPrescriptionCommand(Patient patient, PrescriptionViewModel prescriptionViewModel) 
         {
-            _hospital = hospital;
+            _prescriptionService = (PrescriptionService)ServiceProvider.services["PrescriptionService"];
+            _medicationService = (MedicationService)ServiceProvider.services["MedicationService"];
             _patient = patient;
             _prescriptionViewModel = prescriptionViewModel;
         
@@ -38,13 +41,13 @@ namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions
             int hoursBetweenConsumption = _prescriptionViewModel.HoursBetweenConsumption;
             int consumptionDays = _prescriptionViewModel.ConsumptionDays;
             int selectedMedication = _prescriptionViewModel.SelectedMedication.MedicationId;
-            string doctorJMBG = _hospital.Current.JMBG;
+            string doctorJMBG = Hospital.Current.JMBG;
             MealTime mealTime = GetMealTime();
 
             CheckPatientAllergies(_patient, selectedMedication);
 
             Prescription prescription = new Prescription(selectedMedication, mealTime, _patient.JMBG, doctorJMBG, dailyDosage, hoursBetweenConsumption, consumptionDays);
-            _hospital.PrescriptionService.Add(prescription);
+            _prescriptionService.Add(prescription);
         }
         private MealTime GetMealTime()
         {
@@ -72,7 +75,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions
         }
         private void CheckPatientAllergies(Patient patient, int medicationID)
         {
-            Medication medication = _hospital.MedicationService.Get(medicationID);
+            Medication medication = _medicationService.Get(medicationID);
 
             if (patient.IsAllergic(medication.Ingredients))
                 throw new ValidationException("Pacijent je alergican na lek: " + medication.Name);

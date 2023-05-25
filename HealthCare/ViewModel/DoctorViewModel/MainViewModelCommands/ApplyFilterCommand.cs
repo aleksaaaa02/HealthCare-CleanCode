@@ -12,11 +12,9 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
     class ApplyFilterCommand : CommandBase
     {
         private readonly DoctorMainViewModel _doctorMainViewModel;
-        private readonly Hospital _hospital;
-        public ApplyFilterCommand(Hospital hospital, DoctorMainViewModel viewModel)
+        public ApplyFilterCommand(DoctorMainViewModel viewModel)
         {
             _doctorMainViewModel = viewModel;
-            _hospital = hospital;
         }
 
         public override void Execute(object parameter)
@@ -27,7 +25,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 
                 DateTime startDate = _doctorMainViewModel.StartDate;
                 int numberOfDays = _doctorMainViewModel.NumberOfDays;
-                _doctorMainViewModel.ApplyFilterOnAppointments(Schedule.GetDoctorAppointmentsForDays((Doctor)_hospital.Current, startDate, numberOfDays));
+                _doctorMainViewModel.ApplyFilterOnAppointments(Schedule.GetDoctorAppointmentsForDays((Doctor)Hospital.Current, startDate, numberOfDays));
             }
             catch (ValidationException ve)
             {

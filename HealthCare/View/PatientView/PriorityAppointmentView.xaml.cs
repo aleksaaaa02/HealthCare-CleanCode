@@ -23,7 +23,7 @@ namespace HealthCare.View.AppointmentView
 
         public bool IsValidData()
         {
-            Patient patient = (Patient)_hospital.Current;
+            Patient patient = (Patient)Hospital.Current;
             if (patient.Blocked)
             {
                 Utility.ShowWarning("Zao nam je, ali vas profil je blokiran");
@@ -180,7 +180,7 @@ namespace HealthCare.View.AppointmentView
 
         public void WriteAction(string action)
         {
-            string stringtocsv = _hospital.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
+            string stringtocsv = Hospital.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
             File.AppendAllText(Global.patientLogsPath, stringtocsv);
         }
     }

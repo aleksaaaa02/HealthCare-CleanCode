@@ -7,17 +7,15 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination.Commands
 {
     public class ShowSpecialistReferralViewCommand : CommandBase
     {
-        private readonly Hospital _hospital;
         private Patient _examinedPatient;
-        public ShowSpecialistReferralViewCommand(Hospital hospital, Patient patient)
+        public ShowSpecialistReferralViewCommand(Patient patient)
         {
-            _hospital = hospital;
             _examinedPatient = patient;
         }
 
         public override void Execute(object parameter)
         {
-            new SpecialistReferralView(_hospital, _examinedPatient).ShowDialog();
+            new SpecialistReferralView(_examinedPatient).ShowDialog();
         }
     }
 }

@@ -17,6 +17,7 @@ namespace HealthCare.Context
             services["SpecialistReferralService"] = new SpecialistReferralService(new FileRepository<SpecialistReferral>(Global.specialistReferralPath));
             services["TreatmentReferralService"]  = new TreatmentReferralService(new FileRepository<TreatmentReferral>(Global.treatmentReferralPath));
             services["NotificationService"]     = new NotificationService(new FileRepository<Notification>(Global.notificationPath));
+            services["TherapyPrescriptionService"] = new PrescriptionService(new FileRepository<Prescription>(Global.therapyPrescriptionPath));
             services["PrescriptionService"]     = new PrescriptionService(new FileRepository<Prescription>(Global.prescriptionPath));
             services["EquipmentInventory"]      = new Inventory(new FileRepository < InventoryItem >(Global.equipmentInventoryPath));
             services["MedicationInventory"]     = new Inventory(new FileRepository<InventoryItem>(Global.medicationInventoryPath));

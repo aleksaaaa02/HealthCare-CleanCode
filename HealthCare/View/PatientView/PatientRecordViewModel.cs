@@ -18,8 +18,8 @@ namespace HealthCare.View.AppointmentView
         {
             _hospital = hospital;
             Appointments = new ObservableCollection<Appointment>();
-            _patientAppointments = Schedule.GetPatientAppointments((Patient)_hospital.Current);
-            LoadData(Schedule.GetPatientAppointments((Patient)_hospital.Current));
+            _patientAppointments = Schedule.GetPatientAppointments((Patient)Hospital.Current);
+            LoadData(Schedule.GetPatientAppointments((Patient)Hospital.Current));
         }
 
         public void LoadData(List<Appointment> appointments)

@@ -6,10 +6,10 @@ namespace HealthCare.View.DoctorView
 {
     public partial class PatientSearchView : Window
     {
-        public PatientSearchView(Hospital hospital)
+        public PatientSearchView()
         {
             InitializeComponent();
-            DataContext = new PatientSearchViewModel(hospital);
+            DataContext = new PatientSearchViewModel();
 
         }
     }

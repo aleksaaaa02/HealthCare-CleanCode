@@ -67,10 +67,10 @@ namespace HealthCare
 
         private void ShowNotifications()
         {
-            if (_hospital.Current is null)
+            if (Hospital.Current is null)
                 return;
 
-            foreach (Notification notification in _hospital.NotificationService.GetForUser(_hospital.Current.JMBG))
+            foreach (Notification notification in _hospital.NotificationService.GetForUser(Hospital.Current.JMBG))
             {
                 Utility.ShowInformation(notification.Display());
                 _hospital.NotificationService.Update(notification);

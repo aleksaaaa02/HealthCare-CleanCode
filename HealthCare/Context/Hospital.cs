@@ -7,7 +7,7 @@ namespace HealthCare.Context
     public class Hospital
     {
         public string Name { get; set; }
-        public User? Current { get; set; }
+        public static User? Current { get; set; }
 
         public Inventory EquipmentInventory;
         public Inventory MedicationInventory;

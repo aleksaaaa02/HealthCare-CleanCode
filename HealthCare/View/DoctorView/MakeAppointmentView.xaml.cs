@@ -16,15 +16,15 @@ namespace HealthCare.View.DoctorView
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        public MakeAppointmentView(Hospital hospital, DoctorMainViewModel viewModel)
+        public MakeAppointmentView(DoctorMainViewModel viewModel)
         {
             InitializeComponent();
-            DataContext = new MakeAppointmentViewModel(hospital ,viewModel, this);
+            DataContext = new MakeAppointmentViewModel(viewModel, this);
         }
-        public MakeAppointmentView(Hospital hospital, DoctorMainViewModel viewModel, Appointment appointment)
+        public MakeAppointmentView(DoctorMainViewModel viewModel, Appointment appointment)
         {
             InitializeComponent();
-            DataContext = new MakeAppointmentViewModel(hospital, appointment, viewModel, this);
+            DataContext = new MakeAppointmentViewModel(appointment, viewModel, this);
         }
     }
 }

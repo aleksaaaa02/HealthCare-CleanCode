@@ -2,6 +2,7 @@
 using HealthCare.Context;
 using HealthCare.Exceptions;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.View;
 using System.Linq;
 
@@ -10,12 +11,12 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
     public class SavePatientChangesCommand : CommandBase
     {
         private readonly PatientInforamtionViewModel _viewModel;
-        private readonly Hospital _hospital;
         private readonly Patient _selectedPatient;
+        private readonly PatientService _patientService;
 
-        public SavePatientChangesCommand(Hospital hospital, Patient patient, PatientInforamtionViewModel viewModel)
+        public SavePatientChangesCommand(Patient patient, PatientInforamtionViewModel viewModel)
         {
-            _hospital = hospital;
+            _patientService = (PatientService)ServiceProvider.services["PatientService"];
             _viewModel = viewModel;
             _selectedPatient = patient;
         }
@@ -43,7 +44,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
             string[] allergies = _viewModel.Allergies.ToArray();
             MedicalRecord updatedMedicalRecord = new MedicalRecord(height, weight, medicalHistory, allergies);
 
-            _hospital.PatientService.UpdatePatientMedicalRecord(_selectedPatient, updatedMedicalRecord);
+            _patientService.UpdatePatientMedicalRecord(_selectedPatient, updatedMedicalRecord);
         }
 
         private void ShowSuccessMessage()

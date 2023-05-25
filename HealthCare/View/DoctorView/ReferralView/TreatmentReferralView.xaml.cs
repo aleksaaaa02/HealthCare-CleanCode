@@ -7,10 +7,10 @@ namespace HealthCare.View.DoctorView.ReferralView
 {
     public partial class TreatmentReferralView : Window
     {
-        public TreatmentReferralView(Hospital hospital, Patient patient)
+        public TreatmentReferralView(Patient patient)
         {
             InitializeComponent();
-            DataContext = new TreatmentReferralViewModel(hospital, patient);
+            DataContext = new TreatmentReferralViewModel(patient);
         }
     }
 }

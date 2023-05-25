@@ -1,6 +1,7 @@
 ﻿using HealthCare.Command;
 using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModels.DoctorViewModel;
@@ -14,7 +15,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments
 {
     public class MakeAppointmentViewModel : ViewModelBase
     {
-        private readonly Hospital _hospital;
+        private readonly PatientService _patientService;
         private readonly Patient _selected;
         private ObservableCollection<PatientViewModel> _patients;
 
@@ -113,37 +114,32 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments
                 OnPropertyChanged(nameof(SelectedPatient));
             }
         }
-        public MakeAppointmentViewModel(Hospital hospital, DoctorMainViewModel DoctorViewModel, Window window)
+        public MakeAppointmentViewModel(DoctorMainViewModel doctorViewModel, Window window, bool edit = false)
         {
+            _patientService = (PatientService)ServiceProvider.services["PatientService"];
+
             // For New Appointment
-            _hospital = hospital;
             CancelCommand = new CancelCommand(window);
-            SubmitCommand = new AddNewAppointmentDoctorCommand(hospital, this, DoctorViewModel, window, false);
+            SubmitCommand = new AddNewAppointmentDoctorCommand(this, doctorViewModel, window, edit);
             _patients = new ObservableCollection<PatientViewModel>();
             Update();
         }
 
-        public MakeAppointmentViewModel(Hospital hospital, Appointment appointment, DoctorMainViewModel DoctorViewModel, Window window)
+        public MakeAppointmentViewModel(Appointment appointment, DoctorMainViewModel doctorViewModel, Window window) : this(doctorViewModel, window, true)
         {
             // For Editing Appointment
-            _hospital = hospital;
             _startDate = appointment.TimeSlot.Start;
             _hours = Convert.ToInt32(appointment.TimeSlot.Start.TimeOfDay.TotalHours);
             _minutes = appointment.TimeSlot.Start.Minute;
             _isOperation = appointment.IsOperation;
             _duration = Convert.ToInt32(appointment.TimeSlot.Duration.TotalMinutes);
-            _patients = new ObservableCollection<PatientViewModel>();
             _selected = appointment.Patient;
-            Update();
-
-            CancelCommand = new CancelCommand(window);
-            SubmitCommand = new AddNewAppointmentDoctorCommand(_hospital, this, DoctorViewModel, window, true);
 
         }
         public void Update()
         {
             _patients.Clear();
-            foreach (Patient patient in _hospital.PatientService.GetAll())
+            foreach (Patient patient in _patientService.GetAll())
             {
                 if (_selected == patient) { SelectedPatient = new PatientViewModel(patient); }
                 _patients.Add(new PatientViewModel(patient));
