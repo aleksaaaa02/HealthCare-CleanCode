@@ -81,7 +81,7 @@ namespace HealthCare.View.AppointmentView
         {
             DateTime startDate = DateTime.Today;
             startDate = startDate.AddMinutes(15);
-            Patient patient = (Patient)_hospital.Current;
+            Patient patient = (Patient)Hospital.Current;
             while (startDate < endDate)
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
@@ -106,7 +106,7 @@ namespace HealthCare.View.AppointmentView
             DateTime startDate = DateTime.Today;
             startDate = startDate.AddMinutes(15);
             List<Appointment> appointments = new List<Appointment>();
-            Patient patient = (Patient)_hospital.Current;
+            Patient patient = (Patient)Hospital.Current;
             while (appointments.Count() < 3)
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
@@ -127,7 +127,7 @@ namespace HealthCare.View.AppointmentView
                 DateTime startDate = DateTime.Today;
                 startDate = startDate.AddHours(hoursStart);
                 startDate = startDate.AddMinutes(minutesStart);
-                Patient patient = (Patient)_hospital.Current;
+                Patient patient = (Patient)Hospital.Current;
                 while (startDate < endDate)
                 {
                     TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
@@ -151,7 +151,7 @@ namespace HealthCare.View.AppointmentView
             DateTime startDate = DateTime.Today;
             startDate = startDate.AddHours(hoursStart);
             startDate = startDate.AddMinutes(minutesStart);
-            Patient patient = (Patient)_hospital.Current;
+            Patient patient = (Patient)Hospital.Current;
             while (startDate < endDate)
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
@@ -170,7 +170,7 @@ namespace HealthCare.View.AppointmentView
         }
         public void IsUserBlocked()
         {
-            Patient patient = (Patient)_hospital.Current;
+            Patient patient = (Patient)Hospital.Current;
             using (var reader = new StreamReader(Global.patientLogsPath, Encoding.Default))
             {
                 string line;

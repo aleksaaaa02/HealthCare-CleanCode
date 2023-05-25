@@ -12,11 +12,9 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 {
     public class EditAppointmentDoctorCommand : CommandBase
     {
-        private readonly Hospital _hospital;
         private readonly DoctorMainViewModel _doctorMainViewModel;
-        public EditAppointmentDoctorCommand(Hospital hospital, DoctorMainViewModel viewModel)
+        public EditAppointmentDoctorCommand(DoctorMainViewModel viewModel)
         {
-            _hospital = hospital;
             _doctorMainViewModel = viewModel;
         }
 
@@ -37,7 +35,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
         {
             AppointmentViewModel appointmentViewModel = _doctorMainViewModel.SelectedAppointment;
             Appointment selectedAppointment = Schedule.GetAppointment(appointmentViewModel.AppointmentID);
-            MakeAppointmentView makeAppointmentView = new MakeAppointmentView(_hospital, _doctorMainViewModel, selectedAppointment);
+            MakeAppointmentView makeAppointmentView = new MakeAppointmentView(_doctorMainViewModel, selectedAppointment);
             makeAppointmentView.ShowDialog();
         }
 

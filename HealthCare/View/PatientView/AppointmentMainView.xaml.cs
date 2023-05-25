@@ -24,13 +24,13 @@ namespace HealthCare.View.AppointmentView
 
         public void WriteActionToFile(string action)
         {
-            string stringtocsv = _hospital.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
+            string stringtocsv = Hospital.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
             File.AppendAllText(Global.patientLogsPath, stringtocsv);
         }
 
         public void IsUserBlocked()
         {
-            Patient patient = (Patient)_hospital.Current;
+            Patient patient = (Patient)Hospital.Current;
             using (var reader = new StreamReader(Global.patientLogsPath, Encoding.Default))
             {
                 string line;
@@ -67,7 +67,7 @@ namespace HealthCare.View.AppointmentView
         }
         public void LoadData()
         {
-            List<Appointment> appointments = Schedule.GetPatientAppointments((Patient)_hospital.Current);
+            List<Appointment> appointments = Schedule.GetPatientAppointments((Patient)Hospital.Current);
             List<Doctor> doctors = _hospital.DoctorService.GetAll();
             appListView.ItemsSource = new ObservableCollection<Appointment>(appointments);
             doctorListView.ItemsSource = new ObservableCollection<Doctor>(doctors);
@@ -109,7 +109,7 @@ namespace HealthCare.View.AppointmentView
 
         private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
-            Patient patient = (Patient)_hospital.Current;
+            Patient patient = (Patient)Hospital.Current;
             if (patient.Blocked)
             {
                 Utility.ShowWarning("Zao nam je, ali vas profil je blokiran");
@@ -170,7 +170,7 @@ namespace HealthCare.View.AppointmentView
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
-            Patient patient = (Patient)_hospital.Current;
+            Patient patient = (Patient)Hospital.Current;
             if (patient.Blocked)
             {
                 Utility.ShowWarning("Zao nam je, ali vas profil je blokiran");
@@ -197,7 +197,7 @@ namespace HealthCare.View.AppointmentView
         private void BtnUpdate_Click(object sender, RoutedEventArgs e)
         {
 
-            Patient patient = (Patient)_hospital.Current;
+            Patient patient = (Patient)Hospital.Current;
             if (patient.Blocked)
             {
                 Utility.ShowWarning("Zao nam je, ali vas profil je blokiran");

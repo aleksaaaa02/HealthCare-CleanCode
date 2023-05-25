@@ -14,16 +14,18 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
         private readonly MakeAppointmentViewModel _makeAppointmentViewModel;
         private readonly DoctorMainViewModel _doctorMainViewModel;
         private readonly Window _window;
-        private readonly Hospital _hospital;
+
+        private readonly PatientService _patientService;
+
         private readonly bool _isEditing;
 
-        public AddNewAppointmentDoctorCommand(Hospital hospital, MakeAppointmentViewModel viewModel, DoctorMainViewModel docMainViewModel, Window window, bool isEditing)
+        public AddNewAppointmentDoctorCommand(MakeAppointmentViewModel viewModel, DoctorMainViewModel docMainViewModel, Window window, bool isEditing)
         {
             _makeAppointmentViewModel = viewModel;
             _doctorMainViewModel = docMainViewModel;
             _window = window;
-            _hospital = hospital;
             _isEditing = isEditing;
+            _patientService = (PatientService)ServiceProvider.services["PatientService"];
         }
 
         public override void Execute(object parameter)
@@ -34,7 +36,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
                 return;
             }
 
-            Patient? patient = _hospital.PatientService.GetAccount(_makeAppointmentViewModel.SelectedPatient.JMBG);
+            Patient? patient = _patientService.GetAccount(_makeAppointmentViewModel.SelectedPatient.JMBG);
             if (patient is null)
             {
                 Utility.ShowError("Oops... Doslo je do greske probajte ponovo!");
@@ -82,7 +84,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
             TimeSpan duration = TimeSpan.FromMinutes(_makeAppointmentViewModel.IsOperation ? _makeAppointmentViewModel.Duration : 15);
             TimeSlot timeSlot = new TimeSlot(start, duration);
 
-            Appointment newAppointment = new Appointment(patient, (Doctor)_hospital.Current, timeSlot, _makeAppointmentViewModel.IsOperation);
+            Appointment newAppointment = new Appointment(patient, (Doctor)Hospital.Current, timeSlot, _makeAppointmentViewModel.IsOperation);
             return newAppointment;
         }
     }
