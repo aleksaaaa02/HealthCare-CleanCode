@@ -13,7 +13,7 @@ namespace HealthCare.View.DoctorView
         {
             _loginWindow = loginWindow;
             InitializeComponent();
-            DataContext = new DoctorMainViewModel(hospital, this);
+            DataContext = new DoctorMainViewModel(this);
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)

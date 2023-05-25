@@ -7,10 +7,10 @@ namespace HealthCare.View.DoctorView.RoomReservation
 {
     public partial class RoomReservationView : Window
     {
-        public RoomReservationView(Hospital hospital, Appointment appointment)
+        public RoomReservationView(Appointment appointment)
         {
             InitializeComponent();
-            DataContext = new RoomReservationViewModel(hospital, appointment, this);
+            DataContext = new RoomReservationViewModel(appointment, this);
         }
     }
 }

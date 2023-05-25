@@ -13,10 +13,10 @@ namespace HealthCare.View.DoctorView
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
-        public UsedDynamicEquipmentView(Hospital hospital, int roomId)
+        public UsedDynamicEquipmentView(int roomId)
         {
             InitializeComponent();
-            DataContext = new UsedDynamicEquipmentViewModel(hospital, this, roomId);
+            DataContext = new UsedDynamicEquipmentViewModel(this, roomId);
         }
 
     
