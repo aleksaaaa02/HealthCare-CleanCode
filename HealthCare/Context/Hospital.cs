@@ -12,7 +12,6 @@ namespace HealthCare.Context
         public Inventory EquipmentInventory;
         public Inventory MedicationInventory;
         public RoomService RoomService;
-        public NurseService NurseService;
         public OrderService EquipmentOrderService;
         public OrderService MedicationOrderService;
         public DoctorService DoctorService;
@@ -40,7 +39,6 @@ namespace HealthCare.Context
             RoomService = new RoomService(Global.roomPath);
             EquipmentInventory = new Inventory(Global.equipmentInventoryPath);
             MedicationInventory = new Inventory(Global.medicationInventoryPath);
-            NurseService = new NurseService(Global.nursePath);
             DoctorService = new DoctorService(Global.doctorPath);
             PatientService = new PatientService(Global.patientPath);
             EquipmentService = new EquipmentService(Global.equipmentPath);
@@ -73,28 +71,10 @@ namespace HealthCare.Context
             Schedule.Save(Global.appointmentPath);
         }
 
-        public UserRole LoginRole(string username, string password)
+        public Role LoginRole(string username, string password)
         {
-            if (Global.managerUsername == username)
-            {
-                if (Global.managerPassword != password)
-                    throw new WrongPasswordException();
-                return UserRole.Manager;
-            }
-
-            var userServices = new IUserService[] { DoctorService, NurseService, PatientService };
-            foreach (var service in userServices)
-            {
-                var user = service.GetByUsername(username);
-                if (user is not null) {
-                    if (user.Password != password)
-                        throw new WrongPasswordException();
-
-                    Current = user;
-                    return service.GetRole();
-                }
-            }
-            throw new UsernameNotFoundException();
+            var loginService = (LoginService)ServiceProvider.services["LoginService"];
+            return loginService.Login(username, password);
         }
 
         private void FillAppointmentDetails()

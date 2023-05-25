@@ -26,9 +26,6 @@ namespace HealthCare.Context
         public const string therapyPrescriptionPath = dirPath + "therapy_prescriptions.csv";
         public const string therapyPath = dirPath + "therapy.csv";
 
-        public const string managerUsername = "admin";
-        public const string managerPassword = "admin";
-
         public const string dateFormat = "dd-MM-yyyy HH:mm:ss";
         public const string timeSpanFormat = "c";
     }

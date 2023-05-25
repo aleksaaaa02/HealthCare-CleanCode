@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace HealthCare.Service
 {
-    public class DoctorService : Service<Doctor>, IUserService
+    public class DoctorService : Service<Doctor>
     {
         public DoctorService(string filePath) : base(filePath) { }
         public DoctorService(IRepository<Doctor> repository) : base(repository) { }
@@ -34,7 +34,7 @@ namespace HealthCare.Service
 
         public User? GetByUsername(string username)
         {
-            return GetAll().Find(x => x.UserName == username);
+            return GetAll().Find(x => x.Username == username);
         }
 
         public List<Doctor> GetBySpecialization(string specialization)
@@ -52,9 +52,9 @@ namespace HealthCare.Service
             return GetAll().Select(x => x.Specialization).Distinct().ToList();
         }
 
-        public UserRole GetRole()
+        public Role GetRole()
         {
-            return UserRole.Doctor;
+            return Role.Doctor;
         }
     }
 }

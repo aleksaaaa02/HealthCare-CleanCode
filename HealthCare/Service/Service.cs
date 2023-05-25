@@ -6,7 +6,7 @@ namespace HealthCare.Service
 {
     public abstract class Service<T> where T : RepositoryItem, new() // remove new()
     {
-        protected IRepository<T> _repository;
+        protected readonly IRepository<T> _repository;
 
         // remove constructor
         public Service(string filepath)

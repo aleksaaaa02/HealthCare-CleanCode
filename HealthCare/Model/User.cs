@@ -17,7 +17,7 @@ namespace HealthCare.Model
         public DateTime BirthDate { get; set; }
         public string PhoneNumber {get; set; }
         public string Address { get; set; }
-        public string UserName { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
         public Gender Gender { get; set; }
 
@@ -30,7 +30,7 @@ namespace HealthCare.Model
             BirthDate = birthDate;
             PhoneNumber = phoneNumber;
             Address = address;
-            UserName = userName;
+            Username = userName;
             Password = password;
             Gender = gender;
         }
@@ -45,7 +45,7 @@ namespace HealthCare.Model
         {
             return new string[] { 
                 Name, LastName, JMBG, Utility.ToString(BirthDate), 
-                PhoneNumber, Address, UserName, Password, Gender.ToString() };
+                PhoneNumber, Address, Username, Password, Gender.ToString() };
         }
 
         public override void Deserialize(string[] values)
@@ -56,7 +56,7 @@ namespace HealthCare.Model
             BirthDate = Utility.ParseDate(values[3]);
             PhoneNumber = values[4];
             Address = values[5];
-            UserName = values[6];
+            Username = values[6];
             Password = values[7];
             Gender = Utility.Parse<Gender>(values[8]);
         }

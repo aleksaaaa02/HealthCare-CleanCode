@@ -39,17 +39,17 @@ namespace HealthCare
             {
                 switch (_hospital.LoginRole(username, password))
                 {
-                    case UserRole.Manager:
+                    case Role.Manager:
                         new ManagerMenu(this, _hospital).Show();
                         break;
-                    case UserRole.Doctor:
+                    case Role.Doctor:
                         ShowNotifications();
                         new DoctorMainView(this, _hospital).Show();
                         break;
-                    case UserRole.Nurse:
+                    case Role.Nurse:
                         new NurseMenu(this, _hospital).Show();
                         break;
-                    case UserRole.Patient:
+                    case Role.Patient:
                         ShowNotifications();
                         new AppointmentMainView(_hospital).Show();
                         break;

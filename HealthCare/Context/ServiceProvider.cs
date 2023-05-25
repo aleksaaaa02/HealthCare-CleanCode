@@ -27,12 +27,16 @@ namespace HealthCare.Context
             services["TherapyService"]          = new TherapyService(new FileRepository<Therapy>(Global.therapyPath));
             services["PatientService"]          = new PatientService(new FileRepository<Patient>(Global.patientPath));
             services["DoctorService"]           = new DoctorService(new FileRepository<Doctor>(Global.doctorPath));
-            services["NurseService"]            = new NurseService(new FileRepository<User>(Global.nursePath));
             services["RoomService"]             = new RoomService(new FileRepository<Room>(Global.roomPath));
 
             services["MedicationOrderService"]  = new OrderService(new FileRepository<OrderItem>(Global.medicationOrderPath));
             services["EquipmentOrderService"]   = new OrderService(new FileRepository<OrderItem>(Global.orderPath));
             services["TransferService"]         = new TransferService(new FileRepository<TransferItem>(Global.transferPath));
+
+            services["LoginService"] = new LoginService(
+                new FileRepository<Patient>(Global.patientPath),
+                new FileRepository<Doctor>(Global.doctorPath),
+                new FileRepository<User>(Global.nursePath));
 
             // services["Schedule"] = new Schedule();
         }

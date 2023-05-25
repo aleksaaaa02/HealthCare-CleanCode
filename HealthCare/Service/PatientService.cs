@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace HealthCare.Service
 {
-    public class PatientService : Service<Patient>, IUserService
+    public class PatientService : Service<Patient>
 	{
 		public PatientService(string filepath) : base(filepath) { }
         public PatientService(IRepository<Patient> repository) : base(repository) { }
@@ -56,7 +56,7 @@ namespace HealthCare.Service
 
         public User? GetByUsername(string username)
         {
-            return GetAll().Find(x => x.UserName == username);
+            return GetAll().Find(x => x.Username == username);
         }
 
 		public void AddReferral(string PatientJMBG, int referralID, bool isTreatmentReferral)
@@ -85,9 +85,9 @@ namespace HealthCare.Service
             medicalRecord.TreatmentReferrals = medicalRecord.TreatmentReferrals.Concat(new int[] { referralID }).ToArray();
         }
 
-        public UserRole GetRole()
+        public Role GetRole()
         {
-            return UserRole.Patient;
+            return Role.Patient;
         }
     }
 }

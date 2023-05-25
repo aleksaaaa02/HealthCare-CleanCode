@@ -54,7 +54,7 @@ namespace HealthCare.View.ReceptionView
                 patient.Gender = Gender.Male;
             else patient.Gender = Gender.Female;
 
-            patient.UserName = tbUsername.Text;
+            patient.Username = tbUsername.Text;
             patient.Password = tbPassword.Text;
 
             if (chbBlocked.IsChecked is bool CheckedBlocked && CheckedBlocked)

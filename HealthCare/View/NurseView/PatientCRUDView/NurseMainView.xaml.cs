@@ -86,7 +86,7 @@ namespace HealthCare.View.PatientView
             tbAddress.Text = _patient.Address;
             tbPassword.Text = _patient.Password;
             tbPhoneNumber.Text = _patient.PhoneNumber;
-            tbUsername.Text = _patient.UserName;
+            tbUsername.Text = _patient.Username;
             tbBirthDate.Text = _patient.BirthDate.ToString();
 
             if (_patient.Gender == Gender.Male)
@@ -133,7 +133,7 @@ namespace HealthCare.View.PatientView
                 _patient.Gender = Gender.Male;
             else _patient.Gender = Gender.Female;
 
-            _patient.UserName = tbUsername.Text;
+            _patient.Username = tbUsername.Text;
             _patient.Password = tbPassword.Text;
 
             if (chbBlocked.IsChecked is bool CheckedBlocked && CheckedBlocked)

@@ -57,7 +57,7 @@ namespace HealthCare.Model
             BirthDate = Utility.ParseDate(values[3]);
             PhoneNumber = values[4];
             Address = values[5];
-            UserName = values[6];
+            Username = values[6];
             Password = values[7];
             Gender = Utility.Parse<Gender>(values[8]);
 
