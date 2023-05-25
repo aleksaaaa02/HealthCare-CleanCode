@@ -1,6 +1,7 @@
 ﻿using HealthCare.Command;
 using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.View;
 using HealthCare.View.DoctorView;
 using HealthCare.ViewModel.DoctorViewModel.Examination;
@@ -10,13 +11,13 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 {
     public class ShowPatientInfoCommand : CommandBase
     {
-        private readonly Hospital _hospital;
+        private readonly PatientService _patientService;
         private readonly ViewModelBase _viewModel;
         private readonly bool _isEdit;
 
-        public ShowPatientInfoCommand(Hospital hospital, ViewModelBase view, bool isEdit)
+        public ShowPatientInfoCommand(ViewModelBase view, bool isEdit)
         {
-            _hospital = hospital;
+            _patientService = (PatientService)ServiceProvider.services["PatientService"];
             _viewModel = view;
             _isEdit = isEdit;
         }
@@ -26,7 +27,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
             Patient? patient = ExtractPatient();
             if (patient is null) { return; }
 
-            new PatientInformationView(patient, _hospital, _isEdit).ShowDialog();
+            new PatientInformationView(patient, _isEdit).ShowDialog();
             UpdateViewModel();
         }
 
@@ -40,7 +41,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
                     Utility.ShowWarning("Morate odabrati pregled/operaciju iz tabele!");
                     return null;
                 }
-                return _hospital.PatientService.GetAccount(appointment.JMBG);
+                return _patientService.GetAccount(appointment.JMBG);
             }
 
             if (_viewModel is PatientSearchViewModel patientSearchViewModel)
@@ -51,7 +52,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
                     Utility.ShowWarning("Morate odabrati pacijenta iz tabele!");
                     return null;
                 }
-                return _hospital.PatientService.GetAccount(selectedPatient.JMBG);
+                return _patientService.GetAccount(selectedPatient.JMBG);
             }
 
             if (_viewModel is DoctorExamViewModel doctorExamViewModel)

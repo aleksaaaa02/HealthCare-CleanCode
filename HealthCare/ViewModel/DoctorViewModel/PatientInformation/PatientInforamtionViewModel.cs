@@ -1,5 +1,6 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.View;
 using HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands;
 using System;
@@ -141,13 +142,14 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation
                 OnPropertyChanged(nameof(Allergy));
             }
         }
-        public PatientInforamtionViewModel(Patient patient, Hospital hospital, bool isEditing)
+        public PatientInforamtionViewModel(Patient patient, bool isEditing)
         {
+            //_patientService = (PatientService)ServiceProvider.services["PatientService"];
             _selectedPatient = patient;
             _isFocusable = isEditing;
             _isReadOnly = !isEditing;
 
-            SaveChangesCommand = new SavePatientChangesCommand(hospital, patient, this);
+            SaveChangesCommand = new SavePatientChangesCommand(patient, this);
             NewDiseaseCommand = new AddDiseaseCommand(this);
             RemoveDiseaseCommand = new RemoveDiseaseCommand(this);
             NewAllergyCommand = new AddAllergyCommand(this);
