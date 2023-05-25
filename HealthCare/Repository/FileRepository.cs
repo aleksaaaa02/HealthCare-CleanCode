@@ -5,15 +5,10 @@ namespace HealthCare.Repository
 {
     public class FileRepository<T> : IRepository<T> where T : RepositoryItem, new() // remove new()
     {
-        private readonly ISerializer<T> _serializer;
         private readonly string _filepath;
 
-        // TODO remove in services
-        public FileRepository(string filepath) : this(new CsvSerializer<T>(), filepath) { }
-
-        public FileRepository(ISerializer<T> serializer, string filepath)
+        public FileRepository(string filepath)
         {
-            _serializer = serializer;
             _filepath = filepath;
         }
 
@@ -60,12 +55,12 @@ namespace HealthCare.Repository
 
         public List<T> Load()
         {
-            return _serializer.DeserializeAll(_filepath);
+            return Serializer<T>.DeserializeAll(_filepath);
         }
 
         private void Save(List<T> items)
         {
-            _serializer.SerializeAll(_filepath, items);
+            Serializer<T>.SerializeAll(_filepath, items);
         }
     }
 }

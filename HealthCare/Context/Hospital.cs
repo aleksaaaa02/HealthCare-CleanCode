@@ -35,6 +35,8 @@ namespace HealthCare.Context
             Name = name;
             Current = null;
 
+            ServiceProvider.BuildServices();
+
             RoomService = new RoomService(Global.roomPath);
             EquipmentInventory = new Inventory(Global.equipmentInventoryPath);
             MedicationInventory = new Inventory(Global.medicationInventoryPath);
@@ -43,10 +45,10 @@ namespace HealthCare.Context
             PatientService = new PatientService(Global.patientPath);
             EquipmentService = new EquipmentService(Global.equipmentPath);
             AnamnesisService = new AnamnesisService(Global.anamnesisPath);
-            TransferService = new TransferService(Global.transferPath, EquipmentInventory);
+            TransferService = new TransferService(Global.transferPath);
             NotificationService = new NotificationService(Global.notificationPath);
-            EquipmentOrderService = new OrderService(Global.orderPath, EquipmentInventory, RoomService);
-            MedicationOrderService = new OrderService(Global.medicationOrderPath, MedicationInventory, RoomService);
+            EquipmentOrderService = new OrderService(Global.orderPath);
+            MedicationOrderService = new OrderService(Global.medicationOrderPath);
 
             TreatmentReferralService = new TreatmentReferralService(Global.treatmentReferralPath);
             SpecialistReferralService = new SpecialistReferralService(Global.specialistReferralPath);

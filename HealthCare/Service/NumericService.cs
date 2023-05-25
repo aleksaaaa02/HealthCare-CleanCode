@@ -6,7 +6,8 @@ namespace HealthCare.Service
 {
     public abstract class NumericService<T> : Service<T> where T : RepositoryItem, new()
     {
-        protected NumericService(string filepath) : base(filepath) { }
+        public NumericService(string filepath) : base(filepath) { }
+        public NumericService(IRepository<T> repository) : base(repository) { }
 
         public new void Add(T item)
         {

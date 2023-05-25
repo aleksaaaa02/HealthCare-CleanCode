@@ -1,5 +1,6 @@
 using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.Repository;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,8 +9,16 @@ namespace HealthCare.Service
     public class PatientService : Service<Patient>, IUserService
 	{
 		public PatientService(string filepath) : base(filepath) { }
+		private PatientService(IRepository<Patient> repository) : base(repository) { }
 
-		public bool CreateAccount(Patient newPatient)
+        private static PatientService? _instance = null;
+        public static PatientService GetInstance(IRepository<Patient> repository)
+        {
+            if (_instance is not null) return _instance;
+            _instance = new PatientService(repository);
+            return _instance;
+        }
+        public bool CreateAccount(Patient newPatient)
 		{
 			if (!Contains(newPatient.JMBG))
 			{

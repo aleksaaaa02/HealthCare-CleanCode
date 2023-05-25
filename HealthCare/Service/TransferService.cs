@@ -1,4 +1,6 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Context;
+using HealthCare.Model;
+using HealthCare.Repository;
 using System;
 
 namespace HealthCare.Service
@@ -7,9 +9,22 @@ namespace HealthCare.Service
     {
         private readonly Inventory _inventory;
 
-        public TransferService(string filepath, Inventory inventory) : base(filepath)
+        public TransferService(string filepath) : base(filepath)
         {
-            _inventory = inventory;
+            _inventory = (Inventory)ServiceProvider.services["EquipmentInventory"];
+        }
+
+        private TransferService(IRepository<TransferItem> repository) : base(repository) 
+        {
+            _inventory = (Inventory)ServiceProvider.services["EquipmentInventory"];
+        }
+
+        private static TransferService? _instance = null;
+        public static TransferService GetInstance(IRepository<TransferItem> repository)
+        {
+            if (_instance is not null) return _instance;
+            _instance = new TransferService(repository);
+            return _instance;
         }
 
         public void Execute(TransferItem transfer) {

@@ -3,11 +3,11 @@ using System.IO;
 
 namespace HealthCare.Serialize
 {
-    public class CsvSerializer<T> : ISerializer<T> where T : ISerializable, new()
+    public abstract class Serializer<T> where T : ISerializable, new()
     {
         private static readonly char _sep = ',';
 
-        public void SerializeAll(string filepath, List<T> objects)
+        public static void SerializeAll(string filepath, List<T> objects)
         {
             ValidateFile(filepath);
 
@@ -21,7 +21,7 @@ namespace HealthCare.Serialize
             }
         }
 
-        public List<T> DeserializeAll(string filepath)
+        public static List<T> DeserializeAll(string filepath)
         {
             ValidateFile(filepath);
 

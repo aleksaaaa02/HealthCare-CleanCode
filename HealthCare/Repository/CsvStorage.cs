@@ -15,14 +15,12 @@ namespace HealthCare.Repository
 
         public List<T> Load()
         {
-            ISerializer<T> serializer = new CsvSerializer<T>();
-            return serializer.DeserializeAll(_filepath);
+            return Serializer<T>.DeserializeAll(_filepath);
         }
 
         public void Save(List<T> objects)
         {
-            ISerializer<T> serializer = new CsvSerializer<T>();
-            serializer.SerializeAll(_filepath, objects);
+            Serializer<T>.SerializeAll(_filepath, objects);
         }
     }
 }

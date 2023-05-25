@@ -1,4 +1,6 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Context;
+using HealthCare.Model;
+using HealthCare.Repository;
 using System;
 
 namespace HealthCare.Service
@@ -8,10 +10,24 @@ namespace HealthCare.Service
         private readonly Inventory _inventory;
         private readonly RoomService _roomService;
 
-        public OrderService(string filepath, Inventory inventory, RoomService roomService) : base(filepath) 
+        public OrderService(string filepath) : base(filepath) 
         {
-            _inventory = inventory;
-            _roomService = roomService;
+            _inventory = (Inventory)ServiceProvider.services["EquipmentInventory"];
+            _roomService = (RoomService)ServiceProvider.services["RoomService"];
+        }
+
+        private OrderService(IRepository<OrderItem> repository) : base(repository)
+        {
+            _inventory = (Inventory)ServiceProvider.services["EquipmentInventory"];
+            _roomService = (RoomService)ServiceProvider.services["RoomService"];
+        }
+
+        private static OrderService? _instance = null;
+        public static OrderService GetInstance(IRepository<OrderItem> repository)
+        {
+            if (_instance is not null) return _instance;
+            _instance = new OrderService(repository);
+            return _instance;
         }
 
         public void Execute(OrderItem item)

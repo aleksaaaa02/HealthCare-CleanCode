@@ -1,4 +1,5 @@
 ﻿using HealthCare.Model;
+using HealthCare.Repository;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,7 +7,16 @@ namespace HealthCare.Service
 {
     public class DoctorService : Service<Doctor>, IUserService
     {
-        public DoctorService(string filePath) : base(filePath) { }  
+        public DoctorService(string filePath) : base(filePath) { }
+        private DoctorService(IRepository<Doctor> repository) : base(repository) { }
+
+        private static DoctorService? _instance = null;
+        public static DoctorService GetInstance(IRepository<Doctor> repository)
+        {
+            if (_instance is not null) return _instance;
+            _instance = new DoctorService(repository);
+            return _instance;
+        }
 
         public Doctor GetAccount(string JMBG)
         {
