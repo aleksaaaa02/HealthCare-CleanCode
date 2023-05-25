@@ -3,7 +3,7 @@ using HealthCare.Context;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.View;
-using HealthCare.ViewModel.DoctorViewModel.Prescriptions;
+using System.Windows;
 
 namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
 {
@@ -13,8 +13,10 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
         private readonly TherapyInformationViewModel _therapyInformationViewModel;
         private int _medicationID;
         private Patient _examinedPatient;
-        public AddTherapyToReferralCommand(Hospital hospital, TherapyInformationViewModel therapyInformationViewModel)
+        private Window _window;
+        public AddTherapyToReferralCommand(Hospital hospital, Window window,TherapyInformationViewModel therapyInformationViewModel)
         {
+            _window = window;
             _hospital = hospital;
             _therapyInformationViewModel = therapyInformationViewModel;
             _examinedPatient = therapyInformationViewModel.ExaminedPatient;
@@ -25,22 +27,28 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
             try
             {
                 Validate();
-
-                int dailyDosage = _therapyInformationViewModel.DailyDosage;
-                int hoursBetweenConsumption = _therapyInformationViewModel.HoursBetweenConsumption;
-                int consumptionDays = _therapyInformationViewModel.ConsumptionDays;
-                MealTime mealTime = GetMealTime();
-
-                Prescription prescription = new Prescription(_medicationID, mealTime, _examinedPatient.JMBG, dailyDosage, hoursBetweenConsumption, consumptionDays);
-                _hospital.TherapyPrescriptionService.Add(prescription); 
-                _therapyInformationViewModel.Therapy.InitialMedication.Add(prescription.Id);
-            
-            } catch(ValidationException ve)
+                MakeReferral();
+            }
+            catch (ValidationException ve)
             {
                 Utility.ShowWarning(ve.Message);
             }
 
         }
+
+        private void MakeReferral()
+        {
+            int dailyDosage = _therapyInformationViewModel.DailyDosage;
+            int hoursBetweenConsumption = _therapyInformationViewModel.HoursBetweenConsumption;
+            int consumptionDays = _therapyInformationViewModel.ConsumptionDays;
+            MealTime mealTime = GetMealTime();
+
+            Prescription prescription = new Prescription(_medicationID, mealTime, _examinedPatient.JMBG, dailyDosage, hoursBetweenConsumption, consumptionDays);
+            _hospital.TherapyPrescriptionService.Add(prescription);
+            _therapyInformationViewModel.Therapy.InitialMedication.Add(prescription.Id);
+            _window.Close();
+        }
+
         private MealTime GetMealTime()
         {
             if (_therapyInformationViewModel.BeforeMeal) return MealTime.BeforeMeal;

@@ -10,7 +10,7 @@ namespace HealthCare.View.DoctorView.ReferralView
         public TherapyInformation(Hospital hospital, Patient patient, int medicationID, Therapy therapy)
         {
             InitializeComponent();
-            DataContext = new TherapyInformationViewModel(hospital, patient, medicationID, therapy);
+            DataContext = new TherapyInformationViewModel(hospital, patient, medicationID, therapy, this);
         }
     }
 }

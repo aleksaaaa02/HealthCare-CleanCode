@@ -1,6 +1,7 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.ViewModel.DoctorViewModel.Referrals.Commands;
+using System.Windows;
 using System.Windows.Input;
 
 namespace HealthCare.ViewModel.DoctorViewModel.Referrals
@@ -23,14 +24,14 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals
         public bool NoPreference { get; set; }
 
         public ICommand AddMedicationToTherapyCommand { get; }
-        public TherapyInformationViewModel(Hospital hospital, Patient patinet, int medicationID, Therapy therapy) 
+        public TherapyInformationViewModel(Hospital hospital, Patient patinet, int medicationID, Therapy therapy, Window window) 
         { 
             _hospital = hospital;
             ExaminedPatient = patinet;
             _medication = hospital.MedicationService.Get(medicationID);
             Therapy = therapy;
 
-            AddMedicationToTherapyCommand = new AddTherapyToReferralCommand(hospital, this);
+            AddMedicationToTherapyCommand = new AddTherapyToReferralCommand(hospital, window, this);
 
             // OVDE CE DOCI DO IZMENE
             MedicationName = _medication.Name;

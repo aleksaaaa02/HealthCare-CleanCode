@@ -43,9 +43,9 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
 
 
 
-            GetTherapy(medication);
+            int therapyID = GetTherapy(medication);
 
-            TreatmentReferral treatmentReferral = new TreatmentReferral(daysOfTreatment, doctorJMBG, 1, additionalExamination);
+            TreatmentReferral treatmentReferral = new TreatmentReferral(daysOfTreatment, doctorJMBG, therapyID, additionalExamination);
             _hospital.TreatmentReferralService.Add(treatmentReferral);
             _hospital.PatientService.AddReferral(_examinedPatient.JMBG, treatmentReferral.Id, true);
         }
