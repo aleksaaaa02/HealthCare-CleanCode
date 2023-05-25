@@ -1,9 +1,9 @@
 ﻿using HealthCare.Repository;
-using System;
+using HealthCare.Serialize;
 
 namespace HealthCare.Model
 {
-    public class TreatmentReferral : Identifier, ISerializable
+    public class TreatmentReferral : RepositoryItem
     {
         public override object Key { get => Id; set { Id = (int) value; } }
         public int Id { get; set; }
@@ -23,7 +23,7 @@ namespace HealthCare.Model
             IsUsed = false;
         }
 
-        public void FromCSV(string[] values)
+        public override void Deserialize(string[] values)
         {
             Id = int.Parse(values[0]);
             DaysOfTreatment = int.Parse(values[1]);
@@ -33,7 +33,7 @@ namespace HealthCare.Model
             AdditionalExamination = values[5].Split("|");
         }
 
-        public string[] ToCSV()
+        public override string[] Serialize()
         {
             return new string[] { Id.ToString(), DaysOfTreatment.ToString(), DoctorJMBG, IsUsed.ToString(), TherapyID.ToString(), Utility.ToString(AdditionalExamination)};
         }

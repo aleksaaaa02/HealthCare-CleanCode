@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace HealthCare.Model
 {
-    public class Therapy : Identifier, ISerializable
+    public class Therapy : RepositoryItem
     {
         public override object Key { get => Id; set => Id = (int)value; }
         public int Id { get; set; }
@@ -20,7 +20,7 @@ namespace HealthCare.Model
             PatientJMBG = patientJMBG;
         }
 
-        public void FromCSV(string[] values)
+        public override void Deserialize(string[] values)
         {
             Id = int.Parse(values[0]);
             PatientJMBG = values[1];
@@ -34,7 +34,7 @@ namespace HealthCare.Model
             }
         }
 
-        public string[] ToCSV()
+        public override string[] Serialize()
         {
             return new string[] { Id.ToString(), PatientJMBG, string.Join('|', InitialMedication)};
         }

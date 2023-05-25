@@ -1,4 +1,5 @@
 ﻿using HealthCare.Repository;
+using HealthCare.Serialize;
 using System;
 
 namespace HealthCare.Model 
@@ -11,7 +12,7 @@ namespace HealthCare.Model
         NoPreference
     }
 
-    public class Prescription : Identifier, ISerializable
+    public class Prescription : RepositoryItem
     {
         public override object Key { get => Id; set { Id = (int) value; } }
         public int Id { get; set; }
@@ -43,7 +44,7 @@ namespace HealthCare.Model
             return DailyDosage * ConsumptionDays;
         }
 
-        public void FromCSV(string[] values)
+        public override void Deserialize(string[] values)
         {
             Id = int.Parse(values[0]);
             MedicationId = int.Parse(values[1]);
@@ -57,7 +58,7 @@ namespace HealthCare.Model
             FirstUse = bool.Parse(values[9]);
         }   
 
-        public string[] ToCSV()
+        public override string[] Serialize()
         {
             return new string[] { Id.ToString(), MedicationId.ToString(), Instruction.ToString(), PatientJMBG, DoctorJMBG, DailyDosage.ToString(), HoursBetweenConsumption.ToString(), ConsumptionDays.ToString(), Utility.ToString(Start), FirstUse.ToString() };
         }

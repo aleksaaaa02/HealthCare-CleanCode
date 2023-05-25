@@ -1,8 +1,9 @@
 ﻿using HealthCare.Repository;
+using HealthCare.Serialize;
 
 namespace HealthCare.Model
 {
-    public class Medication : Identifier, ISerializable
+    public class Medication : RepositoryItem
     {
         public override object Key { get => Id; set { Id = (int)value; } }
         public int Id { get; set; }
@@ -18,12 +19,12 @@ namespace HealthCare.Model
             Ingredients = ingredients;
         }
 
-        public string[] ToCSV()
+        public override string[] Serialize()
         {
             return new string[] { Id.ToString(), Name, Description, Utility.ToString(Ingredients) };
         }
 
-        public void FromCSV(string[] values)
+        public override void Deserialize(string[] values)
         {
             Id = int.Parse(values[0]);
             Name = values[1];

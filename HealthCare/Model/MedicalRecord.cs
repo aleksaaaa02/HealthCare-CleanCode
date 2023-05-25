@@ -1,4 +1,5 @@
 ﻿using HealthCare.Serialize;
+using System;
 
 namespace HealthCare.Model
 {

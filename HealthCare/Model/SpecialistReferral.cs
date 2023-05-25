@@ -2,7 +2,7 @@
 
 namespace HealthCare.Model
 {
-    public class SpecialistReferral : Identifier, ISerializable
+    public class SpecialistReferral : RepositoryItem
     {
         public override object Key { get => Id; set { Id = (int)value; } }
         public int Id { get; set; }
@@ -18,7 +18,7 @@ namespace HealthCare.Model
             IsUsed = false;
         }
 
-        public void FromCSV(string[] values)
+        public override void Deserialize(string[] values)
         {
             Id = int.Parse(values[0]);
             DoctorJMBG = values[1];
@@ -26,7 +26,7 @@ namespace HealthCare.Model
             IsUsed = bool.Parse(values[3]);
         }
 
-        public string[] ToCSV()
+        public override string[] Serialize()
         {
             return new string[] { Id.ToString(), DoctorJMBG, ReferredDoctorJMBG, IsUsed.ToString()};
         }
