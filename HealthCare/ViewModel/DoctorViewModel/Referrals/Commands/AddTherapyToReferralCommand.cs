@@ -2,6 +2,7 @@
 using HealthCare.Context;
 using HealthCare.Exceptions;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.View;
 using System.Windows;
 
@@ -9,15 +10,15 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
 {
     public class AddTherapyToReferralCommand : CommandBase
     {
-        private readonly Hospital _hospital;
+        private readonly PrescriptionService _therapyPrescriptionService;
         private readonly TherapyInformationViewModel _therapyInformationViewModel;
         private int _medicationID;
         private Patient _examinedPatient;
         private Window _window;
-        public AddTherapyToReferralCommand(Hospital hospital, Window window,TherapyInformationViewModel therapyInformationViewModel)
+        public AddTherapyToReferralCommand(Window window,TherapyInformationViewModel therapyInformationViewModel)
         {
+            _therapyPrescriptionService = (PrescriptionService)ServiceProvider.services["TherapyPrescriptionService"];
             _window = window;
-            _hospital = hospital;
             _therapyInformationViewModel = therapyInformationViewModel;
             _examinedPatient = therapyInformationViewModel.ExaminedPatient;
             _medicationID = therapyInformationViewModel.MedicationID;
@@ -41,11 +42,11 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
             int dailyDosage = _therapyInformationViewModel.DailyDosage;
             int hoursBetweenConsumption = _therapyInformationViewModel.HoursBetweenConsumption;
             int consumptionDays = _therapyInformationViewModel.ConsumptionDays;
-            string doctorJMBG = _hospital.Current.JMBG;
+            string doctorJMBG = Hospital.Current.JMBG;
             MealTime mealTime = GetMealTime();
 
             Prescription prescription = new Prescription(_medicationID, mealTime, _examinedPatient.JMBG, doctorJMBG, dailyDosage, hoursBetweenConsumption, consumptionDays);
-            _hospital.TherapyPrescriptionService.Add(prescription);
+            _therapyPrescriptionService.Add(prescription);
             _therapyInformationViewModel.Therapy.InitialMedication.Add(prescription.Id);
             _window.Close();
         }

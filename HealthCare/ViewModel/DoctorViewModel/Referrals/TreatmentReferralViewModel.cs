@@ -1,5 +1,6 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModel.DoctorViewModel.Referrals.Commands;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals
 {
     public class TreatmentReferralViewModel : ViewModelBase
     {
-        private readonly Hospital _hospital;
+        private readonly MedicationService _medicationService;
         private ObservableCollection<MedicationViewModel> _medications;
         private string _additionalExamination;
         private int _daysOfTreatment;
@@ -38,15 +39,15 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals
             }
         }
 
-        public TreatmentReferralViewModel(Hospital hospital, Patient patient) 
+        public TreatmentReferralViewModel(Patient patient) 
         {
+            _medicationService = (MedicationService)ServiceProvider.services["MedicationService"];
             _medications = new ObservableCollection<MedicationViewModel>();
-            _hospital = hospital;
             ExaminedPatient = patient;
             AdditionalExamination = "";
             DaysOfTreatment = 0;
 
-            MakeTreatmentReferralCommand = new AddTreatmentReferralCommand(hospital, this);
+            MakeTreatmentReferralCommand = new AddTreatmentReferralCommand(this);
 
             Update();
         }
@@ -54,7 +55,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals
         public void Update()
         {
             _medications.Clear();
-            foreach (var medication in _hospital.MedicationService.GetAll())
+            foreach (var medication in _medicationService.GetAll())
             {
                 _medications.Add(new MedicationViewModel(medication));
             }
