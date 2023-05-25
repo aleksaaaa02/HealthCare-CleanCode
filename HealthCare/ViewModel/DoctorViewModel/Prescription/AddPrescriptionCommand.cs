@@ -38,11 +38,12 @@ namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions
             int hoursBetweenConsumption = _prescriptionViewModel.HoursBetweenConsumption;
             int consumptionDays = _prescriptionViewModel.ConsumptionDays;
             int selectedMedication = _prescriptionViewModel.SelectedMedication.MedicationId;
+            string doctorJMBG = _hospital.Current.JMBG;
             MealTime mealTime = GetMealTime();
 
             CheckPatientAllergies(_patient, selectedMedication);
 
-            Prescription prescription = new Prescription(selectedMedication, mealTime, _patient.JMBG, dailyDosage, hoursBetweenConsumption, consumptionDays);
+            Prescription prescription = new Prescription(selectedMedication, mealTime, _patient.JMBG, doctorJMBG, dailyDosage, hoursBetweenConsumption, consumptionDays);
             _hospital.PrescriptionService.Add(prescription);
         }
         private MealTime GetMealTime()

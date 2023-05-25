@@ -1,4 +1,6 @@
+using HealthCare.Context;
 using HealthCare.Model;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace HealthCare.Service

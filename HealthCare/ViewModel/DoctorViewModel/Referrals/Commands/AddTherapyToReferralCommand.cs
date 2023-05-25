@@ -41,9 +41,10 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
             int dailyDosage = _therapyInformationViewModel.DailyDosage;
             int hoursBetweenConsumption = _therapyInformationViewModel.HoursBetweenConsumption;
             int consumptionDays = _therapyInformationViewModel.ConsumptionDays;
+            string doctorJMBG = _hospital.Current.JMBG;
             MealTime mealTime = GetMealTime();
 
-            Prescription prescription = new Prescription(_medicationID, mealTime, _examinedPatient.JMBG, dailyDosage, hoursBetweenConsumption, consumptionDays);
+            Prescription prescription = new Prescription(_medicationID, mealTime, _examinedPatient.JMBG, doctorJMBG, dailyDosage, hoursBetweenConsumption, consumptionDays);
             _hospital.TherapyPrescriptionService.Add(prescription);
             _therapyInformationViewModel.Therapy.InitialMedication.Add(prescription.Id);
             _window.Close();

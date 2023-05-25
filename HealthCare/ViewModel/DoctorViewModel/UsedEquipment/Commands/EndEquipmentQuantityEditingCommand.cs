@@ -26,7 +26,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment.Commands
             {
                 newQuantities.Add(equipment.InventoryId, equipment.CurrentQuantity);
             }
-            _hospital.Inventory.ChangeDynamicEquipmentQuantity(newQuantities);
+            _hospital.EquipmentInventory.ChangeDynamicEquipmentQuantity(newQuantities);
         }
     }
 }

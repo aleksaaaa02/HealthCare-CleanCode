@@ -1,4 +1,6 @@
 ﻿using HealthCare.Context;
+using HealthCare.View.NurseView.OrderMedicationView;
+using HealthCare.View.NurseView.ReferralView;
 using HealthCare.View.ReceptionView;
 using HealthCare.View.UrgentAppointmentView;
 using System.ComponentModel;
@@ -36,6 +38,16 @@ namespace HealthCare.View.PatientView
         private void mnuUrgent_Click(object sender, RoutedEventArgs e)
         {
             new UrgentView(_hospital).ShowDialog();
+        }
+
+        private void mnuReferral_Click(object sender, RoutedEventArgs e)
+        {
+            new AllPatientsView(_hospital).ShowDialog();
+        }
+
+        private void mnuOrder_Click(object sender, RoutedEventArgs e)
+        {
+            new OrderMedicationView(_hospital).ShowDialog();
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
