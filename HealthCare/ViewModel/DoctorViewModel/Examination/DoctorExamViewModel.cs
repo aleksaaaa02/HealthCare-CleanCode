@@ -22,8 +22,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
         private string _name;
         private string _lastName;
         private string _jmbg;
-        private DateTime _birthday;
-        private Gender _gender;
         private string _selectedDisease;
         private float _height;
         private float _weight;
@@ -33,8 +31,11 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
 
         public IEnumerable<string> Allergies => _allergies;
         public IEnumerable<string> PreviousDisease => _previousDiseases;
+
         public ICommand FinishExaminationCommand { get; }
-        public ICommand CancelExaminationCommand { get; }
+        public ICommand MakeSpecialistReferralCommand { get; }
+        public ICommand MakeTreatmentReferralCommand { get; }
+        public ICommand MakePrescriptionCommand { get; }
         public ICommand UpdatePatientCommand { get; }
 
         public Patient SelectedPatient
@@ -71,25 +72,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             {
                 _jmbg = value;
                 OnPropertyChanged(nameof(JMBG));
-            }
-        }
-
-        public DateTime Birthday
-        {
-            get { return _birthday; }
-            set
-            {
-                _birthday = value;
-                OnPropertyChanged(nameof(Birthday));
-            }
-        }
-        public Gender Gender
-        {
-            get { return _gender; }
-            set
-            {
-                _gender = value;
-                OnPropertyChanged(nameof(Gender));
             }
         }
         public float Height
@@ -156,9 +138,10 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             
             
             UpdatePatientCommand = new ShowPatientInfoCommand(hospital, this, true);
-            CancelExaminationCommand = new CancelCommand(window);
             FinishExaminationCommand = new FinishExaminationCommand(hospital, window, appointment, this, roomId);
-
+            MakeSpecialistReferralCommand = new ShowSpecialistReferralViewCommand(hospital, _selectedPatient);
+            MakeTreatmentReferralCommand = new ShowTreatmentReferralViewCommand(hospital, _selectedPatient);
+            MakePrescriptionCommand = new ShowPrescriptionViewCommand(hospital, _selectedPatient);
             LoadView();
         }
         private void LoadView()
@@ -166,8 +149,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             _name = _selectedPatient.Name;
             _lastName = _selectedPatient.LastName;
             _jmbg = _selectedPatient.JMBG;
-            _gender = _selectedPatient.Gender;
-            _birthday = _selectedPatient.BirthDate;
             _height = _selectedPatient.MedicalRecord.Height;
             _weight = _selectedPatient.MedicalRecord.Weight;
 

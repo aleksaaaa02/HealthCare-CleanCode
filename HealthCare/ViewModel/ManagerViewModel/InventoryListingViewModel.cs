@@ -19,7 +19,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
 
         public InventoryListingViewModel(Hospital hospital)
         {
-            _inventory = hospital.Inventory;
+            _inventory = hospital.EquipmentInventory;
             _equipmentService = hospital.EquipmentService;
             _roomService = hospital.RoomService;
             Items = new ObservableCollection<InventoryItemViewModel>();

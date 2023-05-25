@@ -8,7 +8,8 @@ namespace HealthCare.Model
         Examinational,
         Operational,
         RoomFurniture,
-        HallwayFurniture
+        HallwayFurniture,
+        Medication
     }
 
     public class Equipment : RepositoryItem

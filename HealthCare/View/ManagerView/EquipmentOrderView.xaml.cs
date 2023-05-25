@@ -19,9 +19,9 @@ namespace HealthCare.View.ManagerView
         {
             InitializeComponent();
             _parent = parent;
-            _orderService = hospital.OrderService;
+            _orderService = hospital.EquipmentOrderService;
 
-            _model = new EquipmentOrderViewModel(hospital);
+            _model = new EquipmentOrderViewModel(hospital,false);
             DataContext = _model;
         }
 

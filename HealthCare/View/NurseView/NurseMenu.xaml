@@ -17,6 +17,12 @@
             <MenuItem Header="_Hitno">
                 <MenuItem Header="_Hitni pregledi i operacije" Click="mnuUrgent_Click"/>
             </MenuItem>
+            <MenuItem Header="_Uputi i recepti">
+                <MenuItem Header="_Uputi i recepti pacijenata" Click="mnuReferral_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Poruci">
+                <MenuItem Header="_Porucivanje lekova" Click="mnuOrder_Click"/>
+            </MenuItem>
         </Menu>
         <Button Content="Logout" Name="btnLogout"  HorizontalAlignment="Left" Height="35" Margin="220,160,0,0" VerticalAlignment="Top" Width="50" Click="btnLogout_Click" />
     </Grid>

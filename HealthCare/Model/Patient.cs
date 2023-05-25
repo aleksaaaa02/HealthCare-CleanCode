@@ -33,6 +33,10 @@ namespace HealthCare.Model
             }
             return true;
         }
+        public bool IsAllergic(string[] ingredients)
+        {
+            return ingredients.Any(x => MedicalRecord.Allergies.Contains(x));
+        }
 
         public override string[] Serialize()
         {
@@ -59,7 +63,7 @@ namespace HealthCare.Model
 
             Blocked = bool.Parse(values[9]);
             MedicalRecord = new MedicalRecord();
-            MedicalRecord.Deserialize(Utility.SubArray(values, 10, 4));
+            MedicalRecord.Deserialize(Utility.SubArray(values, 10, 6));
         }
     }
 }

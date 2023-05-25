@@ -1,0 +1,85 @@
+﻿using HealthCare.Context;
+using HealthCare.Exceptions;
+using HealthCare.Model;
+using HealthCare.Service;
+using HealthCare.ViewModel.NurseViewModel;
+using System;
+using System.Windows;
+using System.Windows.Controls;
+
+namespace HealthCare.View.NurseView.OrderMedicationView
+{
+    public partial class OrderMedicationView : Window
+    {
+        private MedicationOrderListingViewModel _model;
+        private readonly OrderService _service;
+        public OrderMedicationView(Hospital hospital)
+        {
+            InitializeComponent();
+            _service = hospital.MedicationOrderService;
+            _model = new MedicationOrderListingViewModel(hospital);
+            DataContext = _model;
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void btnOrder_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Validate();
+            }
+            catch (ValidationException ve)
+            {
+                Utility.ShowWarning(ve.Message);
+                return;
+            }
+
+            foreach (var item in _model.Items)
+                if (item.IsSelected)
+                    MakeOrder(item.Id, int.Parse(item.OrderQuantity));
+
+            Utility.ShowInformation("Poručivanje uspešno.");
+            _model.LoadAll();
+        }
+
+        private void MakeOrder(int medicationID, int quantity)
+        {
+            var scheduled = DateTime.Now + new TimeSpan(24, 0, 0);
+            _service.Add(new OrderItem(medicationID, quantity, scheduled, false));
+        }
+
+        private void Validate()
+        {
+            bool someSelected = false;
+            foreach (var item in _model.Items)
+            {
+                if (item.IsSelected && !Validation.IsNatural(item.OrderQuantity))
+                    throw new ValidationException("Količina mora da bude prirodan broj.");
+
+                someSelected |= item.IsSelected;
+            }
+            if (!someSelected)
+                throw new ValidationException("Nema unetih porudžbina.");
+        }
+
+        private void tbQuantity_Focused(object sender, EventArgs e)
+        {
+            var tb = sender as TextBox;
+            if (tb is null) return;
+            if (tb.Text == "0")
+                tb.Text = "";
+        }
+
+        private void tbQuantity_Unfocused(object sender, EventArgs e)
+        {
+            var tb = sender as TextBox;
+            if (tb is null) return;
+            if (tb.Text == "")
+                tb.Text = "0";
+        }
+    }
+}
