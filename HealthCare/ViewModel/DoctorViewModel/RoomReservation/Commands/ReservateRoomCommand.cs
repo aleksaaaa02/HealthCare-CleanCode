@@ -10,13 +10,11 @@ namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation.Commands
 {
     public class ReserveRoomCommand : CommandBase
     {
-        private readonly Hospital _hospital;
         private readonly RoomReservationViewModel _roomReservationViewModel;
         private readonly Window _window;
         private Appointment _appointment;
 
-        public ReserveRoomCommand(Hospital hospital, Window window, RoomReservationViewModel viewModel, Appointment appointment) { 
-            _hospital = hospital;
+        public ReserveRoomCommand(Window window, RoomReservationViewModel viewModel, Appointment appointment) { 
             _roomReservationViewModel = viewModel;
             _window = window;
             _appointment = appointment;
@@ -37,7 +35,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation.Commands
         }
         private void StartExamination(int roomId)
         {
-            new DoctorExamView(_hospital, _appointment, roomId).Show();
+            new DoctorExamView(_appointment, roomId).Show();
         }
 
         private void Validate()

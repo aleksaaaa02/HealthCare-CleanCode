@@ -1,5 +1,6 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModel.DoctorViewModel.RoomReservation.Commands;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation
 {
     public class RoomReservationViewModel : ViewModelBase
     {
-        private readonly Hospital _hospital;
+        private readonly RoomService _roomService;
         private ObservableCollection<RoomViewModel> _rooms;
         private RoomViewModel _selectedRoom;
 
@@ -28,9 +29,9 @@ namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation
             }
         }
 
-        public RoomReservationViewModel(Hospital hospital, Appointment appointment, Window window) {
-            _hospital = hospital;
-            ReservateRoomCommand = new ReserveRoomCommand(hospital, window, this, appointment);
+        public RoomReservationViewModel(Appointment appointment, Window window) {
+            _roomService = (RoomService)ServiceProvider.services["RoomService"];
+            ReservateRoomCommand = new ReserveRoomCommand(window, this, appointment);
             Update(appointment);
         }
 
@@ -50,7 +51,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation
         private void LoadRooms(RoomType roomType)
         {
             _rooms.Clear();
-            foreach(Room room in _hospital.RoomService.GetRoomsByType(roomType)) { 
+            foreach(Room room in _roomService.GetRoomsByType(roomType)) { 
                 _rooms.Add(new RoomViewModel(room));
             }
         }
