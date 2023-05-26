@@ -1,5 +1,6 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.View.PatientView;
 using System;
 using System.Collections.Generic;
@@ -11,15 +12,15 @@ namespace HealthCare.View.ReceptionView
 {
     public partial class CreatePatientView : Window
     {
-        private Hospital _hospital;
+        private PatientService _patientService;
         public MedicalRecord? _record;
         private string _jmbg;
         private List<TextBox> _textBoxes;
-        public CreatePatientView(Hospital hospital, string jmbg)
+        public CreatePatientView(string jmbg)
         {
             InitializeComponent();
 
-            _hospital = hospital;
+            _patientService = (PatientService)ServiceProvider.services["PatientService"];
             _record = null;
             _jmbg = jmbg;
 
@@ -82,7 +83,7 @@ namespace HealthCare.View.ReceptionView
             }
 
             Patient patient = CreatePatient();
-            if (!_hospital.PatientService.CreateAccount(patient))
+            if (!_patientService.CreateAccount(patient))
                 Utility.ShowWarning("Pacijent sa unetim _jmbg vec postoji");
 
             _record = null;

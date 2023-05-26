@@ -8,11 +8,11 @@ namespace HealthCare.View.ReceptionView
 {
     public partial class MainReceptionView : Window 
     {
-        private readonly Hospital _hospital;
-        public MainReceptionView(Hospital hospital)
+        private readonly PatientService _patientService;
+        public MainReceptionView()
         {
             InitializeComponent();
-            _hospital = hospital;
+            _patientService = (PatientService)ServiceProvider.services["PatientService"];
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -23,11 +23,11 @@ namespace HealthCare.View.ReceptionView
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
             string JMBG = tbJMBG.Text.Trim();
-            Patient? patient = _hospital.PatientService.GetAccount(JMBG);
+            Patient? patient = _patientService.GetAccount(JMBG);
 
             if(patient is null)
             {
-                new CreatePatientView(_hospital,JMBG).ShowDialog();
+                new CreatePatientView(JMBG).ShowDialog();
                 return;
             }
 
@@ -37,7 +37,7 @@ namespace HealthCare.View.ReceptionView
                 Utility.ShowWarning("Pacijent nema preglede u narednih 15 minuta.");
                 return;
             }
-            new NurseAnamnesisView(_hospital, starting.AppointmentID, patient).ShowDialog();
+            new NurseAnamnesisView(starting.AppointmentID, patient).ShowDialog();
         }
     }
 }

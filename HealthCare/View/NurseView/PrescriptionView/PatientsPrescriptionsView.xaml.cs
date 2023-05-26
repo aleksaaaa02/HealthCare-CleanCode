@@ -11,20 +11,27 @@ namespace HealthCare.View.NurseView.PrescriptionView
 {
     public partial class PatientsPrescriptionsView : Window
     {
+        private readonly PrescriptionService _prescriptionService;
+        private readonly Inventory _medicationInventory;
+        private readonly DoctorService _doctorService;
+        private readonly RoomService _roomService;
         private PrescriptionListingViewModel _model;
         private PrescriptionViewModel? _prescription;
         private Patient _patient;
-        private Hospital _hospital;
-        public PatientsPrescriptionsView(Patient patient, Hospital hospital)
+        public PatientsPrescriptionsView(Patient patient)
         {
             InitializeComponent();
 
-            _patient = patient;
-            _hospital = hospital;
-
-            _model = new PrescriptionListingViewModel(patient,hospital);
+            _model = new PrescriptionListingViewModel(patient);
             DataContext = _model;
             _model.Update();
+
+            _prescriptionService = (PrescriptionService)ServiceProvider.services["PrescriptionService"];
+            _medicationInventory = (Inventory)ServiceProvider.services["MedicationInventory"];
+            _doctorService = (DoctorService)ServiceProvider.services["DoctorService"];
+            _roomService = (RoomService)ServiceProvider.services["RoomService"];
+
+            _patient = patient;
             tbDate.SelectedDate = DateTime.Now;
         }
         private void lvPrescriptions_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -57,7 +64,7 @@ namespace HealthCare.View.NurseView.PrescriptionView
             if (!Validate())
                 return;
 
-            Prescription prescription = _hospital.PrescriptionService.Get(_prescription.Prescription.Id);
+            Prescription prescription = _prescriptionService.Get(_prescription.Prescription.Id);
 
             if (!prescription.FirstUse) {
                 Utility.ShowWarning("Vec ste iskoristili recept.");
@@ -69,7 +76,7 @@ namespace HealthCare.View.NurseView.PrescriptionView
 
             prescription.FirstUse = false;
             prescription.Start = DateTime.Now.Date;
-            _hospital.PrescriptionService.Update(prescription);
+            _prescriptionService.Update(prescription);
 
             _model.Update();
         }
@@ -78,7 +85,7 @@ namespace HealthCare.View.NurseView.PrescriptionView
         {
             if (!Validate())
                 return;
-            Prescription prescription = _hospital.PrescriptionService.Get(_prescription.Prescription.Id);
+            Prescription prescription = _prescriptionService.Get(_prescription.Prescription.Id);
 
             if (prescription.FirstUse) {
                 Utility.ShowWarning("Niste iskoristili recept.");
@@ -94,7 +101,7 @@ namespace HealthCare.View.NurseView.PrescriptionView
                 return;
 
             prescription.Start = DateTime.Now.Date;
-            _hospital.PrescriptionService.Update(prescription);
+            _prescriptionService.Update(prescription);
 
             _model.Update();
         }
@@ -104,7 +111,7 @@ namespace HealthCare.View.NurseView.PrescriptionView
             if (!Validate())
                 return;
 
-            Doctor doctor = _hospital.DoctorService.Get(_prescription.Prescription.DoctorJMBG);
+            Doctor doctor = _doctorService.Get(_prescription.Prescription.DoctorJMBG);
 
             if (!int.TryParse(tbHours.Text, out _) && !int.TryParse(tbMinutes.Text, out _))
             {
@@ -140,9 +147,9 @@ namespace HealthCare.View.NurseView.PrescriptionView
 
         private bool GiveMedication(Prescription prescription) {
             var reduceItem = new InventoryItem(
-            prescription.MedicationId, _hospital.RoomService.GetWarehouseId(), prescription.GetQuantity());
+            prescription.MedicationId, _roomService.GetWarehouseId(), prescription.GetQuantity());
 
-            if (!_hospital.MedicationInventory.TryReduceInventoryItem(reduceItem))
+            if (!_medicationInventory.TryReduceInventoryItem(reduceItem))
             {
                 Utility.ShowError("Nema lekova na stanju.");
                 return false;

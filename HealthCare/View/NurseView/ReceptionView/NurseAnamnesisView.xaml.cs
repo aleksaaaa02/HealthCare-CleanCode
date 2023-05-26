@@ -8,14 +8,17 @@ namespace HealthCare.View.PatientView
 {
     public partial class NurseAnamnesisView : Window
     {
-        private readonly Hospital _hospital;
+        private readonly AnamnesisService _anamnesisService;
+        private readonly PatientService _patientService;
         private readonly int _appointmentId;
         private readonly Patient _patient;
 
-        public NurseAnamnesisView(Hospital hospital,int appointmentID, Patient patient)
+        public NurseAnamnesisView(int appointmentID, Patient patient)
         {
             InitializeComponent();
-            _hospital = hospital;
+            _anamnesisService = (AnamnesisService)ServiceProvider.services["AnamnesisService"];
+            _patientService = (PatientService)ServiceProvider.services["PatientService"];
+
             _appointmentId = appointmentID;
             _patient = patient;
 
@@ -49,11 +52,10 @@ namespace HealthCare.View.PatientView
                    rtbMedicalHistory.Document.ContentEnd);
             _patient.MedicalRecord.MedicalHistory = Utility.GetArray(textRange.Text);
 
-            int newID = _hospital.AnamnesisService.AddAnamnesis(anamnesis);
+            int newID = _anamnesisService.AddAnamnesis(anamnesis);
             Schedule.GetAppointment(_appointmentId).AnamnesisID = newID;
 
-            _hospital.PatientService.UpdateAccount(_patient);
-            _hospital.SaveAll();
+            _patientService.UpdateAccount(_patient);
             Close();
         }
     }

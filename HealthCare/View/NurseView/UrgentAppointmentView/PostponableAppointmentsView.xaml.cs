@@ -11,15 +11,17 @@ namespace HealthCare.View.UrgentAppointmentView
 {
     public partial class PostponableAppointmentsView : Window
     {
+        private readonly NotificationService _notificationService;
         private PostponableAppointmentsViewModel _model;
         private AppointmentViewModel? _selected;
         private Appointment _newAppointment;
-        private readonly Hospital _hospital;
-        public PostponableAppointmentsView(Appointment newAppointment, List<Appointment> postponable, Hospital hospital)
+        public PostponableAppointmentsView(Appointment newAppointment, List<Appointment> postponable)
         {
             InitializeComponent();
             _newAppointment = newAppointment;
-            _hospital = hospital;
+
+            _notificationService = (NotificationService)ServiceProvider.services["NotificationService"];
+
             _model = new PostponableAppointmentsViewModel(postponable);
             DataContext = _model;
         }
@@ -46,10 +48,10 @@ namespace HealthCare.View.UrgentAppointmentView
             Schedule.PostponeAppointment(_selected.Appointment);
             Schedule.CreateUrgentAppointment(_newAppointment);
 
-            _hospital.NotificationService.Add(new Notification(
+            _notificationService.Add(new Notification(
                 "Termin sa ID-jem " + _selected.Appointment.AppointmentID + " je pomeren.",
                 _selected.Appointment.Doctor.JMBG, _selected.Appointment.Patient.JMBG));
-            _hospital.NotificationService.Add(new Notification(
+            _notificationService.Add(new Notification(
                 "Hitan termin sa ID-jem " + _selected.Appointment.AppointmentID + " je kreiran.",
                 _selected.Appointment.Doctor.JMBG));
 

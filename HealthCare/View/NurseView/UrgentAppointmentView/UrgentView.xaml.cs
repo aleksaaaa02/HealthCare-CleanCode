@@ -12,17 +12,19 @@ namespace HealthCare.View.UrgentAppointmentView
 {
     public partial class UrgentView : Window
     {
-        private Hospital _hospital;
+        private readonly NotificationService _notificationService;
+        private readonly DoctorService _doctorService;
         private PatientViewModel _model;
         private Patient? _patient;
-        public UrgentView(Hospital hospital)
+        public UrgentView()
         {
             InitializeComponent();
 
-            _hospital = hospital;
-
-            _model = new PatientViewModel(hospital.PatientService);
+            _model = new PatientViewModel();
             DataContext = _model;
+
+            _doctorService = (DoctorService)ServiceProvider.services["DoctorService"];
+            _notificationService = (NotificationService)ServiceProvider.services["NotificationService"];
 
             _model.Update();
             tbJMBG.IsEnabled = false;
@@ -33,7 +35,7 @@ namespace HealthCare.View.UrgentAppointmentView
 
         private void PopulateComboBox()
         {
-            foreach (string specialization in _hospital.DoctorService.GetSpecializations())
+            foreach (string specialization in _doctorService.GetSpecializations())
                 cbSpecialization.Items.Add(specialization);
             cbSpecialization.SelectedIndex = 0;
         }
@@ -69,7 +71,7 @@ namespace HealthCare.View.UrgentAppointmentView
             }
 
             TimeSpan duration = new TimeSpan(0, int.Parse(tbDuration.Text), 0);
-            List<Doctor> specialists = _hospital.DoctorService.GetBySpecialization(cbSpecialization.SelectedValue.ToString());
+            List<Doctor> specialists = _doctorService.GetBySpecialization(cbSpecialization.SelectedValue.ToString());
 
             Appointment? appointment = Schedule.TryGetUrgent(duration, specialists);
             if (appointment is not null)
@@ -77,7 +79,7 @@ namespace HealthCare.View.UrgentAppointmentView
                 appointment = FillAppointmentDetails(appointment);
                 Schedule.CreateUrgentAppointment(appointment);
 
-                _hospital.NotificationService.Add(new Notification(
+                _notificationService.Add(new Notification(
                 "Hitan termin sa ID-jem " + appointment.AppointmentID + " je kreiran.",
                 appointment.Doctor.JMBG));
 
@@ -93,7 +95,7 @@ namespace HealthCare.View.UrgentAppointmentView
 
             appointment = FillAppointmentDetails(appointment);
             appointment.TimeSlot = new TimeSlot(DateTime.MinValue, duration);
-            new PostponableAppointmentsView(appointment, postponable, _hospital).ShowDialog();
+            new PostponableAppointmentsView(appointment, postponable).ShowDialog();
         }
 
         public Appointment FillAppointmentDetails(Appointment? appointment)

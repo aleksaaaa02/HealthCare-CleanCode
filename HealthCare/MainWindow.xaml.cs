@@ -14,19 +14,22 @@ namespace HealthCare
 {
     public partial class MainWindow : Window
     {
-        private readonly Hospital _hospital;
-
+        private readonly NotificationService _notificationService;
+        private readonly LoginService _loginService;
         public MainWindow()
         {
             InitializeComponent();
 
-            _hospital = new Hospital();
-            _hospital.LoadAll();
+            ServiceProvider.BuildServices();
+            Schedule.Load(Global.appointmentPath);
+
+            _notificationService = (NotificationService)ServiceProvider.services["NotificationService"];
+            _loginService = (LoginService)ServiceProvider.services["LoginService"];
         }
 
         private void btnQuitApp_Click(object sender, RoutedEventArgs e)
         {
-            _hospital.SaveAll();
+            Schedule.Save(Global.appointmentPath);
             ExitApp();
         }
 
@@ -37,7 +40,7 @@ namespace HealthCare
 
             try
             {
-                switch (_hospital.LoginRole(username, password))
+                switch (_loginService.Login(username, password))
                 {
                     case Role.Manager:
                         new ManagerMenu(this).Show();
@@ -47,7 +50,7 @@ namespace HealthCare
                         new DoctorMainView(this).Show();
                         break;
                     case Role.Nurse:
-                        new NurseMenu(this, _hospital).Show();
+                        new NurseMenu(this).Show();
                         break;
                     case Role.Patient:
                         ShowNotifications();
@@ -74,7 +77,7 @@ namespace HealthCare
             foreach (var notification in notificationService.GetForUser(Hospital.Current.JMBG))
             {
                 Utility.ShowInformation(notification.Display());
-                _hospital.NotificationService.Update(notification);
+                _notificationService.Update(notification);
             }
         }
 

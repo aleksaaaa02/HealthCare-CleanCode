@@ -11,18 +11,21 @@ namespace HealthCare.View.NurseView.ReferralView
 {
     public partial class PatientsReferralsView : Window
     {
+        private readonly SpecialistReferralService _specialistReferralService;
+        private readonly DoctorService _doctorService;
         private ReferralListingViewModel _model;
         private Patient _patient;
         private ReferralViewModel? _referral;
-        private Hospital _hospital;
-        public PatientsReferralsView(Patient patient,Hospital hospital)
+        public PatientsReferralsView(Patient patient)
         {
             InitializeComponent();
-            _model = new ReferralListingViewModel(patient,hospital);
+            _model = new ReferralListingViewModel(patient);
             DataContext = _model;
-            _patient = patient;
-            _hospital = hospital;
 
+            _specialistReferralService = (SpecialistReferralService)ServiceProvider.services["SpecialistReferralService"];
+            _doctorService = (DoctorService)ServiceProvider.services["DoctorService"];
+
+            _patient = patient;
             tbDate.SelectedDate = DateTime.Now;
         }
 
@@ -43,7 +46,7 @@ namespace HealthCare.View.NurseView.ReferralView
                 return;
             }
 
-            Doctor referred = _hospital.DoctorService.Get(_referral.SpecialistReferral.ReferredDoctorJMBG);
+            Doctor referred = _doctorService.Get(_referral.SpecialistReferral.ReferredDoctorJMBG);
 
             if (!int.TryParse(tbHours.Text,out _) && !int.TryParse(tbMinutes.Text, out _))
             {
@@ -75,9 +78,9 @@ namespace HealthCare.View.NurseView.ReferralView
 
             Utility.ShowInformation("Uspesno ste zakazali pregled.");
 
-            var updated = _hospital.SpecialistReferralService.Get(_referral.SpecialistReferral.Id);
+            var updated = _specialistReferralService.Get(_referral.SpecialistReferral.Id);
             updated.IsUsed = true;
-            _hospital.SpecialistReferralService.Update(updated);
+            _specialistReferralService.Update(updated);
             
             _model.Update();
         }

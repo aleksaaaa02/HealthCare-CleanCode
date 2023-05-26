@@ -40,6 +40,10 @@ namespace HealthCare.Context
                 new FileRepository<User>(Global.nursePath));
 
             // services["Schedule"] = new Schedule();
+
+            ((OrderService)services["MedicationOrderService"]).ExecuteAll();
+            ((OrderService)services["EquipmentOrderService"]).ExecuteAll();
+            ((TransferService)services["TransferService"]).ExecuteAll();
         }
     }
 }

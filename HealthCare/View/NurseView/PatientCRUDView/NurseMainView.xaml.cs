@@ -1,5 +1,6 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.ViewModel.NurseViewModel;
 using System;
 using System.Collections.Generic;
@@ -11,22 +12,21 @@ namespace HealthCare.View.PatientView
 {
     public partial class NurseMainView : Window
     {
-        private Hospital _hospital;
+        private readonly PatientService _patientService;
         private PatientViewModel _model;
         private Patient? _patient;
         public MedicalRecord? _record;
         private List<TextBox> _textBoxes;
 
-        public NurseMainView(Hospital hospital)
+        public NurseMainView()
         {
             InitializeComponent();
 
-            _hospital = hospital;
-
-            _model = new PatientViewModel(_hospital.PatientService);
+            _model = new PatientViewModel();
             DataContext = _model;
-
             _model.Update();
+
+            _patientService = (PatientService)ServiceProvider.services["PatientService"];
             _patient = null;
             _record = null;
 
@@ -48,7 +48,7 @@ namespace HealthCare.View.PatientView
             }
 
             CreatePatient();
-            if (!_hospital.PatientService.CreateAccount(_patient))
+            if (!_patientService.CreateAccount(_patient))
                 Utility.ShowWarning("Pacijent sa unetim _jmbg vec postoji");
 
             _record = null;
@@ -68,7 +68,7 @@ namespace HealthCare.View.PatientView
                 return;
 
             _patient = (Patient)lvPatients.SelectedItem;
-            if (!_hospital.PatientService.DeleteAccount(_patient.JMBG))
+            if (!_patientService.DeleteAccount(_patient.JMBG))
                 Utility.ShowWarning("Pacijent sa unetim _jmbg ne postoji");
 
             ClearBoxes();
@@ -114,7 +114,7 @@ namespace HealthCare.View.PatientView
             }
 
             CreatePatient();
-            if(!_hospital.PatientService.UpdateAccount(_patient))
+            if(!_patientService.UpdateAccount(_patient))
                 Utility.ShowWarning("Pacijent sa unetim _jmbg ne postoji");
             _model.Update();
         }
