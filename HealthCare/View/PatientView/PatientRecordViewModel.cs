@@ -11,12 +11,13 @@ namespace HealthCare.View.AppointmentView
 {
     public class PatientRecordViewModel
     {
+        private readonly AnamnesisService _anamnesisService;
+
         public ObservableCollection<Appointment> Appointments { get; set; }
-        public Hospital _hospital;
         public List<Appointment> _patientAppointments;
-        public PatientRecordViewModel(Hospital hospital)
+        public PatientRecordViewModel()
         {
-            _hospital = hospital;
+            _anamnesisService = (AnamnesisService)ServiceProvider.services["AnamnesisService"];
             Appointments = new ObservableCollection<Appointment>();
             _patientAppointments = Schedule.GetPatientAppointments((Patient)Hospital.Current);
             LoadData(Schedule.GetPatientAppointments((Patient)Hospital.Current));
@@ -64,7 +65,7 @@ namespace HealthCare.View.AppointmentView
             Anamnesis anamnesis;
             try 
             {
-                anamnesis = _hospital.AnamnesisService.Get(appointment.AnamnesisID);     
+                anamnesis = _anamnesisService.Get(appointment.AnamnesisID);     
             }
             catch
             {

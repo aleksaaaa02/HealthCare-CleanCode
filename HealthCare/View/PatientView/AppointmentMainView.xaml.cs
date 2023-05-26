@@ -13,11 +13,13 @@ namespace HealthCare.View.AppointmentView
 {
     public partial class AppointmentMainView : Window
     {
-        Hospital _hospital;
-        public AppointmentMainView(Hospital hospital)
+        private readonly PatientService _patientService;
+        private readonly DoctorService _doctorService;
+        public AppointmentMainView()
         {
+            _patientService = (PatientService)ServiceProvider.services["PatientService"];
+            _doctorService = (DoctorService)ServiceProvider.services["DoctorService"];
             InitializeComponent();
-            _hospital = hospital;
             LoadData();
             IsUserBlocked();
         }
@@ -62,13 +64,13 @@ namespace HealthCare.View.AppointmentView
                 {
                     patient.Blocked = false;
                 }
-                _hospital.PatientService.UpdateAccount(patient);
+                _patientService.UpdateAccount(patient);
             }
         }
         public void LoadData()
         {
             List<Appointment> appointments = Schedule.GetPatientAppointments((Patient)Hospital.Current);
-            List<Doctor> doctors = _hospital.DoctorService.GetAll();
+            List<Doctor> doctors = _doctorService.GetAll();
             appListView.ItemsSource = new ObservableCollection<Appointment>(appointments);
             doctorListView.ItemsSource = new ObservableCollection<Doctor>(doctors);
 
@@ -259,17 +261,17 @@ namespace HealthCare.View.AppointmentView
 
         private void BtnRecord_Click(object sender, RoutedEventArgs e)
         {
-            new PatientRecordView(_hospital).Show();
+            new PatientRecordView().Show();
         }
 
         private void BtnRecord_Click_1(object sender, RoutedEventArgs e)
         {
-            new PatientRecordView(_hospital).Show();
+            new PatientRecordView().Show();
         }
 
         private void BtnPriority_Click(object sender, RoutedEventArgs e)
         {
-            new PriorityAppointmentView(_hospital).Show();
+            new PriorityAppointmentView().Show();
         }
     }
 }

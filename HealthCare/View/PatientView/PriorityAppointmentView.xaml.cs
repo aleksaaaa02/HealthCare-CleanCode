@@ -10,14 +10,11 @@ namespace HealthCare.View.AppointmentView
 {
     public partial class PriorityAppointmentView : Window
     {
-
-        Hospital _hospital;
         PriorityAppointmentViewModel model;
-        public PriorityAppointmentView(Hospital hospital)
+        public PriorityAppointmentView()
         {
             InitializeComponent();
-            _hospital = hospital;
-            model = new PriorityAppointmentViewModel(hospital);
+            model = new PriorityAppointmentViewModel();
             DataContext = model;
         }
 

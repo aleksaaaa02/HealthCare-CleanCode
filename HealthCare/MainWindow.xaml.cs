@@ -44,14 +44,14 @@ namespace HealthCare
                         break;
                     case Role.Doctor:
                         ShowNotifications();
-                        new DoctorMainView(this, _hospital).Show();
+                        new DoctorMainView(this).Show();
                         break;
                     case Role.Nurse:
                         new NurseMenu(this, _hospital).Show();
                         break;
                     case Role.Patient:
                         ShowNotifications();
-                        new AppointmentMainView(_hospital).Show();
+                        new AppointmentMainView().Show();
                         break;
                 }
 

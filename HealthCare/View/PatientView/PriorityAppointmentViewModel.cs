@@ -14,17 +14,20 @@ namespace HealthCare.View.AppointmentView
 {
     public class PriorityAppointmentViewModel
     {
+        private readonly DoctorService _doctorService;
+        private readonly PatientService _patientService;
+
         public ObservableCollection<Doctor> Doctors { get; set; }
         public ObservableCollection<Appointment> Appointments { get; set; }
 
-        public Hospital _hospital;
-
-        public PriorityAppointmentViewModel(Hospital hospital)
+        public PriorityAppointmentViewModel()
         {
-            _hospital = hospital;
+            _patientService = (PatientService)ServiceProvider.services["PatientService"];
+            _doctorService = (DoctorService)ServiceProvider.services["DoctorService"];
+            
             Doctors = new ObservableCollection<Doctor>();
             Appointments = new ObservableCollection<Appointment>();
-            LoadDoctors(hospital.DoctorService.GetAll());
+            LoadDoctors(_doctorService.GetAll());
         }
 
         public void LoadDoctors(List<Doctor> doctors)
@@ -121,7 +124,7 @@ namespace HealthCare.View.AppointmentView
 
         public Appointment GetAppointmentByDate(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd)
         {
-            List<Doctor> doctors = _hospital.DoctorService.GetAll();
+            List<Doctor> doctors = _doctorService.GetAll();
             foreach (Doctor doctor in doctors)
             {
                 DateTime startDate = DateTime.Today;
@@ -202,7 +205,7 @@ namespace HealthCare.View.AppointmentView
                 {
                     patient.Blocked = false;
                 }
-                _hospital.PatientService.UpdateAccount(patient);
+                _patientService.UpdateAccount(patient);
             }
         }
 

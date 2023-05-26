@@ -9,7 +9,7 @@ namespace HealthCare.View.DoctorView
     {
         private MainWindow _loginWindow;
 
-        public DoctorMainView(MainWindow loginWindow, Hospital hospital)
+        public DoctorMainView(MainWindow loginWindow)
         {
             _loginWindow = loginWindow;
             InitializeComponent();
