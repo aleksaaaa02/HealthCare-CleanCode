@@ -40,7 +40,7 @@ namespace HealthCare
                 switch (_hospital.LoginRole(username, password))
                 {
                     case Role.Manager:
-                        new ManagerMenu(this, _hospital).Show();
+                        new ManagerMenu(this).Show();
                         break;
                     case Role.Doctor:
                         ShowNotifications();
@@ -70,7 +70,8 @@ namespace HealthCare
             if (Hospital.Current is null)
                 return;
 
-            foreach (Notification notification in _hospital.NotificationService.GetForUser(Hospital.Current.JMBG))
+            var notificationService = (NotificationService)ServiceProvider.services["NotificationService"];
+            foreach (var notification in notificationService.GetForUser(Hospital.Current.JMBG))
             {
                 Utility.ShowInformation(notification.Display());
                 _hospital.NotificationService.Update(notification);

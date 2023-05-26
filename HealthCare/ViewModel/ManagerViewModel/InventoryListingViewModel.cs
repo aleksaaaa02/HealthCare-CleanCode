@@ -17,11 +17,12 @@ namespace HealthCare.ViewModel.ManagerViewModel
         public ObservableCollection<bool> BoxSelectionArgs { get; }
         private List<InventoryItemViewModel> _models;
 
-        public InventoryListingViewModel(Hospital hospital)
+        public InventoryListingViewModel()
         {
-            _inventory = hospital.EquipmentInventory;
-            _equipmentService = hospital.EquipmentService;
-            _roomService = hospital.RoomService;
+            _inventory = (Inventory)ServiceProvider.services["EquipmentInventory"];
+            _equipmentService = (EquipmentService)ServiceProvider.services["EquipmentService"];
+            _roomService = (RoomService)ServiceProvider.services["RoomService"];
+
             Items = new ObservableCollection<InventoryItemViewModel>();
             BoxSelectionArgs = new ObservableCollection<bool>();
             

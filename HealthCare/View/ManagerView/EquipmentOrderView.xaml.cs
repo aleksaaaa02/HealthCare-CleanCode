@@ -11,29 +11,21 @@ namespace HealthCare.View.ManagerView
 {
     public partial class EquipmentOrderView : Window
     {
-        private EquipmentOrderViewModel _model;
         private readonly OrderService _orderService;
-        private Window _parent;
+        private EquipmentOrderViewModel _model;
 
-        public EquipmentOrderView(Window parent, Hospital hospital)
+        public EquipmentOrderView()
         {
             InitializeComponent();
-            _parent = parent;
-            _orderService = hospital.EquipmentOrderService;
+            _orderService = (OrderService)ServiceProvider.services["EquipmentOrderService"];
 
-            _model = new EquipmentOrderViewModel(hospital,false);
+            _model = new EquipmentOrderViewModel();
             DataContext = _model;
         }
 
         private void Button_Reset(object sender, RoutedEventArgs e)
         {
             _model.LoadAll();
-        }
-
-        private void Button_Exit(object sender, RoutedEventArgs e)
-        {
-            _parent.Show();
-            Close();
         }
 
         private void Button_Order(object sender, RoutedEventArgs e)
@@ -89,9 +81,8 @@ namespace HealthCare.View.ManagerView
                 tb.Text = "0";
         }
 
-        private void Window_Closed(object sender, EventArgs e)
+        private void Button_Exit(object sender, RoutedEventArgs e)
         {
-            _parent.IsEnabled = true;
             Close();
         }
     }

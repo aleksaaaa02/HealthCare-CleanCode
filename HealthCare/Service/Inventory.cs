@@ -1,5 +1,6 @@
 ﻿using HealthCare.Model;
 using HealthCare.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -49,7 +50,7 @@ namespace HealthCare.Service
             return true;
         }
 
-        public IEnumerable<InventoryItem> GetEquipmentItems(int equipmentId)
+        private IEnumerable<InventoryItem> GetEquipmentItems(int equipmentId)
         {
             return GetAll().Where(x => x.EquipmentId == equipmentId);
         }
@@ -69,5 +70,9 @@ namespace HealthCare.Service
             }
         }
 
+        public InventoryItem? SearchByEquipmentAndRoom(int equipmentId, int roomId)
+        {
+            return GetAll().Find(x => x.EquipmentId == equipmentId && x.RoomId == roomId);
+        }
     }
 }

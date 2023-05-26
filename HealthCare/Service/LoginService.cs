@@ -1,8 +1,7 @@
-﻿using HealthCare.Exceptions;
+﻿using HealthCare.Context;
+using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Repository;
-using System;
-using System.Collections.Generic;
 
 namespace HealthCare.Service
 {
@@ -43,6 +42,7 @@ namespace HealthCare.Service
             if (user.Password != password)
                 throw new WrongPasswordException();
 
+            Hospital.Current = user;
             return role;
         }
 

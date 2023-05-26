@@ -6,9 +6,9 @@ namespace HealthCare.Model
     public class Notification : RepositoryItem
     {
         public int Id { get; set; }
+        public string[] Recipients { get; set; }
         public string Text { get; set; }
         public bool Seen { get; set; }
-        public string[] Recipients { get; set; }
 
         public Notification() : this("", new string[0]) { }
         public Notification(string text, params string[] recipients) :
