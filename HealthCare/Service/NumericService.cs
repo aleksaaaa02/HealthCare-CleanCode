@@ -4,17 +4,17 @@ using System.Linq;
 
 namespace HealthCare.Service
 {
-    public abstract class NumericService<T> : Service<T> where T : RepositoryItem, new()
+    public abstract class NumericService<T> : Service<T> where T : RepositoryItem
     {
-        public NumericService(string filepath) : base(filepath) { }
         public NumericService(IRepository<T> repository) : base(repository) { }
 
-        public new void Add(T item)
+        public new int Add(T item)
         {
             if ((int)item.Key == 0)
                 item.Key = NextId();
 
             base.Add(item);
+            return (int)item.Key;
         }
 
         private int NextId()

@@ -48,8 +48,10 @@ namespace HealthCare.View.PatientView
             }
 
             CreatePatient();
-            if (!_patientService.CreateAccount(_patient))
+            if (_patientService.Contains(_patient))
                 Utility.ShowWarning("Pacijent sa unetim _jmbg vec postoji");
+            else
+                _patientService.Add(_patient);
 
             _record = null;
             _model.Update();
@@ -68,9 +70,10 @@ namespace HealthCare.View.PatientView
                 return;
 
             _patient = (Patient)lvPatients.SelectedItem;
-            if (!_patientService.DeleteAccount(_patient.JMBG))
+            if (!_patientService.Contains(_patient.JMBG))
                 Utility.ShowWarning("Pacijent sa unetim _jmbg ne postoji");
-
+            else
+                _patientService.Remove(_patient.JMBG);
             ClearBoxes();
             _model.Update();
         }
@@ -114,8 +117,11 @@ namespace HealthCare.View.PatientView
             }
 
             CreatePatient();
-            if(!_patientService.UpdateAccount(_patient))
+            if (!_patientService.Contains(_patient.JMBG))
                 Utility.ShowWarning("Pacijent sa unetim _jmbg ne postoji");
+            else
+                _patientService.Update(_patient);
+
             _model.Update();
         }
 

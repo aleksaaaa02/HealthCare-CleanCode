@@ -4,15 +4,9 @@ using System.Collections.Generic;
 
 namespace HealthCare.Service
 {
-    public abstract class Service<T> where T : RepositoryItem, new() // remove new()
+    public abstract class Service<T> where T : RepositoryItem
     {
         protected readonly IRepository<T> _repository;
-
-        // remove constructor
-        public Service(string filepath)
-        {
-            _repository = new FileRepository<T>(filepath);
-        }
 
         public Service(IRepository<T> repository)
         {
@@ -51,11 +45,6 @@ namespace HealthCare.Service
         public bool Contains(object key)
         {
             return _repository.Contains(key);
-        }
-
-        public int Count()
-        {
-            return GetAll().Count;
         }
 
         public List<T> GetAll()

@@ -6,7 +6,6 @@ namespace HealthCare.Service
 {
     public class SpecialistReferralService : NumericService<SpecialistReferral>
     {
-        public SpecialistReferralService(string filepath) : base(filepath) {}
         public SpecialistReferralService(IRepository<SpecialistReferral> repository) : base(repository) { }
 
         public List<SpecialistReferral> GetPatientsReferrals(Patient patient)

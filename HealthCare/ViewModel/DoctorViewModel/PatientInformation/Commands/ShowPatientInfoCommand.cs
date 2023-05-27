@@ -41,7 +41,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
                     Utility.ShowWarning("Morate odabrati pregled/operaciju iz tabele!");
                     return null;
                 }
-                return _patientService.GetAccount(appointment.JMBG);
+                return _patientService.TryGet(appointment.JMBG);
             }
 
             if (_viewModel is PatientSearchViewModel patientSearchViewModel)
@@ -52,7 +52,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
                     Utility.ShowWarning("Morate odabrati pacijenta iz tabele!");
                     return null;
                 }
-                return _patientService.GetAccount(selectedPatient.JMBG);
+                return _patientService.TryGet(selectedPatient.JMBG);
             }
 
             if (_viewModel is DoctorExamViewModel doctorExamViewModel)

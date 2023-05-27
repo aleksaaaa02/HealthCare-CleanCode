@@ -7,43 +7,7 @@ namespace HealthCare.Service
 {
     public class PatientService : Service<Patient>
 	{
-		public PatientService(string filepath) : base(filepath) { }
         public PatientService(IRepository<Patient> repository) : base(repository) { }
-
-        public bool CreateAccount(Patient newPatient)
-		{
-			if (!Contains(newPatient.JMBG))
-			{
-                Add(newPatient);
-				return true;
-            }
-			return false;
-		}
-
-		public bool UpdateAccount(Patient updatedPatient)
-		{
-            if (Contains(updatedPatient.JMBG))
-			{
-				Update(updatedPatient);
-				return true;
-			}
-			return false;
-        }
-
-		public bool DeleteAccount(string JMBG)
-		{
-			if (Contains(JMBG))
-			{
-                Remove(JMBG);
-                return true;
-			}
-			return false;
-        }
-
-		public Patient? GetAccount(string JMBG)
-		{
-            return TryGet(JMBG);
-		}
 
         public void UpdatePatientMedicalRecord(Patient patient, MedicalRecord medicalRecord)
         {
@@ -52,11 +16,6 @@ namespace HealthCare.Service
             patient.MedicalRecord = medicalRecord;
 			Update(patient);
 		}
-
-        public User? GetByUsername(string username)
-        {
-            return GetAll().Find(x => x.Username == username);
-        }
 
 		public void AddReferral(string PatientJMBG, int referralID, bool isTreatmentReferral)
 		{
@@ -82,11 +41,6 @@ namespace HealthCare.Service
         private void AddTreatmentReferral(MedicalRecord medicalRecord, int referralID)
         {
             medicalRecord.TreatmentReferrals = medicalRecord.TreatmentReferrals.Concat(new int[] { referralID }).ToArray();
-        }
-
-        public Role GetRole()
-        {
-            return Role.Patient;
         }
     }
 }

@@ -23,7 +23,7 @@ namespace HealthCare.View.ReceptionView
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
             string JMBG = tbJMBG.Text.Trim();
-            Patient? patient = _patientService.GetAccount(JMBG);
+            Patient? patient = _patientService.TryGet(JMBG);
 
             if(patient is null)
             {

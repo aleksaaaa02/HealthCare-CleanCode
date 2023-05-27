@@ -52,10 +52,10 @@ namespace HealthCare.View.PatientView
                    rtbMedicalHistory.Document.ContentEnd);
             _patient.MedicalRecord.MedicalHistory = Utility.GetArray(textRange.Text);
 
-            int newID = _anamnesisService.AddAnamnesis(anamnesis);
+            int newID = _anamnesisService.Add(anamnesis);
             Schedule.GetAppointment(_appointmentId).AnamnesisID = newID;
 
-            _patientService.UpdateAccount(_patient);
+            _patientService.Update(_patient);
             Close();
         }
     }

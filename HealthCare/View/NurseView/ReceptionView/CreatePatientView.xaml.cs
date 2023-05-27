@@ -83,8 +83,10 @@ namespace HealthCare.View.ReceptionView
             }
 
             Patient patient = CreatePatient();
-            if (!_patientService.CreateAccount(patient))
+            if (_patientService.Contains(patient))
                 Utility.ShowWarning("Pacijent sa unetim _jmbg vec postoji");
+            else
+                _patientService.Add(patient);
 
             _record = null;
             Close();

@@ -65,7 +65,7 @@ namespace HealthCare.View.AppointmentView
                 {
                     patient.Blocked = false;
                 }
-                _patientService.UpdateAccount(patient);
+                _patientService.Update(patient);
             }
         }
         public void LoadData()

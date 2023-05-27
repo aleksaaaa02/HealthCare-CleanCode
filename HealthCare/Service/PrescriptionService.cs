@@ -7,7 +7,6 @@ namespace HealthCare.Service
 {
     public class PrescriptionService : NumericService<Prescription>
     {
-        public PrescriptionService(string filepath) : base(filepath) {}
         public PrescriptionService(IRepository<Prescription> repository) : base(repository) { }
 
         public List<Prescription> GetPatientsPrescriptions(string JMBG) {

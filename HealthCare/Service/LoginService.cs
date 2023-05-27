@@ -1,5 +1,4 @@
 ﻿using HealthCare.Application;
-using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Repository;

@@ -8,7 +8,6 @@ namespace HealthCare.Service
 {
     public class InventoryService : NumericService<InventoryItem>
     {
-        public InventoryService(string filepath) : base(filepath) { }
         public InventoryService(IRepository<InventoryItem> repository) : base(repository) { }
 
         public int GetTotalQuantity(int equipmentId)

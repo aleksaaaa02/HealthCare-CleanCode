@@ -1,5 +1,6 @@
 ﻿using HealthCare.Model;
 using HealthCare.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,7 +8,6 @@ namespace HealthCare.Service
 {
     public class DoctorService : Service<Doctor>
     {
-        public DoctorService(string filePath) : base(filePath) { }
         public DoctorService(IRepository<Doctor> repository) : base(repository) { }
 
         public Doctor GetAccount(string JMBG)
@@ -27,16 +27,6 @@ namespace HealthCare.Service
             return patients.ToList();
         }
 
-        public List<Doctor> GetAccounts() 
-        {
-            return GetAll();
-        }
-
-        public User? GetByUsername(string username)
-        {
-            return GetAll().Find(x => x.Username == username);
-        }
-
         public List<Doctor> GetBySpecialization(string specialization)
         {
             return GetAll().Where(x => x.IsCapable(specialization)).ToList();
@@ -44,17 +34,15 @@ namespace HealthCare.Service
 
         public Doctor GetFirstBySpecialization(string specialization)
         {
-            return GetBySpecialization(specialization).FirstOrDefault();
+            var doctor = GetBySpecialization(specialization).FirstOrDefault();
+            if (doctor is null) 
+                throw new ArgumentException("Ne postoji doktor za datu specijalizaciju.");
+            return doctor;
         }
 
         public List<string> GetSpecializations()
         {
             return GetAll().Select(x => x.Specialization).Distinct().ToList();
-        }
-
-        public Role GetRole()
-        {
-            return Role.Doctor;
         }
     }
 }

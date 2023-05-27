@@ -90,8 +90,8 @@ namespace HealthCare.Service
             var patientService = Injector.GetService<PatientService>();
             foreach (Appointment appointment in Appointments)
             {
-                appointment.Doctor = doctorService.GetAccount(appointment.Doctor.JMBG);
-                appointment.Patient = patientService.GetAccount(appointment.Patient.JMBG);
+                appointment.Doctor = doctorService.Get(appointment.Doctor.JMBG);
+                appointment.Patient = patientService.Get(appointment.Patient.JMBG);
             }
         }
 

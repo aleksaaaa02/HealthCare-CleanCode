@@ -36,7 +36,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
                 return;
             }
 
-            Patient? patient = _patientService.GetAccount(_makeAppointmentViewModel.SelectedPatient.JMBG);
+            Patient? patient = _patientService.TryGet(_makeAppointmentViewModel.SelectedPatient.JMBG);
             if (patient is null)
             {
                 Utility.ShowError("Oops... Doslo je do greske probajte ponovo!");
