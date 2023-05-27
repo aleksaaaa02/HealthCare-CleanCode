@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HealthCare.Context;
+using HealthCare.View.AppointmentView;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,11 +21,18 @@ namespace HealthCare.View.PatientView
     /// </summary>
     public partial class PatientMainWindow : Window
     {
-        public PatientMainWindow()
+        Hospital _hospital;
+        public PatientMainWindow(Hospital hospital)
         {
             InitializeComponent();
+            _hospital = hospital;
             //#179c8c green
             //#effcfa white
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            mainContentGrid.Content = new PatientRecordView(_hospital);
         }
     }
 }

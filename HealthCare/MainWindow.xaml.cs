@@ -14,7 +14,7 @@ namespace HealthCare
 {
     public partial class MainWindow : Window
     {
-        private readonly Hospital _hospital;
+        private  Hospital _hospital;
 
         public MainWindow()
         {
@@ -51,7 +51,7 @@ namespace HealthCare
                         break;
                     case UserRole.Patient:
                         ShowNotifications();
-                        new AppointmentMainView(_hospital).Show();
+                        new PatientMainWindow(_hospital).Show();
                         break;
                 }
 
@@ -84,8 +84,7 @@ namespace HealthCare
 
         public void ExitApp()
         {
-            new PatientMainWindow().Show();
-            //Application.Current.Shutdown();
+            Application.Current.Shutdown();
         }
     }
 }
