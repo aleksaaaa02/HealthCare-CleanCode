@@ -22,8 +22,8 @@ namespace HealthCare
 
             ServiceProvider.BuildServices();
             Schedule.Load(Global.appointmentPath);
-
-            _notificationService = (NotificationService)ServiceProvider.services["NotificationService"];
+            
+            _notificationService = (NotificationService)ServiceProvider.services["NotificationService"]; 
             _loginService = (LoginService)ServiceProvider.services["LoginService"];
         }
 

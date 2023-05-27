@@ -84,6 +84,7 @@ namespace HealthCare.Service
         {
             CsvStorage<Appointment> csvStorage = new CsvStorage<Appointment>(filepath);
             Appointments = csvStorage.Load();
+            FillAppointmentDetails();
         }
 
         public static void Save(string filepath)
@@ -209,6 +210,16 @@ namespace HealthCare.Service
         public static bool HasAppointmentStarted(Appointment appointment)
         {
             return appointment.TimeSlot.Start < DateTime.Now && appointment.TimeSlot.End > DateTime.Now;
+        }
+        private static void FillAppointmentDetails()
+        {
+            DoctorService ds = (DoctorService)ServiceProvider.services["DoctorService"];
+            PatientService ps = (PatientService)ServiceProvider.services["PatientService"];
+            foreach (Appointment appointment in Appointments)
+            {
+                appointment.Doctor = ds.GetAccount(appointment.Doctor.JMBG);
+                appointment.Patient = ps.GetAccount(appointment.Patient.JMBG);
+            }
         }
     }
 }

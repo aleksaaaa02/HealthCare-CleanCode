@@ -33,7 +33,7 @@ namespace HealthCare.Context
             services["MedicationOrderService"]  = new OrderService(new FileRepository<OrderItem>(Global.medicationOrderPath));
             services["EquipmentOrderService"]   = new OrderService(new FileRepository<OrderItem>(Global.orderPath));
             services["TransferService"]         = new TransferService(new FileRepository<TransferItem>(Global.transferPath));
-
+            
             services["LoginService"] = new LoginService(
                 new FileRepository<Patient>(Global.patientPath),
                 new FileRepository<Doctor>(Global.doctorPath),
