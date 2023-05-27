@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace HealthCare.View.AppointmentView
 {
-    public partial class PriorityAppointmentView : Window
+    public partial class PriorityAppointmentView : UserControl
     {
 
         Hospital _hospital;

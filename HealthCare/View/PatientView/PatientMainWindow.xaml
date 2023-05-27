@@ -28,13 +28,25 @@
         <!--Controls-->
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto" x:Name="nzm"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
+
+             
+            <!--<Button Width="30" Height="30" Background="#136c63"  HorizontalAlignment="Right" VerticalAlignment="Center" Margin="-15px" Click="Button_Click_4">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" CornerRadius="25" />
+                            <fa:IconBlock Icon="ChevronLeft" />
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>-->
             <!--Main Menu-->
 
-            <Grid Width="240">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
@@ -47,8 +59,8 @@
                 </StackPanel>
                 
                 <StackPanel Orientation="Vertical" Margin="0 50 0 40" HorizontalAlignment="Center" Grid.Row="1">
-                    <Button Style="{StaticResource menuButton}" Click="Button_Click">
-                        <Grid>
+                    <Button x:Name="btnCrud" Style="{StaticResource menuButton}" Click="Button_Click">
+                        <Grid x:Name="btnCrud1">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                 <fa:IconBlock Icon="Edit" Style="{StaticResource menuButtonIcon}"/>
                                 <TextBlock Text="CRUD Pregledi" Style="{StaticResource menuButtonText}"/>
@@ -56,7 +68,7 @@
                         </Grid>
                     </Button>
 
-                    <Button Style="{StaticResource menuButton}">
+                    <Button x:Name="btnPriority" Style="{StaticResource menuButton}" Click="Button_Click_1">
                         <Grid>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                 <fa:IconBlock Icon="Calendar" Style="{StaticResource menuButtonIcon}"/>
@@ -65,25 +77,25 @@
                         </Grid>
                     </Button>
 
-                    <Button Style="{StaticResource menuButton}">
+                    <Button x:Name="btnAnamnesis" Style="{StaticResource menuButton}" Click="Button_Click_2">
                         <Grid>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                <fa:IconBlock Icon="MagnifyingGlass" Style="{StaticResource menuButtonIcon}"/>
+                                <fa:IconBlock Icon="ClipboardCheck" Style="{StaticResource menuButtonIcon}"/>
                                 <TextBlock Text="Pretraga anamneza" Style="{StaticResource menuButtonText}"/>
                             </StackPanel>
                         </Grid>
                     </Button>
 
-                    <Button Style="{StaticResource menuButton}">
+                    <Button x:Name="btnDoctors" Style="{StaticResource menuButton}">
                         <Grid>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                <fa:IconBlock Icon="MagnifyingGlass" Style="{StaticResource menuButtonIcon}"/>
+                                <fa:IconBlock Icon="Stethoscope" Style="{StaticResource menuButtonIcon}"/>
                                 <TextBlock Text="Pretraga doktora" Style="{StaticResource menuButtonText}"/>
                             </StackPanel>
                         </Grid>
                     </Button>
                 </StackPanel>
-                <Button Style="{StaticResource menuButton}" Grid.Row="2">
+                <Button x:Name="btnLogout" Style="{StaticResource menuButton}" Grid.Row="2" Click="Button_Click_3">
                         <Grid>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <fa:IconBlock Icon="ArrowRightFromBracket" Style="{StaticResource menuButtonIcon}">

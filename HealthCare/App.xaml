@@ -63,7 +63,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="20" Padding="20 0" BorderThickness="3 0 0 0" BorderBrush="Transparent">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="20 0 0 20" Padding="20 0" BorderThickness="3 0 0 0" BorderBrush="Transparent">
                             <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
@@ -85,7 +85,7 @@
 
 
                 </Trigger>
-                <Trigger Property="IsMouseCaptured" Value="True">
+                <Trigger Property="IsFocused" Value="True">
                     <Setter Property="Background" Value="#136c63"/>
                     <Setter Property="Foreground" Value="#f6fefc"/>
                 </Trigger>

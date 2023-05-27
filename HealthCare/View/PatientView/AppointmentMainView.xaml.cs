@@ -11,7 +11,7 @@ using System.Windows.Controls;
 
 namespace HealthCare.View.AppointmentView
 {
-    public partial class AppointmentMainView : Window
+    public partial class AppointmentMainView : UserControl
     {
         Hospital _hospital;
         public AppointmentMainView(Hospital hospital)
@@ -269,7 +269,7 @@ namespace HealthCare.View.AppointmentView
 
         private void BtnPriority_Click(object sender, RoutedEventArgs e)
         {
-            new PriorityAppointmentView(_hospital).Show();
+            //new PriorityAppointmentView(_hospital).Show();
         }
     }
 }

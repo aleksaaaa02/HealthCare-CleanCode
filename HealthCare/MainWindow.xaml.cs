@@ -51,7 +51,7 @@ namespace HealthCare
                         break;
                     case UserRole.Patient:
                         ShowNotifications();
-                        new PatientMainWindow(_hospital).Show();
+                        new PatientMainWindow(this,_hospital).Show();
                         break;
                 }
 
