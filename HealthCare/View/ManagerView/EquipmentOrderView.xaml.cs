@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
@@ -17,7 +17,7 @@ namespace HealthCare.View.ManagerView
         public EquipmentOrderView()
         {
             InitializeComponent();
-            _orderService = (OrderService)ServiceProvider.services["EquipmentOrderService"];
+            _orderService = Injector.GetService<OrderService>(Injector.EQUIPMENT_ORDER_S);
 
             _model = new EquipmentOrderViewModel();
             DataContext = _model;

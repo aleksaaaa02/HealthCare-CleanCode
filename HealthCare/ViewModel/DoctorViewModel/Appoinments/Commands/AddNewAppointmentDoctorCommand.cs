@@ -1,5 +1,5 @@
 ﻿using HealthCare.Command;
-using HealthCare.Context;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View;
@@ -25,7 +25,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
             _doctorMainViewModel = docMainViewModel;
             _window = window;
             _isEditing = isEditing;
-            _patientService = (PatientService)ServiceProvider.services["PatientService"];
+            _patientService = Injector.GetService<PatientService>();
         }
 
         public override void Execute(object parameter)
@@ -84,7 +84,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
             TimeSpan duration = TimeSpan.FromMinutes(_makeAppointmentViewModel.IsOperation ? _makeAppointmentViewModel.Duration : 15);
             TimeSlot timeSlot = new TimeSlot(start, duration);
 
-            Appointment newAppointment = new Appointment(patient, (Doctor)Hospital.Current, timeSlot, _makeAppointmentViewModel.IsOperation);
+            Appointment newAppointment = new Appointment(patient, (Doctor)Context.Current, timeSlot, _makeAppointmentViewModel.IsOperation);
             return newAppointment;
         }
     }

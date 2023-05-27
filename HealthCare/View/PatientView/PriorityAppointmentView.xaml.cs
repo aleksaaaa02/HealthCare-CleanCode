@@ -1,4 +1,5 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
+using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Service;
 using System;
@@ -20,7 +21,7 @@ namespace HealthCare.View.AppointmentView
 
         public bool IsValidData()
         {
-            Patient patient = (Patient)Hospital.Current;
+            Patient patient = (Patient)Context.Current;
             if (patient.Blocked)
             {
                 Utility.ShowWarning("Zao nam je, ali vas profil je blokiran");
@@ -177,8 +178,8 @@ namespace HealthCare.View.AppointmentView
 
         public void WriteAction(string action)
         {
-            string stringtocsv = Hospital.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
-            File.AppendAllText(Global.patientLogsPath, stringtocsv);
+            string stringtocsv = Context.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
+            File.AppendAllText(Paths.PATIENT_LOGS, stringtocsv);
         }
     }
 

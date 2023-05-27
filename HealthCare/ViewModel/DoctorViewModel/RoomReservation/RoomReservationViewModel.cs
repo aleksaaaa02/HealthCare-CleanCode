@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
@@ -30,7 +30,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation
         }
 
         public RoomReservationViewModel(Appointment appointment, Window window) {
-            _roomService = (RoomService)ServiceProvider.services["RoomService"];
+            _roomService = Injector.GetService<RoomService>();
             ReservateRoomCommand = new ReserveRoomCommand(window, this, appointment);
             Update(appointment);
         }

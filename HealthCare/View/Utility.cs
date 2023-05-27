@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application.Common;
 using HealthCare.Model;
 using System;
 using System.Linq;
@@ -108,7 +108,7 @@ namespace HealthCare.View
 
         public static string ToString(DateTime date)
         {
-            return date.ToString(Global.dateFormat);
+            return date.ToString(Formats.DATETIME);
         }
     }
 }

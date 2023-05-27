@@ -1,6 +1,6 @@
-using HealthCare.Context;
+using HealthCare.Application;
+using HealthCare.Application.Common;
 using HealthCare.Exceptions;
-using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View;
 using HealthCare.View.AppointmentView;
@@ -20,16 +20,15 @@ namespace HealthCare
         {
             InitializeComponent();
 
-            ServiceProvider.BuildServices();
-            Schedule.Load(Global.appointmentPath);
+            Schedule.Load(Paths.APPOINTMENTS);
 
-            _notificationService = (NotificationService)ServiceProvider.services["NotificationService"];
-            _loginService = (LoginService)ServiceProvider.services["LoginService"];
+            _notificationService = Injector.GetService<NotificationService>();
+            _loginService = Injector.GetService<LoginService>();
         }
 
         private void btnQuitApp_Click(object sender, RoutedEventArgs e)
         {
-            Schedule.Save(Global.appointmentPath);
+            Schedule.Save(Paths.APPOINTMENTS);
             ExitApp();
         }
 
@@ -70,11 +69,7 @@ namespace HealthCare
 
         private void ShowNotifications()
         {
-            if (Hospital.Current is null)
-                return;
-
-            var notificationService = (NotificationService)ServiceProvider.services["NotificationService"];
-            foreach (var notification in notificationService.GetForUser(Hospital.Current.JMBG))
+            foreach (var notification in _notificationService.GetForUser(Context.Current.JMBG))
             {
                 Utility.ShowInformation(notification.Display());
                 _notificationService.Update(notification);
@@ -88,7 +83,7 @@ namespace HealthCare
 
         public void ExitApp()
         {
-            Application.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using HealthCare.Command;
-using HealthCare.Context;
+using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
@@ -9,15 +9,15 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
 {
     public class AddSpecialistReferralCommand : CommandBase
     {
-        private readonly SpecialistReferralViewModel _specialistReferralViewModel;
-        private readonly DoctorService _doctorService;
-        private readonly PatientService _patientService;
         private readonly SpecialistReferralService _specialistReferralService;
+        private readonly PatientService _patientService;
+        private readonly DoctorService _doctorService;
+        private readonly SpecialistReferralViewModel _specialistReferralViewModel;
         public AddSpecialistReferralCommand(SpecialistReferralViewModel specialistReferralViewModel) 
         {
-            _doctorService = (DoctorService)ServiceProvider.services["DoctorService"];
-            _patientService = (PatientService)ServiceProvider.services["PatientService"];
-            _specialistReferralService = (SpecialistReferralService)ServiceProvider.services["SpecialistReferralService"];
+            _specialistReferralService = Injector.GetService<SpecialistReferralService>();
+            _patientService = Injector.GetService<PatientService>();
+            _doctorService = Injector.GetService<DoctorService>();
             _specialistReferralViewModel = specialistReferralViewModel;
         }
 
@@ -35,7 +35,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
 
         private void MakeReferral()
         {
-            string doctorJMBG = Hospital.Current.JMBG;
+            string doctorJMBG = Context.Current.JMBG;
             string patientJMBG = _specialistReferralViewModel.ExaminedPatient.JMBG;
             bool isSpecializationReferral = _specialistReferralViewModel.IsSpecializationReferral;
             string referredDoctorJMBG = isSpecializationReferral ? SpecializationReferral() : DoctorReferral();

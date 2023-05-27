@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.NurseViewModel;
@@ -23,8 +23,8 @@ namespace HealthCare.View.UrgentAppointmentView
             _model = new PatientViewModel();
             DataContext = _model;
 
-            _doctorService = (DoctorService)ServiceProvider.services["DoctorService"];
-            _notificationService = (NotificationService)ServiceProvider.services["NotificationService"];
+            _notificationService = Injector.GetService<NotificationService>();
+            _doctorService = Injector.GetService<DoctorService>();
 
             _model.Update();
             tbJMBG.IsEnabled = false;

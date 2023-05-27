@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel;
@@ -88,9 +88,9 @@ namespace HealthCare.ViewModels.DoctorViewModel
         public void Update()
         {
             _appointments.Clear();
-            foreach (var appointment in Schedule.GetDoctorAppointments((Doctor)Hospital.Current))
+            foreach (var appointment in Schedule.GetDoctorAppointments((Doctor)Context.Current))
             {
-                  _appointments.Add(new AppointmentViewModel(appointment));
+                _appointments.Add(new AppointmentViewModel(appointment));
             }
         }
     }

@@ -1,5 +1,5 @@
 ﻿using HealthCare.Command;
-using HealthCare.Context;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands;
@@ -116,7 +116,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments
         }
         public MakeAppointmentViewModel(DoctorMainViewModel doctorViewModel, Window window, bool edit = false)
         {
-            _patientService = (PatientService)ServiceProvider.services["PatientService"];
+            _patientService = Injector.GetService<PatientService>();
 
             // For New Appointment
             CancelCommand = new CancelCommand(window);

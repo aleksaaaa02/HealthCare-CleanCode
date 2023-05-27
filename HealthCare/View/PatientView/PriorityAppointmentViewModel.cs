@@ -1,4 +1,5 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
+using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Service;
 using System;
@@ -22,8 +23,8 @@ namespace HealthCare.View.AppointmentView
 
         public PriorityAppointmentViewModel()
         {
-            _patientService = (PatientService)ServiceProvider.services["PatientService"];
-            _doctorService = (DoctorService)ServiceProvider.services["DoctorService"];
+            _patientService = Injector.GetService<PatientService>();
+            _doctorService = Injector.GetService<DoctorService>();
             
             Doctors = new ObservableCollection<Doctor>();
             Appointments = new ObservableCollection<Appointment>();
@@ -84,7 +85,7 @@ namespace HealthCare.View.AppointmentView
         {
             DateTime startDate = DateTime.Today;
             startDate = startDate.AddMinutes(15);
-            Patient patient = (Patient)Hospital.Current;
+            Patient patient = (Patient)Context.Current;
             while (startDate < endDate)
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
@@ -109,7 +110,7 @@ namespace HealthCare.View.AppointmentView
             DateTime startDate = DateTime.Today;
             startDate = startDate.AddMinutes(15);
             List<Appointment> appointments = new List<Appointment>();
-            Patient patient = (Patient)Hospital.Current;
+            Patient patient = (Patient)Context.Current;
             while (appointments.Count() < 3)
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
@@ -130,7 +131,7 @@ namespace HealthCare.View.AppointmentView
                 DateTime startDate = DateTime.Today;
                 startDate = startDate.AddHours(hoursStart);
                 startDate = startDate.AddMinutes(minutesStart);
-                Patient patient = (Patient)Hospital.Current;
+                Patient patient = (Patient)Context.Current;
                 while (startDate < endDate)
                 {
                     TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
@@ -154,7 +155,7 @@ namespace HealthCare.View.AppointmentView
             DateTime startDate = DateTime.Today;
             startDate = startDate.AddHours(hoursStart);
             startDate = startDate.AddMinutes(minutesStart);
-            Patient patient = (Patient)Hospital.Current;
+            Patient patient = (Patient)Context.Current;
             while (startDate < endDate)
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
@@ -173,8 +174,8 @@ namespace HealthCare.View.AppointmentView
         }
         public void IsUserBlocked()
         {
-            Patient patient = (Patient)Hospital.Current;
-            using (var reader = new StreamReader(Global.patientLogsPath, Encoding.Default))
+            Patient patient = (Patient)Context.Current;
+            using (var reader = new StreamReader(Paths.PATIENT_LOGS, Encoding.Default))
             {
                 string line;
                 int updateDeleteCounter = 0;

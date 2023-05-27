@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
@@ -41,7 +41,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals
 
         public TreatmentReferralViewModel(Patient patient) 
         {
-            _medicationService = (MedicationService)ServiceProvider.services["MedicationService"];
+            _medicationService = Injector.GetService<MedicationService>();
             _medications = new ObservableCollection<MedicationViewModel>();
             ExaminedPatient = patient;
             AdditionalExamination = "";

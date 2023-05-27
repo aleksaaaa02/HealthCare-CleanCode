@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.NurseViewModel;
@@ -12,7 +12,7 @@ namespace HealthCare.View.NurseView.PrescriptionView
     public partial class PatientsPrescriptionsView : Window
     {
         private readonly PrescriptionService _prescriptionService;
-        private readonly Inventory _medicationInventory;
+        private readonly InventoryService _medicationInventory;
         private readonly DoctorService _doctorService;
         private readonly RoomService _roomService;
         private PrescriptionListingViewModel _model;
@@ -26,10 +26,10 @@ namespace HealthCare.View.NurseView.PrescriptionView
             DataContext = _model;
             _model.Update();
 
-            _prescriptionService = (PrescriptionService)ServiceProvider.services["PrescriptionService"];
-            _medicationInventory = (Inventory)ServiceProvider.services["MedicationInventory"];
-            _doctorService = (DoctorService)ServiceProvider.services["DoctorService"];
-            _roomService = (RoomService)ServiceProvider.services["RoomService"];
+            _prescriptionService = Injector.GetService<PrescriptionService>(Injector.REGULAR_PRESCRIPTION_S);
+            _medicationInventory = Injector.GetService<InventoryService>(Injector.MEDICATION_INVENTORY_S);
+            _doctorService = Injector.GetService<DoctorService>();
+            _roomService = Injector.GetService<RoomService>();
 
             _patient = patient;
             tbDate.SelectedDate = DateTime.Now;

@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application.Common;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,12 +9,12 @@ namespace HealthCare.Serialize
     {
         public static DateTime ParseDate(string str)
         {
-            return DateTime.ParseExact(str, Global.dateFormat, CultureInfo.InvariantCulture);
+            return DateTime.ParseExact(str, Formats.DATETIME, CultureInfo.InvariantCulture);
         }
 
         internal static TimeSpan ParseDuration(string str)
         {
-            return TimeSpan.ParseExact(str, Global.timeSpanFormat, CultureInfo.InvariantCulture);
+            return TimeSpan.ParseExact(str, Formats.TIMESPAN, CultureInfo.InvariantCulture);
         }
 
         public static T Parse<T>(string str)
@@ -24,11 +24,11 @@ namespace HealthCare.Serialize
 
         public static string ToString(DateTime dt)
         {
-            return dt.ToString(Global.dateFormat);
+            return dt.ToString(Formats.DATETIME);
         }
         public static string ToString(TimeSpan dt)
         {
-            return dt.ToString(Global.timeSpanFormat);
+            return dt.ToString(Formats.TIMESPAN);
         }
 
         public static string ToString<T>(IEnumerable<T> data, char separator = '|')

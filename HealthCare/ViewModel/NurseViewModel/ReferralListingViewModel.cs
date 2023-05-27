@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
@@ -14,8 +14,8 @@ namespace HealthCare.ViewModel.NurseViewModel
         private Patient _patient;
         public ReferralListingViewModel(Patient patient) {
             Referrals = new ObservableCollection<ReferralViewModel>();
-            _specialistReferralService = (SpecialistReferralService)ServiceProvider.services["SpecialistReferralService"];
-            _doctorService = (DoctorService)ServiceProvider.services["DoctorService"];
+            _specialistReferralService = Injector.GetService<SpecialistReferralService>();
+            _doctorService = Injector.GetService<DoctorService>();
 
             _patient = patient;
 

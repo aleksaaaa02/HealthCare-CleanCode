@@ -1,5 +1,5 @@
 ﻿using HealthCare.Command;
-using HealthCare.Context;
+using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
@@ -15,8 +15,8 @@ namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions
         private PrescriptionViewModel _prescriptionViewModel;
         public AddPrescriptionCommand(Patient patient, PrescriptionViewModel prescriptionViewModel) 
         {
-            _prescriptionService = (PrescriptionService)ServiceProvider.services["PrescriptionService"];
-            _medicationService = (MedicationService)ServiceProvider.services["MedicationService"];
+            _prescriptionService = Injector.GetService<PrescriptionService>();
+            _medicationService = Injector.GetService<MedicationService>();
             _patient = patient;
             _prescriptionViewModel = prescriptionViewModel;
         
@@ -41,7 +41,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions
             int hoursBetweenConsumption = _prescriptionViewModel.HoursBetweenConsumption;
             int consumptionDays = _prescriptionViewModel.ConsumptionDays;
             int selectedMedication = _prescriptionViewModel.SelectedMedication.MedicationId;
-            string doctorJMBG = Hospital.Current.JMBG;
+            string doctorJMBG = Context.Current.JMBG;
             MealTime mealTime = GetMealTime();
 
             CheckPatientAllergies(_patient, selectedMedication);

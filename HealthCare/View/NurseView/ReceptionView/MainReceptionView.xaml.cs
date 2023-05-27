@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View.PatientView;
@@ -12,7 +12,7 @@ namespace HealthCare.View.ReceptionView
         public MainReceptionView()
         {
             InitializeComponent();
-            _patientService = (PatientService)ServiceProvider.services["PatientService"];
+            _patientService = Injector.GetService<PatientService>();
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

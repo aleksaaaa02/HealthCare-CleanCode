@@ -1,5 +1,5 @@
 ﻿using HealthCare.Command;
-using HealthCare.Context;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View.DoctorView;
@@ -17,7 +17,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination.Commands
 
         public FinishExaminationCommand(Window window, Appointment appointment, DoctorExamViewModel viewModel, int roomId) 
         {
-            _anamnesisService = (AnamnesisService)ServiceProvider.services["AnamnesisService"];
+            _anamnesisService = Injector.GetService<AnamnesisService>();
             _viewModel = viewModel;
             _window = window;
             _appointment = appointment;

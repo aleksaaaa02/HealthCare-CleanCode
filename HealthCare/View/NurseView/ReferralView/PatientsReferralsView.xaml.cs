@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.NurseViewModel;
@@ -22,8 +22,8 @@ namespace HealthCare.View.NurseView.ReferralView
             _model = new ReferralListingViewModel(patient);
             DataContext = _model;
 
-            _specialistReferralService = (SpecialistReferralService)ServiceProvider.services["SpecialistReferralService"];
-            _doctorService = (DoctorService)ServiceProvider.services["DoctorService"];
+            _specialistReferralService = Injector.GetService<SpecialistReferralService>();
+            _doctorService = Injector.GetService<DoctorService>();
 
             _patient = patient;
             tbDate.SelectedDate = DateTime.Now;

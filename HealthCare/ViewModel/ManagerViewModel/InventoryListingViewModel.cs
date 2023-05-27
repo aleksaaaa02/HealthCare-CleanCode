@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Serialize;
 using HealthCare.Service;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
 {
     public class InventoryListingViewModel : ViewModelBase
     {
-        private readonly Inventory _inventory;
+        private readonly InventoryService _inventoryService;
         private readonly EquipmentService _equipmentService;
         private readonly RoomService _roomService;
         public ObservableCollection<InventoryItemViewModel> Items { get; }
@@ -19,9 +19,9 @@ namespace HealthCare.ViewModel.ManagerViewModel
 
         public InventoryListingViewModel()
         {
-            _inventory = (Inventory)ServiceProvider.services["EquipmentInventory"];
-            _equipmentService = (EquipmentService)ServiceProvider.services["EquipmentService"];
-            _roomService = (RoomService)ServiceProvider.services["RoomService"];
+            _inventoryService = Injector.GetService<InventoryService>(Injector.EQUIPMENT_INVENTORY_S);
+            _equipmentService = Injector.GetService<EquipmentService>();
+            _roomService = Injector.GetService<RoomService>();
 
             Items = new ObservableCollection<InventoryItemViewModel>();
             BoxSelectionArgs = new ObservableCollection<bool>();
@@ -62,7 +62,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
 
         private List<InventoryItemViewModel> GetModels()
         {
-            return _inventory.GetAll().Select(x => 
+            return _inventoryService.GetAll().Select(x => 
                 new InventoryItemViewModel(
                     x, 
                     _equipmentService.Get(x.EquipmentId), 

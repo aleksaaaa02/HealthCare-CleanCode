@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.ViewModel.DoctorViewModel.UsedEquipment;
 using System.Text.RegularExpressions;
 using System.Windows;

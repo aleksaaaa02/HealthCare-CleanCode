@@ -1,5 +1,5 @@
 ﻿using HealthCare.Command;
-using HealthCare.Context;
+using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
@@ -11,20 +11,21 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
 {
     public class AddTreatmentReferralCommand : CommandBase
     {
-        private readonly TreatmentReferralViewModel _treatmentReferralViewModel;
-        private readonly Patient _examinedPatient;
-        private readonly PatientService _patientService;
         private readonly TreatmentReferralService _treatmentReferralService;
         private readonly MedicationService _medicationService;
+        private readonly PatientService _patientService;
         private readonly TherapyService _therapyService;
+        private readonly TreatmentReferralViewModel _treatmentReferralViewModel;
+        private readonly Patient _examinedPatient;
         public AddTreatmentReferralCommand(TreatmentReferralViewModel treatmentReferralViewModel) 
         { 
+            _treatmentReferralService = Injector.GetService<TreatmentReferralService>();
+            _medicationService = Injector.GetService<MedicationService>();
+            _patientService = Injector.GetService<PatientService>();
+            _therapyService = Injector.GetService<TherapyService>();
+
             _treatmentReferralViewModel = treatmentReferralViewModel;
             _examinedPatient = treatmentReferralViewModel.ExaminedPatient;
-            _patientService = (PatientService)ServiceProvider.services["PatientService"];
-            _treatmentReferralService = (TreatmentReferralService)ServiceProvider.services["TreatmentReferralService"];
-            _medicationService = (MedicationService)ServiceProvider.services["MedicationService"];
-            _therapyService = (TherapyService)ServiceProvider.services["TherapyService"];
         }
         public override void Execute(object parameter)
         {
@@ -43,7 +44,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
         {
             List<int> medication = GetMedication();
             int daysOfTreatment = _treatmentReferralViewModel.DaysOfTreatment;
-            string doctorJMBG = Hospital.Current.JMBG;
+            string doctorJMBG = Context.Current.JMBG;
             string[] additionalExamination = Utility.GetArray(_treatmentReferralViewModel.AdditionalExamination);
             
             CheckPatientAllergies(_examinedPatient, medication);

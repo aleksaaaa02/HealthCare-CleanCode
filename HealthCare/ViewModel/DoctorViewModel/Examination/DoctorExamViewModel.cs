@@ -1,5 +1,5 @@
 ﻿using HealthCare.Command;
-using HealthCare.Context;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.Examination.Commands;
@@ -134,8 +134,8 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
 
         public DoctorExamViewModel(Window window, Appointment appointment, int roomId)
         {
-            _anamnesisService = (AnamnesisService)ServiceProvider.services["AnamnesisService"];
-            _patientService = (PatientService)ServiceProvider.services["PatientService"];
+            _anamnesisService = Injector.GetService<AnamnesisService>();
+            _patientService = Injector.GetService<PatientService>();
             _appointment = appointment;
             _selectedPatient = _patientService.Get(appointment.Patient.Key);
             

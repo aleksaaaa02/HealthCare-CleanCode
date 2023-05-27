@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.ViewModel.DoctorViewModel.Appoinments;
 using HealthCare.ViewModels.DoctorViewModel;

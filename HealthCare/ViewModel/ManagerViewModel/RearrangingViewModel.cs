@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using System.Collections.Generic;
@@ -9,9 +9,9 @@ namespace HealthCare.ViewModel.ManagerViewModel
 {
     public class RearrangingViewModel
     {
-        private readonly RoomService _roomService;
-        private readonly Inventory _equipmentInventory;
+        private readonly InventoryService _inventoryService;
         private readonly EquipmentService _equipmentService;
+        private readonly RoomService _roomService;
 
         public ObservableCollection<InventoryItemViewModel> FromRooms { get; }
         public ObservableCollection<InventoryItemViewModel> ToRooms { get; }
@@ -19,9 +19,9 @@ namespace HealthCare.ViewModel.ManagerViewModel
 
         public RearrangingViewModel()
         {
-            _roomService = (RoomService)ServiceProvider.services["RoomService"];
-            _equipmentInventory = (Inventory)ServiceProvider.services["EquipmentInventory"];
-            _equipmentService = (EquipmentService)ServiceProvider.services["EquipmentService"];
+            _inventoryService = Injector.GetService<InventoryService>(Injector.EQUIPMENT_INVENTORY_S);
+            _equipmentService = Injector.GetService<EquipmentService>();
+            _roomService = Injector.GetService<RoomService>();
             FromRooms = new ObservableCollection<InventoryItemViewModel>();
             ToRooms = new ObservableCollection<InventoryItemViewModel>();
         }
@@ -34,7 +34,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
             var toRooms = new List<InventoryItemViewModel>();
 
             foreach (Room room in _roomService.GetAll()) {
-                var found = _equipmentInventory.SearchByEquipmentAndRoom(equipment.Id, room.Id);
+                var found = _inventoryService.SearchByEquipmentAndRoom(equipment.Id, room.Id);
 
                 if (found is not null && found.Quantity > 0)
                     fromRooms.Add(new InventoryItemViewModel(found, equipment, room));

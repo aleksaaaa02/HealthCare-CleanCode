@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.NurseViewModel;
@@ -26,7 +26,7 @@ namespace HealthCare.View.PatientView
             DataContext = _model;
             _model.Update();
 
-            _patientService = (PatientService)ServiceProvider.services["PatientService"];
+            _patientService = Injector.GetService<PatientService>();
             _patient = null;
             _record = null;
 

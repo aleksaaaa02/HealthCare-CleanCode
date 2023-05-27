@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.Referrals.Commands;
@@ -27,7 +27,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals
         public ICommand AddMedicationToTherapyCommand { get; }
         public TherapyInformationViewModel(Patient patient, int medicationID, Therapy therapy, Window window) 
         {
-            _medicationService = (MedicationService)ServiceProvider.services["MedicationService"];
+            _medicationService = Injector.GetService<MedicationService>();
             ExaminedPatient = patient;
             _medication = _medicationService.Get(medicationID);
             Therapy = therapy;

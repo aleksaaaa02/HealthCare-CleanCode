@@ -1,5 +1,5 @@
 ﻿using HealthCare.Command;
-using HealthCare.Context;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View;
@@ -25,7 +25,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 
                 DateTime startDate = _doctorMainViewModel.StartDate;
                 int numberOfDays = _doctorMainViewModel.NumberOfDays;
-                _doctorMainViewModel.ApplyFilterOnAppointments(Schedule.GetDoctorAppointmentsForDays((Doctor)Hospital.Current, startDate, numberOfDays));
+                _doctorMainViewModel.ApplyFilterOnAppointments(Schedule.GetDoctorAppointmentsForDays((Doctor)Context.Current, startDate, numberOfDays));
             }
             catch (ValidationException ve)
             {

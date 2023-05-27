@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
@@ -51,7 +51,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals
 
         public SpecialistReferralViewModel(Patient patient)
         {
-            _doctorService = (DoctorService)ServiceProvider.services["DoctorService"];
+            _doctorService = Injector.GetService<DoctorService>();
             ExaminedPatient = patient;
 
             MakeSpecialistReferralCommand = new AddSpecialistReferralCommand(this);

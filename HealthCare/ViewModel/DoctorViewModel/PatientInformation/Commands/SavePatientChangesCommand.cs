@@ -1,5 +1,5 @@
 ﻿using HealthCare.Command;
-using HealthCare.Context;
+using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
@@ -16,7 +16,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 
         public SavePatientChangesCommand(Patient patient, PatientInforamtionViewModel viewModel)
         {
-            _patientService = (PatientService)ServiceProvider.services["PatientService"];
+            _patientService = Injector.GetService<PatientService>();
             _viewModel = viewModel;
             _selectedPatient = patient;
         }

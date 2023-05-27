@@ -1,5 +1,5 @@
 ﻿using HealthCare.Command;
-using HealthCare.Context;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View;
@@ -17,7 +17,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 
         public ShowPatientInfoCommand(ViewModelBase view, bool isEdit)
         {
-            _patientService = (PatientService)ServiceProvider.services["PatientService"];
+            _patientService = Injector.GetService<PatientService>();
             _viewModel = view;
             _isEdit = isEdit;
         }

@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.UsedEquipment.Commands;
@@ -11,8 +11,8 @@ namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment
 {
     public class UsedDynamicEquipmentViewModel : ViewModelBase
     {
+        private readonly InventoryService _inventoryService;
         private readonly EquipmentService _equipmentService;
-        private readonly Inventory _equipmentInventory;
         private readonly int _roomId;
         private ObservableCollection<EquipmentViewModel> _usedDynamicEquipment;
         public IEnumerable<EquipmentViewModel> UsedDynamicEquipment => _usedDynamicEquipment;
@@ -32,8 +32,8 @@ namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment
         public ICommand EndExaminationCommand { get; }
         public UsedDynamicEquipmentViewModel(Window window, int roomId) 
         { 
-            _equipmentService = (EquipmentService)ServiceProvider.services["EquipmentService"];
-            _equipmentInventory = (Inventory)ServiceProvider.services["EquipmentInventory"];
+            _inventoryService = Injector.GetService<InventoryService>(Injector.EQUIPMENT_INVENTORY_S);
+            _equipmentService = Injector.GetService<EquipmentService>();
             _roomId = roomId;
             _usedDynamicEquipment = new ObservableCollection<EquipmentViewModel>();
 
@@ -47,7 +47,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment
         {
             _usedDynamicEquipment.Clear();
 
-            foreach(InventoryItem inventoryItem in _equipmentInventory.GetRoomItems(_roomId))
+            foreach(InventoryItem inventoryItem in _inventoryService.GetRoomItems(_roomId))
             {
                 Equipment equipment = _equipmentService.Get(inventoryItem.EquipmentId);
                 if (equipment.IsDynamic)

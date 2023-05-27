@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using System.Collections.ObjectModel;
@@ -13,7 +13,7 @@ namespace HealthCare.ViewModel.NurseViewModel
         public PatientViewModel()
         {
             Patients = new ObservableCollection<Patient>();
-            _patientService = (PatientService)ServiceProvider.services["PatientService"];
+            _patientService = Injector.GetService<PatientService>();
         }
 
         public void Update()

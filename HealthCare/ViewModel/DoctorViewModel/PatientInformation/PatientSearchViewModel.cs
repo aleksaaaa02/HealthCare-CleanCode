@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
@@ -30,7 +30,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation
 
         public PatientSearchViewModel()
         {
-            _doctorService = (DoctorService)ServiceProvider.services["DoctorService"];
+            _doctorService = Injector.GetService<DoctorService>();
             _patients = new ObservableCollection<PatientViewModel>();
             ShowEditPatientCommand = new ShowPatientInfoCommand(this, true);
             Update();
@@ -39,7 +39,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation
         public void Update()
         {
             _patients.Clear();
-            foreach (var patient in _doctorService.GetExaminedPatients((Doctor)Hospital.Current))
+            foreach (var patient in _doctorService.GetExaminedPatients((Doctor)Context.Current))
             {
                 _patients.Add(new PatientViewModel(patient));
 

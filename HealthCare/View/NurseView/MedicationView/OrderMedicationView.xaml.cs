@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
@@ -19,7 +19,7 @@ namespace HealthCare.View.NurseView.OrderMedicationView
             _model = new MedicationOrderListingViewModel();
             DataContext = _model;
 
-            _medicationOrderService = (OrderService)ServiceProvider.services["MedicationOrderService"];
+            _medicationOrderService = Injector.GetService<OrderService>(Injector.MEDICATION_ORDER_S);
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

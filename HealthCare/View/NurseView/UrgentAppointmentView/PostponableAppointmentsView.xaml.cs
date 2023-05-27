@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.NurseViewModel;
@@ -20,7 +20,7 @@ namespace HealthCare.View.UrgentAppointmentView
             InitializeComponent();
             _newAppointment = newAppointment;
 
-            _notificationService = (NotificationService)ServiceProvider.services["NotificationService"];
+            _notificationService = Injector.GetService<NotificationService>();
 
             _model = new PostponableAppointmentsViewModel(postponable);
             DataContext = _model;

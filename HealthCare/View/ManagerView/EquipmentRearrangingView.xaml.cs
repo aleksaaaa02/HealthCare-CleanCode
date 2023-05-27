@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
@@ -17,7 +17,7 @@ namespace HealthCare.View.ManagerView
         public EquipmentRearrangingView()
         {
             InitializeComponent();
-            _transferService = (TransferService)ServiceProvider.services["TransferService"];
+            _transferService = Injector.GetService<TransferService>();
 
             _model = new RearrangingViewModel();
             DataContext = _model;

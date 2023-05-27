@@ -1,5 +1,5 @@
 ﻿using HealthCare.Command;
-using HealthCare.Context;
+using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
@@ -10,14 +10,14 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
 {
     public class AddTherapyToReferralCommand : CommandBase
     {
-        private readonly PrescriptionService _therapyPrescriptionService;
+        private readonly PrescriptionService _prescriptionService;
         private readonly TherapyInformationViewModel _therapyInformationViewModel;
         private int _medicationID;
         private Patient _examinedPatient;
         private Window _window;
         public AddTherapyToReferralCommand(Window window,TherapyInformationViewModel therapyInformationViewModel)
         {
-            _therapyPrescriptionService = (PrescriptionService)ServiceProvider.services["TherapyPrescriptionService"];
+            _prescriptionService = Injector.GetService<PrescriptionService>(Injector.THERAPY_PRESCRIPTION_S);
             _window = window;
             _therapyInformationViewModel = therapyInformationViewModel;
             _examinedPatient = therapyInformationViewModel.ExaminedPatient;
@@ -42,11 +42,11 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
             int dailyDosage = _therapyInformationViewModel.DailyDosage;
             int hoursBetweenConsumption = _therapyInformationViewModel.HoursBetweenConsumption;
             int consumptionDays = _therapyInformationViewModel.ConsumptionDays;
-            string doctorJMBG = Hospital.Current.JMBG;
+            string doctorJMBG = Context.Current.JMBG;
             MealTime mealTime = GetMealTime();
 
             Prescription prescription = new Prescription(_medicationID, mealTime, _examinedPatient.JMBG, doctorJMBG, dailyDosage, hoursBetweenConsumption, consumptionDays);
-            _therapyPrescriptionService.Add(prescription);
+            _prescriptionService.Add(prescription);
             _therapyInformationViewModel.Therapy.InitialMedication.Add(prescription.Id);
             _window.Close();
         }

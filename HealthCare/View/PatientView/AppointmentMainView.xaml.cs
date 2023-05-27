@@ -1,4 +1,5 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
+using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Service;
 using System;
@@ -17,8 +18,8 @@ namespace HealthCare.View.AppointmentView
         private readonly DoctorService _doctorService;
         public AppointmentMainView()
         {
-            _patientService = (PatientService)ServiceProvider.services["PatientService"];
-            _doctorService = (DoctorService)ServiceProvider.services["DoctorService"];
+            _patientService = Injector.GetService<PatientService>();
+            _doctorService = Injector.GetService<DoctorService>();
             InitializeComponent();
             LoadData();
             IsUserBlocked();
@@ -26,14 +27,14 @@ namespace HealthCare.View.AppointmentView
 
         public void WriteActionToFile(string action)
         {
-            string stringtocsv = Hospital.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
-            File.AppendAllText(Global.patientLogsPath, stringtocsv);
+            string stringtocsv = Context.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
+            File.AppendAllText(Paths.PATIENT_LOGS, stringtocsv);
         }
 
         public void IsUserBlocked()
         {
-            Patient patient = (Patient)Hospital.Current;
-            using (var reader = new StreamReader(Global.patientLogsPath, Encoding.Default))
+            Patient patient = (Patient)Context.Current;
+            using (var reader = new StreamReader(Paths.PATIENT_LOGS, Encoding.Default))
             {
                 string line;
                 int updateDeleteCounter = 0;
@@ -69,7 +70,7 @@ namespace HealthCare.View.AppointmentView
         }
         public void LoadData()
         {
-            List<Appointment> appointments = Schedule.GetPatientAppointments((Patient)Hospital.Current);
+            List<Appointment> appointments = Schedule.GetPatientAppointments((Patient)Context.Current);
             List<Doctor> doctors = _doctorService.GetAll();
             appListView.ItemsSource = new ObservableCollection<Appointment>(appointments);
             doctorListView.ItemsSource = new ObservableCollection<Doctor>(doctors);
@@ -111,7 +112,7 @@ namespace HealthCare.View.AppointmentView
 
         private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
-            Patient patient = (Patient)Hospital.Current;
+            Patient patient = (Patient)Context.Current;
             if (patient.Blocked)
             {
                 Utility.ShowWarning("Zao nam je, ali vas profil je blokiran");
@@ -172,7 +173,7 @@ namespace HealthCare.View.AppointmentView
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
-            Patient patient = (Patient)Hospital.Current;
+            Patient patient = (Patient)Context.Current;
             if (patient.Blocked)
             {
                 Utility.ShowWarning("Zao nam je, ali vas profil je blokiran");
@@ -199,7 +200,7 @@ namespace HealthCare.View.AppointmentView
         private void BtnUpdate_Click(object sender, RoutedEventArgs e)
         {
 
-            Patient patient = (Patient)Hospital.Current;
+            Patient patient = (Patient)Context.Current;
             if (patient.Blocked)
             {
                 Utility.ShowWarning("Zao nam je, ali vas profil je blokiran");

@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using System.Windows;
@@ -16,8 +16,8 @@ namespace HealthCare.View.PatientView
         public NurseAnamnesisView(int appointmentID, Patient patient)
         {
             InitializeComponent();
-            _anamnesisService = (AnamnesisService)ServiceProvider.services["AnamnesisService"];
-            _patientService = (PatientService)ServiceProvider.services["PatientService"];
+            _anamnesisService = Injector.GetService<AnamnesisService>();
+            _patientService = Injector.GetService<PatientService>();
 
             _appointmentId = appointmentID;
             _patient = patient;

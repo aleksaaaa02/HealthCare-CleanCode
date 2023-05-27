@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
@@ -30,7 +30,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions
         public ICommand MakePrescriptionCommand { get; }
         public PrescriptionViewModel(Patient patient) 
         {
-            _medicationService = (MedicationService)ServiceProvider.services["MedicationService"];
+            _medicationService = Injector.GetService<MedicationService>();
             _examinedPatient = patient;
             BeforeMeal = true;
             _medications = new ObservableCollection<MedicationViewModel>();

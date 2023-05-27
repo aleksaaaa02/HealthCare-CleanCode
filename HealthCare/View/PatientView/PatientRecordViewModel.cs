@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using System;
@@ -12,15 +12,15 @@ namespace HealthCare.View.AppointmentView
     public class PatientRecordViewModel
     {
         private readonly AnamnesisService _anamnesisService;
-
         public ObservableCollection<Appointment> Appointments { get; set; }
         public List<Appointment> _patientAppointments;
         public PatientRecordViewModel()
         {
-            _anamnesisService = (AnamnesisService)ServiceProvider.services["AnamnesisService"];
+            _anamnesisService = Injector.GetService<AnamnesisService>();
+
             Appointments = new ObservableCollection<Appointment>();
-            _patientAppointments = Schedule.GetPatientAppointments((Patient)Hospital.Current);
-            LoadData(Schedule.GetPatientAppointments((Patient)Hospital.Current));
+            _patientAppointments = Schedule.GetPatientAppointments((Patient)Context.Current);
+            LoadData(Schedule.GetPatientAppointments((Patient)Context.Current));
         }
 
         public void LoadData(List<Appointment> appointments)
