@@ -84,7 +84,8 @@ namespace HealthCare
 
         public void ExitApp()
         {
-            Application.Current.Shutdown();
+            new PatientMainWindow().Show();
+            //Application.Current.Shutdown();
         }
     }
 }
