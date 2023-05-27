@@ -6,10 +6,10 @@ using System.Linq;
 
 namespace HealthCare.Service
 {
-    public class Inventory : NumericService<InventoryItem>
+    public class InventoryService : NumericService<InventoryItem>
     {
-        public Inventory(string filepath) : base(filepath) { }
-        public Inventory(IRepository<InventoryItem> repository) : base(repository) { }
+        public InventoryService(string filepath) : base(filepath) { }
+        public InventoryService(IRepository<InventoryItem> repository) : base(repository) { }
 
         public int GetTotalQuantity(int equipmentId)
         {

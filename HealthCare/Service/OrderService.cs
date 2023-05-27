@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Repository;
 using System;
@@ -7,19 +7,15 @@ namespace HealthCare.Service
 {
     public class OrderService : NumericService<OrderItem>
     {
-        private readonly Inventory _inventory;
         private readonly RoomService _roomService;
+        private readonly InventoryService _inventory;
 
-        public OrderService(string filepath) : base(filepath) 
+        public OrderService(IRepository<OrderItem> repository, InventoryService inventory) : base(repository)
         {
-            _inventory = (Inventory)ServiceProvider.services["EquipmentInventory"];
-            _roomService = (RoomService)ServiceProvider.services["RoomService"];
-        }
+            _roomService = Injector.GetService<RoomService>();
+            _inventory = inventory;
 
-        public OrderService(IRepository<OrderItem> repository) : base(repository)
-        {
-            _inventory = (Inventory)ServiceProvider.services["EquipmentInventory"];
-            _roomService = (RoomService)ServiceProvider.services["RoomService"];
+            ExecuteAll();
         }
 
         public void Execute(OrderItem item)

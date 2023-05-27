@@ -1,4 +1,5 @@
-using HealthCare.Context;
+using HealthCare.Application;
+using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Repository;
 using System;
@@ -45,7 +46,7 @@ namespace HealthCare.Service
 
             appointment.AppointmentID = NextId();
             Appointments.Add(appointment);
-            Save(Global.appointmentPath);
+            Save(Paths.APPOINTMENTS);
             return true;
         }
 
@@ -58,7 +59,7 @@ namespace HealthCare.Service
                 return false;
 
             Appointments[index] = updatedAppointment;
-            Save(Global.appointmentPath);
+            Save(Paths.APPOINTMENTS);
             return true;
         }
 
@@ -69,7 +70,7 @@ namespace HealthCare.Service
             if (appointment is not null) 
             {
                 Appointments.Remove(appointment);
-                Save(Global.appointmentPath);
+                Save(Paths.APPOINTMENTS);
             }
         }
 
@@ -84,6 +85,14 @@ namespace HealthCare.Service
         {
             CsvStorage<Appointment> csvStorage = new CsvStorage<Appointment>(filepath);
             Appointments = csvStorage.Load();
+
+            var doctorService = Injector.GetService<DoctorService>();
+            var patientService = Injector.GetService<PatientService>();
+            foreach (Appointment appointment in Appointments)
+            {
+                appointment.Doctor = doctorService.GetAccount(appointment.Doctor.JMBG);
+                appointment.Patient = patientService.GetAccount(appointment.Patient.JMBG);
+            }
         }
 
         public static void Save(string filepath)
@@ -203,7 +212,7 @@ namespace HealthCare.Service
             appointment.AppointmentID = NextId();
             appointment.IsUrgent = true;
             Appointments.Add(appointment);
-            Save(Global.appointmentPath);
+            Save(Paths.APPOINTMENTS);
         }
 
         public static bool HasAppointmentStarted(Appointment appointment)

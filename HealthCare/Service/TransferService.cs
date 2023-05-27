@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Repository;
 using System;
@@ -7,16 +7,13 @@ namespace HealthCare.Service
 {
     public class TransferService : NumericService<TransferItem>
     {
-        private readonly Inventory _inventory;
-
-        public TransferService(string filepath) : base(filepath)
-        {
-            _inventory = (Inventory)ServiceProvider.services["EquipmentInventory"];
-        }
+        private readonly InventoryService _inventory;
 
         public TransferService(IRepository<TransferItem> repository) : base(repository) 
         {
-            _inventory = (Inventory)ServiceProvider.services["EquipmentInventory"];
+            _inventory = Injector.GetService<InventoryService>(Injector.EQUIPMENT_INVENTORY_S);
+
+            ExecuteAll();
         }
 
         public void Execute(TransferItem transfer) {

@@ -1,4 +1,5 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
+using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Repository;
@@ -16,9 +17,6 @@ namespace HealthCare.Service
         private readonly IRepository<Doctor> _doctorRepository;
         private readonly IRepository<User> _nurseRepository;
 
-        private const string managerUsername = "admin";
-        private const string managerPassword = "admin";
-
         public LoginService(
             IRepository<Patient> patientRepository, 
             IRepository<Doctor> doctorRepository, 
@@ -31,9 +29,9 @@ namespace HealthCare.Service
 
         public Role Login(string username, string password)
         {
-            if (managerUsername == username)
+            if (ADMIN_USER == username)
             {
-                if (managerPassword != password)
+                if (ADMIN_PASS != password)
                     throw new WrongPasswordException();
                 return Role.Manager;
             }
@@ -42,14 +40,13 @@ namespace HealthCare.Service
             if (user.Password != password)
                 throw new WrongPasswordException();
 
-            Hospital.Current = user;
+            Context.Current = user;
             return role;
         }
 
         private (User, Role) GetUser(string username)
         {
             User? user;
-
             user = _patientRepository.Load().Find(u => u.Username == username);
             if (user != null) return (user, Role.Patient);
 
@@ -61,5 +58,8 @@ namespace HealthCare.Service
 
             throw new UsernameNotFoundException();
         }
+
+        private const string ADMIN_USER = "admin";
+        private const string ADMIN_PASS = "admin";
     }
 }

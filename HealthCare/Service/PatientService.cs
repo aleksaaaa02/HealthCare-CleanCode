@@ -1,4 +1,3 @@
-using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Repository;
 using System.Collections.Generic;
