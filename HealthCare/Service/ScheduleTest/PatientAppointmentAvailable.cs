@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace HealthCare.Service.ScheduleTest
 {
-    public class PatientAppointmentAvailable
+    public class PatientAppointmentAvailable : IAvailable<string>
     {
         private readonly AppointmentService _appointmentService;
         public PatientAppointmentAvailable()
@@ -13,7 +13,7 @@ namespace HealthCare.Service.ScheduleTest
         }
         public bool IsAvailable(string key, TimeSlot timeSlot)
         {
-            return _appointmentService.GetAll().All(x => x.Patient.JMBG == key && !x.TimeSlot.Overlaps(timeSlot));
+            return _appointmentService.GetAll().Where(x => x.PatientJMBG == key).All(x => !x.TimeSlot.Overlaps(timeSlot));
         }
     }
 }

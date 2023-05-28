@@ -17,10 +17,10 @@ namespace HealthCare.Service.ScheduleTest
             _appointmentService = Injector.GetService<AppointmentService>();
         }
 
-        public bool CheckAvailability(Appointment appointment, TimeSlot slot)
+        public bool CheckAvailability(string doctorJMBG, string patientJMBG, TimeSlot slot)
         {
-            return _doctorSchedule.IsAvailable(appointment.Doctor.JMBG, slot) 
-                && _patientSchedule.IsAvailable(appointment.Patient.JMBG, slot);
+            return _doctorSchedule.IsAvailable(doctorJMBG, slot) 
+                && _patientSchedule.IsAvailable(patientJMBG, slot);
         }
         public DateTime GetSoonestStartingTime(Appointment appointment)
         {
@@ -32,7 +32,7 @@ namespace HealthCare.Service.ScheduleTest
                 slot.Start = a.TimeSlot.End;
                 if (slot.Start >= DateTime.Now &&
                     slot.Start < postpone &&
-                    CheckAvailability(appointment, slot))
+                    CheckAvailability(appointment.DoctorJMBG, appointment.PatientJMBG, slot))
                     postpone = slot.Start;
             }
 
@@ -71,24 +71,23 @@ namespace HealthCare.Service.ScheduleTest
         {
             TimeSpan duration = urgent.TimeSlot.Duration;
 
-            if (doctor.IsAvailable(new TimeSlot(DateTime.Now, duration)))
+            if (_doctorSchedule.IsAvailable(doctor.JMBG, new TimeSlot(DateTime.Now, duration)))
             {
                 urgent.TimeSlot.Start = DateTime.Now;
-                urgent.Doctor = doctor;
+                urgent.DoctorJMBG = doctor.JMBG;
                 return urgent;
             }
 
-            foreach (Appointment appointment in _appointmentService.GetByDoctor(doctor))
+            foreach (Appointment appointment in _appointmentService.GetByDoctor(doctor.JMBG))
             {
                 DateTime end = appointment.TimeSlot.End;
                 TimeSlot newTimeslot = new TimeSlot(end, duration);
 
                 if (end > DateTime.Now && end < urgent.TimeSlot.Start &&
-                    _doctorSchedule.IsAvailable(doctor.JMBG ,newTimeslot) &&
-                    _patientSchedule.IsAvailable(urgent.Patient.JMBG, newTimeslot))
+                    CheckAvailability(doctor.JMBG, urgent.PatientJMBG, newTimeslot))
                 {
                     urgent.TimeSlot.Start = end;
-                    urgent.Doctor = doctor;
+                    urgent.DoctorJMBG = doctor.JMBG;
                 }
             }
 

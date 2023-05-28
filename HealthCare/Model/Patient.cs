@@ -21,18 +21,6 @@ namespace HealthCare.Model
         
         public Patient() { }
 
-        public bool IsAvailable(TimeSlot term)
-        {
-            List<Appointment> PatientAppointments = Schedule.GetPatientAppointments(this);
-            foreach (Appointment appointment in PatientAppointments)
-            {
-                if (appointment.TimeSlot.Overlaps(term))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
         public bool IsAllergic(IEnumerable<string> ingredients)
         {
             return ingredients.Any(x => MedicalRecord.Allergies.Contains(x));

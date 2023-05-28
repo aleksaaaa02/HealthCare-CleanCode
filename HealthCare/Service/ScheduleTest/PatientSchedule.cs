@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace HealthCare.Service.ScheduleTest
 {
-    public class PatientSchedule
+    public class PatientSchedule : IAvailable<string>
     {
         private AppointmentService _appointmentService;
         private List<IAvailable<string>> _availabilityValidators;
@@ -14,7 +14,7 @@ namespace HealthCare.Service.ScheduleTest
         {
             _appointmentService = Injector.GetService<AppointmentService>();
             _availabilityValidators = new List<IAvailable<string>> {
-               
+               new PatientAppointmentAvailable()
             };
         }
 
@@ -26,7 +26,7 @@ namespace HealthCare.Service.ScheduleTest
         {
             TimeSlot reception = new TimeSlot(DateTime.Now, new TimeSpan(0, 15, 0));
 
-            return _appointmentService.GetByPatient(patient).Find(x =>
+            return _appointmentService.GetByPatient(patient.JMBG).Find(x =>
                     !x.IsOperation && reception.Contains(x.TimeSlot.Start));
         }
 

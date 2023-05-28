@@ -25,19 +25,18 @@ namespace HealthCare.Service.ScheduleTest
         public List<Appointment> GetAppointmentsForDays(Doctor doctor, DateTime start, int days)
         {
             DateTime end = start.AddDays(days);
-            return _appointmentService.GetByDoctor(doctor)
+            return _appointmentService.GetByDoctor(doctor.JMBG)
                 .Where(x => x.TimeSlot.InBetweenDates(start, end)).ToList();
         }
 
         public List<Appointment> GetPostponable(TimeSpan duration, Doctor specialist)
         {
-            var postponable =  _appointmentService.GetByDoctor(specialist).FindAll(x => x.TimeSlot.Start >= DateTime.Now);
+            var postponable =  _appointmentService.GetByDoctor(specialist.JMBG).FindAll(x => x.TimeSlot.Start >= DateTime.Now);
             return FilterPostponable(duration, postponable);
         }
 
         private List<Appointment> FilterPostponable(TimeSpan duration, List<Appointment> postponable)
         {
-            // Mozda da se brise
             postponable = postponable.OrderBy(x => x.TimeSlot.Start).ToList();
             var filtered = new List<Appointment>();
 

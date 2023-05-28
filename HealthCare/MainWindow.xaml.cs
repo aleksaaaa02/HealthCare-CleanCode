@@ -20,15 +20,12 @@ namespace HealthCare
         {
             InitializeComponent();
 
-            Schedule.Load(Paths.APPOINTMENTS);
-
             _notificationService = Injector.GetService<NotificationService>();
             _loginService = Injector.GetService<LoginService>();
         }
 
         private void btnQuitApp_Click(object sender, RoutedEventArgs e)
         {
-            Schedule.Save(Paths.APPOINTMENTS);
             ExitApp();
         }
 

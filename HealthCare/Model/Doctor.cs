@@ -20,19 +20,6 @@ namespace HealthCare.Model
             Specialization = specialization;
         }
 
-        public bool IsAvailable(TimeSlot term)
-        {
-            List<Appointment> DoctorAppointments = Schedule.GetDoctorAppointments(this);
-            foreach(Appointment appointment in DoctorAppointments) 
-            {
-                if (appointment.TimeSlot.Overlaps(term))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
         public bool IsCapable(string NeededSpecialization)
         {
             return Specialization == NeededSpecialization;

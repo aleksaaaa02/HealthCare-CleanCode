@@ -10,6 +10,7 @@ namespace HealthCare.Service
 {
     static public class Schedule
     {
+        /*
         public static List<Appointment> Appointments = new();
 
         public static int NextId()
@@ -235,5 +236,7 @@ namespace HealthCare.Service
         {
             return appointment.TimeSlot.Start < DateTime.Now && appointment.TimeSlot.End > DateTime.Now;
         }
+    }
+    */
     }
 }

@@ -9,21 +9,27 @@ namespace HealthCare.Service
     {
         public AppointmentService(IRepository<Appointment> repository) : base(repository) { }
 
-        public List<Appointment> GetByDoctor(Doctor doctor)
+        public List<Appointment> GetByDoctor(string doctorJMBG)
         {
-            return GetAll().Where(x => x.Doctor.JMBG == doctor.JMBG).ToList();
+            return GetAll().Where(x => x.DoctorJMBG == doctorJMBG).ToList();
         }
-        public List<Appointment> GetByPatient(Patient patient)
+        public List<Appointment> GetByPatient(string patientJMBG)
         {
-            return GetAll().Where(x => x.Patient.JMBG == patient.JMBG).ToList();
+            return GetAll().Where(x => x.PatientJMBG == patientJMBG).ToList();
         }
         public List<Appointment> GetPossibleIntersections(Appointment appointment)
         {
             return GetAll().FindAll(x =>
                         x.AppointmentID != appointment.AppointmentID &&
-                        (x.Patient.Equals(appointment.Patient) ||
-                        x.Doctor.Equals(appointment.Doctor)) &&
+                        (x.PatientJMBG.Equals(appointment.PatientJMBG) ||
+                        x.DoctorJMBG.Equals(appointment.DoctorJMBG)) &&
                         x.TimeSlot.Overlaps(appointment.TimeSlot));
+        }
+        public List<string> GetExaminedPatients(string doctorJMBG)
+        {
+            return GetAll().Where(x => x.DoctorJMBG == doctorJMBG)
+                .Select(x => x.PatientJMBG)
+                .Distinct().ToList();    
         }
 
     }

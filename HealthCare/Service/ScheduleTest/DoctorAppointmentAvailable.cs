@@ -13,7 +13,8 @@ namespace HealthCare.Service.ScheduleTest
         }
         public bool IsAvailable(string key, TimeSlot timeSlot)
         {
-           return _appointmentService.GetAll().All(x => x.Doctor.JMBG == key && !x.TimeSlot.Overlaps(timeSlot));
+                    
+           return _appointmentService.GetAll().Where(x => x.DoctorJMBG == key).All(x => !x.TimeSlot.Overlaps(timeSlot));
         }
     }
 }
