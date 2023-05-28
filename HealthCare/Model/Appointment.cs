@@ -1,5 +1,4 @@
 ﻿using HealthCare.Repository;
-using HealthCare.Serialize;
 using System;
 
 namespace HealthCare.Model
@@ -23,6 +22,10 @@ namespace HealthCare.Model
             IsOperation = isOperation;
             AnamnesisID = 0;
             IsUrgent = false;
+        }
+        public bool HasStarted()
+        {
+            return TimeSlot.Start < DateTime.Now && TimeSlot.End > DateTime.Now;
         }
 
         public override object Key
