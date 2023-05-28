@@ -13,9 +13,11 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
     public class EditAppointmentDoctorCommand : CommandBase
     {
         private readonly DoctorMainViewModel _doctorMainViewModel;
+        private readonly AppointmentService _appointmentService;
         public EditAppointmentDoctorCommand(DoctorMainViewModel viewModel)
         {
             _doctorMainViewModel = viewModel;
+            _appointmentService = Injector.GetService<AppointmentService>();
         }
 
         public override void Execute(object parameter)
@@ -34,9 +36,8 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
         private void EditSelectedAppointment()
         {
             AppointmentViewModel appointmentViewModel = _doctorMainViewModel.SelectedAppointment;
-            Appointment selectedAppointment = Schedule.GetAppointment(appointmentViewModel.AppointmentID);
-            MakeAppointmentView makeAppointmentView = new MakeAppointmentView(_doctorMainViewModel, selectedAppointment);
-            makeAppointmentView.ShowDialog();
+            Appointment selectedAppointment = _appointmentService.Get(appointmentViewModel.AppointmentID);
+            new MakeAppointmentView(_doctorMainViewModel, selectedAppointment).ShowDialog();
         }
 
         private void Validate()
@@ -47,7 +48,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
                 throw new ValidationException("Morate odabrati pregled/operaciju iz tabele!");
             }
 
-            Appointment selectedAppointment = Schedule.GetAppointment(appointmentViewModel.AppointmentID);
+            Appointment selectedAppointment = _appointmentService.Get(appointmentViewModel.AppointmentID);
             if (selectedAppointment == null)
             {
                 throw new ValidationException("Ups doslo je do greske");

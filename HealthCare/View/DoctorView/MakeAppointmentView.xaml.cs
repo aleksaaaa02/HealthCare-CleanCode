@@ -1,6 +1,6 @@
 ﻿using HealthCare.Application;
 using HealthCare.Model;
-using HealthCare.ViewModel.DoctorViewModel.Appoinments;
+using HealthCare.ViewModel.DoctorViewModel.Appointments;
 using HealthCare.ViewModels.DoctorViewModel;
 using System.Text.RegularExpressions;
 using System.Windows;

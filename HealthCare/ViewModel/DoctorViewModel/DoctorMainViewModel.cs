@@ -15,6 +15,7 @@ namespace HealthCare.ViewModels.DoctorViewModel
 {
     public class DoctorMainViewModel : ViewModelBase
     {
+        private readonly AppointmentService _appointmentService;
         private ObservableCollection<AppointmentViewModel> _appointments;
         private DateTime _startDate = DateTime.Now;
         private int _numberOfDays = 3;
@@ -63,7 +64,8 @@ namespace HealthCare.ViewModels.DoctorViewModel
         public DoctorMainViewModel(Window window)
         {
             _appointments = new ObservableCollection<AppointmentViewModel>();
-            Update();
+
+            _appointmentService = Injector.GetService<AppointmentService>();
 
             ResetFilterCommand = new ResetFilterCommand(this);
             LogOutCommand = new LogOutCommand(window);
@@ -74,6 +76,7 @@ namespace HealthCare.ViewModels.DoctorViewModel
             ApplyFilterCommand = new ApplyFilterCommand(this);
             ShowPatientSearchCommand = new ShowPatientSearchViewCommand();
             StartExaminationCommand = new ShowReservationDialogCommand(this);
+            Update();
         }
 
         public void ApplyFilterOnAppointments(List<Appointment> appointments)
@@ -88,7 +91,7 @@ namespace HealthCare.ViewModels.DoctorViewModel
         public void Update()
         {
             _appointments.Clear();
-            foreach (var appointment in Schedule.GetDoctorAppointments((Doctor)Context.Current))
+            foreach (var appointment in _appointmentService.GetByDoctor(Context.Current.JMBG))
             {
                 _appointments.Add(new AppointmentViewModel(appointment));
             }

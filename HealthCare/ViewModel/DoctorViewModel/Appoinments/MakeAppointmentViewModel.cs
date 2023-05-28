@@ -2,7 +2,7 @@
 using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
-using HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands;
+using HealthCare.ViewModel.DoctorViewModel.Appointments.Commands;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 
-namespace HealthCare.ViewModel.DoctorViewModel.Appoinments
+namespace HealthCare.ViewModel.DoctorViewModel.Appointments
 {
     public class MakeAppointmentViewModel : ViewModelBase
     {
@@ -118,7 +118,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments
         {
             _patientService = Injector.GetService<PatientService>();
 
-            // For New Appointment
             CancelCommand = new CancelCommand(window);
             SubmitCommand = new AddNewAppointmentDoctorCommand(this, doctorViewModel, window, edit);
             _patients = new ObservableCollection<PatientViewModel>();
@@ -127,13 +126,12 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments
 
         public MakeAppointmentViewModel(Appointment appointment, DoctorMainViewModel doctorViewModel, Window window) : this(doctorViewModel, window, true)
         {
-            // For Editing Appointment
             _startDate = appointment.TimeSlot.Start;
             _hours = Convert.ToInt32(appointment.TimeSlot.Start.TimeOfDay.TotalHours);
             _minutes = appointment.TimeSlot.Start.Minute;
             _isOperation = appointment.IsOperation;
             _duration = Convert.ToInt32(appointment.TimeSlot.Duration.TotalMinutes);
-            _selected = appointment.Patient;
+            _selected = _patientService.Get(appointment.PatientJMBG);
 
         }
         public void Update()

@@ -8,7 +8,7 @@ using System;
 using System.Windows;
 using HealthCare.Service.ScheduleTest;
 
-namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
+namespace HealthCare.ViewModel.DoctorViewModel.Appointments.Commands
 {
     public class AddNewAppointmentDoctorCommand : CommandBase
     {
@@ -17,7 +17,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
         private readonly Window _window;
         private readonly TestSchedule _schedule;
         private readonly PatientService _patientService;
-
+        private readonly AppointmentService _appointmentService;
         private readonly bool _isEditing;
 
         public AddNewAppointmentDoctorCommand(MakeAppointmentViewModel viewModel, DoctorMainViewModel docMainViewModel, Window window, bool isEditing)
@@ -26,6 +26,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
             _doctorMainViewModel = docMainViewModel;
             _window = window;
             _isEditing = isEditing;
+            _appointmentService = Injector.GetService<AppointmentService>();
             _patientService = Injector.GetService<PatientService>();
             _schedule = new TestSchedule();
         }
@@ -53,13 +54,14 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
             }
             else
             {
-                if (!_schedule.CheckAvailability(newAppointment, newAppointment.TimeSlot))
+                if (!_schedule.CheckAvailability(newAppointment.DoctorJMBG, newAppointment.PatientJMBG, newAppointment.TimeSlot))
                 {
                     Utility.ShowWarning("Doktor ili pacijent je zauzet u ovom terminu, odaberite drugi termin");
                     return;
                 }
                 else
                 {
+                    _appointmentService.Add(newAppointment);
                     _doctorMainViewModel.Update();
                     _window.Close();
                 }
@@ -70,12 +72,12 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
         private void EditAppointment(Appointment newAppointment)
         {
             newAppointment.AppointmentID = Convert.ToInt32(_doctorMainViewModel.SelectedAppointment.AppointmentID);
-            if (!_schedule.CheckAvailability(newAppointment, newAppointment.TimeSlot))
+            if (!_schedule.CheckAvailability(newAppointment.DoctorJMBG, newAppointment.PatientJMBG, newAppointment.TimeSlot))
             {
                 Utility.ShowWarning("Doktor ili pacijent je zauzet u ovom terminu, odaberite drugi termin");
                 return;
             }
-
+            _appointmentService.Update(newAppointment);
             _doctorMainViewModel.Update();
             _window.Close();
         }
@@ -85,8 +87,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
             DateTime start = _makeAppointmentViewModel.StartDate.Date + new TimeSpan(_makeAppointmentViewModel.Hours, _makeAppointmentViewModel.Minutes, 0);
             TimeSpan duration = TimeSpan.FromMinutes(_makeAppointmentViewModel.IsOperation ? _makeAppointmentViewModel.Duration : 15);
             TimeSlot timeSlot = new TimeSlot(start, duration);
-
-            Appointment newAppointment = new Appointment(patient, (Doctor)Context.Current, timeSlot, _makeAppointmentViewModel.IsOperation);
+            Appointment newAppointment = new Appointment(patient.JMBG, Context.Current.JMBG, timeSlot, _makeAppointmentViewModel.IsOperation);
             return newAppointment;
         }
     }

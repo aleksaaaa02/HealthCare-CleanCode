@@ -18,7 +18,7 @@ namespace HealthCare.View.DoctorView
         {
             InitializeComponent();
 
-            DataContext = new PatientInforamtionViewModel(patient, isEdit);            
+            DataContext = new PatientInformationViewModel(patient, isEdit);            
         }
     }
 }

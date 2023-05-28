@@ -1,8 +1,6 @@
 ﻿using HealthCare.Command;
-using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.View.DoctorView.ReferralView;
-using System;
 
 namespace HealthCare.ViewModel.DoctorViewModel.Examination.Commands
 {

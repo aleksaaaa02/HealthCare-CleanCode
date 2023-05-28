@@ -1,10 +1,8 @@
-﻿using HealthCare.Command;
-using HealthCare.Application;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.Examination.Commands;
 using HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -137,7 +135,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             _anamnesisService = Injector.GetService<AnamnesisService>();
             _patientService = Injector.GetService<PatientService>();
             _appointment = appointment;
-            _selectedPatient = _patientService.Get(appointment.Patient.Key);
+            _selectedPatient = _patientService.Get(appointment.PatientJMBG);
             
             
             UpdatePatientCommand = new ShowPatientInfoCommand(this, true);

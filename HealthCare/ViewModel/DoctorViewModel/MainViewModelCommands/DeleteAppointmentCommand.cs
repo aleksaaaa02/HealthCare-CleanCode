@@ -1,4 +1,5 @@
-﻿using HealthCare.Command;
+﻿using HealthCare.Application;
+using HealthCare.Command;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View;
@@ -12,9 +13,11 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
     class DeleteAppointmentCommand : CommandBase
     {
         private readonly DoctorMainViewModel _viewModel;
+        private readonly AppointmentService _appointmentService;
         public DeleteAppointmentCommand(DoctorMainViewModel mainViewModel)
         {
             _viewModel = mainViewModel;
+            _appointmentService = Injector.GetService<AppointmentService>();
         }
 
         public override void Execute(object parameter)
@@ -23,9 +26,8 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
             {
                 Validate();
                 AppointmentViewModel a = _viewModel.SelectedAppointment;
-                Appointment appointment = Schedule.GetAppointment(a.AppointmentID);
-
-                Schedule.DeleteAppointment(appointment.AppointmentID);
+                Appointment appointment = _appointmentService.Get(a.AppointmentID);
+                _appointmentService.Remove(appointment.AppointmentID);
                 _viewModel.Update();
             }
             catch (ValidationException ve)
@@ -43,7 +45,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
                 throw new ValidationException("Odaberite pregled/operaciju iz tabele!");
             }
 
-            Appointment selectedAppointment = Schedule.GetAppointment(Convert.ToInt32(selectedAppointmentId));
+            Appointment selectedAppointment = _appointmentService.Get(selectedAppointmentId);
             if (selectedAppointment is null)
             {
                 throw new ValidationException("Ups Doslo je do greske!");
