@@ -3,7 +3,7 @@ using System;
 
 namespace HealthCare.Service.RenovationService
 {
-    public abstract class RenovationService<T> : NumericService<T> where T : Renovation, new()
+    public abstract class RenovationService<T> : NumericService<T> where T : BasicRenovation, new()
     {
         protected RenovationService(string filepath) : base(filepath)
         {

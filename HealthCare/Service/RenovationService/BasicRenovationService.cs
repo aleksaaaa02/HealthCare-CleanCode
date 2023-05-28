@@ -4,11 +4,11 @@ using System;
 
 namespace HealthCare.Service.RenovationService
 {
-    public class SimpleRenovationService : RenovationService<Renovation>
+    public class BasicRenovationService : RenovationService<BasicRenovation>
     {
-        public SimpleRenovationService(string filepath) : base(filepath) { }
+        public BasicRenovationService(string filepath) : base(filepath) { }
 
-        public override void Execute(Renovation renovation)
+        public override void Execute(BasicRenovation renovation)
         {
             renovation.Executed = true;
             Update(renovation);

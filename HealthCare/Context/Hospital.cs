@@ -19,7 +19,7 @@ namespace HealthCare.Context
         public TransferService TransferService;
         public EquipmentService EquipmentService;
         public AnamnesisService AnamnesisService;
-        public SimpleRenovationService SimpleRenovationService;
+        public BasicRenovationService BasicRenovationService;
         public JoiningRenovationService JoiningRenovationService;
         public SplittingRenovationService SplittingRenovationService;
         public NotificationService NotificationService;
@@ -34,7 +34,7 @@ namespace HealthCare.Context
             RoomService = new RoomService(Global.roomPath);
             Inventory = new Inventory(Global.inventoryPath);
             NurseService = new NurseService(Global.nursePath);
-            SimpleRenovationService = new SimpleRenovationService(Global.renovationPath);
+            BasicRenovationService = new BasicRenovationService(Global.renovationPath);
             JoiningRenovationService = new JoiningRenovationService(
                 Global.joiningRenovationPath, RoomService, Inventory);
             SplittingRenovationService = new SplittingRenovationService(

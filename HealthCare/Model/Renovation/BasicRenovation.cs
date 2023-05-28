@@ -2,14 +2,14 @@
 
 namespace HealthCare.Model.Renovation
 {
-    public class Renovation : Identifier, ISerializable
+    public class BasicRenovation : Identifier, ISerializable
     {
         public int Id { get; set; }
         public int RoomId { get; set; }
         public TimeSlot Scheduled { get; set; }
         public bool Executed { get; set; }
-        public Renovation() : this(0, 0, new TimeSlot(), false) { }
-        public Renovation(int id, int roomId, TimeSlot scheduled, bool executed)
+        public BasicRenovation() : this(0, 0, new TimeSlot(), false) { }
+        public BasicRenovation(int id, int roomId, TimeSlot scheduled, bool executed)
         {
             Id = id;
             RoomId = roomId;

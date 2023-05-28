@@ -1,6 +1,7 @@
 ﻿using HealthCare.Context;
 using HealthCare.Exceptions;
 using HealthCare.Model;
+using HealthCare.Model.Renovation;
 using HealthCare.Service;
 using HealthCare.Service.RenovationService;
 using HealthCare.View.ManagerView.RenovationView;
@@ -9,29 +10,18 @@ using HealthCare.ViewModel.ManagerViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace HealthCare.View.ManagerView
 {
-    /// <summary>
-    /// Interaction logic for RenovationListingView.xaml
-    /// </summary>
     public partial class RenovationListingView : Window
     {
         private readonly Hospital _hospital;
         private readonly Window _parent;
         private readonly RoomService _roomService;
-        private readonly SimpleRenovationService _renovationService;
+        private readonly BasicRenovationService _basicRenovationService;
+        private readonly JoiningRenovationService _joiningRenovationService;
+        private readonly SplittingRenovationService _splittingRenovationService;
 
         public RenovationListingView(Window parent, Hospital hospital)
         {
@@ -40,40 +30,21 @@ namespace HealthCare.View.ManagerView
             _hospital = hospital;
             _parent = parent;
             _roomService = hospital.RoomService;
-            _renovationService = hospital.SimpleRenovationService;
+            _basicRenovationService = hospital.BasicRenovationService;
+            _joiningRenovationService = hospital.JoiningRenovationService;
+            _splittingRenovationService = hospital.SplittingRenovationService;
 
             DataContext = new RenovationViewModel(_roomService);
+
+            btnRenovate.IsEnabled = true;
+            btnJoin.IsEnabled = false;
+            btnSplit.IsEnabled = false;
         }
 
-        private void Button_Exit(object sender, RoutedEventArgs e)
+        private void btnExit_Click(object sender, RoutedEventArgs e)
         {
             _parent.Show();
             Close();
-        }
-
-        private void Button_Renovate(object sender, RoutedEventArgs e)
-        {
-            try {
-                Validate();
-            }
-            catch (ValidationException ve) {
-                Utility.ShowWarning(ve.Message);
-                return;
-            }
-
-            var selected = GetSelectedIds();
-            lvRooms.SelectedItems.Clear();
-
-            if (GetMaxSelectionCount() == 1) {
-                // zakazi renoviranje za jednu sobu
-                Utility.ShowInformation("Uspesno zakazano renoviranje sobe.");
-                return;
-            }
-
-            if (selected.Count == 1)
-                new SplittingRenovationView(_hospital, selected[0]).ShowDialog();
-            else
-                new JoiningRenovationView(_hospital, selected).ShowDialog();
         }
 
         private void Validate()
@@ -98,29 +69,70 @@ namespace HealthCare.View.ManagerView
         private void ValidateRoom(RoomViewModel room, TimeSlot slot)
         {
             var id = room.RoomId;
-            if (!_renovationService.RoomFree(id, slot))
+            if (!_basicRenovationService.RoomFree(id, slot))
                 throw new ValidationException(
-                    string.Format("Soba sa ID-jem {0} nije slobodna u izabranom terminu.", id));
+                    $"Soba sa ID-jem {id} nije slobodna u izabranom terminu.");
         }
 
-        private List<int> GetSelectedIds()
+        private TimeSlot GetScheduled()
         {
-            var ids = new List<int>();
-            foreach (RoomViewModel room in lvRooms.SelectedItems)
-                ids.Add(room.RoomId);
-            return ids;
+            var start = StartDatePicker.SelectedDate ?? default;
+            var end = EndDatePicker.SelectedDate ?? default;
+            return new TimeSlot(start, end);
+        }
+
+        private void btnRenovate_Click(object sender, RoutedEventArgs e)
+        {
+            try {
+                Validate();
+            }
+            catch (ValidationException ve) {
+                Utility.ShowWarning(ve.Message);
+                return;
+            }
+
+            var roomId = ((RoomViewModel)lvRooms.SelectedItem).RoomId;
+            var scheduled = GetScheduled();
+
+            _basicRenovationService.Add(new BasicRenovation(0, roomId, scheduled, false));
+
+            Utility.ShowInformation("Uspesno zakazano renoviranje sobe.");
+            lvRooms.SelectedItems.Clear();
+        }
+
+
+        private void btnJoin_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        private void btnSplit_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO
         }
 
         private void lvRooms_SelectionChanged(object sender, EventArgs e)
         {
             var selected = lvRooms.SelectedItems;
-            while (selected.Count > GetMaxSelectionCount())
-                selected.RemoveAt(selected.Count-1);
+            int maxSelections = cbComplex.IsChecked ?? false ? 2 : 1;
+
+            while (selected.Count > maxSelections)
+                selected.RemoveAt(selected.Count - 1);
         }
 
-        private int GetMaxSelectionCount()
+        private void cbComplex_Checked(object sender, RoutedEventArgs e)
         {
-            return cbComplex.IsChecked ?? false ? 2 : 1;
+            btnRenovate.IsEnabled = false;
+            btnJoin.IsEnabled = true;
+            btnSplit.IsEnabled = true;
+        }
+
+        private void cbComplex_Unchecked(object sender, RoutedEventArgs e)
+        {
+            btnRenovate.IsEnabled = true;
+            btnJoin.IsEnabled = false;
+            btnSplit.IsEnabled = false;
+            lvRooms_SelectionChanged(sender, e);
         }
     }
 }

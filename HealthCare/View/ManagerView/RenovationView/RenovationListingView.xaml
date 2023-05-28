@@ -9,15 +9,16 @@
         SizeToContent="WidthAndHeight">
     <Window.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource RoundedButton}">
-            <Setter Property="Width" Value="70" />
+            <Setter Property="Width" Value="100" />
             <Setter Property="Height" Value="35" />
             <Setter Property="Margin" Value="5 0" />
         </Style>
         <Style TargetType="ListViewItem">
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         </Style>
         <Style TargetType="Label">
-            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
         </Style>
     </Window.Resources>
     <Grid Margin="20 0 20 20">
@@ -37,55 +38,36 @@
         <Label Content="Renoviranje prostorija" Style="{StaticResource SmallHeader}"
                HorizontalAlignment="Center" Margin="50 0"
                Grid.ColumnSpan="2"/>
-        
-        <Label Content="Pametno renoviranje:" HorizontalAlignment="Right"
-               Grid.Row="1" Margin="5 0 5 10"/>
-        <CheckBox Name="cbComplex" HorizontalAlignment="Left" Margin="5 0 5 10"
-               Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" 
-               Unchecked="lvRooms_SelectionChanged"/>
 
-        <ListView Grid.Row="2" Grid.ColumnSpan="2" Name="lvRooms" ItemsSource="{Binding Items}" 
-                  SelectionChanged="lvRooms_SelectionChanged">
+        <Label Content="Složeno renoviranje:" Margin="5 0 5 10" Grid.Row="1" />
+        <CheckBox Name="cbComplex" Margin="5 0 5 10" Grid.Row="1" Grid.Column="1"
+               HorizontalAlignment="Left" VerticalAlignment="Center" 
+               Checked="cbComplex_Checked" Unchecked="cbComplex_Unchecked" />
+
+        <ListView Name="lvRooms" Grid.Row="2" Grid.ColumnSpan="2" Margin="0 0 0 10"
+                  ItemsSource="{Binding Items}" SelectionChanged="lvRooms_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="auto" Header="Id">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding RoomId}" TextAlignment="Right"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Width="auto" Header="Soba">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding RoomName}" TextAlignment="Right"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Width="auto" Header="Tip sobe">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding RoomType}" TextAlignment="Left"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding RoomId}" />
+                    <GridViewColumn Header="Soba" DisplayMemberBinding="{Binding RoomName}" />
+                    <GridViewColumn Header="Tip sobe" DisplayMemberBinding="{Binding RoomType}" />
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <Label Grid.Row="3" Content="Pocetak renoviranja:" 
-               HorizontalAlignment="Right"/>
+        <Label Grid.Row="3" Content="Pocetak renoviranja:" />
         <DatePicker Name="StartDatePicker" Margin="5 5" 
                     Grid.Row="3" Grid.Column="1"/>
         
-        <Label Grid.Row="4" Content="Kraj renoviranja:" 
-               HorizontalAlignment="Right"/>
+        <Label Grid.Row="4" Content="Kraj renoviranja:" />
         <DatePicker Name="EndDatePicker" Margin="5 5" 
                     Grid.Row="4" Grid.Column="1"/>
 
-        <Button Content="Nazad" Click="Button_Exit"
-                    Grid.Row="5" HorizontalAlignment="Right"/>
-        <Button Content="Renoviraj" FontWeight="Bold" Click="Button_Renovate"
-                    Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left"/>
+        <DockPanel Grid.Row="5" Grid.ColumnSpan="2" Margin="0 10 0 0">
+            <Button Content="Nazad" Click="btnExit_Click"/>
+            <Button Name="btnRenovate" Content="Renoviraj" FontWeight="Bold" Click="btnRenovate_Click"/>
+            <Button Name="btnSplit" Content="Razdvoji sobu" FontWeight="Bold" Click="btnSplit_Click"/>
+            <Button Name="btnJoin" Content="Spoji sobe" FontWeight="Bold" Click="btnJoin_Click"/>
+        </DockPanel>
     </Grid>
 </Window>

@@ -1,9 +1,4 @@
 ﻿using HealthCare.Model.Renovation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.Service.RenovationService
 {
@@ -21,7 +16,7 @@ namespace HealthCare.Service.RenovationService
         public override void Execute(SplittingRenovation renovation)
         {
             var items = _inventory.GetRoomItems(renovation.RoomId);
-            int warehouseId = 1; // TODO chane to inventory.GetWarehouseId
+            int warehouseId = 1; // TODO change to inventory.GetWarehouseId
             items.ForEach(x => {
                 x.RoomId = warehouseId;
                 _inventory.Update(x);
