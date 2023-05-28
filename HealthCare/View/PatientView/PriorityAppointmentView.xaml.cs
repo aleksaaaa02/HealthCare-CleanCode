@@ -2,6 +2,7 @@
 using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.Service.ScheduleTest;
 using System;
 using System.IO;
 using System.Windows;
@@ -11,10 +12,16 @@ namespace HealthCare.View.AppointmentView
 {
     public partial class PriorityAppointmentView : Window
     {
+        private readonly TestSchedule _schedule;
+        private readonly AppointmentService _appointmentService;
+
         PriorityAppointmentViewModel model;
         public PriorityAppointmentView()
         {
             InitializeComponent();
+            _appointmentService = Injector.GetService<AppointmentService>();
+            _schedule = new TestSchedule();
+
             model = new PriorityAppointmentViewModel();
             DataContext = model;
         }
@@ -166,11 +173,12 @@ namespace HealthCare.View.AppointmentView
                 return;
             }
             Appointment appointment = (Appointment)appointmentListView.SelectedItem;
-            if (!Schedule.CreateAppointment(appointment))
+            if (!_schedule.CheckAvailability(appointment.DoctorJMBG, appointment.PatientJMBG, appointment.TimeSlot))
             {
                 Utility.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
                 return;
             }
+            _appointmentService.Add(appointment);
             Utility.ShowInformation("Uspesno dodat pregled");
             WriteAction("CREATE");
             model.IsUserBlocked();

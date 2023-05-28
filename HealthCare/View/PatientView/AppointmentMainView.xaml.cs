@@ -2,6 +2,7 @@
 using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.Service.ScheduleTest;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,8 +17,12 @@ namespace HealthCare.View.AppointmentView
     {
         private readonly PatientService _patientService;
         private readonly DoctorService _doctorService;
+        private readonly AppointmentService _appointmentService;
+        private readonly TestSchedule _schedule;
         public AppointmentMainView()
         {
+            _schedule = new TestSchedule();
+            _appointmentService = Injector.GetService<AppointmentService>();
             _patientService = Injector.GetService<PatientService>();
             _doctorService = Injector.GetService<DoctorService>();
             InitializeComponent();
@@ -70,7 +75,7 @@ namespace HealthCare.View.AppointmentView
         }
         public void LoadData()
         {
-            List<Appointment> appointments = Schedule.GetPatientAppointments((Patient)Context.Current);
+            List<Appointment> appointments = _appointmentService.GetByPatient(Context.Current.JMBG);
             List<Doctor> doctors = _doctorService.GetAll();
             appListView.ItemsSource = new ObservableCollection<Appointment>(appointments);
             doctorListView.ItemsSource = new ObservableCollection<Doctor>(doctors);
@@ -147,12 +152,13 @@ namespace HealthCare.View.AppointmentView
             DateTime date = tbDate.SelectedDate.Value;
             date = date.AddHours(hours);
             date = date.AddMinutes(minutes);
-            Appointment appointment = new Appointment(patient, doctor, new TimeSlot(date,new TimeSpan(0,15,0)), false);
-            if (!Schedule.CreateAppointment(appointment))
+            Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, new TimeSlot(date,new TimeSpan(0,15,0)), false);
+            if (!_schedule.CheckAvailability(doctor.JMBG, patient.JMBG, appointment.TimeSlot))
             {
                 Utility.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
                 return;
             }
+            _appointmentService.Add(appointment);
             Utility.ShowInformation("Uspesno dodat pregled");
             WriteActionToFile("CREATE");
             LoadData();
@@ -182,8 +188,7 @@ namespace HealthCare.View.AppointmentView
             if (appListView.SelectedItems.Count == 1) 
             {
                 Appointment appointment = (Appointment)appListView.SelectedItem;
-                int idForDeleting = appointment.AppointmentID;
-                Schedule.DeleteAppointment(idForDeleting);
+                _appointmentService.Remove(appointment);
                 WriteActionToFile("DELETE");
                 Utility.ShowInformation("Uspesno obrisan pregled");
                 LoadData();
@@ -245,24 +250,20 @@ namespace HealthCare.View.AppointmentView
                 Utility.ShowWarning("Molimo Vas izaberite pregled");
                 return;
             }
-            Appointment appointment = new Appointment(patient, doctor, new TimeSlot(date, new TimeSpan(0, 15, 0)), false);
+            Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, new TimeSlot(date, new TimeSpan(0, 15, 0)), false);
             Appointment appointment2 = (Appointment)appListView.SelectedItem;
             appointment.AppointmentID = appointment2.AppointmentID;
-            if (!Schedule.UpdateAppointment(appointment))
+            if (!_schedule.CheckAvailability(doctor.JMBG, patient.JMBG,appointment.TimeSlot))
             {
                 Utility.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
                 return;
             }
+            _appointmentService.Update(appointment);
             Utility.ShowInformation("Uspesno azuriran pregled");
             WriteActionToFile("UPDATE");
             LoadData();
             IsUserBlocked();
 
-        }
-
-        private void BtnRecord_Click(object sender, RoutedEventArgs e)
-        {
-            new PatientRecordView().Show();
         }
 
         private void BtnRecord_Click_1(object sender, RoutedEventArgs e)

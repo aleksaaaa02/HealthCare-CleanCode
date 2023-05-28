@@ -2,6 +2,7 @@
 using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.Service.ScheduleTest;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,6 +18,7 @@ namespace HealthCare.View.AppointmentView
     {
         private readonly DoctorService _doctorService;
         private readonly PatientService _patientService;
+        private readonly TestSchedule _schedule;
 
         public ObservableCollection<Doctor> Doctors { get; set; }
         public ObservableCollection<Appointment> Appointments { get; set; }
@@ -25,6 +27,7 @@ namespace HealthCare.View.AppointmentView
         {
             _patientService = Injector.GetService<PatientService>();
             _doctorService = Injector.GetService<DoctorService>();
+            _schedule = new TestSchedule();
             
             Doctors = new ObservableCollection<Doctor>();
             Appointments = new ObservableCollection<Appointment>();
@@ -73,7 +76,7 @@ namespace HealthCare.View.AppointmentView
             List<Appointment> appointments = new List<Appointment>();
             if (resultAppointment == null)
             {
-                appointments = GetAppointmentByDoctor(hoursStart, minutesStart, hoursEnd, minutesEnd, doctor);
+                appointments = GetAppointmentByDoctor(doctor);
             }
             else
             {
@@ -89,9 +92,9 @@ namespace HealthCare.View.AppointmentView
             while (startDate < endDate)
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
-                if (doctor.IsAvailable(timeSlot) && patient.IsAvailable(timeSlot))
+                if (_schedule.CheckAvailability(doctor.JMBG, patient.JMBG, timeSlot))
                 {
-                    return new Appointment(patient, doctor, timeSlot, false);
+                    return new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
                 }
                 else
                 {
@@ -105,7 +108,7 @@ namespace HealthCare.View.AppointmentView
             return null;
         }
 
-        public List<Appointment> GetAppointmentByDoctor(int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor)
+        public List<Appointment> GetAppointmentByDoctor(Doctor doctor)
         {
             DateTime startDate = DateTime.Today;
             startDate = startDate.AddMinutes(15);
@@ -114,9 +117,9 @@ namespace HealthCare.View.AppointmentView
             while (appointments.Count() < 3)
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
-                if (doctor.IsAvailable(timeSlot) && patient.IsAvailable(timeSlot))
+                if (_schedule.CheckAvailability(doctor.JMBG, patient.JMBG, timeSlot))
                 {
-                    appointments.Add(new Appointment(patient, doctor, timeSlot, false));
+                    appointments.Add(new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false));
                 }
                 startDate = startDate.AddMinutes(15);
             }
@@ -135,9 +138,9 @@ namespace HealthCare.View.AppointmentView
                 while (startDate < endDate)
                 {
                     TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
-                    if (patient.IsAvailable(timeSlot) && doctor.IsAvailable(timeSlot))
+                    if (_schedule.CheckAvailability(doctor.JMBG, patient.JMBG, timeSlot))
                     {
-                        return new Appointment(patient, doctor, timeSlot, false);
+                        return new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
                     }
                     startDate = startDate.AddMinutes(15);
                     if (startDate.Hour >= hoursEnd && startDate.Minute >= minutesEnd)
@@ -159,9 +162,9 @@ namespace HealthCare.View.AppointmentView
             while (startDate < endDate)
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
-                if (patient.IsAvailable(timeSlot) && doctor.IsAvailable(timeSlot))
+                if (_schedule.CheckAvailability(doctor.JMBG, patient.JMBG, timeSlot))
                 {
-                    return new Appointment(patient, doctor, timeSlot, false);
+                    return new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
                 }
                 startDate = startDate.AddMinutes(15);
                 if (startDate.Hour >= hoursEnd && startDate.Minute >= minutesEnd)

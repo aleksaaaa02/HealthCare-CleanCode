@@ -12,15 +12,20 @@ namespace HealthCare.View.AppointmentView
     public class PatientRecordViewModel
     {
         private readonly AnamnesisService _anamnesisService;
+        private readonly AppointmentService _appointmentService;
+        private readonly DoctorService _doctorService;
+        private readonly PatientService _patientService;
         public ObservableCollection<Appointment> Appointments { get; set; }
         public List<Appointment> _patientAppointments;
         public PatientRecordViewModel()
         {
             _anamnesisService = Injector.GetService<AnamnesisService>();
+            _doctorService = Injector.GetService<DoctorService>();
+            _patientService = Injector.GetService<PatientService>();
 
             Appointments = new ObservableCollection<Appointment>();
-            _patientAppointments = Schedule.GetPatientAppointments((Patient)Context.Current);
-            LoadData(Schedule.GetPatientAppointments((Patient)Context.Current));
+            _patientAppointments = _appointmentService.GetByPatient(Context.Current.JMBG);
+            LoadData(_patientAppointments);
         }
 
         public void LoadData(List<Appointment> appointments)
@@ -40,10 +45,10 @@ namespace HealthCare.View.AppointmentView
                     LoadData(Appointments.OrderBy(x => x.TimeSlot.Start).ToList());
                     break;
                 case "Doktor":
-                    LoadData(Appointments.OrderBy(x => x.Doctor.Name).ToList());
+                    LoadData(Appointments.OrderBy(x => _doctorService.Get(x.DoctorJMBG).Name).ToList());
                     break;
                 case "Specijalizacija":
-                    LoadData(Appointments.OrderBy(x => x.Doctor.Specialization).ToList());
+                    LoadData(Appointments.OrderBy(x => _doctorService.Get(x.DoctorJMBG).Specialization).ToList());
                     break;
                 default: break;
             }
@@ -53,8 +58,8 @@ namespace HealthCare.View.AppointmentView
         {
             IEnumerable<Appointment> query = _patientAppointments.ToList().Where(
              x => 
-             x.Doctor.Name.Contains(filterProperty, StringComparison.OrdinalIgnoreCase) ||
-             x.Doctor.Specialization.Contains(filterProperty, StringComparison.OrdinalIgnoreCase) ||
+             _doctorService.Get(x.DoctorJMBG).Name.Contains(filterProperty, StringComparison.OrdinalIgnoreCase) ||
+             _doctorService.Get(x.DoctorJMBG).Specialization.Contains(filterProperty, StringComparison.OrdinalIgnoreCase) ||
              x.TimeSlot.Start.ToString().Contains(filterProperty, StringComparison.OrdinalIgnoreCase)
             ).ToList();
             LoadData(query.ToList());
@@ -72,8 +77,8 @@ namespace HealthCare.View.AppointmentView
                 MessageBox.Show("Pregled jos nije obavljen","Anamneza");
                 return;
             }
-            Patient patient = appointment.Patient;
-            Doctor doctor = appointment.Doctor;
+            Patient patient = _patientService.Get(appointment.PatientJMBG);
+            Doctor doctor = _doctorService.Get(appointment.DoctorJMBG);
             string message = "Pacijent: " + patient.Name + " " + patient.LastName + "\n" +
                              "Doktor: " + doctor.Name + " " + doctor.LastName + "\n" +
                              "Simptomi: " + "\n";
