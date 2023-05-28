@@ -6,9 +6,9 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 {
     public class AddDiseaseCommand : CommandBase
     {
-        private readonly PatientInforamtionViewModel _viewModel;
+        private readonly PatientInformationViewModel _viewModel;
 
-        public AddDiseaseCommand(PatientInforamtionViewModel viewModel)
+        public AddDiseaseCommand(PatientInformationViewModel viewModel)
         {
             _viewModel = viewModel;
         }

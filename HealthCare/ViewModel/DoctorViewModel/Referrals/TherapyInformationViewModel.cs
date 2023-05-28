@@ -31,10 +31,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals
             ExaminedPatient = patient;
             _medication = _medicationService.Get(medicationID);
             Therapy = therapy;
-
             AddMedicationToTherapyCommand = new AddTherapyToReferralCommand(window, this);
-
-            // OVDE CE DOCI DO IZMENE
             MedicationName = _medication.Name;
             NoPreference = true;
         }

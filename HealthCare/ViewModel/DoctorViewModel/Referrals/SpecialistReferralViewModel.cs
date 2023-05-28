@@ -53,7 +53,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals
         {
             _doctorService = Injector.GetService<DoctorService>();
             ExaminedPatient = patient;
-
+            _specialization = "";
             MakeSpecialistReferralCommand = new AddSpecialistReferralCommand(this);
 
 

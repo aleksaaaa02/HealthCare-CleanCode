@@ -12,8 +12,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions
     {
         private readonly MedicationService _medicationService;
         private ObservableCollection<MedicationViewModel> _medications;
-        private readonly Patient _examinedPatient;
-        private MedicationViewModel _selectedMedication;
 
         public MedicationViewModel SelectedMedication { get; set; }
 
@@ -31,7 +29,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions
         public PrescriptionViewModel(Patient patient) 
         {
             _medicationService = Injector.GetService<MedicationService>();
-            _examinedPatient = patient;
             BeforeMeal = true;
             _medications = new ObservableCollection<MedicationViewModel>();
 

@@ -13,7 +13,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
     {
         private readonly TreatmentReferralService _treatmentReferralService;
         private readonly MedicationService _medicationService;
-        private readonly PatientService _patientService;
         private readonly TherapyService _therapyService;
         private readonly TreatmentReferralViewModel _treatmentReferralViewModel;
         private readonly Patient _examinedPatient;
@@ -21,7 +20,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
         { 
             _treatmentReferralService = Injector.GetService<TreatmentReferralService>();
             _medicationService = Injector.GetService<MedicationService>();
-            _patientService = Injector.GetService<PatientService>();
             _therapyService = Injector.GetService<TherapyService>();
 
             _treatmentReferralViewModel = treatmentReferralViewModel;

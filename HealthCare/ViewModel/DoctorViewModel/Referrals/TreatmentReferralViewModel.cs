@@ -44,7 +44,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals
             _medicationService = Injector.GetService<MedicationService>();
             _medications = new ObservableCollection<MedicationViewModel>();
             ExaminedPatient = patient;
-            AdditionalExamination = "";
+            _additionalExamination = " ";
             DaysOfTreatment = 0;
 
             MakeTreatmentReferralCommand = new AddTreatmentReferralCommand(this);

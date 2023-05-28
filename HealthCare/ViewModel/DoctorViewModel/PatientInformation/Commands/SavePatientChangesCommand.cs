@@ -11,11 +11,11 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 {
     public class SavePatientChangesCommand : CommandBase
     {
-        private readonly PatientInforamtionViewModel _viewModel;
+        private readonly PatientInformationViewModel _viewModel;
         private readonly Patient _selectedPatient;
         private readonly PatientService _patientService;
 
-        public SavePatientChangesCommand(Patient patient, PatientInforamtionViewModel viewModel)
+        public SavePatientChangesCommand(Patient patient, PatientInformationViewModel viewModel)
         {
             _patientService = Injector.GetService<PatientService>();
             _viewModel = viewModel;

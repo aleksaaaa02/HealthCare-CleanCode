@@ -52,6 +52,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
             throw new ValidationException("Za datu specijalizaciju ne postoji trenutno doktor");
 
         }
+
         private string DoctorReferral()
         {
             if(_specialistReferralViewModel.SelectedDoctor is null)

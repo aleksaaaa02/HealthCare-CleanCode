@@ -13,14 +13,16 @@ namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions
         private readonly MedicationService _medicationService;
         private Patient _patient;
         private PrescriptionViewModel _prescriptionViewModel;
+
         public AddPrescriptionCommand(Patient patient, PrescriptionViewModel prescriptionViewModel) 
         {
-            _prescriptionService = Injector.GetService<PrescriptionService>();
+            _prescriptionService = Injector.GetService<PrescriptionService>(Injector.THERAPY_PRESCRIPTION_S);
             _medicationService = Injector.GetService<MedicationService>();
             _patient = patient;
             _prescriptionViewModel = prescriptionViewModel;
         
         }
+
         public override void Execute(object parameter)
         {
             try
@@ -35,6 +37,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions
                 Utility.ShowWarning(ex.Message);
             }
         }
+        
         private void MakePrescription()
         {
             int dailyDosage = _prescriptionViewModel.DailyDosage;
@@ -49,6 +52,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions
             Prescription prescription = new Prescription(selectedMedication, mealTime, _patient.JMBG, doctorJMBG, dailyDosage, hoursBetweenConsumption, consumptionDays);
             _prescriptionService.Add(prescription);
         }
+        
         private MealTime GetMealTime()
         {
             if (_prescriptionViewModel.BeforeMeal) return MealTime.BeforeMeal;
@@ -59,6 +63,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions
 
             return MealTime.NoPreference;
         }
+        
         private void Validate()
         {
             if (_prescriptionViewModel.DailyDosage <= 0)
@@ -73,6 +78,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions
             if (_prescriptionViewModel.SelectedMedication is null)
                 throw new ValidationException("Niste odabrali lek"); 
         }
+        
         private void CheckPatientAllergies(Patient patient, int medicationID)
         {
             Medication medication = _medicationService.Get(medicationID);

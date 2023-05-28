@@ -6,9 +6,9 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 {
     public class AddAllergyCommand : CommandBase
     {
-        private readonly PatientInforamtionViewModel _viewModel;
+        private readonly PatientInformationViewModel _viewModel;
 
-        public AddAllergyCommand(PatientInforamtionViewModel viewModel) 
+        public AddAllergyCommand(PatientInformationViewModel viewModel) 
         {
             _viewModel = viewModel;
         }

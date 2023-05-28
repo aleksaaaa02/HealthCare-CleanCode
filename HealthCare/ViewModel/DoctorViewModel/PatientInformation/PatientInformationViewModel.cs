@@ -1,6 +1,4 @@
-﻿using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service;
+﻿using HealthCare.Model;
 using HealthCare.View;
 using HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands;
 using System;
@@ -11,7 +9,7 @@ using System.Windows.Input;
 
 namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation
 {
-    public class PatientInforamtionViewModel : ViewModelBase
+    public class PatientInformationViewModel : ViewModelBase
     {
         private ObservableCollection<string> _previousDiseases;
         private ObservableCollection<string> _allergies;
@@ -142,9 +140,8 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation
                 OnPropertyChanged(nameof(Allergy));
             }
         }
-        public PatientInforamtionViewModel(Patient patient, bool isEditing)
+        public PatientInformationViewModel(Patient patient, bool isEditing)
         {
-            //_patientService = (PatientService)ServiceProvider.services["PatientService"];
             _selectedPatient = patient;
             _isFocusable = isEditing;
             _isReadOnly = !isEditing;
@@ -184,14 +181,12 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation
             {
                 _gridVisibility = Visibility.Collapsed;
             }
-
         }
         private void Update()
         {
             UpdateAllergies();
             UpdateDisease();
         }
-        
         private void UpdateDisease()
         {
             _previousDiseases.Clear();

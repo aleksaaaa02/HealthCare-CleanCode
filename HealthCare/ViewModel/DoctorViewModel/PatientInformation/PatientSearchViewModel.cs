@@ -11,7 +11,9 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation
 {
     public class PatientSearchViewModel : ViewModelBase
     {
-        private readonly DoctorService _doctorService;
+        private readonly PatientService _patientService;
+        private readonly AppointmentService _appointmentService;
+
         private ObservableCollection<PatientViewModel> _patients;
         public IEnumerable<PatientViewModel> Patients => _patients;
 
@@ -30,7 +32,8 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation
 
         public PatientSearchViewModel()
         {
-            _doctorService = Injector.GetService<DoctorService>();
+            _appointmentService = Injector.GetService<AppointmentService>();
+            _patientService = Injector.GetService<PatientService>();
             _patients = new ObservableCollection<PatientViewModel>();
             ShowEditPatientCommand = new ShowPatientInfoCommand(this, true);
             Update();
@@ -39,10 +42,10 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation
         public void Update()
         {
             _patients.Clear();
-            foreach (var patient in _doctorService.GetExaminedPatients((Doctor)Context.Current))
+            foreach (var patientJMBG in _appointmentService.GetExaminedPatients(Context.Current.JMBG))
             {
+                Patient patient = _patientService.Get(patientJMBG);
                 _patients.Add(new PatientViewModel(patient));
-
             }
         }
 
