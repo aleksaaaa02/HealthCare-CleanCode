@@ -1,6 +1,7 @@
 ﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.Service.ScheduleTest;
 using HealthCare.ViewModel.NurseViewModel;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 using System.Collections.Generic;
@@ -15,12 +16,14 @@ namespace HealthCare.View.UrgentAppointmentView
         private PostponableAppointmentsViewModel _model;
         private AppointmentViewModel? _selected;
         private Appointment _newAppointment;
+        private readonly TestSchedule _schedule;
         public PostponableAppointmentsView(Appointment newAppointment, List<Appointment> postponable)
         {
             InitializeComponent();
             _newAppointment = newAppointment;
 
             _notificationService = Injector.GetService<NotificationService>();
+            _schedule = new TestSchedule();
 
             _model = new PostponableAppointmentsViewModel(postponable);
             DataContext = _model;
@@ -44,16 +47,16 @@ namespace HealthCare.View.UrgentAppointmentView
                 return;
             }
             _newAppointment.TimeSlot.Start = _selected.Appointment.TimeSlot.Start;
-            _newAppointment.Doctor = _selected.Appointment.Doctor;
-            Schedule.PostponeAppointment(_selected.Appointment);
-            Schedule.CreateUrgentAppointment(_newAppointment);
+            _newAppointment.DoctorJMBG = _selected.Appointment.DoctorJMBG;
+            _schedule.PostponeAppointment(_selected.Appointment);
+            _schedule.AddUrgentAppointment(_newAppointment);
 
             _notificationService.Add(new Notification(
                 "Termin sa ID-jem " + _selected.Appointment.AppointmentID + " je pomeren.",
-                _selected.Appointment.Doctor.JMBG, _selected.Appointment.Patient.JMBG));
+                _selected.Appointment.DoctorJMBG, _selected.Appointment.PatientJMBG));
             _notificationService.Add(new Notification(
                 "Hitan termin sa ID-jem " + _selected.Appointment.AppointmentID + " je kreiran.",
-                _selected.Appointment.Doctor.JMBG));
+                _selected.Appointment.DoctorJMBG));
 
             Utility.ShowInformation("Uspesno odlozen termin.");
             Close();

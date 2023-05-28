@@ -1,6 +1,7 @@
 ﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.Service.ScheduleTest;
 using HealthCare.ViewModel.NurseViewModel;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,9 @@ namespace HealthCare.View.UrgentAppointmentView
     {
         private readonly NotificationService _notificationService;
         private readonly DoctorService _doctorService;
+        private readonly TestSchedule _schedule;
+        private readonly AppointmentService _appointmentService;
+        private readonly DoctorSchedule _doctorSchedule;
         private PatientViewModel _model;
         private Patient? _patient;
         public UrgentView()
@@ -25,6 +29,9 @@ namespace HealthCare.View.UrgentAppointmentView
 
             _notificationService = Injector.GetService<NotificationService>();
             _doctorService = Injector.GetService<DoctorService>();
+            _appointmentService = Injector.GetService<AppointmentService>();
+            _schedule = new TestSchedule();
+            _doctorSchedule = new DoctorSchedule();
 
             _model.Update();
             tbJMBG.IsEnabled = false;
@@ -73,15 +80,15 @@ namespace HealthCare.View.UrgentAppointmentView
             TimeSpan duration = new TimeSpan(0, int.Parse(tbDuration.Text), 0);
             List<Doctor> specialists = _doctorService.GetBySpecialization(cbSpecialization.SelectedValue.ToString());
 
-            Appointment? appointment = Schedule.TryGetUrgent(duration, specialists);
+            Appointment? appointment = _schedule.TryGetUrgent(duration, specialists);
             if (appointment is not null)
             {
                 appointment = FillAppointmentDetails(appointment);
-                Schedule.CreateUrgentAppointment(appointment);
+                _schedule.AddUrgentAppointment(appointment);
 
                 _notificationService.Add(new Notification(
                 "Hitan termin sa ID-jem " + appointment.AppointmentID + " je kreiran.",
-                appointment.Doctor.JMBG));
+                _doctorService.Get(appointment.DoctorJMBG).JMBG));
 
                 Utility.ShowInformation("Uspesno kreiran hitan termin.");
                 return;
@@ -89,9 +96,9 @@ namespace HealthCare.View.UrgentAppointmentView
 
             List<Appointment> postponable = new List<Appointment>();
             foreach (Doctor doctor in specialists)
-                postponable.AddRange(Schedule.GetPostponable(duration, doctor));
+                postponable.AddRange(_doctorSchedule.GetPostponable(duration, doctor));
 
-            postponable = postponable.OrderBy(x => Schedule.GetSoonestStartingTime(x)).ToList();
+            postponable = postponable.OrderBy(x => _schedule.GetSoonestStartingTime(x)).ToList();
 
             appointment = FillAppointmentDetails(appointment);
             appointment.TimeSlot = new TimeSlot(DateTime.MinValue, duration);
@@ -103,8 +110,7 @@ namespace HealthCare.View.UrgentAppointmentView
             if (appointment is null)
                 appointment = new Appointment();
 
-            appointment.Patient = _patient;
-            appointment.AppointmentID = Schedule.NextId();
+            appointment.PatientJMBG = _patient.JMBG;
             appointment.IsOperation = (cbOperation.IsChecked is bool Checked && Checked);
             return appointment;
         }

@@ -10,6 +10,7 @@ namespace HealthCare.View.PatientView
     {
         private readonly AnamnesisService _anamnesisService;
         private readonly PatientService _patientService;
+        private readonly AppointmentService _appointmentService;
         private readonly int _appointmentId;
         private readonly Patient _patient;
 
@@ -18,6 +19,7 @@ namespace HealthCare.View.PatientView
             InitializeComponent();
             _anamnesisService = Injector.GetService<AnamnesisService>();
             _patientService = Injector.GetService<PatientService>();
+            _appointmentService = Injector.GetService<AppointmentService>();
 
             _appointmentId = appointmentID;
             _patient = patient;
@@ -53,7 +55,10 @@ namespace HealthCare.View.PatientView
             _patient.MedicalRecord.MedicalHistory = Utility.GetStringList(textRange.Text);
 
             int newID = _anamnesisService.Add(anamnesis);
-            Schedule.GetAppointment(_appointmentId).AnamnesisID = newID;
+            
+            Appointment appointment = _appointmentService.Get(_appointmentId); 
+            appointment.AnamnesisID = newID;
+            _appointmentService.Update(appointment);
 
             _patientService.Update(_patient);
             Close();

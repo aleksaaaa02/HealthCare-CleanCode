@@ -1,6 +1,7 @@
 ﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.Service.ScheduleTest;
 using HealthCare.ViewModel.NurseViewModel;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 using System;
@@ -16,12 +17,17 @@ namespace HealthCare.View.NurseView.ReferralView
         private ReferralListingViewModel _model;
         private Patient _patient;
         private ReferralViewModel? _referral;
+        private readonly AppointmentService _appointmentService;
+        private readonly TestSchedule _schedule;
         public PatientsReferralsView(Patient patient)
         {
             InitializeComponent();
             _model = new ReferralListingViewModel(patient);
             DataContext = _model;
+            
+            _schedule = new TestSchedule();
 
+            _appointmentService = Injector.GetService<AppointmentService>();
             _specialistReferralService = Injector.GetService<SpecialistReferralService>();
             _doctorService = Injector.GetService<DoctorService>();
 
@@ -68,14 +74,14 @@ namespace HealthCare.View.NurseView.ReferralView
             selectedDate = selectedDate.AddMinutes(minutes);
 
             TimeSlot slot = new TimeSlot(selectedDate, new TimeSpan(0,15,0));
-            Appointment appointment = new Appointment(_patient, referred, slot ,false);
+            Appointment appointment = new Appointment(_patient.JMBG, referred.JMBG, slot ,false);
 
-            if (!Schedule.CreateAppointment(appointment))
+            if (!_schedule.CheckAvailability(referred.JMBG, _patient.JMBG, slot))
             {
                 Utility.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu.");
                 return;
             }
-
+            _appointmentService.Add(appointment);
             Utility.ShowInformation("Uspesno ste zakazali pregled.");
 
             var updated = _specialistReferralService.Get(_referral.SpecialistReferral.Id);

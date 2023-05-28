@@ -1,6 +1,7 @@
 ﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.Service.ScheduleTest;
 using HealthCare.ViewModel.NurseViewModel;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 using System;
@@ -15,6 +16,8 @@ namespace HealthCare.View.NurseView.PrescriptionView
         private readonly InventoryService _medicationInventory;
         private readonly DoctorService _doctorService;
         private readonly RoomService _roomService;
+        private readonly TestSchedule _schedule;
+        private readonly AppointmentService _appointmentService;
         private PrescriptionListingViewModel _model;
         private PrescriptionViewModel? _prescription;
         private Patient _patient;
@@ -30,6 +33,9 @@ namespace HealthCare.View.NurseView.PrescriptionView
             _medicationInventory = Injector.GetService<InventoryService>(Injector.MEDICATION_INVENTORY_S);
             _doctorService = Injector.GetService<DoctorService>();
             _roomService = Injector.GetService<RoomService>();
+            _appointmentService = Injector.GetService<AppointmentService>();
+
+            _schedule = new TestSchedule();
 
             _patient = patient;
             tbDate.SelectedDate = DateTime.Now;
@@ -133,14 +139,14 @@ namespace HealthCare.View.NurseView.PrescriptionView
             selectedDate = selectedDate.AddMinutes(minutes);
 
             TimeSlot slot = new TimeSlot(selectedDate, new TimeSpan(0, 15, 0));
-            Appointment appointment = new Appointment(_patient, doctor, slot, false);
+            Appointment appointment = new Appointment(_patient.JMBG, doctor.JMBG, slot, false);
 
-            if (!Schedule.CreateAppointment(appointment))
+            if (!_schedule.CheckAvailability(doctor.JMBG, _patient.JMBG, slot))
             {
                 Utility.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu.");
                 return;
             }
-
+            _appointmentService.Add(appointment);
             Utility.ShowInformation("Uspesno ste zakazali pregled.");
             _model.Update();
         }
