@@ -21,7 +21,7 @@ namespace HealthCare.Context
         public EquipmentService EquipmentService;
         public AnamnesisService AnamnesisService;
         public NotificationService NotificationService;
-        
+        public UserNotificationService UserNotificationService;
         public TreatmentReferralService TreatmentReferralService;
         public SpecialistReferralService SpecialistReferralService;
         public MedicationService MedicationService;
@@ -47,7 +47,7 @@ namespace HealthCare.Context
             NotificationService = new NotificationService(Global.notificationPath);
             EquipmentOrderService = new OrderService(Global.orderPath, EquipmentInventory, RoomService);
             MedicationOrderService = new OrderService(Global.medicationOrderPath, MedicationInventory, RoomService);
-
+            UserNotificationService = new UserNotificationService(Global.userNotificationPath);
             TreatmentReferralService = new TreatmentReferralService(Global.treatmentReferralPath);
             SpecialistReferralService = new SpecialistReferralService(Global.specialistReferralPath);
             MedicationService = new MedicationService(Global.medicationPath);
