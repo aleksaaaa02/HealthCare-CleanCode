@@ -1,4 +1,4 @@
-﻿<Window x:Class="HealthCare.View.PatientView.PatientNotificationsView"
+﻿<UserControl x:Class="HealthCare.View.PatientView.PatientNotificationsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:HealthCare.View.PatientView"
         mc:Ignorable="d" Height="690" Width="940">
     <Grid>
-        
+        <ScrollViewer VerticalScrollBarVisibility="Auto" >
+            <DockPanel x:Name="NotificationsPanel"></DockPanel>
+        </ScrollViewer>
     </Grid>
-</Window>
+</UserControl>

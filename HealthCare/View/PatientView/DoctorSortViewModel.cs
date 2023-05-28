@@ -61,7 +61,9 @@ namespace HealthCare.View.PatientView
                     
                     LoadData(Doctors.OrderBy(x => x.Rating).ToList());
                     break;
-                default: break;
+                default:
+                    MessageBox.Show("How Did We Get Here?", "Achievement Unlocked");
+                    break;
             }
         }
     }

@@ -18,7 +18,6 @@ namespace HealthCare.Context
         public const string equipmentInventoryPath = dirPath + "inventory_items.csv";
         public const string medicationInventoryPath = dirPath + "medication_inventory.csv";
         public const string notificationPath = dirPath + "notifications.csv";
-
         public const string medicationPath = dirPath + "medications.csv";
         public const string prescriptionPath = dirPath + "prescriptions.csv";
         public const string treatmentReferralPath = dirPath + "treatment_referrals.csv";

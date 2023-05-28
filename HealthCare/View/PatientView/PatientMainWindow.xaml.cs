@@ -65,6 +65,11 @@ namespace HealthCare.View.PatientView
             _mainWindow.Show();
         }
 
+        private void btnNotifications_Click(object sender, RoutedEventArgs e)
+        {
+            mainContentGrid.Content = new PatientNotificationsView(_hospital);
+        }
+
         private void SetWindow(UserControl control)
         {
             mainContentGrid.Content = control;
