@@ -26,7 +26,7 @@
                                 <Setter Property="CornerRadius" Value="5"/>
                             </Style>
                         </Button.Resources>
-                        <fa:IconBlock Icon="Plus"  FontSize="15" Foreground="White"/>
+                        <fa:IconBlock Icon="Plus"  FontSize="15" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
                 </DockPanel>
             </Grid>

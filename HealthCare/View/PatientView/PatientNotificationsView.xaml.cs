@@ -22,30 +22,39 @@ namespace HealthCare.View.PatientView
     public partial class PatientNotificationsView : UserControl
     {
         List<UserNotification> notifications;
+        Hospital _hospital;
         public PatientNotificationsView(Hospital hospital)
         {
+            _hospital = hospital;
             InitializeComponent();
+            LoadNotifications();
             //DataContext = new PatientNotificationsViewModel(hospital);
-            notifications = hospital.UserNotificationService.GetForUser(hospital.Current.JMBG);
+            
+        }
+
+        public void LoadNotifications()
+        {
+            notifications = _hospital.UserNotificationService.GetForUser(_hospital.Current.JMBG);
 
             foreach (UserNotification userNotification in notifications)
             {
                 NotificationControl notificationControl = new NotificationControl();
                 notificationControl.NotificationCaption.Text = userNotification.caption;
                 notificationControl.NotificationText.Text = userNotification.text;
-                //"#136c63
-                if (userNotification.isCustom) {
-                    Color customColor = (Color)ColorConverter.ConvertFromString("#963BC4");
-                    SolidColorBrush customBrush = new SolidColorBrush(customColor);
-
-                    notificationControl.Header.Background = customBrush;
+                if (userNotification.isCustom)
+                {
+                    SolidColorBrush brush = new SolidColorBrush(Colors.DarkCyan);
+                    notificationControl.Header.Background = brush;
                 }
                 NotificationsPanel.LastChildFill = true;
-
-                // Add the control as the last child of the DockPanel
                 DockPanel.SetDock(notificationControl, Dock.Top);
                 NotificationsPanel.Children.Add(notificationControl);
             }
+        }
+
+        private void expandButton_Click(object sender, RoutedEventArgs e)
+        {
+            new NotificationCreationView(this,_hospital).Show();
         }
     }
 }
