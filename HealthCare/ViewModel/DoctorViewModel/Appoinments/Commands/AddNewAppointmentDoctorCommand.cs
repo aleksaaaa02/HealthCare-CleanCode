@@ -6,6 +6,7 @@ using HealthCare.View;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.Windows;
+using HealthCare.Service.ScheduleTest;
 
 namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
 {
@@ -14,7 +15,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
         private readonly MakeAppointmentViewModel _makeAppointmentViewModel;
         private readonly DoctorMainViewModel _doctorMainViewModel;
         private readonly Window _window;
-
+        private readonly TestSchedule _schedule;
         private readonly PatientService _patientService;
 
         private readonly bool _isEditing;
@@ -26,6 +27,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
             _window = window;
             _isEditing = isEditing;
             _patientService = Injector.GetService<PatientService>();
+            _schedule = new TestSchedule();
         }
 
         public override void Execute(object parameter)
@@ -51,7 +53,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
             }
             else
             {
-                if (!Schedule.CreateAppointment(newAppointment))
+                if (!_schedule.CheckAvailability(newAppointment, newAppointment.TimeSlot))
                 {
                     Utility.ShowWarning("Doktor ili pacijent je zauzet u ovom terminu, odaberite drugi termin");
                     return;
@@ -68,7 +70,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appoinments.Commands
         private void EditAppointment(Appointment newAppointment)
         {
             newAppointment.AppointmentID = Convert.ToInt32(_doctorMainViewModel.SelectedAppointment.AppointmentID);
-            if (!Schedule.UpdateAppointment(newAppointment))
+            if (!_schedule.CheckAvailability(newAppointment, newAppointment.TimeSlot))
             {
                 Utility.ShowWarning("Doktor ili pacijent je zauzet u ovom terminu, odaberite drugi termin");
                 return;
