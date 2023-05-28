@@ -26,7 +26,7 @@
         </Grid>
         
         <!--Controls-->
-        <Grid>
+        <Grid x:Name="mainGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" x:Name="nzm"/>
                 <ColumnDefinition Width="*"/>
@@ -86,7 +86,7 @@
                         </Grid>
                     </Button>
 
-                    <Button x:Name="btnDoctors" Style="{StaticResource menuButton}">
+                    <Button x:Name="btnDoctors" Style="{StaticResource menuButton}" Click="btnDoctors_Click">
                         <Grid>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                 <fa:IconBlock Icon="Stethoscope" Style="{StaticResource menuButtonIcon}"/>
@@ -109,7 +109,7 @@
                     </Button>
 
             </Grid>
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" x:Name="Helpme">
                 <ContentControl x:Name="mainContentGrid"/>
             </Grid>
             

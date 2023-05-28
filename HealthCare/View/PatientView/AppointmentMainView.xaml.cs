@@ -22,10 +22,25 @@ namespace HealthCare.View.AppointmentView
             IsUserBlocked();
         }
 
+        public AppointmentMainView(Hospital hospital, Doctor doctor)
+        {
+            InitializeComponent();
+            _hospital = hospital;
+            LoadData();
+            IsUserBlocked();
+            List<Doctor> oneDoctor = new List<Doctor>
+            {
+                doctor
+            };
+            doctorListView.ItemsSource = new ObservableCollection<Doctor>(oneDoctor);
+        }
+
         public void WriteActionToFile(string action)
         {
             string stringtocsv = _hospital.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
             File.AppendAllText(Global.patientLogsPath, stringtocsv);
+            
+
         }
 
         public void IsUserBlocked()

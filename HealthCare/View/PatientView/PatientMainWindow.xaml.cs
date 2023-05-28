@@ -33,11 +33,16 @@ namespace HealthCare.View.PatientView
             //#effcfa white
             btnCrud.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             btnCrud.Focus();
+            
         }
+
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            
             mainContentGrid.Content = new AppointmentMainView(_hospital);
+            
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -50,11 +55,19 @@ namespace HealthCare.View.PatientView
             mainContentGrid.Content = new PatientRecordView(_hospital);
         }
 
-
+        private void btnDoctors_Click(object sender, RoutedEventArgs e)
+        {
+            mainContentGrid.Content = new DoctorSortView(this,_hospital);
+        }
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             Close();
             _mainWindow.Show();
+        }
+
+        private void SetWindow(UserControl control)
+        {
+            mainContentGrid.Content = control;
         }
 
         //private void Button_Click_4(object sender, RoutedEventArgs e)
