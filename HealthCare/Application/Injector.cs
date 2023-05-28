@@ -84,7 +84,7 @@ namespace HealthCare.Application
             if (implementations.ContainsKey(implKey))
                 return (T)implementations[implKey];
 
-            throw new ArgumentException($"No implementation found for implKey key '{implKey}'");
+            throw new ArgumentException($"No implementation found for implementation key '{implKey}'");
         }
 
         private static object GetDictionaryValue(Type type)

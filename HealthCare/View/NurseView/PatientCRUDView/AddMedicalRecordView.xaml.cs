@@ -54,7 +54,7 @@ namespace HealthCare.View.PatientView
                 rtbMedicalHistory.Document.ContentStart,
                 rtbMedicalHistory.Document.ContentEnd
             );
-            medicalRecord.MedicalHistory = Utility.GetArray(textRange.Text);
+            medicalRecord.MedicalHistory = Utility.GetStringList(textRange.Text);
 
             if (_nurseView is not null)
                 _nurseView._record = medicalRecord;

@@ -10,13 +10,11 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
     public class AddSpecialistReferralCommand : CommandBase
     {
         private readonly SpecialistReferralService _specialistReferralService;
-        private readonly PatientService _patientService;
         private readonly DoctorService _doctorService;
         private readonly SpecialistReferralViewModel _specialistReferralViewModel;
         public AddSpecialistReferralCommand(SpecialistReferralViewModel specialistReferralViewModel) 
         {
             _specialistReferralService = Injector.GetService<SpecialistReferralService>();
-            _patientService = Injector.GetService<PatientService>();
             _doctorService = Injector.GetService<DoctorService>();
             _specialistReferralViewModel = specialistReferralViewModel;
         }
@@ -40,9 +38,8 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
             bool isSpecializationReferral = _specialistReferralViewModel.IsSpecializationReferral;
             string referredDoctorJMBG = isSpecializationReferral ? SpecializationReferral() : DoctorReferral();
             
-            SpecialistReferral specialistReferral = new SpecialistReferral(doctorJMBG, referredDoctorJMBG);
+            SpecialistReferral specialistReferral = new SpecialistReferral(patientJMBG, doctorJMBG, referredDoctorJMBG);
             _specialistReferralService.Add(specialistReferral);
-            _patientService.AddReferral(patientJMBG, specialistReferral.Id, false);
         }
 
         private string SpecializationReferral() {

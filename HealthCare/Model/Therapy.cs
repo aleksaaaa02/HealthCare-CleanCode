@@ -1,4 +1,5 @@
 ﻿using HealthCare.Repository;
+using HealthCare.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace HealthCare.Model
         public List<int> InitialMedication { get; set; } 
         public string PatientJMBG { get; set; }
 
-        public Therapy() { }
+        public Therapy() : this(new(), "") { }
 
         public Therapy(List<int> initialMedication, string patientJMBG) 
         {
@@ -25,13 +26,7 @@ namespace HealthCare.Model
             Id = int.Parse(values[0]);
             PatientJMBG = values[1];
             if (!string.IsNullOrWhiteSpace(values[2]))
-            {
-                InitialMedication = Array.ConvertAll(values[2].Split("|"), int.Parse).ToList();
-            }
-            else
-            {
-                InitialMedication = new List<int>();
-            }
+                InitialMedication = Utility.GetIntList(values[2], '|');
         }
 
         public override string[] Serialize()

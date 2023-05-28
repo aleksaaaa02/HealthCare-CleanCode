@@ -1,8 +1,10 @@
 ﻿using HealthCare.Application.Common;
 using HealthCare.Model;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace HealthCare.View
 {
@@ -94,14 +96,23 @@ namespace HealthCare.View
             }
         }
 
-        public static string[] GetArray(string text, char delimiter = ',')
+        public static List<string> GetStringList(string text, char delimiter = ',')
         {
             return text.Split(delimiter)
                 .Select(x => x.Trim())
-                .ToArray();
+                .ToList();
         }
 
-        public static string ToString(string[] arr, string delimiter = ", ")
+        public static List<int> GetIntList(string text, char delimiter = ',')
+        {
+            return Array.ConvertAll(
+                text.Split(delimiter)
+                .Select(x => x.Trim())
+                .ToArray(), int.Parse)
+                .ToList();
+        }
+
+        public static string ToString(IEnumerable<string> arr, string delimiter = ", ")
         {
             return string.Join(delimiter, arr);
         }

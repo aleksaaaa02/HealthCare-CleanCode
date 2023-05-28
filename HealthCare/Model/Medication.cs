@@ -1,5 +1,7 @@
 ﻿using HealthCare.Repository;
 using HealthCare.Serialize;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HealthCare.Model
 {
@@ -9,10 +11,10 @@ namespace HealthCare.Model
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string[] Ingredients { get; set; }
+        public List<string> Ingredients { get; set; }
         public Medication() { }
 
-        public Medication(string name, string description, string[] ingredients)
+        public Medication(string name, string description, List<string> ingredients)
         {
             Name = name;
             Description = description;
@@ -29,7 +31,7 @@ namespace HealthCare.Model
             Id = int.Parse(values[0]);
             Name = values[1];
             Description = values[2];
-            Ingredients = values[3].Split("|");
+            Ingredients = values[3].Split("|").ToList();
 
         }
     }

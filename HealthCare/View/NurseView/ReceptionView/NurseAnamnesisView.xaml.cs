@@ -40,17 +40,17 @@ namespace HealthCare.View.PatientView
             TextRange textRange = new TextRange(
                    rtbAllergies.Document.ContentStart,
                    rtbAllergies.Document.ContentEnd);
-            _patient.MedicalRecord.Allergies = Utility.GetArray(textRange.Text);
+            _patient.MedicalRecord.Allergies = Utility.GetStringList(textRange.Text);
 
             textRange = new TextRange(
                    rtbSymptoms.Document.ContentStart,
                    rtbSymptoms.Document.ContentEnd);
-            anamnesis.Symptoms = Utility.GetArray(textRange.Text);
+            anamnesis.Symptoms = Utility.GetStringList(textRange.Text);
 
             textRange = new TextRange(
                    rtbMedicalHistory.Document.ContentStart,
                    rtbMedicalHistory.Document.ContentEnd);
-            _patient.MedicalRecord.MedicalHistory = Utility.GetArray(textRange.Text);
+            _patient.MedicalRecord.MedicalHistory = Utility.GetStringList(textRange.Text);
 
             int newID = _anamnesisService.Add(anamnesis);
             Schedule.GetAppointment(_appointmentId).AnamnesisID = newID;

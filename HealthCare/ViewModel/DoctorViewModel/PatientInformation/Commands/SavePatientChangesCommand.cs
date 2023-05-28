@@ -5,6 +5,7 @@ using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 {
@@ -40,11 +41,12 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
         {
             float weight = _viewModel.Weight;
             float height = _viewModel.Height;
-            string[] medicalHistory = _viewModel.PreviousDisease.ToArray();
-            string[] allergies = _viewModel.Allergies.ToArray();
+            List<string> medicalHistory = _viewModel.PreviousDisease.ToList();
+            List<string> allergies = _viewModel.Allergies.ToList();
             MedicalRecord updatedMedicalRecord = new MedicalRecord(height, weight, medicalHistory, allergies);
 
-            _patientService.UpdatePatientMedicalRecord(_selectedPatient, updatedMedicalRecord);
+            _selectedPatient.MedicalRecord = updatedMedicalRecord;
+            _patientService.Update(_selectedPatient);
         }
 
         private void ShowSuccessMessage()

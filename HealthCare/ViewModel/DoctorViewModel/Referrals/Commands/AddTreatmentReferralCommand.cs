@@ -45,17 +45,14 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
             List<int> medication = GetMedication();
             int daysOfTreatment = _treatmentReferralViewModel.DaysOfTreatment;
             string doctorJMBG = Context.Current.JMBG;
-            string[] additionalExamination = Utility.GetArray(_treatmentReferralViewModel.AdditionalExamination);
+            List<string> additionalExamination = Utility.GetStringList(_treatmentReferralViewModel.AdditionalExamination);
             
             CheckPatientAllergies(_examinedPatient, medication);
 
-
-
             int therapyID = GetTherapy(medication);
 
-            TreatmentReferral treatmentReferral = new TreatmentReferral(daysOfTreatment, doctorJMBG, therapyID, additionalExamination);
+            TreatmentReferral treatmentReferral = new TreatmentReferral(daysOfTreatment, _examinedPatient.JMBG, doctorJMBG, therapyID, additionalExamination);
             _treatmentReferralService.Add(treatmentReferral);
-            _patientService.AddReferral(_examinedPatient.JMBG, treatmentReferral.Id, true);
         }
 
         private List<int> GetMedication()

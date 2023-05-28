@@ -1,5 +1,6 @@
 ﻿using HealthCare.Repository;
-using HealthCare.Serialize;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HealthCare.Model
 {
@@ -7,16 +8,16 @@ namespace HealthCare.Model
     {
         public int ID { get; set; }
         public string DoctorsObservations { get; set; }
-        public string[] Symptoms { get; set; }
+        public List<string> Symptoms { get; set; }
 
         public Anamnesis()
         {
             ID = 0;
             DoctorsObservations = "";
-            Symptoms = new string[0];
+            Symptoms = new List<string>();
         }
 
-        public Anamnesis(int id, string doctorsObservations, string[] symptoms)
+        public Anamnesis(int id, string doctorsObservations, List<string> symptoms)
         {
             ID = id;
             DoctorsObservations = doctorsObservations;
@@ -40,7 +41,7 @@ namespace HealthCare.Model
         {
             ID = int.Parse(values[0]);
             DoctorsObservations = values[1];
-            Symptoms = values[2].Split("|");
+            Symptoms = values[2].Split("|").ToList();
         }
     }
 }

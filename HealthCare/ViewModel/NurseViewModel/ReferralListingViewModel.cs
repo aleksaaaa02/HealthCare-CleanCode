@@ -25,7 +25,7 @@ namespace HealthCare.ViewModel.NurseViewModel
         public void Update()
         {
             Referrals.Clear();
-            foreach (SpecialistReferral referral in (_specialistReferralService.GetPatientsReferrals(_patient)))
+            foreach (SpecialistReferral referral in (_specialistReferralService.GetPatientsReferrals(_patient.JMBG)))
                 Referrals.Add(new ReferralViewModel(referral,
                     _doctorService.Get(referral.DoctorJMBG),
                     _doctorService.Get(referral.ReferredDoctorJMBG)));

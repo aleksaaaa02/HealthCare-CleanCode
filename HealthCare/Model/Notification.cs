@@ -1,12 +1,14 @@
 ﻿using HealthCare.Repository;
 using HealthCare.Serialize;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HealthCare.Model
 {
     public class Notification : RepositoryItem
     {
         public int Id { get; set; }
-        public string[] Recipients { get; set; }
+        public List<string> Recipients { get; set; }
         public string Text { get; set; }
         public bool Seen { get; set; }
 
@@ -18,7 +20,7 @@ namespace HealthCare.Model
             Id = id;
             Text = text;
             Seen = seen;
-            Recipients = recipients;
+            Recipients = recipients.ToList();
         }
 
         public string Display()
@@ -42,7 +44,7 @@ namespace HealthCare.Model
         public override void Deserialize(string[] values)
         {
             Id = int.Parse(values[0]);
-            Recipients = values[1].Split("|");
+            Recipients = values[1].Split("|").ToList();
             Text = values[2];
             Seen = bool.Parse(values[3]);
         }
