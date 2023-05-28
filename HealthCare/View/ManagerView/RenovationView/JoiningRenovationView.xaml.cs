@@ -1,6 +1,7 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.Service.RenovationService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace HealthCare.View.ManagerView.RenovationView
 
             _hospital = hospital;
             _roomService = hospital.RoomService;
-            _joiningRenovationService = new JoiningRenovationService("");
+            _joiningRenovationService = new Hospital().JoiningRenovationService;
         }
 
         private void PopulateComboBox()

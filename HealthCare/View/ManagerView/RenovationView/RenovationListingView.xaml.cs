@@ -2,6 +2,7 @@
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.Service.RenovationService;
 using HealthCare.View.ManagerView.RenovationView;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModel.ManagerViewModel;
@@ -30,7 +31,7 @@ namespace HealthCare.View.ManagerView
         private readonly Hospital _hospital;
         private readonly Window _parent;
         private readonly RoomService _roomService;
-        private readonly RenovationService _renovationService;
+        private readonly SimpleRenovationService _renovationService;
 
         public RenovationListingView(Window parent, Hospital hospital)
         {
@@ -39,7 +40,7 @@ namespace HealthCare.View.ManagerView
             _hospital = hospital;
             _parent = parent;
             _roomService = hospital.RoomService;
-            _renovationService = hospital.RenovationService;
+            _renovationService = hospital.SimpleRenovationService;
 
             DataContext = new RenovationViewModel(_roomService);
         }
