@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel;
@@ -15,7 +15,7 @@ namespace HealthCare.ViewModels.DoctorViewModel
 {
     public class DoctorMainViewModel : ViewModelBase
     {
-        private readonly Hospital _hospital;
+        private readonly AppointmentService _appointmentService;
         private ObservableCollection<AppointmentViewModel> _appointments;
         private DateTime _startDate = DateTime.Now;
         private int _numberOfDays = 3;
@@ -61,21 +61,22 @@ namespace HealthCare.ViewModels.DoctorViewModel
             }
         }
 
-        public DoctorMainViewModel(Hospital hospital, Window window)
+        public DoctorMainViewModel(Window window)
         {
-            _hospital = hospital;
             _appointments = new ObservableCollection<AppointmentViewModel>();
-            Update();
+
+            _appointmentService = Injector.GetService<AppointmentService>();
 
             ResetFilterCommand = new ResetFilterCommand(this);
             LogOutCommand = new LogOutCommand(window);
-            CreateAppointmentViewCommand = new MakeAppointmentNavigationCommand(hospital, this);
-            EditAppointmentCommand = new EditAppointmentDoctorCommand(hospital, this);
+            CreateAppointmentViewCommand = new MakeAppointmentNavigationCommand(this);
+            EditAppointmentCommand = new EditAppointmentDoctorCommand(this);
             DeleteAppointmentCommand = new DeleteAppointmentCommand(this);
-            ShowDetailedPatientInfoCommand = new ShowPatientInfoCommand(hospital, this, false);
-            ApplyFilterCommand = new ApplyFilterCommand(hospital, this);
-            ShowPatientSearchCommand = new ShowPatientSearchViewCommand(hospital);
-            StartExaminationCommand = new ShowReservationDialogCommand(hospital, this);
+            ShowDetailedPatientInfoCommand = new ShowPatientInfoCommand(this, false);
+            ApplyFilterCommand = new ApplyFilterCommand(this);
+            ShowPatientSearchCommand = new ShowPatientSearchViewCommand();
+            StartExaminationCommand = new ShowReservationDialogCommand(this);
+            Update();
         }
 
         public void ApplyFilterOnAppointments(List<Appointment> appointments)
@@ -90,9 +91,9 @@ namespace HealthCare.ViewModels.DoctorViewModel
         public void Update()
         {
             _appointments.Clear();
-            foreach (var appointment in Schedule.GetDoctorAppointments((Doctor)_hospital.Current))
+            foreach (var appointment in _appointmentService.GetByDoctor(Context.Current.JMBG))
             {
-                  _appointments.Add(new AppointmentViewModel(appointment));
+                _appointments.Add(new AppointmentViewModel(appointment));
             }
         }
     }

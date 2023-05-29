@@ -1,9 +1,8 @@
-﻿using HealthCare.Command;
-using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.Examination.Commands;
 using HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -13,17 +12,16 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
 {
     public class DoctorExamViewModel : ViewModelBase
     {
+        private readonly AnamnesisService _anamnesisService;
+        private readonly PatientService _patientService;
         private Appointment _appointment;
         private Patient _selectedPatient;
-        private Hospital _hospital;
 
         private ObservableCollection<string> _previousDiseases;
         private ObservableCollection<string> _allergies;
         private string _name;
         private string _lastName;
         private string _jmbg;
-        private DateTime _birthday;
-        private Gender _gender;
         private string _selectedDisease;
         private float _height;
         private float _weight;
@@ -33,8 +31,11 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
 
         public IEnumerable<string> Allergies => _allergies;
         public IEnumerable<string> PreviousDisease => _previousDiseases;
+
         public ICommand FinishExaminationCommand { get; }
-        public ICommand CancelExaminationCommand { get; }
+        public ICommand MakeSpecialistReferralCommand { get; }
+        public ICommand MakeTreatmentReferralCommand { get; }
+        public ICommand MakePrescriptionCommand { get; }
         public ICommand UpdatePatientCommand { get; }
 
         public Patient SelectedPatient
@@ -71,25 +72,6 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             {
                 _jmbg = value;
                 OnPropertyChanged(nameof(JMBG));
-            }
-        }
-
-        public DateTime Birthday
-        {
-            get { return _birthday; }
-            set
-            {
-                _birthday = value;
-                OnPropertyChanged(nameof(Birthday));
-            }
-        }
-        public Gender Gender
-        {
-            get { return _gender; }
-            set
-            {
-                _gender = value;
-                OnPropertyChanged(nameof(Gender));
             }
         }
         public float Height
@@ -148,17 +130,19 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
         }
 
 
-        public DoctorExamViewModel(Hospital hospital, Window window, Appointment appointment, int roomId)
+        public DoctorExamViewModel(Window window, Appointment appointment, int roomId)
         {
-            _hospital = hospital;
+            _anamnesisService = Injector.GetService<AnamnesisService>();
+            _patientService = Injector.GetService<PatientService>();
             _appointment = appointment;
-            _selectedPatient = hospital.PatientService.Get(appointment.Patient.Key);
+            _selectedPatient = _patientService.Get(appointment.PatientJMBG);
             
             
-            UpdatePatientCommand = new ShowPatientInfoCommand(hospital, this, true);
-            CancelExaminationCommand = new CancelCommand(window);
-            FinishExaminationCommand = new FinishExaminationCommand(hospital, window, appointment, this, roomId);
-
+            UpdatePatientCommand = new ShowPatientInfoCommand(this, true);
+            FinishExaminationCommand = new FinishExaminationCommand(window, appointment, this, roomId);
+            MakeSpecialistReferralCommand = new ShowSpecialistReferralViewCommand(_selectedPatient);
+            MakeTreatmentReferralCommand = new ShowTreatmentReferralViewCommand(_selectedPatient);
+            MakePrescriptionCommand = new ShowPrescriptionViewCommand(_selectedPatient);
             LoadView();
         }
         private void LoadView()
@@ -166,12 +150,10 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             _name = _selectedPatient.Name;
             _lastName = _selectedPatient.LastName;
             _jmbg = _selectedPatient.JMBG;
-            _gender = _selectedPatient.Gender;
-            _birthday = _selectedPatient.BirthDate;
             _height = _selectedPatient.MedicalRecord.Height;
             _weight = _selectedPatient.MedicalRecord.Weight;
 
-            Anamnesis anamnesis = _hospital.AnamnesisService.Get(_appointment.AnamnesisID);
+            Anamnesis anamnesis = _anamnesisService.Get(_appointment.AnamnesisID);
             _symptoms = string.Join(", ", anamnesis.Symptoms);
             _previousDiseases = new ObservableCollection<string>();
             _allergies = new ObservableCollection<string>();

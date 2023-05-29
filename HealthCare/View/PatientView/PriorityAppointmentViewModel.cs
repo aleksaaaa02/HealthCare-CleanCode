@@ -1,6 +1,8 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
+using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.Service.ScheduleService;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,17 +16,22 @@ namespace HealthCare.View.AppointmentView
 {
     public class PriorityAppointmentViewModel
     {
+        private readonly DoctorService _doctorService;
+        private readonly PatientService _patientService;
+        private readonly Schedule _schedule;
+
         public ObservableCollection<Doctor> Doctors { get; set; }
         public ObservableCollection<Appointment> Appointments { get; set; }
 
-        public Hospital _hospital;
-
-        public PriorityAppointmentViewModel(Hospital hospital)
+        public PriorityAppointmentViewModel()
         {
-            _hospital = hospital;
+            _patientService = Injector.GetService<PatientService>();
+            _doctorService = Injector.GetService<DoctorService>();
+            _schedule = Injector.GetService<Schedule>();
+            
             Doctors = new ObservableCollection<Doctor>();
             Appointments = new ObservableCollection<Appointment>();
-            LoadDoctors(hospital.DoctorService.GetAll());
+            LoadDoctors(_doctorService.GetAll());
         }
 
         public void LoadDoctors(List<Doctor> doctors)
@@ -69,7 +76,7 @@ namespace HealthCare.View.AppointmentView
             List<Appointment> appointments = new List<Appointment>();
             if (resultAppointment == null)
             {
-                appointments = GetAppointmentByDoctor(hoursStart, minutesStart, hoursEnd, minutesEnd, doctor);
+                appointments = GetAppointmentByDoctor(doctor);
             }
             else
             {
@@ -81,13 +88,13 @@ namespace HealthCare.View.AppointmentView
         {
             DateTime startDate = DateTime.Today;
             startDate = startDate.AddMinutes(15);
-            Patient patient = (Patient)_hospital.Current;
+            Patient patient = (Patient)Context.Current;
             while (startDate < endDate)
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
-                if (doctor.IsAvailable(timeSlot) && patient.IsAvailable(timeSlot))
+                if (_schedule.CheckAvailability(doctor.JMBG, patient.JMBG, timeSlot))
                 {
-                    return new Appointment(patient, doctor, timeSlot, false);
+                    return new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
                 }
                 else
                 {
@@ -101,18 +108,18 @@ namespace HealthCare.View.AppointmentView
             return null;
         }
 
-        public List<Appointment> GetAppointmentByDoctor(int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor)
+        public List<Appointment> GetAppointmentByDoctor(Doctor doctor)
         {
             DateTime startDate = DateTime.Today;
             startDate = startDate.AddMinutes(15);
             List<Appointment> appointments = new List<Appointment>();
-            Patient patient = (Patient)_hospital.Current;
+            Patient patient = (Patient)Context.Current;
             while (appointments.Count() < 3)
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
-                if (doctor.IsAvailable(timeSlot) && patient.IsAvailable(timeSlot))
+                if (_schedule.CheckAvailability(doctor.JMBG, patient.JMBG, timeSlot))
                 {
-                    appointments.Add(new Appointment(patient, doctor, timeSlot, false));
+                    appointments.Add(new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false));
                 }
                 startDate = startDate.AddMinutes(15);
             }
@@ -121,19 +128,19 @@ namespace HealthCare.View.AppointmentView
 
         public Appointment GetAppointmentByDate(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd)
         {
-            List<Doctor> doctors = _hospital.DoctorService.GetAll();
+            List<Doctor> doctors = _doctorService.GetAll();
             foreach (Doctor doctor in doctors)
             {
                 DateTime startDate = DateTime.Today;
                 startDate = startDate.AddHours(hoursStart);
                 startDate = startDate.AddMinutes(minutesStart);
-                Patient patient = (Patient)_hospital.Current;
+                Patient patient = (Patient)Context.Current;
                 while (startDate < endDate)
                 {
                     TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
-                    if (patient.IsAvailable(timeSlot) && doctor.IsAvailable(timeSlot))
+                    if (_schedule.CheckAvailability(doctor.JMBG, patient.JMBG, timeSlot))
                     {
-                        return new Appointment(patient, doctor, timeSlot, false);
+                        return new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
                     }
                     startDate = startDate.AddMinutes(15);
                     if (startDate.Hour >= hoursEnd && startDate.Minute >= minutesEnd)
@@ -151,13 +158,13 @@ namespace HealthCare.View.AppointmentView
             DateTime startDate = DateTime.Today;
             startDate = startDate.AddHours(hoursStart);
             startDate = startDate.AddMinutes(minutesStart);
-            Patient patient = (Patient)_hospital.Current;
+            Patient patient = (Patient)Context.Current;
             while (startDate < endDate)
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
-                if (patient.IsAvailable(timeSlot) && doctor.IsAvailable(timeSlot))
+                if (_schedule.CheckAvailability(doctor.JMBG, patient.JMBG, timeSlot))
                 {
-                    return new Appointment(patient, doctor, timeSlot, false);
+                    return new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
                 }
                 startDate = startDate.AddMinutes(15);
                 if (startDate.Hour >= hoursEnd && startDate.Minute >= minutesEnd)
@@ -170,8 +177,8 @@ namespace HealthCare.View.AppointmentView
         }
         public void IsUserBlocked()
         {
-            Patient patient = (Patient)_hospital.Current;
-            using (var reader = new StreamReader(Global.patientLogsPath, Encoding.Default))
+            Patient patient = (Patient)Context.Current;
+            using (var reader = new StreamReader(Paths.PATIENT_LOGS, Encoding.Default))
             {
                 string line;
                 int updateDeleteCounter = 0;
@@ -202,7 +209,7 @@ namespace HealthCare.View.AppointmentView
                 {
                     patient.Blocked = false;
                 }
-                _hospital.PatientService.UpdateAccount(patient);
+                _patientService.Update(patient);
             }
         }
 

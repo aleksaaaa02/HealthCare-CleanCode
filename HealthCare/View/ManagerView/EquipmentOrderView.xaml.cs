@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
@@ -11,17 +11,15 @@ namespace HealthCare.View.ManagerView
 {
     public partial class EquipmentOrderView : Window
     {
-        private EquipmentOrderViewModel _model;
         private readonly OrderService _orderService;
-        private Window _parent;
+        private EquipmentOrderViewModel _model;
 
-        public EquipmentOrderView(Window parent, Hospital hospital)
+        public EquipmentOrderView()
         {
             InitializeComponent();
-            _parent = parent;
-            _orderService = hospital.OrderService;
+            _orderService = Injector.GetService<OrderService>(Injector.EQUIPMENT_ORDER_S);
 
-            _model = new EquipmentOrderViewModel(hospital);
+            _model = new EquipmentOrderViewModel();
             DataContext = _model;
         }
 
@@ -30,18 +28,12 @@ namespace HealthCare.View.ManagerView
             _model.LoadAll();
         }
 
-        private void Button_Exit(object sender, RoutedEventArgs e)
-        {
-            _parent.Show();
-            Close();
-        }
-
         private void Button_Order(object sender, RoutedEventArgs e)
         {
             try {
                 Validate();
             } catch (ValidationException ve) {
-                Utility.ShowWarning(ve.Message);
+                ViewUtil.ShowWarning(ve.Message);
                 return;
             }
 
@@ -49,7 +41,7 @@ namespace HealthCare.View.ManagerView
                 if (item.IsSelected)
                     MakeOrder(item.EquipmentId, int.Parse(item.OrderQuantity));
 
-            Utility.ShowInformation("Porucivanje uspesno.");
+            ViewUtil.ShowInformation("Poručivanje uspešno.");
             _model.LoadAll();
         }
 
@@ -65,12 +57,12 @@ namespace HealthCare.View.ManagerView
             foreach (var item in _model.Items)
             {
                 if (item.IsSelected && !Validation.IsNatural(item.OrderQuantity))
-                    throw new ValidationException("Kolicina mora da bude prirodan broj.");
+                    throw new ValidationException("Količina mora da bude prirodan broj.");
 
                 someSelected |= item.IsSelected;
             }
             if (!someSelected)
-                throw new ValidationException("Nema unetih porudzbina.");
+                throw new ValidationException("Nema unetih porudžbina.");
         }
 
         private void tbQuantity_Focused(object sender, EventArgs e)
@@ -89,9 +81,8 @@ namespace HealthCare.View.ManagerView
                 tb.Text = "0";
         }
 
-        private void Window_Closed(object sender, EventArgs e)
+        private void Button_Exit(object sender, RoutedEventArgs e)
         {
-            _parent.IsEnabled = true;
             Close();
         }
     }

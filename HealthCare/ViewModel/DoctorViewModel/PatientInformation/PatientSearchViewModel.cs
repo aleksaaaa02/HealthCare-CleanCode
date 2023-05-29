@@ -1,5 +1,6 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands;
 using System.Collections.Generic;
@@ -10,7 +11,8 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation
 {
     public class PatientSearchViewModel : ViewModelBase
     {
-        private readonly Hospital _hospital;
+        private readonly PatientService _patientService;
+        private readonly AppointmentService _appointmentService;
 
         private ObservableCollection<PatientViewModel> _patients;
         public IEnumerable<PatientViewModel> Patients => _patients;
@@ -28,21 +30,22 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation
 
         public ICommand ShowEditPatientCommand { get; }
 
-        public PatientSearchViewModel(Hospital hospital)
+        public PatientSearchViewModel()
         {
-            _hospital = hospital;
+            _appointmentService = Injector.GetService<AppointmentService>();
+            _patientService = Injector.GetService<PatientService>();
             _patients = new ObservableCollection<PatientViewModel>();
-            ShowEditPatientCommand = new ShowPatientInfoCommand(hospital, this, true);
+            ShowEditPatientCommand = new ShowPatientInfoCommand(this, true);
             Update();
         }
 
         public void Update()
         {
             _patients.Clear();
-            foreach (var patient in _hospital.DoctorService.GetExaminedPatients((Doctor)_hospital.Current))
+            foreach (var patientJMBG in _appointmentService.GetExaminedPatients(Context.Current.JMBG))
             {
+                Patient patient = _patientService.Get(patientJMBG);
                 _patients.Add(new PatientViewModel(patient));
-
             }
         }
 

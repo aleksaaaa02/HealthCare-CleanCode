@@ -1,6 +1,7 @@
 ﻿using HealthCare.Command;
-using HealthCare.Context;
+using HealthCare.Application;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.View;
 using HealthCare.View.DoctorView;
 using HealthCare.ViewModel.DoctorViewModel.Examination;
@@ -10,13 +11,13 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 {
     public class ShowPatientInfoCommand : CommandBase
     {
-        private readonly Hospital _hospital;
+        private readonly PatientService _patientService;
         private readonly ViewModelBase _viewModel;
         private readonly bool _isEdit;
 
-        public ShowPatientInfoCommand(Hospital hospital, ViewModelBase view, bool isEdit)
+        public ShowPatientInfoCommand(ViewModelBase view, bool isEdit)
         {
-            _hospital = hospital;
+            _patientService = Injector.GetService<PatientService>();
             _viewModel = view;
             _isEdit = isEdit;
         }
@@ -26,7 +27,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
             Patient? patient = ExtractPatient();
             if (patient is null) { return; }
 
-            new PatientInformationView(patient, _hospital, _isEdit).ShowDialog();
+            new PatientInformationView(patient, _isEdit).ShowDialog();
             UpdateViewModel();
         }
 
@@ -37,10 +38,10 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
                 var appointment = doctorMainViewModel.SelectedAppointment;
                 if (appointment is null)
                 {
-                    Utility.ShowWarning("Morate odabrati pregled/operaciju iz tabele!");
+                    ViewUtil.ShowWarning("Morate odabrati pregled/operaciju iz tabele!");
                     return null;
                 }
-                return _hospital.PatientService.GetAccount(appointment.JMBG);
+                return _patientService.TryGet(appointment.JMBG);
             }
 
             if (_viewModel is PatientSearchViewModel patientSearchViewModel)
@@ -48,10 +49,10 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
                 var selectedPatient = patientSearchViewModel.SelectedPatient;
                 if (selectedPatient is null)
                 {
-                    Utility.ShowWarning("Morate odabrati pacijenta iz tabele!");
+                    ViewUtil.ShowWarning("Morate odabrati pacijenta iz tabele!");
                     return null;
                 }
-                return _hospital.PatientService.GetAccount(selectedPatient.JMBG);
+                return _patientService.TryGet(selectedPatient.JMBG);
             }
 
             if (_viewModel is DoctorExamViewModel doctorExamViewModel)

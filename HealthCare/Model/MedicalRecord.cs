@@ -1,4 +1,6 @@
-﻿using HealthCare.Repository;
+﻿using HealthCare.Serialize;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HealthCare.Model
 {
@@ -6,11 +8,11 @@ namespace HealthCare.Model
     {
         public float Height { get; set; }
         public float Weight { get; set; }
-        public string[] MedicalHistory { get; set; }
-        public string[] Allergies { get; set; }
+        public List<string> MedicalHistory { get; set; }
+        public List<string> Allergies { get; set; }
 
-        public MedicalRecord() : this(0, 0, new string[0], new string[0]) { }
-        public MedicalRecord(float height, float weight, string[] medicalHistory, string[] allergies)
+        public MedicalRecord() : this(0, 0, new List<string>(), new List<string>()) { }
+        public MedicalRecord(float height, float weight, List<string> medicalHistory, List<string> allergies)
         {
             Height = height;
             Weight = weight;
@@ -20,23 +22,22 @@ namespace HealthCare.Model
         
         public override string? ToString()
         {
-            return "Visina: " + Height.ToString() + "\nTezina: "+ Weight.ToString() + "\nIstorija: " +string.Join(", ", MedicalHistory);
+            return "Visina: " + Height.ToString() + "\nTezina: " + Weight.ToString() + "\nIstorija: " + string.Join(", ", MedicalHistory);
         }
         
-
-        public string[] ToCSV()
+        public string[] Serialize()
         {
-            string medicalHistory = Utility.ToString(MedicalHistory);
-            string allergies = Utility.ToString(Allergies);
+            string medicalHistory = SerialUtil.ToString(MedicalHistory);
+            string allergies = SerialUtil.ToString(Allergies);
             return new string[] {Height.ToString(), Weight.ToString(), medicalHistory, allergies};
         }
         
-        public void FromCSV(string[] values)
+        public void Deserialize(string[] values)
         {
             Height = float.Parse(values[0]);
             Weight = float.Parse(values[1]);
-            MedicalHistory = values[2].Split("|");
-            Allergies = values[3].Split("|");
+            MedicalHistory = values[2].Split("|").ToList();
+            Allergies = values[3].Split("|").ToList();
         }
     }
 }
