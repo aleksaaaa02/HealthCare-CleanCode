@@ -22,8 +22,8 @@
         <Style x:Key="RoundedButton" TargetType="{x:Type Button}">
             <Setter Property="BorderThickness" Value="2" />
             <Setter Property="Background" Value="WhiteSmoke"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="BorderBrush" Value="DarkGray" />
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="BorderBrush" Value="LightGray" />
             <Setter Property="FontWeight" Value="DemiBold" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Margin" Value="4" />
@@ -45,6 +45,10 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="White"/>
                     <Setter Property="BorderBrush" Value="Black" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="True">
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="BorderBrush" Value="DarkGray" />
                 </Trigger>
             </Style.Triggers>
         </Style>

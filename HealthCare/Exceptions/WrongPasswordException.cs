@@ -5,7 +5,7 @@ namespace HealthCare.Exceptions
 {
     public class WrongPasswordException : LoginException
     {
-        public WrongPasswordException() : this("Pogrešna lozinka. Pokušajte ponovo.") { }
+        public WrongPasswordException() : this("Pogresna lozinka. Pokusajte ponovo.") { }
 
         public WrongPasswordException(string? message) : base(message) { }
 

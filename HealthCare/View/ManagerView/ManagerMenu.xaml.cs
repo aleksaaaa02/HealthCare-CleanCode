@@ -29,6 +29,11 @@ namespace HealthCare.View.ManagerView
             new EquipmentRearrangingView().ShowDialog();
         }
 
+        private void Button_Renovation(object sender, RoutedEventArgs e)
+        {
+            new RenovationListingView().ShowDialog();
+        }
+
         private void Button_Logout(object sender, RoutedEventArgs e)
         {
             Close();
