@@ -2,7 +2,7 @@
 using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Service;
-using HealthCare.Service.ScheduleTest;
+using HealthCare.Service.ScheduleService;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,10 +18,10 @@ namespace HealthCare.View.AppointmentView
         private readonly PatientService _patientService;
         private readonly DoctorService _doctorService;
         private readonly AppointmentService _appointmentService;
-        private readonly TestSchedule _schedule;
+        private readonly Schedule _schedule;
         public AppointmentMainView()
         {
-            _schedule = new TestSchedule();
+            _schedule = new Schedule();
             _appointmentService = Injector.GetService<AppointmentService>();
             _patientService = Injector.GetService<PatientService>();
             _doctorService = Injector.GetService<DoctorService>();

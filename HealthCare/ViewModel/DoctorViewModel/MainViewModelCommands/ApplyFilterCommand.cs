@@ -6,7 +6,7 @@ using HealthCare.View;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.ComponentModel.DataAnnotations;
-using HealthCare.Service.ScheduleTest;
+using HealthCare.Service.ScheduleService;
 
 namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 {

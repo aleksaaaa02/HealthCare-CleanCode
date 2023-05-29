@@ -1,7 +1,7 @@
 ﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
-using HealthCare.Service.ScheduleTest;
+using HealthCare.Service.ScheduleService;
 using HealthCare.ViewModel.NurseViewModel;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 using System.Collections.Generic;
@@ -16,14 +16,14 @@ namespace HealthCare.View.UrgentAppointmentView
         private PostponableAppointmentsViewModel _model;
         private AppointmentViewModel? _selected;
         private Appointment _newAppointment;
-        private readonly TestSchedule _schedule;
+        private readonly Schedule _schedule;
         public PostponableAppointmentsView(Appointment newAppointment, List<Appointment> postponable)
         {
             InitializeComponent();
             _newAppointment = newAppointment;
 
             _notificationService = Injector.GetService<NotificationService>();
-            _schedule = new TestSchedule();
+            _schedule = new Schedule();
 
             _model = new PostponableAppointmentsViewModel(postponable);
             DataContext = _model;

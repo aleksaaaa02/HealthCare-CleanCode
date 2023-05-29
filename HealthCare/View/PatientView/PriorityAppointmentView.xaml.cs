@@ -2,7 +2,7 @@
 using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Service;
-using HealthCare.Service.ScheduleTest;
+using HealthCare.Service.ScheduleService;
 using System;
 using System.IO;
 using System.Windows;
@@ -12,7 +12,7 @@ namespace HealthCare.View.AppointmentView
 {
     public partial class PriorityAppointmentView : Window
     {
-        private readonly TestSchedule _schedule;
+        private readonly Schedule _schedule;
         private readonly AppointmentService _appointmentService;
 
         PriorityAppointmentViewModel model;
@@ -20,7 +20,7 @@ namespace HealthCare.View.AppointmentView
         {
             InitializeComponent();
             _appointmentService = Injector.GetService<AppointmentService>();
-            _schedule = new TestSchedule();
+            _schedule = new Schedule();
 
             model = new PriorityAppointmentViewModel();
             DataContext = model;

@@ -1,6 +1,6 @@
 ﻿using HealthCare.Model;
 
-namespace HealthCare.Service.ScheduleTest
+namespace HealthCare.Service.ScheduleService
 {
     public interface IAvailable<T>
     {

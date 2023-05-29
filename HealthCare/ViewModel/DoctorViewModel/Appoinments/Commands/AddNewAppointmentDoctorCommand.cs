@@ -6,7 +6,7 @@ using HealthCare.View;
 using HealthCare.ViewModels.DoctorViewModel;
 using System;
 using System.Windows;
-using HealthCare.Service.ScheduleTest;
+using HealthCare.Service.ScheduleService;
 
 namespace HealthCare.ViewModel.DoctorViewModel.Appointments.Commands
 {
@@ -15,7 +15,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appointments.Commands
         private readonly MakeAppointmentViewModel _makeAppointmentViewModel;
         private readonly DoctorMainViewModel _doctorMainViewModel;
         private readonly Window _window;
-        private readonly TestSchedule _schedule;
+        private readonly Schedule _schedule;
         private readonly PatientService _patientService;
         private readonly AppointmentService _appointmentService;
         private readonly bool _isEditing;
@@ -28,7 +28,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appointments.Commands
             _isEditing = isEditing;
             _appointmentService = Injector.GetService<AppointmentService>();
             _patientService = Injector.GetService<PatientService>();
-            _schedule = new TestSchedule();
+            _schedule = new Schedule();
         }
 
         public override void Execute(object parameter)

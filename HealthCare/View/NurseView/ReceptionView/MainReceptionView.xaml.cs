@@ -1,7 +1,7 @@
 ﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
-using HealthCare.Service.ScheduleTest;
+using HealthCare.Service.ScheduleService;
 using HealthCare.View.PatientView;
 using System.Windows;
 

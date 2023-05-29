@@ -1,7 +1,7 @@
 ﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
-using HealthCare.Service.ScheduleTest;
+using HealthCare.Service.ScheduleService;
 using HealthCare.ViewModel.NurseViewModel;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace HealthCare.View.UrgentAppointmentView
     {
         private readonly NotificationService _notificationService;
         private readonly DoctorService _doctorService;
-        private readonly TestSchedule _schedule;
+        private readonly Schedule _schedule;
         private readonly AppointmentService _appointmentService;
         private readonly DoctorSchedule _doctorSchedule;
         private PatientViewModel _model;
@@ -30,7 +30,7 @@ namespace HealthCare.View.UrgentAppointmentView
             _notificationService = Injector.GetService<NotificationService>();
             _doctorService = Injector.GetService<DoctorService>();
             _appointmentService = Injector.GetService<AppointmentService>();
-            _schedule = new TestSchedule();
+            _schedule = new Schedule();
             _doctorSchedule = new DoctorSchedule();
 
             _model.Update();

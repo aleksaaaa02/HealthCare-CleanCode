@@ -1,5 +1,5 @@
 ﻿using HealthCare.Model;
-using HealthCare.Service.ScheduleTest;
+using HealthCare.Service.ScheduleService;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace HealthCare.ViewModel.NurseViewModel
 
         public PostponableAppointmentsViewModel(List<Appointment> postponable)
         {
-            TestSchedule _schedule = new TestSchedule();
+            Schedule _schedule = new Schedule();
             Appointments = new ObservableCollection<AppointmentViewModel>();
 
             for (int i = 0; i < Math.Min(5, postponable.Count); i++)

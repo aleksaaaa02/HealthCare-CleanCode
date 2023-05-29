@@ -3,14 +3,14 @@ using HealthCare.Model;
 using System;
 using System.Collections.Generic;
 
-namespace HealthCare.Service.ScheduleTest
+namespace HealthCare.Service.ScheduleService
 {
-    public class TestSchedule 
+    public class Schedule 
     {
         private readonly PatientSchedule _patientSchedule;
         private readonly DoctorSchedule _doctorSchedule;  
         private readonly AppointmentService _appointmentService;
-        public TestSchedule()
+        public Schedule()
         {
             _doctorSchedule = new DoctorSchedule();
             _patientSchedule = new PatientSchedule();   
