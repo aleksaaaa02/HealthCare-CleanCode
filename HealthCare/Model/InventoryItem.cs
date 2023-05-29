@@ -6,7 +6,7 @@ namespace HealthCare.Model
     public class InventoryItem : RepositoryItem
     {
         public int Id { get; set; }
-        public int EquipmentId { get; set; }
+        public int ItemId { get; set; }
         public int RoomId { get; set; }
         public int Quantity { get; set; }
 
@@ -17,7 +17,7 @@ namespace HealthCare.Model
         public InventoryItem(int id, int equipmentId, int roomId, int quantity)
         {
             Id = id;
-            EquipmentId = equipmentId;
+            ItemId = equipmentId;
             RoomId = roomId;
             Quantity = quantity;
         }
@@ -32,7 +32,7 @@ namespace HealthCare.Model
         {
             return new string[] {
                 Id.ToString(),
-                EquipmentId.ToString(),
+                ItemId.ToString(),
                 RoomId.ToString(),
                 Quantity.ToString()};
         }
@@ -40,7 +40,7 @@ namespace HealthCare.Model
         public override void Deserialize(string[] values)
         {
             Id = int.Parse(values[0]);
-            EquipmentId = int.Parse(values[1]);
+            ItemId = int.Parse(values[1]);
             RoomId = int.Parse(values[2]);
             Quantity = int.Parse(values[3]);
         }

@@ -18,9 +18,9 @@ namespace HealthCare.Service
 
         public void Execute(TransferItem transfer) {
             var reduceItem = new InventoryItem(
-                transfer.EquipmentId, transfer.FromRoom, transfer.Quantity);
+                transfer.ItemId, transfer.FromRoom, transfer.Quantity);
             var restockItem = new InventoryItem(
-                transfer.EquipmentId, transfer.ToRoom, transfer.Quantity);
+                transfer.ItemId, transfer.ToRoom, transfer.Quantity);
 
             if (!_inventory.TryReduceInventoryItem(reduceItem))
                 return;

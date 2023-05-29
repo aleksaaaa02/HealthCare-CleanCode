@@ -49,7 +49,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment
 
             foreach(InventoryItem inventoryItem in _inventoryService.GetRoomItems(_roomId))
             {
-                Equipment equipment = _equipmentService.Get(inventoryItem.EquipmentId);
+                Equipment equipment = _equipmentService.Get(inventoryItem.ItemId);
                 if (equipment.IsDynamic)
                 {
                     _usedDynamicEquipment.Add(new EquipmentViewModel(equipment, inventoryItem));

@@ -18,7 +18,7 @@ namespace HealthCare.Service
         public IEnumerable<int> GetLowQuantityEquipment(int threshold = 200)
         {
             return GetAll()
-                .GroupBy(x => x.EquipmentId)
+                .GroupBy(x => x.ItemId)
                 .Where(group => group.Sum(x => x.Quantity) < threshold)
                 .Select(group => group.Key);
         }
@@ -26,7 +26,7 @@ namespace HealthCare.Service
         public void RestockInventoryItem(InventoryItem item)
         {
             var found = GetAll().Find(x =>
-                x.EquipmentId == item.EquipmentId && x.RoomId == item.RoomId);
+                x.ItemId == item.ItemId && x.RoomId == item.RoomId);
 
             if (found is not null) {
                 found.Quantity += item.Quantity;
@@ -39,7 +39,7 @@ namespace HealthCare.Service
         {
             var a = GetAll();
             var found = GetAll().Find(x => 
-                x.EquipmentId == item.EquipmentId && x.RoomId == item.RoomId);
+                x.ItemId == item.ItemId && x.RoomId == item.RoomId);
 
             if (found is null || found.Quantity < item.Quantity)
                     return false;
@@ -54,7 +54,7 @@ namespace HealthCare.Service
 
         private IEnumerable<InventoryItem> GetEquipmentItems(int equipmentId)
         {
-            return GetAll().Where(x => x.EquipmentId == equipmentId);
+            return GetAll().Where(x => x.ItemId == equipmentId);
         }
 
         public IEnumerable<InventoryItem> GetRoomItems(int roomId)
@@ -74,7 +74,7 @@ namespace HealthCare.Service
 
         public InventoryItem? SearchByEquipmentAndRoom(int equipmentId, int roomId)
         {
-            return GetAll().Find(x => x.EquipmentId == equipmentId && x.RoomId == roomId);
+            return GetAll().Find(x => x.ItemId == equipmentId && x.RoomId == roomId);
         }
     }
 }

@@ -10,10 +10,8 @@ namespace HealthCare.Model
         public int ToRoom { get; set; }
 
         public TransferItem() : this(0, 0, DateTime.MinValue, false, 0, 0) { }
-        public TransferItem(int equipmentId, int quantity, DateTime scheduled, bool executed, int fromRoom, int toRoom) :
-            this(0, equipmentId, quantity, scheduled, executed, fromRoom, toRoom) { }
-        public TransferItem(int id, int equipmentId, int quantity, DateTime scheduled, bool executed, int fromRoom, int toRoom)
-            : base(id, equipmentId, quantity, scheduled, executed)
+        public TransferItem(int equipmentId, int quantity, DateTime scheduled, bool executed, int fromRoom, int toRoom) : 
+            base(equipmentId, quantity, scheduled, executed)
         {
             FromRoom = fromRoom;
             ToRoom = toRoom;

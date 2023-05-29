@@ -65,7 +65,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
             return _inventoryService.GetAll().Select(x => 
                 new InventoryItemViewModel(
                     x, 
-                    _equipmentService.Get(x.EquipmentId), 
+                    _equipmentService.Get(x.ItemId), 
                     _roomService.Get(x.RoomId)
             )).ToList();
         }

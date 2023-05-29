@@ -23,7 +23,7 @@ namespace HealthCare.Service
             int warehouseId = _roomService.GetWarehouseId();
 
             var restockItem = new InventoryItem(
-                item.EquipmentId, warehouseId, item.Quantity);
+                item.ItemId, warehouseId, item.Quantity);
 
             _inventory.RestockInventoryItem(restockItem);
             item.Executed = true;
