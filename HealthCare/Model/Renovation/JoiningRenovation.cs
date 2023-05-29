@@ -8,9 +8,9 @@ namespace HealthCare.Model.Renovation
         public int OtherRoomId { get; set; }
         public Room ResultRoom { get; set; }
 
-        public JoiningRenovation() : this(0, 0, new TimeSlot(), false, 0, new Room()) { }
-        public JoiningRenovation(int id, int roomId, TimeSlot scheduled, bool executed, int otherRoomId, Room resultRoom)
-            : base(id, roomId, scheduled, executed)
+        public JoiningRenovation() : this(0, new TimeSlot(), 0, new Room()) { }
+        public JoiningRenovation(int roomId, TimeSlot scheduled, int otherRoomId, Room resultRoom)
+            : base(roomId, scheduled)
         {
             OtherRoomId = otherRoomId;
             ResultRoom = resultRoom;

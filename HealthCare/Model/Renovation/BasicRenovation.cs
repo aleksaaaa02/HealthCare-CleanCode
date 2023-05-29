@@ -8,13 +8,13 @@ namespace HealthCare.Model.Renovation
         public int RoomId { get; set; }
         public TimeSlot Scheduled { get; set; }
         public bool Executed { get; set; }
-        public BasicRenovation() : this(0, 0, new TimeSlot(), false) { }
-        public BasicRenovation(int id, int roomId, TimeSlot scheduled, bool executed)
+        public BasicRenovation() : this(0, new TimeSlot()) { }
+        public BasicRenovation(int roomId, TimeSlot scheduled)
         {
-            Id = id;
+            Id = 0;
             RoomId = roomId;
             Scheduled = scheduled;
-            Executed = executed;
+            Executed = false;
         }
 
         public override object Key { get => Id; set => Id = (int)value; }

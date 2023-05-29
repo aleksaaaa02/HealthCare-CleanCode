@@ -1,51 +1,56 @@
 ﻿using HealthCare.Context;
 using HealthCare.Model;
+using HealthCare.Model.Renovation;
 using HealthCare.Service;
 using HealthCare.Service.RenovationService;
+using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace HealthCare.View.ManagerView.RenovationView
 {
     public partial class JoiningRenovationView : Window
     {
-        private readonly Hospital _hospital;
-        private readonly RoomService _roomService;
         private readonly JoiningRenovationService _joiningRenovationService;
+        private readonly TimeSlot _scheduled;
+        private readonly int _room1, _room2;
 
-        public JoiningRenovationView(Hospital hospital, List<int> roomIds)
+        public JoiningRenovationView(Hospital hospital, List<RoomViewModel> rooms, TimeSlot scheduled)
         {
             InitializeComponent();
 
-            _hospital = hospital;
-            _roomService = hospital.RoomService;
-            _joiningRenovationService = new Hospital().JoiningRenovationService;
+            _joiningRenovationService = hospital.JoiningRenovationService;
+
+            _scheduled = scheduled;
+            _room1 = rooms[0].RoomId;
+            _room2 = rooms[1].RoomId;
+
+            lvRooms.ItemsSource = rooms;
+            InitializeComboBox();
         }
 
-        private void PopulateComboBox()
+        private void InitializeComboBox()
         {
-            cbType.ItemsSource = Enum.GetValues(typeof(RoomType));
+            foreach (RoomType a in Enum.GetValues(typeof(RoomType)))
+                cbType.Items.Add(Utility.Translate(a));
+            cbType.SelectedIndex = 0;
         }
 
-        private void Button_Exit(object sender, RoutedEventArgs e)
+        private void btnRenovate_Click(object sender, RoutedEventArgs e)
         {
+            var name = tbName.Text.Trim();
+            var typeIndex = cbType.SelectedIndex;
+            var resultRoom = new Room(0, name, (RoomType)typeIndex);
 
+            _joiningRenovationService.Add(new JoiningRenovation(_room1, _scheduled, _room2, resultRoom));
+            Utility.ShowInformation("Uspesno zakazano renoviranje 2 sobe.");
         }
 
-        private void Button_Renovate(object sender, RoutedEventArgs e)
+        private void btnExist_Click(object sender, RoutedEventArgs e)
         {
-
+            Close();
         }
+
     }
 }

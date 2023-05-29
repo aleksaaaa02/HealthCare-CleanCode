@@ -12,9 +12,9 @@ namespace HealthCare.Model.Renovation
         public Room ResultRoom1 { get; set; }
         public Room ResultRoom2 { get; set; }
 
-        public SplittingRenovation() : this(0, 0, new TimeSlot(), false, new Room(), new Room()) { }
-        public SplittingRenovation(int id, int roomId, TimeSlot scheduled, bool executed, Room resultRoom1, Room resultRoom2)
-            : base(id, roomId, scheduled, executed)
+        public SplittingRenovation() : this(0, new TimeSlot(), new Room(), new Room()) { }
+        public SplittingRenovation(int roomId, TimeSlot scheduled, Room resultRoom1, Room resultRoom2)
+            : base(roomId, scheduled)
         {
             ResultRoom1 = resultRoom1;
             ResultRoom2 = resultRoom2;
