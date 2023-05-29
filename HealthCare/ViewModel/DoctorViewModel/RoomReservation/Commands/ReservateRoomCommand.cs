@@ -1,8 +1,11 @@
-﻿using HealthCare.Command;
+﻿using HealthCare.Application;
+using HealthCare.Command;
 using HealthCare.Exceptions;
 using HealthCare.Model;
+using HealthCare.Service.ScheduleService;
 using HealthCare.View;
 using HealthCare.View.DoctorView;
+using System;
 using System.Windows;
 
 namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation.Commands
@@ -10,6 +13,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation.Commands
     public class ReserveRoomCommand : CommandBase
     {
         private readonly RoomReservationViewModel _roomReservationViewModel;
+        private readonly RoomSchedule _roomSchedule;
         private readonly Window _window;
         private Appointment _appointment;
 
@@ -17,6 +21,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation.Commands
             _roomReservationViewModel = viewModel;
             _window = window;
             _appointment = appointment;
+            _roomSchedule = Injector.GetService<RoomSchedule>();
         }   
 
         public override void Execute(object parameter)
@@ -42,6 +47,12 @@ namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation.Commands
             if (_roomReservationViewModel.SelectedRoom == null)
             {
                 throw new ValidationException("Morate odabrati sobu");
+            }
+            int roomID = _roomReservationViewModel.SelectedRoom.RoomId;
+            TimeSlot timeSlot = _appointment.TimeSlot;
+            if (!_roomSchedule.IsAvailable(roomID, timeSlot))
+            {
+                throw new ValidationException("Soba je u fazi renovacije");
             }
 
         }
