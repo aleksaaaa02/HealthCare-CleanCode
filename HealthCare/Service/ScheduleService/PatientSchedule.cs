@@ -1,5 +1,6 @@
 ﻿using HealthCare.Application;
 using HealthCare.Model;
+using HealthCare.Service.ScheduleService.Availability;
 using System;
 using System.Collections.Generic;
 using System.Linq;

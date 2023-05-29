@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Model.Renovation
 {
-    public class SplittingRenovation : BasicRenovation
+    public class SplittingRenovation : RenovationBase
     {
         public Room ResultRoom1 { get; set; }
         public Room ResultRoom2 { get; set; }

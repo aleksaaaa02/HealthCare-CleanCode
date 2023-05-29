@@ -1,10 +1,14 @@
 ﻿using HealthCare.Application;
+using HealthCare.Model;
 using HealthCare.Model.Renovation;
 using HealthCare.Repository;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HealthCare.Service.RenovationService
 {
-    public class SplittingRenovationService : RenovationService<SplittingRenovation>
+    public class SplittingRenovationService : NumericService<SplittingRenovation>, IRenovationService
     {
         private readonly RoomService _roomService;
         private readonly InventoryService _inventory;
@@ -13,23 +17,38 @@ namespace HealthCare.Service.RenovationService
         {
             _roomService = Injector.GetService<RoomService>();
             _inventory = Injector.GetService<InventoryService>(Injector.EQUIPMENT_INVENTORY_S);
+            ExecuteAll();
         }
 
-        public override void Execute(SplittingRenovation renovation)
+        public void Execute(SplittingRenovation renovation)
         {
             var items = _inventory.GetRoomItems(renovation.RoomId);
             int warehouseId = _roomService.GetWarehouseId();
             items.ForEach(x => {
+                _inventory.Remove(x.Key);
                 x.RoomId = warehouseId;
-                _inventory.Update(x);
+                _inventory.RestockInventoryItem(x);
             });
 
-            _roomService.Remove(renovation.RoomId);
             _roomService.Add(renovation.ResultRoom1);
             _roomService.Add(renovation.ResultRoom2);
-
+            _roomService.Remove(renovation.RoomId);
+            
             renovation.Executed = true;
             Update(renovation);
+        }
+
+        public void ExecuteAll()
+        {
+            GetAll().ForEach(x => {
+                if (!x.Executed && x.Scheduled.End <= DateTime.Now)
+                    Execute(x);
+            });
+        }
+
+        public IEnumerable<RenovationBase> GetRenovations()
+        {
+            return GetAll().Cast<RenovationBase>();
         }
     }
 }

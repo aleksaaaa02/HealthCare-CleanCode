@@ -39,12 +39,19 @@ namespace HealthCare.View.ManagerView.RenovationView
 
         private void btnRenovate_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(tbName.Text))
+            {
+                ViewUtil.ShowWarning("Naziv sobe ne sme da bude prazan.");
+                return;
+            }
+
             var name = tbName.Text.Trim();
             var typeIndex = cbType.SelectedIndex;
             var resultRoom = new Room(0, name, (RoomType)typeIndex);
 
             _joiningRenovationService.Add(new JoiningRenovation(_room1, _scheduled, _room2, resultRoom));
             ViewUtil.ShowInformation("Uspesno zakazano renoviranje 2 sobe.");
+            Close();
         }
 
         private void btnExist_Click(object sender, RoutedEventArgs e)

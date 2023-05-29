@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace HealthCare.Model.Renovation
 {
-    public class JoiningRenovation : BasicRenovation
+    public class JoiningRenovation : RenovationBase
     {
         public int OtherRoomId { get; set; }
         public Room ResultRoom { get; set; }

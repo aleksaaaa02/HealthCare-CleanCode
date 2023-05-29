@@ -2,13 +2,12 @@
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Model.Renovation;
-using HealthCare.Service;
 using HealthCare.Service.RenovationService;
+using HealthCare.Service.ScheduleService;
 using HealthCare.View.ManagerView.RenovationView;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModel.ManagerViewModel;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
@@ -17,12 +16,14 @@ namespace HealthCare.View.ManagerView
     public partial class RenovationListingView : Window
     {
         private readonly BasicRenovationService _basicRenovationService;
+        private readonly RoomSchedule _roomSchedule;
 
         public RenovationListingView()
         {
             InitializeComponent();
 
             _basicRenovationService = Injector.GetService<BasicRenovationService>();
+            _roomSchedule = Injector.GetService<RoomSchedule>();
 
             DataContext = new RenovationViewModel();
 
@@ -44,6 +45,12 @@ namespace HealthCare.View.ManagerView
             if (startDate is null || endDate is null)
                 throw new ValidationException("Nisu izabrani datum pocetka i kraja renoviranja.");
 
+            if (startDate <= DateTime.Now)
+                throw new ValidationException("Datum početka renoviranja mora da bude u budućnosti.");
+
+            if (endDate <= startDate)
+                throw new ValidationException("Datum kraja renoviranja ne može da bude pre početka.");
+
             var slot = new TimeSlot((DateTime)startDate, (DateTime)endDate);
 
             foreach (RoomViewModel room in selected)
@@ -54,7 +61,7 @@ namespace HealthCare.View.ManagerView
         private void ValidateRoom(RoomViewModel room, TimeSlot slot)
         {
             var id = room.RoomId;
-            if (!_basicRenovationService.RoomFree(id, slot))
+            if (!_roomSchedule.IsAvailable(id, slot))
                 throw new ValidationException(
                     $"Soba sa ID-jem {id} nije slobodna u izabranom terminu.");
         }
@@ -94,7 +101,7 @@ namespace HealthCare.View.ManagerView
             var roomId = ((RoomViewModel)lvRooms.SelectedItem).RoomId;
             var scheduled = GetScheduled();
 
-            _basicRenovationService.Add(new BasicRenovation(roomId, scheduled));
+            _basicRenovationService.Add(new RenovationBase(roomId, scheduled));
 
             ViewUtil.ShowInformation("Uspesno zakazano renoviranje sobe.");
             Reset();
@@ -115,10 +122,10 @@ namespace HealthCare.View.ManagerView
         {
             if (!IsValid()) return;
 
-            var roomId = ((RoomViewModel) lvRooms.SelectedItem).RoomId;
+            var roomModel = (RoomViewModel) lvRooms.SelectedItem;
             var scheduled = GetScheduled();
 
-            new SplittingRenovationView(roomId, scheduled).ShowDialog();
+            new SplittingRenovationView(roomModel, scheduled).ShowDialog();
             Reset();
         }
 

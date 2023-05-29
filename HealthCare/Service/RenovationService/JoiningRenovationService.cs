@@ -1,4 +1,5 @@
 ﻿using HealthCare.Application;
+using HealthCare.Model;
 using HealthCare.Model.Renovation;
 using HealthCare.Repository;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace HealthCare.Service.RenovationService
 {
-    public class JoiningRenovationService : RenovationService<JoiningRenovation>
+    public class JoiningRenovationService : NumericService<JoiningRenovation>, IRenovationService
     {
         private readonly RoomService _roomService;
         private readonly InventoryService _inventory;
@@ -18,9 +19,10 @@ namespace HealthCare.Service.RenovationService
         {
             _roomService = Injector.GetService<RoomService>();
             _inventory = Injector.GetService<InventoryService>(Injector.EQUIPMENT_INVENTORY_S);
+            ExecuteAll();
         }
-
-        public override void Execute(JoiningRenovation renovation)
+        
+        public void Execute(JoiningRenovation renovation)
         {
             var items1 = _inventory.GetRoomItems(renovation.RoomId);
             var items2 = _inventory.GetRoomItems(renovation.OtherRoomId);
@@ -29,17 +31,30 @@ namespace HealthCare.Service.RenovationService
 
             items1.ForEach(x => _inventory.Remove(x.Id));
             items2.ForEach(x => _inventory.Remove(x.Id));
-            _roomService.Remove(renovation.RoomId);
-            _roomService.Remove(renovation.OtherRoomId);
-
-            _roomService.Add(renovation.ResultRoom);
             combined.ForEach(x =>{
                 x.RoomId = renovation.ResultRoom.Id;
-                _inventory.Update(x);
+                _inventory.RestockInventoryItem(x);
             });
+
+            _roomService.Remove(renovation.RoomId);
+            _roomService.Remove(renovation.OtherRoomId);
+            _roomService.Add(renovation.ResultRoom);
 
             renovation.Executed = true;
             Update(renovation);
+        }
+
+        public void ExecuteAll()
+        {
+            GetAll().ForEach(x => {
+                if (!x.Executed && x.Scheduled.End <= DateTime.Now)
+                    Execute(x);
+            });
+        }
+
+        public IEnumerable<RenovationBase> GetRenovations()
+        {
+            return GetAll().Cast<RenovationBase>();
         }
     }
 }

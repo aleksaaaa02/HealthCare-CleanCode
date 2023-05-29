@@ -1,15 +1,16 @@
 ﻿using HealthCare.Repository;
+using System;
 
 namespace HealthCare.Model.Renovation
 {
-    public class BasicRenovation : RepositoryItem
+    public class RenovationBase : RepositoryItem
     {
         public int Id { get; set; }
         public int RoomId { get; set; }
         public TimeSlot Scheduled { get; set; }
         public bool Executed { get; set; }
-        public BasicRenovation() : this(0, new TimeSlot()) { }
-        public BasicRenovation(int roomId, TimeSlot scheduled)
+        public RenovationBase() : this(0, new TimeSlot()) { }
+        public RenovationBase(int roomId, TimeSlot scheduled)
         {
             Id = 0;
             RoomId = roomId;

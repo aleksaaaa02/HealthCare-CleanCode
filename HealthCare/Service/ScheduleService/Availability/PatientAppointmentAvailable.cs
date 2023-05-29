@@ -2,7 +2,7 @@
 using HealthCare.Model;
 using System.Linq;
 
-namespace HealthCare.Service.ScheduleService
+namespace HealthCare.Service.ScheduleService.Availability
 {
     public class PatientAppointmentAvailable : IAvailable<string>
     {
