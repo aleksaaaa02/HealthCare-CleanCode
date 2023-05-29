@@ -60,7 +60,7 @@ namespace HealthCare
             }
             catch (LoginException ex)
             {
-                Utility.ShowWarning(ex.Message);
+                ViewUtil.ShowWarning(ex.Message);
             }
         }
 
@@ -68,7 +68,7 @@ namespace HealthCare
         {
             foreach (var notification in _notificationService.GetForUser(Context.Current.JMBG))
             {
-                Utility.ShowInformation(notification.Display());
+                ViewUtil.ShowInformation(notification.Display());
                 _notificationService.Update(notification);
             }
         }

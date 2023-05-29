@@ -1,4 +1,5 @@
-﻿using HealthCare.Repository;
+﻿using HealthCare.Application.Common;
+using HealthCare.Repository;
 using HealthCare.Serialize;
 using System;
 
@@ -32,7 +33,7 @@ namespace HealthCare.Model
         {
             return new string[] { 
                 Id.ToString(), ItemId.ToString(), 
-                Quantity.ToString(), Utility.ToString(Scheduled), 
+                Quantity.ToString(), Util.ToString(Scheduled), 
                 Executed.ToString() };
         }
 
@@ -41,7 +42,7 @@ namespace HealthCare.Model
             Id = int.Parse(values[0]);
             ItemId = int.Parse(values[1]);
             Quantity = int.Parse(values[2]);
-            Scheduled = Utility.ParseDate(values[3]);
+            Scheduled = Util.ParseDate(values[3]);
             Executed = bool.Parse(values[4]);
         }
     }

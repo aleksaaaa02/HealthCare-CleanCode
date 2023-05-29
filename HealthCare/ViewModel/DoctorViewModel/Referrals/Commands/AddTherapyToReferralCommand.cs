@@ -32,7 +32,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
             }
             catch (ValidationException ve)
             {
-                Utility.ShowWarning(ve.Message);
+                ViewUtil.ShowWarning(ve.Message);
             }
 
         }

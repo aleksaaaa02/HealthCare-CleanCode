@@ -55,9 +55,9 @@ namespace HealthCare.ViewModel.ManagerViewModel
         private bool HasAllTokens(InventoryItemViewModel item, string[] tokens)
         {
             var searchParameters = new string[] {
-                Utility.Translate(item.Equipment.IsDynamic),
-                Utility.Translate(item.Equipment.Type),
-                Utility.Translate(item.Room.Type),
+                ViewUtil.Translate(item.Equipment.IsDynamic),
+                ViewUtil.Translate(item.Equipment.Type),
+                ViewUtil.Translate(item.Room.Type),
                 item.Quantity.ToString(),
                 item.Equipment.Name,
                 item.Room.Name,

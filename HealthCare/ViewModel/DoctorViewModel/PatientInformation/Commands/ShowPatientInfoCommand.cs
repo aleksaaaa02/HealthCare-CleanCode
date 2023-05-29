@@ -38,7 +38,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
                 var appointment = doctorMainViewModel.SelectedAppointment;
                 if (appointment is null)
                 {
-                    Utility.ShowWarning("Morate odabrati pregled/operaciju iz tabele!");
+                    ViewUtil.ShowWarning("Morate odabrati pregled/operaciju iz tabele!");
                     return null;
                 }
                 return _patientService.TryGet(appointment.JMBG);
@@ -49,7 +49,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
                 var selectedPatient = patientSearchViewModel.SelectedPatient;
                 if (selectedPatient is null)
                 {
-                    Utility.ShowWarning("Morate odabrati pacijenta iz tabele!");
+                    ViewUtil.ShowWarning("Morate odabrati pacijenta iz tabele!");
                     return null;
                 }
                 return _patientService.TryGet(selectedPatient.JMBG);

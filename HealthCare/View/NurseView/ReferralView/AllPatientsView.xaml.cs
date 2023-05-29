@@ -53,7 +53,7 @@ namespace HealthCare.View.NurseView.ReferralView
         {
             if (_patient is null)
             {
-                Utility.ShowWarning("Izaberite pacijenta.");
+                ViewUtil.ShowWarning("Izaberite pacijenta.");
                 return false;
             }
             return true;

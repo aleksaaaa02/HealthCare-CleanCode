@@ -33,7 +33,7 @@ namespace HealthCare.View.ManagerView
             try {
                 Validate();
             } catch (ValidationException ve) {
-                Utility.ShowWarning(ve.Message);
+                ViewUtil.ShowWarning(ve.Message);
                 return;
             }
 
@@ -41,7 +41,7 @@ namespace HealthCare.View.ManagerView
                 if (item.IsSelected)
                     MakeOrder(item.EquipmentId, int.Parse(item.OrderQuantity));
 
-            Utility.ShowInformation("Poručivanje uspešno.");
+            ViewUtil.ShowInformation("Poručivanje uspešno.");
             _model.LoadAll();
         }
 

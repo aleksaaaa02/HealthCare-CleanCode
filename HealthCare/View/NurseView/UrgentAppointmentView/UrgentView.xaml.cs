@@ -73,7 +73,7 @@ namespace HealthCare.View.UrgentAppointmentView
         {
             if (!Validate())
             {
-                Utility.ShowWarning("Izaberite pacijenta i unesite duzinu trajanja u minutima.");
+                ViewUtil.ShowWarning("Izaberite pacijenta i unesite duzinu trajanja u minutima.");
                 return;
             }
 
@@ -90,7 +90,7 @@ namespace HealthCare.View.UrgentAppointmentView
                 "Hitan termin sa ID-jem " + appointment.AppointmentID + " je kreiran.",
                 _doctorService.Get(appointment.DoctorJMBG).JMBG));
 
-                Utility.ShowInformation("Uspesno kreiran hitan termin.");
+                ViewUtil.ShowInformation("Uspesno kreiran hitan termin.");
                 return;
             }
 
@@ -122,7 +122,7 @@ namespace HealthCare.View.UrgentAppointmentView
 
         public void ShowErrorMessageBox(string messageBoxText)
         {
-            Utility.ShowWarning(messageBoxText);
+            ViewUtil.ShowWarning(messageBoxText);
         }
     }
 }

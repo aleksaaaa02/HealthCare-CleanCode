@@ -21,7 +21,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
             
             } catch(ValidationException ve)
             {
-                Utility.ShowWarning(ve.Message);
+                ViewUtil.ShowWarning(ve.Message);
             }
 
         }

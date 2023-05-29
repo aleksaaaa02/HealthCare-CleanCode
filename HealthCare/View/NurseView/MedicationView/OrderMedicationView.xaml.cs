@@ -35,7 +35,7 @@ namespace HealthCare.View.NurseView.OrderMedicationView
             }
             catch (ValidationException ve)
             {
-                Utility.ShowWarning(ve.Message);
+                ViewUtil.ShowWarning(ve.Message);
                 return;
             }
 
@@ -43,7 +43,7 @@ namespace HealthCare.View.NurseView.OrderMedicationView
                 if (item.IsSelected)
                     MakeOrder(item.Id, int.Parse(item.OrderQuantity));
 
-            Utility.ShowInformation("Poručivanje uspešno.");
+            ViewUtil.ShowInformation("Poručivanje uspešno.");
             _model.LoadAll();
         }
 

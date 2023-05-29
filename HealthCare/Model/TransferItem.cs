@@ -1,4 +1,5 @@
-﻿using HealthCare.Serialize;
+﻿using HealthCare.Application.Common;
+using HealthCare.Serialize;
 using System;
 using System.Linq;
 
@@ -25,7 +26,7 @@ namespace HealthCare.Model
 
         public override void Deserialize(string[] values)
         {
-            base.Deserialize(Utility.SubArray(values, 0, 5));
+            base.Deserialize(Util.SubArray(values, 0, 5));
             FromRoom = int.Parse(values[5]);
             ToRoom = int.Parse(values[6]);
         }

@@ -33,7 +33,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
             }
             catch (ValidationException ve)
             {
-                Utility.ShowWarning(ve.Message);
+                ViewUtil.ShowWarning(ve.Message);
             }
         }
 
@@ -51,7 +51,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 
         private void ShowSuccessMessage()
         {
-            Utility.ShowInformation("Pacijent uspesno sacuvan!");
+            ViewUtil.ShowInformation("Pacijent uspesno sacuvan!");
         }
 
         private void Validate()

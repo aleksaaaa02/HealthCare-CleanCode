@@ -24,8 +24,8 @@ namespace HealthCare.View.PatientView
             _appointmentId = appointmentID;
             _patient = patient;
 
-            string allergies = Utility.ToString(patient.MedicalRecord.Allergies);
-            string medicalHistory = Utility.ToString(patient.MedicalRecord.MedicalHistory);
+            string allergies = ViewUtil.ToString(patient.MedicalRecord.Allergies);
+            string medicalHistory = ViewUtil.ToString(patient.MedicalRecord.MedicalHistory);
             rtbAllergies.AppendText(allergies);
             rtbMedicalHistory.AppendText(medicalHistory);
         }
@@ -42,17 +42,17 @@ namespace HealthCare.View.PatientView
             TextRange textRange = new TextRange(
                    rtbAllergies.Document.ContentStart,
                    rtbAllergies.Document.ContentEnd);
-            _patient.MedicalRecord.Allergies = Utility.GetStringList(textRange.Text);
+            _patient.MedicalRecord.Allergies = ViewUtil.GetStringList(textRange.Text);
 
             textRange = new TextRange(
                    rtbSymptoms.Document.ContentStart,
                    rtbSymptoms.Document.ContentEnd);
-            anamnesis.Symptoms = Utility.GetStringList(textRange.Text);
+            anamnesis.Symptoms = ViewUtil.GetStringList(textRange.Text);
 
             textRange = new TextRange(
                    rtbMedicalHistory.Document.ContentStart,
                    rtbMedicalHistory.Document.ContentEnd);
-            _patient.MedicalRecord.MedicalHistory = Utility.GetStringList(textRange.Text);
+            _patient.MedicalRecord.MedicalHistory = ViewUtil.GetStringList(textRange.Text);
 
             int newID = _anamnesisService.Add(anamnesis);
             

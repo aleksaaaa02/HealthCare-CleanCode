@@ -40,7 +40,7 @@ namespace HealthCare.Model
         {
             Id = int.Parse(values[0]);
             Name = values[1];
-            Type = Utility.Parse<RoomType>(values[2]);
+            Type = SerialUtil.ParseEnum<RoomType>(values[2]);
         }
     }
 }

@@ -41,7 +41,7 @@ namespace HealthCare.Model
 
         public override string[] Serialize()
         {
-            return new string[] { Id.ToString(), DaysOfTreatment.ToString(), PatientJMBG, DoctorJMBG, IsUsed.ToString(), TherapyID.ToString(), Utility.ToString(AdditionalExamination)};
+            return new string[] { Id.ToString(), DaysOfTreatment.ToString(), PatientJMBG, DoctorJMBG, IsUsed.ToString(), TherapyID.ToString(), SerialUtil.ToString(AdditionalExamination)};
         }
     }
 }

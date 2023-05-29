@@ -35,14 +35,14 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appointments.Commands
         {
             if (_makeAppointmentViewModel.SelectedPatient is null)
             {
-                Utility.ShowWarning("Morate odabrati pacijenta!");
+                ViewUtil.ShowWarning("Morate odabrati pacijenta!");
                 return;
             }
 
             Patient? patient = _patientService.TryGet(_makeAppointmentViewModel.SelectedPatient.JMBG);
             if (patient is null)
             {
-                Utility.ShowError("Oops... Doslo je do greske probajte ponovo!");
+                ViewUtil.ShowError("Oops... Doslo je do greske probajte ponovo!");
                 return;
             }
 
@@ -56,7 +56,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appointments.Commands
             {
                 if (!_schedule.CheckAvailability(newAppointment.DoctorJMBG, newAppointment.PatientJMBG, newAppointment.TimeSlot))
                 {
-                    Utility.ShowWarning("Doktor ili pacijent je zauzet u ovom terminu, odaberite drugi termin");
+                    ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u ovom terminu, odaberite drugi termin");
                     return;
                 }
                 else
@@ -74,7 +74,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appointments.Commands
             newAppointment.AppointmentID = Convert.ToInt32(_doctorMainViewModel.SelectedAppointment.AppointmentID);
             if (!_schedule.CheckAvailability(newAppointment.DoctorJMBG, newAppointment.PatientJMBG, newAppointment.TimeSlot))
             {
-                Utility.ShowWarning("Doktor ili pacijent je zauzet u ovom terminu, odaberite drugi termin");
+                ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u ovom terminu, odaberite drugi termin");
                 return;
             }
             _appointmentService.Update(newAppointment);

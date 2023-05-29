@@ -30,11 +30,11 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
             try
             {
                 MakeReferral();
-                Utility.ShowInformation("Uput za bolnicko lecenje uspesno dodat");
+                ViewUtil.ShowInformation("Uput za bolnicko lecenje uspesno dodat");
             }
             catch (ValidationException ex)
             {
-                Utility.ShowWarning(ex.Message);
+                ViewUtil.ShowWarning(ex.Message);
             }
         }
 
@@ -43,7 +43,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
             List<int> medication = GetMedication();
             int daysOfTreatment = _treatmentReferralViewModel.DaysOfTreatment;
             string doctorJMBG = Context.Current.JMBG;
-            List<string> additionalExamination = Utility.GetStringList(_treatmentReferralViewModel.AdditionalExamination);
+            List<string> additionalExamination = ViewUtil.GetStringList(_treatmentReferralViewModel.AdditionalExamination);
             
             CheckPatientAllergies(_examinedPatient, medication);
 

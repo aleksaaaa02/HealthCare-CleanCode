@@ -1,4 +1,5 @@
 ﻿using HealthCare.Application;
+using HealthCare.Application.Common;
 using HealthCare.Serialize;
 using HealthCare.Service;
 using System.Collections.Generic;
@@ -35,9 +36,9 @@ namespace HealthCare.ViewModel.ManagerViewModel
             InventoryFilter filter = new InventoryFilter(_models);
 
             var args = BoxSelectionArgs.ToArray();
-            var quantityArgs = Utility.SubArray(args, 0, 3);
-            var equipmentArgs = Utility.SubArray(args, 3, 4);
-            var roomArgs = Utility.SubArray(args, 7, 5);
+            var quantityArgs = Util.SubArray(args, 0, 3);
+            var equipmentArgs = Util.SubArray(args, 3, 4);
+            var roomArgs = Util.SubArray(args, 7, 5);
 
             filter.FilterQuantity(quantityArgs);
             filter.FilterEquipmentType(equipmentArgs);

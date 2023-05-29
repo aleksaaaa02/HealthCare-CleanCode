@@ -23,7 +23,7 @@ namespace HealthCare.Model
 
         public override string[] Serialize()
         {
-            return new string[] { Id.ToString(), Name, Description, Utility.ToString(Ingredients) };
+            return new string[] { Id.ToString(), Name, Description, SerialUtil.ToString(Ingredients) };
         }
 
         public override void Deserialize(string[] values)

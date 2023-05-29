@@ -73,7 +73,7 @@ namespace HealthCare.View.NurseView.PrescriptionView
             Prescription prescription = _prescriptionService.Get(_prescription.Prescription.Id);
 
             if (!prescription.FirstUse) {
-                Utility.ShowWarning("Vec ste iskoristili recept.");
+                ViewUtil.ShowWarning("Vec ste iskoristili recept.");
                 return;
             }
 
@@ -94,12 +94,12 @@ namespace HealthCare.View.NurseView.PrescriptionView
             Prescription prescription = _prescriptionService.Get(_prescription.Prescription.Id);
 
             if (prescription.FirstUse) {
-                Utility.ShowWarning("Niste iskoristili recept.");
+                ViewUtil.ShowWarning("Niste iskoristili recept.");
                 return;
             }
 
             if (prescription.Start.AddDays(prescription.ConsumptionDays - 1) > DateTime.Now) {
-                Utility.ShowWarning("Nije vam isteklo vreme.");
+                ViewUtil.ShowWarning("Nije vam isteklo vreme.");
                 return;
             }
 
@@ -121,7 +121,7 @@ namespace HealthCare.View.NurseView.PrescriptionView
 
             if (!int.TryParse(tbHours.Text, out _) && !int.TryParse(tbMinutes.Text, out _))
             {
-                Utility.ShowWarning("Sati i minuti moraju biti brojevi");
+                ViewUtil.ShowWarning("Sati i minuti moraju biti brojevi");
                 return;
             }
 
@@ -130,7 +130,7 @@ namespace HealthCare.View.NurseView.PrescriptionView
 
             if (!tbDate.SelectedDate.HasValue)
             {
-                Utility.ShowWarning("Izaberite datum.");
+                ViewUtil.ShowWarning("Izaberite datum.");
                 return;
             }
 
@@ -140,7 +140,7 @@ namespace HealthCare.View.NurseView.PrescriptionView
 
             if (selectedDate <= DateTime.Now)
             {
-                Utility.ShowWarning("Datum ne sme da bude u proslosti.");
+                ViewUtil.ShowWarning("Datum ne sme da bude u proslosti.");
                 return;
             }
 
@@ -149,11 +149,11 @@ namespace HealthCare.View.NurseView.PrescriptionView
 
             if (!_schedule.CheckAvailability(doctor.JMBG, _patient.JMBG, slot))
             {
-                Utility.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu.");
+                ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu.");
                 return;
             }
             _appointmentService.Add(appointment);
-            Utility.ShowInformation("Uspesno ste zakazali pregled.");
+            ViewUtil.ShowInformation("Uspesno ste zakazali pregled.");
             _model.Update();
         }
 
@@ -163,11 +163,11 @@ namespace HealthCare.View.NurseView.PrescriptionView
 
             if (!_medicationInventory.TryReduceInventoryItem(reduceItem))
             {
-                Utility.ShowError("Nema lekova na stanju.");
+                ViewUtil.ShowError("Nema lekova na stanju.");
                 return false;
             }
 
-            Utility.ShowInformation("Uspesno izdati lekovi.");
+            ViewUtil.ShowInformation("Uspesno izdati lekovi.");
             return true;
         }
 
@@ -175,7 +175,7 @@ namespace HealthCare.View.NurseView.PrescriptionView
         {
             if (_prescription is null)
             {
-                Utility.ShowWarning("Izaberite recept");
+                ViewUtil.ShowWarning("Izaberite recept");
                 return false;
             }
             return true;

@@ -37,7 +37,7 @@ namespace HealthCare.Model
 
         public override string[] Serialize()
         {
-            string recipients = Utility.ToString(Recipients);
+            string recipients = SerialUtil.ToString(Recipients);
             return new string[] { Id.ToString(), recipients, Text, Seen.ToString() };
         }
 

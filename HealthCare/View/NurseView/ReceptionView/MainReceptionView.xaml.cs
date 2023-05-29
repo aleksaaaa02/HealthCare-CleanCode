@@ -37,7 +37,7 @@ namespace HealthCare.View.ReceptionView
             Appointment? starting = _patientSchedule.TryGetReceptionAppointment(patient);
             if (starting is null)
             {
-                Utility.ShowWarning("Pacijent nema preglede u narednih 15 minuta.");
+                ViewUtil.ShowWarning("Pacijent nema preglede u narednih 15 minuta.");
                 return;
             }
             new NurseAnamnesisView(starting.AppointmentID, patient).ShowDialog();

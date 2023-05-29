@@ -31,7 +31,7 @@ namespace HealthCare.View.AppointmentView
             Patient patient = (Patient)Context.Current;
             if (patient.Blocked)
             {
-                Utility.ShowWarning("Zao nam je, ali vas profil je blokiran");
+                ViewUtil.ShowWarning("Zao nam je, ali vas profil je blokiran");
                 return false;
             }
 
@@ -43,7 +43,7 @@ namespace HealthCare.View.AppointmentView
 
             if (!tbDate.SelectedDate.HasValue)
             {
-                Utility.ShowWarning("Molimo Vas izaberite datum");
+                ViewUtil.ShowWarning("Molimo Vas izaberite datum");
                 return false;
             }
             else
@@ -54,20 +54,20 @@ namespace HealthCare.View.AppointmentView
                 selectedDate = selectedDate.AddMinutes(minutesStart);
                 if (selectedDate < currentDate)
                 {
-                    Utility.ShowWarning("Izaberite ispravan datum pregleda");
+                    ViewUtil.ShowWarning("Izaberite ispravan datum pregleda");
                     return false;
                 }
             }
 
             if (doctorListView.SelectedItems.Count != 1)
             {
-                Utility.ShowWarning("Molimo Vas izaberite doktora");
+                ViewUtil.ShowWarning("Molimo Vas izaberite doktora");
                 return false;
             }
 
             if (hoursStart > hoursEnd || (hoursStart == hoursEnd && minutesStart >= minutesEnd))
             {
-                Utility.ShowWarning("Molimo Vas izaberite ispravan vremenski interval");
+                ViewUtil.ShowWarning("Molimo Vas izaberite ispravan vremenski interval");
                 return false;
             }
             return true;
@@ -95,7 +95,7 @@ namespace HealthCare.View.AppointmentView
             }
             else
             {
-                Utility.ShowWarning("Izaberite prioritet");
+                ViewUtil.ShowWarning("Izaberite prioritet");
                 return;
             }    
         }
@@ -169,17 +169,17 @@ namespace HealthCare.View.AppointmentView
         {
             if (appointmentListView.SelectedItems.Count != 1) 
             {
-                Utility.ShowWarning("Niste izabrali pregled");
+                ViewUtil.ShowWarning("Niste izabrali pregled");
                 return;
             }
             Appointment appointment = (Appointment)appointmentListView.SelectedItem;
             if (!_schedule.CheckAvailability(appointment.DoctorJMBG, appointment.PatientJMBG, appointment.TimeSlot))
             {
-                Utility.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
+                ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
                 return;
             }
             _appointmentService.Add(appointment);
-            Utility.ShowInformation("Uspesno dodat pregled");
+            ViewUtil.ShowInformation("Uspesno dodat pregled");
             WriteAction("CREATE");
             model.IsUserBlocked();
         }

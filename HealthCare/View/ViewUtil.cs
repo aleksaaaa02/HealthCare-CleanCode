@@ -8,7 +8,7 @@ using System.Windows.Documents;
 
 namespace HealthCare.View
 {
-    public static class Utility
+    public static class ViewUtil
     {
         public static void ShowInformation(string message)
         {
@@ -34,8 +34,7 @@ namespace HealthCare.View
 
         public static string Translate(bool b)
         {
-            if (b) return "da";
-            return "ne";
+            return b ? "da" : "ne";
         }
 
         public static string Translate(Gender gender)
@@ -106,8 +105,7 @@ namespace HealthCare.View
         public static List<int> GetIntList(string text, char delimiter = ',')
         {
             return Array.ConvertAll(
-                text.Split(delimiter)
-                .Select(x => x.Trim())
+                text.Split(delimiter).Select(x => x.Trim())
                 .ToArray(), int.Parse)
                 .ToList();
         }

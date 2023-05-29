@@ -78,13 +78,13 @@ namespace HealthCare.View.ReceptionView
         {
             if (!Validate())
             {
-                Utility.ShowWarning("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
+                ViewUtil.ShowWarning("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
                 return;
             }
 
             Patient patient = CreatePatient();
             if (_patientService.Contains(patient))
-                Utility.ShowWarning("Pacijent sa unetim _jmbg vec postoji");
+                ViewUtil.ShowWarning("Pacijent sa unetim _jmbg vec postoji");
             else
                 _patientService.Add(patient);
 

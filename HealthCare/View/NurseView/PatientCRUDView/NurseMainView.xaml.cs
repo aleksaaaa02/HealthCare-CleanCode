@@ -43,13 +43,13 @@ namespace HealthCare.View.PatientView
         {
             if (!Validate())
             {
-                Utility.ShowWarning("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
+                ViewUtil.ShowWarning("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
                 return;
             }
 
             CreatePatient();
             if (_patientService.Contains(_patient))
-                Utility.ShowWarning("Pacijent sa unetim _jmbg vec postoji");
+                ViewUtil.ShowWarning("Pacijent sa unetim _jmbg vec postoji");
             else
                 _patientService.Add(_patient);
 
@@ -61,17 +61,17 @@ namespace HealthCare.View.PatientView
         {
             if (_patient is null)
             {
-                Utility.ShowWarning("Nije selektovan nalog.");
+                ViewUtil.ShowWarning("Nije selektovan nalog.");
                 return;
             }
 
-            MessageBoxResult result = Utility.ShowConfirmation("Da li ste sigurni da zelite da obrisete pacijenta?");
+            MessageBoxResult result = ViewUtil.ShowConfirmation("Da li ste sigurni da zelite da obrisete pacijenta?");
             if (result == MessageBoxResult.No)
                 return;
 
             _patient = (Patient)lvPatients.SelectedItem;
             if (!_patientService.Contains(_patient.JMBG))
-                Utility.ShowWarning("Pacijent sa unetim _jmbg ne postoji");
+                ViewUtil.ShowWarning("Pacijent sa unetim _jmbg ne postoji");
             else
                 _patientService.Remove(_patient.JMBG);
             ClearBoxes();
@@ -112,13 +112,13 @@ namespace HealthCare.View.PatientView
         {
             if (!Validate())
             {
-                Utility.ShowWarning("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
+                ViewUtil.ShowWarning("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
                 return;
             }
 
             CreatePatient();
             if (!_patientService.Contains(_patient.JMBG))
-                Utility.ShowWarning("Pacijent sa unetim _jmbg ne postoji");
+                ViewUtil.ShowWarning("Pacijent sa unetim _jmbg ne postoji");
             else
                 _patientService.Update(_patient);
 

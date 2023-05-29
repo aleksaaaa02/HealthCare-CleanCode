@@ -43,7 +43,7 @@ namespace HealthCare.View.UrgentAppointmentView
         {
             if (_selected is null)
             {
-                Utility.ShowWarning("Izaberite polje iz tabele");
+                ViewUtil.ShowWarning("Izaberite polje iz tabele");
                 return;
             }
             _newAppointment.TimeSlot.Start = _selected.Appointment.TimeSlot.Start;
@@ -58,7 +58,7 @@ namespace HealthCare.View.UrgentAppointmentView
                 "Hitan termin sa ID-jem " + _selected.Appointment.AppointmentID + " je kreiran.",
                 _selected.Appointment.DoctorJMBG));
 
-            Utility.ShowInformation("Uspesno odlozen termin.");
+            ViewUtil.ShowInformation("Uspesno odlozen termin.");
             Close();
         }
 

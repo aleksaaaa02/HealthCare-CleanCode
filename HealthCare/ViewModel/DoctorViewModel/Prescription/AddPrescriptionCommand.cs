@@ -29,12 +29,12 @@ namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions
             {
                 Validate();
                 MakePrescription();
-                Utility.ShowInformation("Recept uspesno izdat!");
+                ViewUtil.ShowInformation("Recept uspesno izdat!");
 
             }
             catch (ValidationException ex)
             {
-                Utility.ShowWarning(ex.Message);
+                ViewUtil.ShowWarning(ex.Message);
             }
         }
         

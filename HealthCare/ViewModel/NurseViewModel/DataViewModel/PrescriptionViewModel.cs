@@ -9,11 +9,11 @@ namespace HealthCare.ViewModel.NurseViewModel.DataViewModel
         public Prescription Prescription { get; set; }
         public string MedicationName { get; set; }
         public bool IsLow { get; set; }
-        public string MealTime => Utility.Translate(Prescription.Instruction);
+        public string MealTime => ViewUtil.Translate(Prescription.Instruction);
         public string DoctorName { get; set; }
         public string Date { get; set; }
-        public string FirstUse => Utility.Translate(Prescription.FirstUse);
-        public string Empty => Utility.Translate(!IsLow);
+        public string FirstUse => ViewUtil.Translate(Prescription.FirstUse);
+        public string Empty => ViewUtil.Translate(!IsLow);
         public Brush Color => IsLow ? Brushes.Red : Brushes.Black;
         public PrescriptionViewModel(Prescription prescription, int Quantity, string medicationName,string doctor)
         {

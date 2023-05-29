@@ -38,13 +38,13 @@ namespace HealthCare.View.ManagerView
             try {
                 Validate();
             } catch (ValidationException ve) {
-                Utility.ShowWarning(ve.Message);
+                ViewUtil.ShowWarning(ve.Message);
                 return;
             }
             if (_selected is null) return;
 
             CreateTransfer();
-            Utility.ShowInformation("Uspešna operacija.");
+            ViewUtil.ShowInformation("Uspešna operacija.");
 
             tbQuantity.Text = "";
             datePicker.SelectedDate = null;

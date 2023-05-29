@@ -1,4 +1,5 @@
-﻿using HealthCare.Serialize;
+﻿using HealthCare.Application.Common;
+using HealthCare.Serialize;
 using System;
 
 namespace HealthCare.Model
@@ -34,15 +35,15 @@ namespace HealthCare.Model
 
         public override string ToString()
         {
-            return Utility.ToString(Start) + "|" + Utility.ToString(Duration);
+            return Util.ToString(Start) + "|" + Util.ToString(Duration);
         }
 
         public static TimeSlot Parse(string s)
         {
             string[] tokens = s.Split('|');
             return new TimeSlot(
-                Utility.ParseDate(tokens[0]),
-                Utility.ParseDuration(tokens[1]));
+                Util.ParseDate(tokens[0]),
+                Util.ParseDuration(tokens[1]));
         }
     }
 }

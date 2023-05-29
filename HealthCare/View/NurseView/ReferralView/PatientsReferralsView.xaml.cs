@@ -48,7 +48,7 @@ namespace HealthCare.View.NurseView.ReferralView
         private void btnMakeAppointment_Click(object sender, RoutedEventArgs e)
         {
             if (_referral is null) {
-                Utility.ShowWarning("Izaberite upit koji zelite da iskoristite.");
+                ViewUtil.ShowWarning("Izaberite upit koji zelite da iskoristite.");
                 return;
             }
 
@@ -56,7 +56,7 @@ namespace HealthCare.View.NurseView.ReferralView
 
             if (!int.TryParse(tbHours.Text,out _) && !int.TryParse(tbMinutes.Text, out _))
             {
-                Utility.ShowWarning("Sati i minuti moraju biti brojevi");
+                ViewUtil.ShowWarning("Sati i minuti moraju biti brojevi");
                 return;
             }
 
@@ -65,7 +65,7 @@ namespace HealthCare.View.NurseView.ReferralView
 
             if (!tbDate.SelectedDate.HasValue)
             {
-                Utility.ShowWarning("Izaberite datum.");
+                ViewUtil.ShowWarning("Izaberite datum.");
                 return;
             }
 
@@ -75,7 +75,7 @@ namespace HealthCare.View.NurseView.ReferralView
 
             if (selectedDate <= DateTime.Now)
             {
-                Utility.ShowWarning("Datum ne sme da bude u proslosti.");
+                ViewUtil.ShowWarning("Datum ne sme da bude u proslosti.");
                 return;
             }
 
@@ -84,11 +84,11 @@ namespace HealthCare.View.NurseView.ReferralView
 
             if (!_schedule.CheckAvailability(referred.JMBG, _patient.JMBG, slot))
             {
-                Utility.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu.");
+                ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu.");
                 return;
             }
             _appointmentService.Add(appointment);
-            Utility.ShowInformation("Uspesno ste zakazali pregled.");
+            ViewUtil.ShowInformation("Uspesno ste zakazali pregled.");
 
             var updated = _specialistReferralService.Get(_referral.SpecialistReferral.Id);
             updated.IsUsed = true;

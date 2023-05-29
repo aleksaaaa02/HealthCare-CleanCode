@@ -29,7 +29,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
             }
             catch (ValidationException ve)
             {
-                Utility.ShowWarning(ve.Message);
+                ViewUtil.ShowWarning(ve.Message);
             }
         }
 

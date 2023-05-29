@@ -161,7 +161,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation
             Name = patient.Name;
             LastName = patient.LastName;
             Birthday = patient.BirthDate;
-            Gender = Utility.Translate(patient.Gender);
+            Gender = ViewUtil.Translate(patient.Gender);
             JMBG = patient.JMBG;
 
             if (patient.MedicalRecord != null)

@@ -120,7 +120,7 @@ namespace HealthCare.View.AppointmentView
             Patient patient = (Patient)Context.Current;
             if (patient.Blocked)
             {
-                Utility.ShowWarning("Zao nam je, ali vas profil je blokiran");
+                ViewUtil.ShowWarning("Zao nam je, ali vas profil je blokiran");
                 return;
             }
             Doctor doctor = (Doctor)doctorListView.SelectedItem;
@@ -128,7 +128,7 @@ namespace HealthCare.View.AppointmentView
             int minutes = int.Parse(tbMinutes.Text);
             if (!tbDate.SelectedDate.HasValue)
             {
-                Utility.ShowWarning("Molimo Vas izaberite datum");
+                ViewUtil.ShowWarning("Molimo Vas izaberite datum");
                 return;
             }
             else
@@ -140,13 +140,13 @@ namespace HealthCare.View.AppointmentView
                 int difference = (selectedDate - currentDate).Days;
                 if (difference < 1)
                 {
-                    Utility.ShowWarning("Datum pregleda mora biti barem 1 dan od danasnjeg pregleda");
+                    ViewUtil.ShowWarning("Datum pregleda mora biti barem 1 dan od danasnjeg pregleda");
                     return;
                 }
             }
             if(doctorListView.SelectedItems.Count != 1)
             {
-                Utility.ShowWarning("Molimo Vas izaberite doktora");
+                ViewUtil.ShowWarning("Molimo Vas izaberite doktora");
                 return;
             }
             DateTime date = tbDate.SelectedDate.Value;
@@ -155,11 +155,11 @@ namespace HealthCare.View.AppointmentView
             Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, new TimeSlot(date,new TimeSpan(0,15,0)), false);
             if (!_schedule.CheckAvailability(doctor.JMBG, patient.JMBG, appointment.TimeSlot))
             {
-                Utility.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
+                ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
                 return;
             }
             _appointmentService.Add(appointment);
-            Utility.ShowInformation("Uspesno dodat pregled");
+            ViewUtil.ShowInformation("Uspesno dodat pregled");
             WriteActionToFile("CREATE");
             LoadData();
             IsUserBlocked();
@@ -182,7 +182,7 @@ namespace HealthCare.View.AppointmentView
             Patient patient = (Patient)Context.Current;
             if (patient.Blocked)
             {
-                Utility.ShowWarning("Zao nam je, ali vas profil je blokiran");
+                ViewUtil.ShowWarning("Zao nam je, ali vas profil je blokiran");
                 return;
             }
             if (appListView.SelectedItems.Count == 1) 
@@ -190,13 +190,13 @@ namespace HealthCare.View.AppointmentView
                 Appointment appointment = (Appointment)appListView.SelectedItem;
                 _appointmentService.Remove(appointment);
                 WriteActionToFile("DELETE");
-                Utility.ShowInformation("Uspesno obrisan pregled");
+                ViewUtil.ShowInformation("Uspesno obrisan pregled");
                 LoadData();
                 IsUserBlocked();
             }
             else
             {
-                Utility.ShowWarning("Molimo Vas izaberite pregled");
+                ViewUtil.ShowWarning("Molimo Vas izaberite pregled");
                 return;
             }
            
@@ -208,7 +208,7 @@ namespace HealthCare.View.AppointmentView
             Patient patient = (Patient)Context.Current;
             if (patient.Blocked)
             {
-                Utility.ShowWarning("Zao nam je, ali vas profil je blokiran");
+                ViewUtil.ShowWarning("Zao nam je, ali vas profil je blokiran");
                 return;
             }
 
@@ -217,7 +217,7 @@ namespace HealthCare.View.AppointmentView
             int minutes = int.Parse(tbMinutes.Text);
             if (!tbDate.SelectedDate.HasValue)
             {
-                Utility.ShowWarning("Molimo Vas izaberite datum");
+                ViewUtil.ShowWarning("Molimo Vas izaberite datum");
                 return;
             }
             else
@@ -229,7 +229,7 @@ namespace HealthCare.View.AppointmentView
                 int difference = (selectedDate - currentDate).Days;
                 if (difference < 1)
                 {
-                    Utility.ShowWarning("Datum pregleda mora biti barem 1 dan od danasnjeg pregleda");
+                    ViewUtil.ShowWarning("Datum pregleda mora biti barem 1 dan od danasnjeg pregleda");
                     return;
                 }
                 else
@@ -239,7 +239,7 @@ namespace HealthCare.View.AppointmentView
             }
             if (doctorListView.SelectedItems.Count != 1)
             {
-                Utility.ShowWarning("Molimo Vas izaberite doktora");
+                ViewUtil.ShowWarning("Molimo Vas izaberite doktora");
                 return;
             }
             DateTime date = tbDate.SelectedDate.Value;
@@ -247,7 +247,7 @@ namespace HealthCare.View.AppointmentView
             date = date.AddMinutes(minutes);    
             if(appListView.SelectedItems.Count != 1)
             {
-                Utility.ShowWarning("Molimo Vas izaberite pregled");
+                ViewUtil.ShowWarning("Molimo Vas izaberite pregled");
                 return;
             }
             Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, new TimeSlot(date, new TimeSpan(0, 15, 0)), false);
@@ -255,11 +255,11 @@ namespace HealthCare.View.AppointmentView
             appointment.AppointmentID = appointment2.AppointmentID;
             if (!_schedule.CheckAvailability(doctor.JMBG, patient.JMBG,appointment.TimeSlot))
             {
-                Utility.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
+                ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
                 return;
             }
             _appointmentService.Update(appointment);
-            Utility.ShowInformation("Uspesno azuriran pregled");
+            ViewUtil.ShowInformation("Uspesno azuriran pregled");
             WriteActionToFile("UPDATE");
             LoadData();
             IsUserBlocked();

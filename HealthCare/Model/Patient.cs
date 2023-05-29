@@ -1,4 +1,5 @@
-﻿using HealthCare.Serialize;
+﻿using HealthCare.Application.Common;
+using HealthCare.Serialize;
 using HealthCare.Service;
 using System;
 using System.Collections.Generic;
@@ -42,16 +43,16 @@ namespace HealthCare.Model
             Name = values[0];
             LastName = values[1];
             JMBG = values[2];
-            BirthDate = Utility.ParseDate(values[3]);
+            BirthDate = Util.ParseDate(values[3]);
             PhoneNumber = values[4];
             Address = values[5];
             Username = values[6];
             Password = values[7];
-            Gender = Utility.Parse<Gender>(values[8]);
+            Gender = SerialUtil.ParseEnum<Gender>(values[8]);
 
             Blocked = bool.Parse(values[9]);
             MedicalRecord = new MedicalRecord();
-            MedicalRecord.Deserialize(Utility.SubArray(values, 10, 4));
+            MedicalRecord.Deserialize(Util.SubArray(values, 10, 4));
         }
     }
 }

@@ -26,7 +26,7 @@ namespace HealthCare.Model
             Id = int.Parse(values[0]);
             PatientJMBG = values[1];
             if (!string.IsNullOrWhiteSpace(values[2]))
-                InitialMedication = Utility.GetIntList(values[2], '|');
+                InitialMedication = ViewUtil.GetIntList(values[2], '|');
         }
 
         public override string[] Serialize()

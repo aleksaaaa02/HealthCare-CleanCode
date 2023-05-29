@@ -29,7 +29,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation.Commands
                 StartExamination(roomId);
             } catch(ValidationException ve)
             {
-                Utility.ShowWarning(ve.Message);
+                ViewUtil.ShowWarning(ve.Message);
             }
         }
         private void StartExamination(int roomId)

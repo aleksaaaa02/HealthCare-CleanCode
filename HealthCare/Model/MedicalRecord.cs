@@ -27,8 +27,8 @@ namespace HealthCare.Model
         
         public string[] Serialize()
         {
-            string medicalHistory = Utility.ToString(MedicalHistory);
-            string allergies = Utility.ToString(Allergies);
+            string medicalHistory = SerialUtil.ToString(MedicalHistory);
+            string allergies = SerialUtil.ToString(Allergies);
             return new string[] {Height.ToString(), Weight.ToString(), medicalHistory, allergies};
         }
         

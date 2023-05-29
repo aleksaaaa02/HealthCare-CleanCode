@@ -1,4 +1,5 @@
-﻿using HealthCare.Repository;
+﻿using HealthCare.Application.Common;
+using HealthCare.Repository;
 using HealthCare.Serialize;
 using System;
 
@@ -44,7 +45,7 @@ namespace HealthCare.Model
         public override string[] Serialize()
         {
             return new string[] { 
-                Name, LastName, JMBG, Utility.ToString(BirthDate), 
+                Name, LastName, JMBG, Util.ToString(BirthDate), 
                 PhoneNumber, Address, Username, Password, Gender.ToString() };
         }
 
@@ -53,12 +54,12 @@ namespace HealthCare.Model
             Name = values[0];
             LastName = values[1];
             JMBG = values[2];
-            BirthDate = Utility.ParseDate(values[3]);
+            BirthDate = Util.ParseDate(values[3]);
             PhoneNumber = values[4];
             Address = values[5];
             Username = values[6];
             Password = values[7];
-            Gender = Utility.Parse<Gender>(values[8]);
+            Gender = SerialUtil.ParseEnum<Gender>(values[8]);
         }
     }
 }
