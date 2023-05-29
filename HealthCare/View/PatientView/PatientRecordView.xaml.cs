@@ -1,5 +1,4 @@
-﻿using HealthCare.Context;
-using HealthCare.Model;
+﻿using HealthCare.Model;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -8,9 +7,9 @@ namespace HealthCare.View.AppointmentView
     public partial class PatientRecordView : UserControl
     {
         PatientRecordViewModel model;
-        public PatientRecordView(Hospital hospital)
+        public PatientRecordView()
         {
-            model = new PatientRecordViewModel(hospital);
+            model = new PatientRecordViewModel();
             DataContext = model;
             InitializeComponent();           
         }

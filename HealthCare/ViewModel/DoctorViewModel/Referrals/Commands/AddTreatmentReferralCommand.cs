@@ -1,7 +1,8 @@
 ﻿using HealthCare.Command;
-using HealthCare.Context;
+using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.View;
 using HealthCare.View.DoctorView.ReferralView;
 using System.Collections.Generic;
@@ -10,12 +11,17 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
 {
     public class AddTreatmentReferralCommand : CommandBase
     {
-        private readonly Hospital _hospital;
+        private readonly TreatmentReferralService _treatmentReferralService;
+        private readonly MedicationService _medicationService;
+        private readonly TherapyService _therapyService;
         private readonly TreatmentReferralViewModel _treatmentReferralViewModel;
         private readonly Patient _examinedPatient;
-        public AddTreatmentReferralCommand(Hospital hospital, TreatmentReferralViewModel treatmentReferralViewModel) 
+        public AddTreatmentReferralCommand(TreatmentReferralViewModel treatmentReferralViewModel) 
         { 
-            _hospital = hospital;
+            _treatmentReferralService = Injector.GetService<TreatmentReferralService>();
+            _medicationService = Injector.GetService<MedicationService>();
+            _therapyService = Injector.GetService<TherapyService>();
+
             _treatmentReferralViewModel = treatmentReferralViewModel;
             _examinedPatient = treatmentReferralViewModel.ExaminedPatient;
         }
@@ -24,11 +30,11 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
             try
             {
                 MakeReferral();
-                Utility.ShowInformation("Uput za bolnicko lecenje uspesno dodat");
+                ViewUtil.ShowInformation("Uput za bolnicko lecenje uspesno dodat");
             }
             catch (ValidationException ex)
             {
-                Utility.ShowWarning(ex.Message);
+                ViewUtil.ShowWarning(ex.Message);
             }
         }
 
@@ -36,18 +42,15 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
         {
             List<int> medication = GetMedication();
             int daysOfTreatment = _treatmentReferralViewModel.DaysOfTreatment;
-            string doctorJMBG = _hospital.Current.JMBG;
-            string[] additionalExamination = Utility.GetArray(_treatmentReferralViewModel.AdditionalExamination);
+            string doctorJMBG = Context.Current.JMBG;
+            List<string> additionalExamination = ViewUtil.GetStringList(_treatmentReferralViewModel.AdditionalExamination);
             
             CheckPatientAllergies(_examinedPatient, medication);
 
-
-
             int therapyID = GetTherapy(medication);
 
-            TreatmentReferral treatmentReferral = new TreatmentReferral(daysOfTreatment, doctorJMBG, therapyID, additionalExamination);
-            _hospital.TreatmentReferralService.Add(treatmentReferral);
-            _hospital.PatientService.AddReferral(_examinedPatient.JMBG, treatmentReferral.Id, true);
+            TreatmentReferral treatmentReferral = new TreatmentReferral(daysOfTreatment, _examinedPatient.JMBG, doctorJMBG, therapyID, additionalExamination);
+            _treatmentReferralService.Add(treatmentReferral);
         }
 
         private List<int> GetMedication()
@@ -66,7 +69,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
         {
             foreach(int MedicationID in therapy)
             {
-                Medication medication = _hospital.MedicationService.Get(MedicationID);
+                Medication medication = _medicationService.Get(MedicationID);
 
                 if (patient.IsAllergic(medication.Ingredients)) 
                     throw new ValidationException("Pacijent je alergican na lek: " + medication.Name);
@@ -78,9 +81,9 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
 
             foreach(int MedicationID in medication)
             {
-                new TherapyInformation(_hospital, _examinedPatient, MedicationID, therapy).ShowDialog();
+                new TherapyInformation(_examinedPatient, MedicationID, therapy).ShowDialog();
             }
-            _hospital.TherapyService.Add(therapy);
+            _therapyService.Add(therapy);
 
             return therapy.Id;
         }

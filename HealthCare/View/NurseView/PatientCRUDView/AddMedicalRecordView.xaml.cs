@@ -43,7 +43,7 @@ namespace HealthCare.View.PatientView
         {
             if (!Validate())
             {
-                Utility.ShowWarning("Visina i tezina moraju biti brojevi");
+                ViewUtil.ShowWarning("Visina i tezina moraju biti brojevi");
                 return;
             }
 
@@ -54,7 +54,7 @@ namespace HealthCare.View.PatientView
                 rtbMedicalHistory.Document.ContentStart,
                 rtbMedicalHistory.Document.ContentEnd
             );
-            medicalRecord.MedicalHistory = Utility.GetArray(textRange.Text);
+            medicalRecord.MedicalHistory = ViewUtil.GetStringList(textRange.Text);
 
             if (_nurseView is not null)
                 _nurseView._record = medicalRecord;

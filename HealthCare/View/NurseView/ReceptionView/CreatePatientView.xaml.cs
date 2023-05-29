@@ -1,5 +1,6 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.View.PatientView;
 using System;
 using System.Collections.Generic;
@@ -11,15 +12,15 @@ namespace HealthCare.View.ReceptionView
 {
     public partial class CreatePatientView : Window
     {
-        private Hospital _hospital;
+        private PatientService _patientService;
         public MedicalRecord? _record;
         private string _jmbg;
         private List<TextBox> _textBoxes;
-        public CreatePatientView(Hospital hospital, string jmbg)
+        public CreatePatientView(string jmbg)
         {
             InitializeComponent();
 
-            _hospital = hospital;
+            _patientService = Injector.GetService<PatientService>();
             _record = null;
             _jmbg = jmbg;
 
@@ -54,7 +55,7 @@ namespace HealthCare.View.ReceptionView
                 patient.Gender = Gender.Male;
             else patient.Gender = Gender.Female;
 
-            patient.UserName = tbUsername.Text;
+            patient.Username = tbUsername.Text;
             patient.Password = tbPassword.Text;
 
             if (chbBlocked.IsChecked is bool CheckedBlocked && CheckedBlocked)
@@ -77,13 +78,15 @@ namespace HealthCare.View.ReceptionView
         {
             if (!Validate())
             {
-                Utility.ShowWarning("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
+                ViewUtil.ShowWarning("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
                 return;
             }
 
             Patient patient = CreatePatient();
-            if (!_hospital.PatientService.CreateAccount(patient))
-                Utility.ShowWarning("Pacijent sa unetim _jmbg vec postoji");
+            if (_patientService.Contains(patient))
+                ViewUtil.ShowWarning("Pacijent sa unetim _jmbg vec postoji");
+            else
+                _patientService.Add(patient);
 
             _record = null;
             Close();

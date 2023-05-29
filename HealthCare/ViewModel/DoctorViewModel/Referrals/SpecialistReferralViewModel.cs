@@ -1,5 +1,6 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModel.DoctorViewModel.Referrals.Commands;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals
 {
     public class SpecialistReferralViewModel : ViewModelBase
     {
-        private readonly Hospital _hospital;
+        private readonly DoctorService _doctorService;
 
         private DoctorsViewModel _selectedDoctor;
         private ObservableCollection<DoctorsViewModel> _doctors;
@@ -48,12 +49,12 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals
         }
         public ICommand MakeSpecialistReferralCommand { get; }
 
-        public SpecialistReferralViewModel(Hospital hospital, Patient patient)
+        public SpecialistReferralViewModel(Patient patient)
         {
-            _hospital = hospital;
+            _doctorService = Injector.GetService<DoctorService>();
             ExaminedPatient = patient;
-
-            MakeSpecialistReferralCommand = new AddSpecialistReferralCommand(_hospital, this);
+            _specialization = "";
+            MakeSpecialistReferralCommand = new AddSpecialistReferralCommand(this);
 
 
             _doctors = new ObservableCollection<DoctorsViewModel>();
@@ -63,7 +64,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals
         private void Update()
         {
             _doctors.Clear();
-            foreach (var doctor in _hospital.DoctorService.GetAll())
+            foreach (var doctor in _doctorService.GetAll())
             {
                 _doctors.Add(new DoctorsViewModel(doctor));
             }

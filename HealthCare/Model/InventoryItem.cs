@@ -1,15 +1,12 @@
 ﻿using HealthCare.Repository;
+using HealthCare.Serialize;
 
 namespace HealthCare.Model
 {
-    public class InventoryItem : Identifier, ISerializable
+    public class InventoryItem : RepositoryItem
     {
-        public override object Key {
-            get => Id;
-            set { Id = (int)value; } 
-        }
         public int Id { get; set; }
-        public int EquipmentId { get; set; }
+        public int ItemId { get; set; }
         public int RoomId { get; set; }
         public int Quantity { get; set; }
 
@@ -20,37 +17,32 @@ namespace HealthCare.Model
         public InventoryItem(int id, int equipmentId, int roomId, int quantity)
         {
             Id = id;
-            EquipmentId = equipmentId;
+            ItemId = equipmentId;
             RoomId = roomId;
             Quantity = quantity;
         }
 
-        public string[] ToCSV()
+        public override object Key
+        {
+            get => Id;
+            set { Id = (int)value; }
+        }
+
+        public override string[] Serialize()
         {
             return new string[] {
                 Id.ToString(),
-                EquipmentId.ToString(),
+                ItemId.ToString(),
                 RoomId.ToString(),
                 Quantity.ToString()};
         }
 
-        public void FromCSV(string[] values)
+        public override void Deserialize(string[] values)
         {
             Id = int.Parse(values[0]);
-            EquipmentId = int.Parse(values[1]);
+            ItemId = int.Parse(values[1]);
             RoomId = int.Parse(values[2]);
             Quantity = int.Parse(values[3]);
-        }
-
-        public override bool Equals(object? obj)
-        {
-            return obj is InventoryItem item && (Id == item.Id || 
-                (EquipmentId == item.EquipmentId && RoomId == item.RoomId));
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
     }
 }

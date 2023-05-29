@@ -1,6 +1,8 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
+using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.Service.ScheduleService;
 using System;
 using System.IO;
 using System.Windows;
@@ -10,23 +12,26 @@ namespace HealthCare.View.AppointmentView
 {
     public partial class PriorityAppointmentView : UserControl
     {
+        private readonly Schedule _schedule;
+        private readonly AppointmentService _appointmentService;
 
-        Hospital _hospital;
         PriorityAppointmentViewModel model;
-        public PriorityAppointmentView(Hospital hospital)
+        public PriorityAppointmentView()
         {
             InitializeComponent();
-            _hospital = hospital;
-            model = new PriorityAppointmentViewModel(hospital);
+            _appointmentService = Injector.GetService<AppointmentService>();
+            _schedule = Injector.GetService<Schedule>();
+
+            model = new PriorityAppointmentViewModel();
             DataContext = model;
         }
 
         public bool IsValidData()
         {
-            Patient patient = (Patient)_hospital.Current;
+            Patient patient = (Patient)Context.Current;
             if (patient.Blocked)
             {
-                Utility.ShowWarning("Zao nam je, ali vas profil je blokiran");
+                ViewUtil.ShowWarning("Zao nam je, ali vas profil je blokiran");
                 return false;
             }
 
@@ -38,7 +43,7 @@ namespace HealthCare.View.AppointmentView
 
             if (!tbDate.SelectedDate.HasValue)
             {
-                Utility.ShowWarning("Molimo Vas izaberite datum");
+                ViewUtil.ShowWarning("Molimo Vas izaberite datum");
                 return false;
             }
             else
@@ -49,20 +54,20 @@ namespace HealthCare.View.AppointmentView
                 selectedDate = selectedDate.AddMinutes(minutesStart);
                 if (selectedDate < currentDate)
                 {
-                    Utility.ShowWarning("Izaberite ispravan datum pregleda");
+                    ViewUtil.ShowWarning("Izaberite ispravan datum pregleda");
                     return false;
                 }
             }
 
             if (doctorListView.SelectedItems.Count != 1)
             {
-                Utility.ShowWarning("Molimo Vas izaberite doktora");
+                ViewUtil.ShowWarning("Molimo Vas izaberite doktora");
                 return false;
             }
 
             if (hoursStart > hoursEnd || (hoursStart == hoursEnd && minutesStart >= minutesEnd))
             {
-                Utility.ShowWarning("Molimo Vas izaberite ispravan vremenski interval");
+                ViewUtil.ShowWarning("Molimo Vas izaberite ispravan vremenski interval");
                 return false;
             }
             return true;
@@ -90,7 +95,7 @@ namespace HealthCare.View.AppointmentView
             }
             else
             {
-                Utility.ShowWarning("Izaberite prioritet");
+                ViewUtil.ShowWarning("Izaberite prioritet");
                 return;
             }    
         }
@@ -164,24 +169,25 @@ namespace HealthCare.View.AppointmentView
         {
             if (appointmentListView.SelectedItems.Count != 1) 
             {
-                Utility.ShowWarning("Niste izabrali pregled");
+                ViewUtil.ShowWarning("Niste izabrali pregled");
                 return;
             }
             Appointment appointment = (Appointment)appointmentListView.SelectedItem;
-            if (!Schedule.CreateAppointment(appointment))
+            if (!_schedule.CheckAvailability(appointment.DoctorJMBG, appointment.PatientJMBG, appointment.TimeSlot))
             {
-                Utility.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
+                ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
                 return;
             }
-            Utility.ShowInformation("Uspesno dodat pregled");
+            _appointmentService.Add(appointment);
+            ViewUtil.ShowInformation("Uspesno dodat pregled");
             WriteAction("CREATE");
             model.IsUserBlocked();
         }
 
         public void WriteAction(string action)
         {
-            string stringtocsv = _hospital.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
-            File.AppendAllText(Global.patientLogsPath, stringtocsv);
+            string stringtocsv = Context.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
+            File.AppendAllText(Paths.PATIENT_LOGS, stringtocsv);
         }
     }
 

@@ -1,5 +1,5 @@
 ﻿using HealthCare.Command;
-using HealthCare.Context;
+using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
@@ -12,13 +12,13 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 {
     public class ShowReservationDialogCommand : CommandBase
     {
-        private readonly Hospital _hospital;
         private readonly DoctorMainViewModel _viewModel;
+        private readonly AppointmentService _appointmentService;
 
-        public ShowReservationDialogCommand(Hospital hospital, DoctorMainViewModel viewModel)
+        public ShowReservationDialogCommand(DoctorMainViewModel viewModel)
         {
-            _hospital = hospital;
             _viewModel = viewModel;
+            _appointmentService = Injector.GetService<AppointmentService>();
         }
 
         public override void Execute(object parameter)
@@ -27,12 +27,12 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
             {
                 Validate();
                 AppointmentViewModel selectedAppointment = _viewModel.SelectedAppointment;
-                Appointment appointment = Schedule.GetAppointment(selectedAppointment.AppointmentID);
-                new RoomReservationView(_hospital, appointment).Show();
+                Appointment appointment = _appointmentService.Get(selectedAppointment.AppointmentID);
+                new RoomReservationView( appointment).Show();
             }
             catch (ValidationException ve)
             {
-                Utility.ShowWarning(ve.Message);
+                ViewUtil.ShowWarning(ve.Message);
             }
         }
 
@@ -44,14 +44,14 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
                 throw new ValidationException("Morate odabrati pregled iz tabele!");
             }
 
-            Appointment appointment = Schedule.GetAppointment(selectedAppointment.AppointmentID);
+            Appointment appointment = _appointmentService.Get(selectedAppointment.AppointmentID);
 
             if (appointment.AnamnesisID == 0)
             {
                 throw new ValidationException("Pacijent jos uvek nije primljen!");
             }
 
-            if (!Schedule.HasAppointmentStarted(appointment))
+            if (!appointment.HasStarted())
             {
                 throw new ValidationException("Pregled jos uvek nije poceo!");
             }

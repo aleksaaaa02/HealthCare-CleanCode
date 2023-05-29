@@ -1,5 +1,4 @@
-﻿using HealthCare.Context;
-using HealthCare.Model;
+﻿using HealthCare.Model;
 using HealthCare.View;
 using HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands;
 using System;
@@ -10,7 +9,7 @@ using System.Windows.Input;
 
 namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation
 {
-    public class PatientInforamtionViewModel : ViewModelBase
+    public class PatientInformationViewModel : ViewModelBase
     {
         private ObservableCollection<string> _previousDiseases;
         private ObservableCollection<string> _allergies;
@@ -141,13 +140,13 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation
                 OnPropertyChanged(nameof(Allergy));
             }
         }
-        public PatientInforamtionViewModel(Patient patient, Hospital hospital, bool isEditing)
+        public PatientInformationViewModel(Patient patient, bool isEditing)
         {
             _selectedPatient = patient;
             _isFocusable = isEditing;
             _isReadOnly = !isEditing;
 
-            SaveChangesCommand = new SavePatientChangesCommand(hospital, patient, this);
+            SaveChangesCommand = new SavePatientChangesCommand(patient, this);
             NewDiseaseCommand = new AddDiseaseCommand(this);
             RemoveDiseaseCommand = new RemoveDiseaseCommand(this);
             NewAllergyCommand = new AddAllergyCommand(this);
@@ -162,7 +161,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation
             Name = patient.Name;
             LastName = patient.LastName;
             Birthday = patient.BirthDate;
-            Gender = Utility.Translate(patient.Gender);
+            Gender = ViewUtil.Translate(patient.Gender);
             JMBG = patient.JMBG;
 
             if (patient.MedicalRecord != null)
@@ -182,14 +181,12 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation
             {
                 _gridVisibility = Visibility.Collapsed;
             }
-
         }
         private void Update()
         {
             UpdateAllergies();
             UpdateDisease();
         }
-        
         private void UpdateDisease()
         {
             _previousDiseases.Clear();

@@ -1,6 +1,7 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.Service.ScheduleService;
 using HealthCare.ViewModel.NurseViewModel;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 using System;
@@ -11,20 +12,32 @@ namespace HealthCare.View.NurseView.PrescriptionView
 {
     public partial class PatientsPrescriptionsView : Window
     {
+        private readonly PrescriptionService _prescriptionService;
+        private readonly InventoryService _medicationInventory;
+        private readonly DoctorService _doctorService;
+        private readonly RoomService _roomService;
+        private readonly Schedule _schedule;
+        private readonly AppointmentService _appointmentService;
         private PrescriptionListingViewModel _model;
         private PrescriptionViewModel? _prescription;
         private Patient _patient;
-        private Hospital _hospital;
-        public PatientsPrescriptionsView(Patient patient, Hospital hospital)
+        public PatientsPrescriptionsView(Patient patient)
         {
             InitializeComponent();
 
-            _patient = patient;
-            _hospital = hospital;
-
-            _model = new PrescriptionListingViewModel(patient,hospital);
+            _model = new PrescriptionListingViewModel(patient);
             DataContext = _model;
             _model.Update();
+
+            _prescriptionService = Injector.GetService<PrescriptionService>(Injector.REGULAR_PRESCRIPTION_S);
+            _medicationInventory = Injector.GetService<InventoryService>(Injector.MEDICATION_INVENTORY_S);
+            _doctorService = Injector.GetService<DoctorService>();
+            _roomService = Injector.GetService<RoomService>();
+            _appointmentService = Injector.GetService<AppointmentService>();
+
+            _schedule = Injector.GetService<Schedule>();
+
+            _patient = patient;
             tbDate.SelectedDate = DateTime.Now;
         }
         private void lvPrescriptions_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -57,10 +70,10 @@ namespace HealthCare.View.NurseView.PrescriptionView
             if (!Validate())
                 return;
 
-            Prescription prescription = _hospital.PrescriptionService.Get(_prescription.Prescription.Id);
+            Prescription prescription = _prescriptionService.Get(_prescription.Prescription.Id);
 
             if (!prescription.FirstUse) {
-                Utility.ShowWarning("Vec ste iskoristili recept.");
+                ViewUtil.ShowWarning("Vec ste iskoristili recept.");
                 return;
             }
 
@@ -69,7 +82,7 @@ namespace HealthCare.View.NurseView.PrescriptionView
 
             prescription.FirstUse = false;
             prescription.Start = DateTime.Now.Date;
-            _hospital.PrescriptionService.Update(prescription);
+            _prescriptionService.Update(prescription);
 
             _model.Update();
         }
@@ -78,15 +91,15 @@ namespace HealthCare.View.NurseView.PrescriptionView
         {
             if (!Validate())
                 return;
-            Prescription prescription = _hospital.PrescriptionService.Get(_prescription.Prescription.Id);
+            Prescription prescription = _prescriptionService.Get(_prescription.Prescription.Id);
 
             if (prescription.FirstUse) {
-                Utility.ShowWarning("Niste iskoristili recept.");
+                ViewUtil.ShowWarning("Niste iskoristili recept.");
                 return;
             }
 
             if (prescription.Start.AddDays(prescription.ConsumptionDays - 1) > DateTime.Now) {
-                Utility.ShowWarning("Nije vam isteklo vreme.");
+                ViewUtil.ShowWarning("Nije vam isteklo vreme.");
                 return;
             }
 
@@ -94,7 +107,7 @@ namespace HealthCare.View.NurseView.PrescriptionView
                 return;
 
             prescription.Start = DateTime.Now.Date;
-            _hospital.PrescriptionService.Update(prescription);
+            _prescriptionService.Update(prescription);
 
             _model.Update();
         }
@@ -104,11 +117,11 @@ namespace HealthCare.View.NurseView.PrescriptionView
             if (!Validate())
                 return;
 
-            Doctor doctor = _hospital.DoctorService.Get(_prescription.Prescription.DoctorJMBG);
+            Doctor doctor = _doctorService.Get(_prescription.Prescription.DoctorJMBG);
 
             if (!int.TryParse(tbHours.Text, out _) && !int.TryParse(tbMinutes.Text, out _))
             {
-                Utility.ShowWarning("Sati i minuti moraju biti brojevi");
+                ViewUtil.ShowWarning("Sati i minuti moraju biti brojevi");
                 return;
             }
 
@@ -117,7 +130,7 @@ namespace HealthCare.View.NurseView.PrescriptionView
 
             if (!tbDate.SelectedDate.HasValue)
             {
-                Utility.ShowWarning("Izaberite datum.");
+                ViewUtil.ShowWarning("Izaberite datum.");
                 return;
             }
 
@@ -125,30 +138,36 @@ namespace HealthCare.View.NurseView.PrescriptionView
             selectedDate = selectedDate.AddHours(hours);
             selectedDate = selectedDate.AddMinutes(minutes);
 
-            TimeSlot slot = new TimeSlot(selectedDate, new TimeSpan(0, 15, 0));
-            Appointment appointment = new Appointment(_patient, doctor, slot, false);
-
-            if (!Schedule.CreateAppointment(appointment))
+            if (selectedDate <= DateTime.Now)
             {
-                Utility.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu.");
+                ViewUtil.ShowWarning("Datum ne sme da bude u proslosti.");
                 return;
             }
 
-            Utility.ShowInformation("Uspesno ste zakazali pregled.");
+            TimeSlot slot = new TimeSlot(selectedDate, new TimeSpan(0, 15, 0));
+            Appointment appointment = new Appointment(_patient.JMBG, doctor.JMBG, slot, false);
+
+            if (!_schedule.CheckAvailability(doctor.JMBG, _patient.JMBG, slot))
+            {
+                ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu.");
+                return;
+            }
+            _appointmentService.Add(appointment);
+            ViewUtil.ShowInformation("Uspesno ste zakazali pregled.");
             _model.Update();
         }
 
         private bool GiveMedication(Prescription prescription) {
             var reduceItem = new InventoryItem(
-            prescription.MedicationId, _hospital.RoomService.GetWarehouseId(), prescription.GetQuantity());
+            prescription.MedicationId, _roomService.GetWarehouseId(), prescription.GetQuantity());
 
-            if (!_hospital.MedicationInventory.TryReduceInventoryItem(reduceItem))
+            if (!_medicationInventory.TryReduceInventoryItem(reduceItem))
             {
-                Utility.ShowError("Nema lekova na stanju.");
+                ViewUtil.ShowError("Nema lekova na stanju.");
                 return false;
             }
 
-            Utility.ShowInformation("Uspesno izdati lekovi.");
+            ViewUtil.ShowInformation("Uspesno izdati lekovi.");
             return true;
         }
 
@@ -156,7 +175,7 @@ namespace HealthCare.View.NurseView.PrescriptionView
         {
             if (_prescription is null)
             {
-                Utility.ShowWarning("Izaberite recept");
+                ViewUtil.ShowWarning("Izaberite recept");
                 return false;
             }
             return true;

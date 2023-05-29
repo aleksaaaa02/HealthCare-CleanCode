@@ -22,7 +22,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment.Commands
             }
             catch (ValidationException ve) 
             {
-                Utility.ShowWarning(ve.Message);
+                ViewUtil.ShowWarning(ve.Message);
             }
         }
         private void Validate()

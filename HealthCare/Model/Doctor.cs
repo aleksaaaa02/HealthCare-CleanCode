@@ -1,4 +1,5 @@
-﻿using HealthCare.Repository;
+﻿using HealthCare.Application.Common;
+using HealthCare.Serialize;
 using HealthCare.Service;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 
 namespace HealthCare.Model
 {
-    public class Doctor : User, ISerializable
+    public class Doctor : User
     {
         public string Specialization { get; set; }
         public int Rating { get; set; }
@@ -24,41 +25,28 @@ namespace HealthCare.Model
             Rating = rnd.Next(1, 6);
         }
 
-        public bool IsAvailable(TimeSlot term)
-        {
-            List<Appointment> DoctorAppointments = Schedule.GetDoctorAppointments(this);
-            foreach(Appointment appointment in DoctorAppointments) 
-            {
-                if (appointment.TimeSlot.Overlaps(term))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
         public bool IsCapable(string NeededSpecialization)
         {
             return Specialization == NeededSpecialization;
         }
 
-        public new string[] ToCSV()
+        public override string[] Serialize()
         {
-            string[] userValues = base.ToCSV();
+            string[] userValues = base.Serialize();
             return userValues.Concat(new string[] { Specialization }).ToArray();
         }
 
-        public new void FromCSV(string[] values)
+        public override void Deserialize(string[] values)
         {
             Name = values[0];
             LastName = values[1];
             JMBG = values[2];
-            BirthDate = Utility.ParseDate(values[3]);
+            BirthDate = Util.ParseDate(values[3]);
             PhoneNumber = values[4];
             Address = values[5];
-            UserName = values[6];
+            Username = values[6];
             Password = values[7];
-            Gender = Utility.Parse<Gender>(values[8]);
+            Gender = SerialUtil.ParseEnum<Gender>(values[8]);
 
             Specialization = values[9];
         }

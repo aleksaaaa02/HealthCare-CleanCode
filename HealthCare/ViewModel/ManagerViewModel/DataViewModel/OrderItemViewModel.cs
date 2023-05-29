@@ -15,7 +15,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
             }
         }
         public string EquipmentName => _equipment.Name;
-        public string EquipmentType => Utility.Translate(_equipment.Type);
+        public string EquipmentType => ViewUtil.Translate(_equipment.Type);
         public int EquipmentId => _equipment.Id;
         public int CurrentQuantity { get; }
 

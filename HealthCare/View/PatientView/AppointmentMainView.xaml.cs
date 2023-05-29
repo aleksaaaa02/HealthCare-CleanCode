@@ -1,6 +1,8 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
+using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.Service.ScheduleService;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,11 +15,17 @@ namespace HealthCare.View.AppointmentView
 {
     public partial class AppointmentMainView : UserControl
     {
-        Hospital _hospital;
-        public AppointmentMainView(Hospital hospital)
+        private readonly PatientService _patientService;
+        private readonly DoctorService _doctorService;
+        private readonly AppointmentService _appointmentService;
+        private readonly Schedule _schedule;
+        public AppointmentMainView()
         {
+            _schedule = Injector.GetService<Schedule>();
+            _appointmentService = Injector.GetService<AppointmentService>();
+            _patientService = Injector.GetService<PatientService>();
+            _doctorService = Injector.GetService<DoctorService>();
             InitializeComponent();
-            _hospital = hospital;
             LoadData();
             IsUserBlocked();
         }
@@ -37,16 +45,14 @@ namespace HealthCare.View.AppointmentView
 
         public void WriteActionToFile(string action)
         {
-            string stringtocsv = _hospital.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
-            File.AppendAllText(Global.patientLogsPath, stringtocsv);
-            
-
+            string stringtocsv = Context.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
+            File.AppendAllText(Paths.PATIENT_LOGS, stringtocsv);
         }
 
         public void IsUserBlocked()
         {
-            Patient patient = (Patient)_hospital.Current;
-            using (var reader = new StreamReader(Global.patientLogsPath, Encoding.Default))
+            Patient patient = (Patient)Context.Current;
+            using (var reader = new StreamReader(Paths.PATIENT_LOGS, Encoding.Default))
             {
                 string line;
                 int updateDeleteCounter = 0;
@@ -77,13 +83,13 @@ namespace HealthCare.View.AppointmentView
                 {
                     patient.Blocked = false;
                 }
-                _hospital.PatientService.UpdateAccount(patient);
+                _patientService.Update(patient);
             }
         }
         public void LoadData()
         {
-            List<Appointment> appointments = Schedule.GetPatientAppointments((Patient)_hospital.Current);
-            List<Doctor> doctors = _hospital.DoctorService.GetAll();
+            List<Appointment> appointments = _appointmentService.GetByPatient(Context.Current.JMBG);
+            List<Doctor> doctors = _doctorService.GetAll();
             appListView.ItemsSource = new ObservableCollection<Appointment>(appointments);
             doctorListView.ItemsSource = new ObservableCollection<Doctor>(doctors);
 
@@ -124,10 +130,10 @@ namespace HealthCare.View.AppointmentView
 
         private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
-            Patient patient = (Patient)_hospital.Current;
+            Patient patient = (Patient)Context.Current;
             if (patient.Blocked)
             {
-                Utility.ShowWarning("Zao nam je, ali vas profil je blokiran");
+                ViewUtil.ShowWarning("Zao nam je, ali vas profil je blokiran");
                 return;
             }
             Doctor doctor = (Doctor)doctorListView.SelectedItem;
@@ -135,7 +141,7 @@ namespace HealthCare.View.AppointmentView
             int minutes = int.Parse(tbMinutes.Text);
             if (!tbDate.SelectedDate.HasValue)
             {
-                Utility.ShowWarning("Molimo Vas izaberite datum");
+                ViewUtil.ShowWarning("Molimo Vas izaberite datum");
                 return;
             }
             else
@@ -147,25 +153,26 @@ namespace HealthCare.View.AppointmentView
                 int difference = (selectedDate - currentDate).Days;
                 if (difference < 1)
                 {
-                    Utility.ShowWarning("Datum pregleda mora biti barem 1 dan od danasnjeg pregleda");
+                    ViewUtil.ShowWarning("Datum pregleda mora biti barem 1 dan od danasnjeg pregleda");
                     return;
                 }
             }
             if(doctorListView.SelectedItems.Count != 1)
             {
-                Utility.ShowWarning("Molimo Vas izaberite doktora");
+                ViewUtil.ShowWarning("Molimo Vas izaberite doktora");
                 return;
             }
             DateTime date = tbDate.SelectedDate.Value;
             date = date.AddHours(hours);
             date = date.AddMinutes(minutes);
-            Appointment appointment = new Appointment(patient, doctor, new TimeSlot(date,new TimeSpan(0,15,0)), false);
-            if (!Schedule.CreateAppointment(appointment))
+            Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, new TimeSlot(date,new TimeSpan(0,15,0)), false);
+            if (!_schedule.CheckAvailability(doctor.JMBG, patient.JMBG, appointment.TimeSlot))
             {
-                Utility.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
+                ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
                 return;
             }
-            Utility.ShowInformation("Uspesno dodat pregled");
+            _appointmentService.Add(appointment);
+            ViewUtil.ShowInformation("Uspesno dodat pregled");
             WriteActionToFile("CREATE");
             LoadData();
             IsUserBlocked();
@@ -185,25 +192,24 @@ namespace HealthCare.View.AppointmentView
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
-            Patient patient = (Patient)_hospital.Current;
+            Patient patient = (Patient)Context.Current;
             if (patient.Blocked)
             {
-                Utility.ShowWarning("Zao nam je, ali vas profil je blokiran");
+                ViewUtil.ShowWarning("Zao nam je, ali vas profil je blokiran");
                 return;
             }
             if (appListView.SelectedItems.Count == 1) 
             {
                 Appointment appointment = (Appointment)appListView.SelectedItem;
-                int idForDeleting = appointment.AppointmentID;
-                Schedule.DeleteAppointment(idForDeleting);
+                _appointmentService.Remove(appointment);
                 WriteActionToFile("DELETE");
-                Utility.ShowInformation("Uspesno obrisan pregled");
+                ViewUtil.ShowInformation("Uspesno obrisan pregled");
                 LoadData();
                 IsUserBlocked();
             }
             else
             {
-                Utility.ShowWarning("Molimo Vas izaberite pregled");
+                ViewUtil.ShowWarning("Molimo Vas izaberite pregled");
                 return;
             }
            
@@ -212,10 +218,10 @@ namespace HealthCare.View.AppointmentView
         private void BtnUpdate_Click(object sender, RoutedEventArgs e)
         {
 
-            Patient patient = (Patient)_hospital.Current;
+            Patient patient = (Patient)Context.Current;
             if (patient.Blocked)
             {
-                Utility.ShowWarning("Zao nam je, ali vas profil je blokiran");
+                ViewUtil.ShowWarning("Zao nam je, ali vas profil je blokiran");
                 return;
             }
 
@@ -224,7 +230,7 @@ namespace HealthCare.View.AppointmentView
             int minutes = int.Parse(tbMinutes.Text);
             if (!tbDate.SelectedDate.HasValue)
             {
-                Utility.ShowWarning("Molimo Vas izaberite datum");
+                ViewUtil.ShowWarning("Molimo Vas izaberite datum");
                 return;
             }
             else
@@ -236,7 +242,7 @@ namespace HealthCare.View.AppointmentView
                 int difference = (selectedDate - currentDate).Days;
                 if (difference < 1)
                 {
-                    Utility.ShowWarning("Datum pregleda mora biti barem 1 dan od danasnjeg pregleda");
+                    ViewUtil.ShowWarning("Datum pregleda mora biti barem 1 dan od danasnjeg pregleda");
                     return;
                 }
                 else
@@ -246,7 +252,7 @@ namespace HealthCare.View.AppointmentView
             }
             if (doctorListView.SelectedItems.Count != 1)
             {
-                Utility.ShowWarning("Molimo Vas izaberite doktora");
+                ViewUtil.ShowWarning("Molimo Vas izaberite doktora");
                 return;
             }
             DateTime date = tbDate.SelectedDate.Value;
@@ -254,18 +260,19 @@ namespace HealthCare.View.AppointmentView
             date = date.AddMinutes(minutes);    
             if(appListView.SelectedItems.Count != 1)
             {
-                Utility.ShowWarning("Molimo Vas izaberite pregled");
+                ViewUtil.ShowWarning("Molimo Vas izaberite pregled");
                 return;
             }
-            Appointment appointment = new Appointment(patient, doctor, new TimeSlot(date, new TimeSpan(0, 15, 0)), false);
+            Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, new TimeSlot(date, new TimeSpan(0, 15, 0)), false);
             Appointment appointment2 = (Appointment)appListView.SelectedItem;
             appointment.AppointmentID = appointment2.AppointmentID;
-            if (!Schedule.UpdateAppointment(appointment))
+            if (!_schedule.CheckAvailability(doctor.JMBG, patient.JMBG,appointment.TimeSlot))
             {
-                Utility.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
+                ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
                 return;
             }
-            Utility.ShowInformation("Uspesno azuriran pregled");
+            _appointmentService.Update(appointment);
+            ViewUtil.ShowInformation("Uspesno azuriran pregled");
             WriteActionToFile("UPDATE");
             LoadData();
             IsUserBlocked();

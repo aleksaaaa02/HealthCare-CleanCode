@@ -55,8 +55,8 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn  Header="Appointment ID" DisplayMemberBinding="{Binding AppointmentID}"/>
-                        <GridViewColumn  Header="Ime pacijenta" DisplayMemberBinding="{Binding Patient.Name}"/>
-                        <GridViewColumn  Header="Ime doktora" DisplayMemberBinding="{Binding Doctor.Name}"/>
+                        <GridViewColumn  Header="Ime pacijenta" DisplayMemberBinding="{Binding PatientJMBG}"/>
+                        <GridViewColumn  Header="Ime doktora" DisplayMemberBinding="{Binding DoctorJMBG}"/>
                         <GridViewColumn  Header="Datum pregleda" DisplayMemberBinding="{Binding TimeSlot.Start}"/>
                     </GridView>
                 </ListView.View>

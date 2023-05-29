@@ -1,5 +1,6 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
+using HealthCare.Service;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -8,15 +9,19 @@ namespace HealthCare.ViewModel.ManagerViewModel
 {
     public class RearrangingViewModel
     {
-        private readonly Hospital _hospital;
-        public ObservableCollection<InventoryItemViewModel> FromRooms { get; set; }
-        public ObservableCollection<InventoryItemViewModel> ToRooms { get; set;}
-        public List<Equipment> Equipment => _hospital.EquipmentService.GetAll();
+        private readonly InventoryService _inventoryService;
+        private readonly EquipmentService _equipmentService;
+        private readonly RoomService _roomService;
 
-        public RearrangingViewModel(Hospital hospital)
+        public ObservableCollection<InventoryItemViewModel> FromRooms { get; }
+        public ObservableCollection<InventoryItemViewModel> ToRooms { get; }
+        public List<Equipment> Equipment => _equipmentService.GetAll();
+
+        public RearrangingViewModel()
         {
-            _hospital = hospital;
-
+            _inventoryService = Injector.GetService<InventoryService>(Injector.EQUIPMENT_INVENTORY_S);
+            _equipmentService = Injector.GetService<EquipmentService>();
+            _roomService = Injector.GetService<RoomService>();
             FromRooms = new ObservableCollection<InventoryItemViewModel>();
             ToRooms = new ObservableCollection<InventoryItemViewModel>();
         }
@@ -28,20 +33,15 @@ namespace HealthCare.ViewModel.ManagerViewModel
             var fromRooms = new List<InventoryItemViewModel>();
             var toRooms = new List<InventoryItemViewModel>();
 
-            foreach (Room room in _hospital.RoomService.GetAll()) {
-                var item = new InventoryItem(0, equipment.Id, room.Id, 0);
-                var found = _hospital.EquipmentInventory.GetAll().Find(x => x.Equals(item));
+            foreach (Room room in _roomService.GetAll()) {
+                var found = _inventoryService.SearchByEquipmentAndRoom(equipment.Id, room.Id);
 
-                if (found is not null) {
-                    item.Quantity = found.Quantity;
+                if (found is not null && found.Quantity > 0)
+                    fromRooms.Add(new InventoryItemViewModel(found, equipment, room));
+                else 
+                    found = new InventoryItem(0, equipment.Id, room.Id, 0);
 
-                    if (item.Quantity > 0)
-                        fromRooms.Add(new InventoryItemViewModel(item, equipment, room));
-                }
-                else
-                    item.Quantity = 0;
-
-                toRooms.Add(new InventoryItemViewModel(item, equipment, room));
+                toRooms.Add(new InventoryItemViewModel(found, equipment, room));
             }
 
             Sort(fromRooms, -1).ForEach(model => FromRooms.Add(model));

@@ -8,8 +8,8 @@ namespace HealthCare.ViewModel.DoctorViewModel.DataViewModel
         private Patient _patient;
         public string JMBG => _patient.JMBG;
         public string NameAndLastName => _patient.Name + " " + _patient.LastName;
-        public string Birthday => Utility.ToString(_patient.BirthDate);
-        public string Gender => Utility.Translate(_patient.Gender);
+        public string Birthday => ViewUtil.ToString(_patient.BirthDate);
+        public string Gender => ViewUtil.Translate(_patient.Gender);
 
         public PatientViewModel(Patient patient)
         {

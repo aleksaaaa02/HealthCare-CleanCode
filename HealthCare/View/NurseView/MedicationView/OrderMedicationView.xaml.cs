@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
@@ -11,14 +11,15 @@ namespace HealthCare.View.NurseView.OrderMedicationView
 {
     public partial class OrderMedicationView : Window
     {
+        private readonly OrderService _medicationOrderService;
         private MedicationOrderListingViewModel _model;
-        private readonly OrderService _service;
-        public OrderMedicationView(Hospital hospital)
+        public OrderMedicationView()
         {
             InitializeComponent();
-            _service = hospital.MedicationOrderService;
-            _model = new MedicationOrderListingViewModel(hospital);
+            _model = new MedicationOrderListingViewModel();
             DataContext = _model;
+
+            _medicationOrderService = Injector.GetService<OrderService>(Injector.MEDICATION_ORDER_S);
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -34,7 +35,7 @@ namespace HealthCare.View.NurseView.OrderMedicationView
             }
             catch (ValidationException ve)
             {
-                Utility.ShowWarning(ve.Message);
+                ViewUtil.ShowWarning(ve.Message);
                 return;
             }
 
@@ -42,14 +43,14 @@ namespace HealthCare.View.NurseView.OrderMedicationView
                 if (item.IsSelected)
                     MakeOrder(item.Id, int.Parse(item.OrderQuantity));
 
-            Utility.ShowInformation("Poručivanje uspešno.");
+            ViewUtil.ShowInformation("Poručivanje uspešno.");
             _model.LoadAll();
         }
 
         private void MakeOrder(int medicationID, int quantity)
         {
             var scheduled = DateTime.Now + new TimeSpan(24, 0, 0);
-            _service.Add(new OrderItem(medicationID, quantity, scheduled, false));
+            _medicationOrderService.Add(new OrderItem(medicationID, quantity, scheduled, false));
         }
 
         private void Validate()
