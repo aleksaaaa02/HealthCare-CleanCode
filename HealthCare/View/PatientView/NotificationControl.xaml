@@ -20,7 +20,8 @@
                 </Grid.ColumnDefinitions>
                 <DockPanel Width="450" Grid.Row="0" >
                     <TextBlock x:Name="NotificationCaption" Text="Notification Caption" VerticalAlignment="Center" Foreground="White"/>
-                    <Button  x:Name="expandButton" Width="25" Height="25" Background="Transparent"  Margin="5 5 0 0" BorderBrush="White"  Click="btnNotifications_Click" HorizontalAlignment="Right">
+                    <TextBlock x:Name="TxtHoursLeft" Text="Hours left" VerticalAlignment="Center" Foreground="White" Margin="15 0 0 0" FontSize="10"/>
+                    <Button  x:Name="expandButton" Width="25" Height="25" Background="Transparent"  Margin="5 5 0 0" BorderBrush="White"  Click="btnNotifications_Click" VerticalAlignment="Center" HorizontalAlignment="Right">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="5"/>

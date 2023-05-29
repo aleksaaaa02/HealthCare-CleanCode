@@ -34,27 +34,65 @@ namespace HealthCare.View.PatientView
 
         public void LoadNotifications()
         {
+            NotificationsPanel.Children.Clear();
+            DateTime currentTime = DateTime.Now;
+            Patient patient = (Patient)_hospital.Current;
+            int notificationHoursThreshold = patient.NotificationHours;
             notifications = _hospital.UserNotificationService.GetForUser(_hospital.Current.JMBG);
-
+            notifications = notifications.OrderBy(x => x.receiveTime).ToList();
             foreach (UserNotification userNotification in notifications)
             {
-                NotificationControl notificationControl = new NotificationControl();
-                notificationControl.NotificationCaption.Text = userNotification.caption;
-                notificationControl.NotificationText.Text = userNotification.text;
-                if (userNotification.isCustom)
+                DateTime notificationReceiveTime = userNotification.receiveTime;
+                if (notificationReceiveTime > currentTime)
                 {
-                    SolidColorBrush brush = new SolidColorBrush(Colors.DarkCyan);
-                    notificationControl.Header.Background = brush;
+                    TimeSpan timeDifference = notificationReceiveTime - currentTime;
+
+                    if (timeDifference.TotalHours < notificationHoursThreshold)
+                    {
+                        NotificationControl notificationControl = new NotificationControl();
+                        notificationControl.NotificationCaption.Text = userNotification.caption;
+                        notificationControl.NotificationText.Text = userNotification.text;
+                        if (userNotification.isCustom)
+                        {
+                            SolidColorBrush brush = new SolidColorBrush(Colors.DarkCyan);
+                            notificationControl.Header.Background = brush;
+                        }
+                        notificationControl.TxtHoursLeft.Text = ((int)timeDifference.TotalHours).ToString() + " sati preostalo";
+                        NotificationsPanel.LastChildFill = true;
+                        DockPanel.SetDock(notificationControl, Dock.Top);
+                        NotificationsPanel.Children.Add(notificationControl);
+                    }
                 }
-                NotificationsPanel.LastChildFill = true;
-                DockPanel.SetDock(notificationControl, Dock.Top);
-                NotificationsPanel.Children.Add(notificationControl);
             }
         }
 
         private void expandButton_Click(object sender, RoutedEventArgs e)
         {
             new NotificationCreationView(this,_hospital).Show();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string hoursText = hoursTextBox.Text;
+            if (int.TryParse(hoursText, out int notificationHours))
+            {
+                if (notificationHours <= 0)
+                {
+                    Utility.ShowWarning("Broj sati mora biti pozitivan broj!");
+                    return;
+                }
+                else
+                {
+                    Patient patient = (Patient)_hospital.Current;
+                    patient.NotificationHours = notificationHours;
+                    _hospital.PatientService.Update(patient);
+                    LoadNotifications();
+                }
+            }
+            else
+            {
+                Utility.ShowWarning("Broj sati mora biti broj");
+            }
         }
     }
 }
