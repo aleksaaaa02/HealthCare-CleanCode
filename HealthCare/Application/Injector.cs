@@ -2,6 +2,7 @@
 using HealthCare.Model;
 using HealthCare.Repository;
 using HealthCare.Service;
+using HealthCare.Service.ScheduleService;
 using System;
 using System.Collections.Generic;
 
@@ -55,6 +56,9 @@ namespace HealthCare.Application
 
         static Injector()
         {
+            _services[typeof(PatientSchedule)] = new PatientSchedule();
+            _services[typeof(DoctorSchedule)] = new DoctorSchedule();
+            _services[typeof(Schedule)] = new Schedule();
             _services[typeof(TransferService)] = new TransferService(
                 GetFileRepository<TransferItem>(Paths.TRANSFERS));
 

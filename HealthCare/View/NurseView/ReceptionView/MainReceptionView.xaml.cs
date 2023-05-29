@@ -15,7 +15,7 @@ namespace HealthCare.View.ReceptionView
         {
             InitializeComponent();
             _patientService = Injector.GetService<PatientService>();
-            _patientSchedule = new PatientSchedule();
+            _patientSchedule = Injector.GetService<PatientSchedule>();
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

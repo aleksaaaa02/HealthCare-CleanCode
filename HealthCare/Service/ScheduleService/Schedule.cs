@@ -12,8 +12,8 @@ namespace HealthCare.Service.ScheduleService
         private readonly AppointmentService _appointmentService;
         public Schedule()
         {
-            _doctorSchedule = new DoctorSchedule();
-            _patientSchedule = new PatientSchedule();   
+            _doctorSchedule = Injector.GetService<DoctorSchedule>();
+            _patientSchedule = Injector.GetService<PatientSchedule>();
             _appointmentService = Injector.GetService<AppointmentService>();
         }
 

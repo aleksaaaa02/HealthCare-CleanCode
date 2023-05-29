@@ -25,7 +25,7 @@ namespace HealthCare.View.NurseView.ReferralView
             _model = new ReferralListingViewModel(patient);
             DataContext = _model;
             
-            _schedule = new Schedule();
+            _schedule = Injector.GetService<Schedule>();
 
             _appointmentService = Injector.GetService<AppointmentService>();
             _specialistReferralService = Injector.GetService<SpecialistReferralService>();

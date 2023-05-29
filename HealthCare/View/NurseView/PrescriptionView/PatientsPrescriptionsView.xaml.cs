@@ -35,7 +35,7 @@ namespace HealthCare.View.NurseView.PrescriptionView
             _roomService = Injector.GetService<RoomService>();
             _appointmentService = Injector.GetService<AppointmentService>();
 
-            _schedule = new Schedule();
+            _schedule = Injector.GetService<Schedule>();
 
             _patient = patient;
             tbDate.SelectedDate = DateTime.Now;

@@ -20,7 +20,7 @@ namespace HealthCare.View.AppointmentView
         {
             InitializeComponent();
             _appointmentService = Injector.GetService<AppointmentService>();
-            _schedule = new Schedule();
+            _schedule = Injector.GetService<Schedule>();
 
             model = new PriorityAppointmentViewModel();
             DataContext = model;

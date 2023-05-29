@@ -28,7 +28,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appointments.Commands
             _isEditing = isEditing;
             _appointmentService = Injector.GetService<AppointmentService>();
             _patientService = Injector.GetService<PatientService>();
-            _schedule = new Schedule();
+            _schedule = Injector.GetService<Schedule>();
         }
 
         public override void Execute(object parameter)

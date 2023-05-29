@@ -30,8 +30,8 @@ namespace HealthCare.View.UrgentAppointmentView
             _notificationService = Injector.GetService<NotificationService>();
             _doctorService = Injector.GetService<DoctorService>();
             _appointmentService = Injector.GetService<AppointmentService>();
-            _schedule = new Schedule();
-            _doctorSchedule = new DoctorSchedule();
+            _schedule = Injector.GetService<Schedule>();
+            _doctorSchedule = Injector.GetService<DoctorSchedule>();
 
             _model.Update();
             tbJMBG.IsEnabled = false;

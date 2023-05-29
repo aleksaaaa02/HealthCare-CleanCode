@@ -1,4 +1,5 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Application;
+using HealthCare.Model;
 using HealthCare.Service.ScheduleService;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 using System;
@@ -13,7 +14,7 @@ namespace HealthCare.ViewModel.NurseViewModel
 
         public PostponableAppointmentsViewModel(List<Appointment> postponable)
         {
-            Schedule _schedule = new Schedule();
+            Schedule _schedule = Injector.GetService<Schedule>();
             Appointments = new ObservableCollection<AppointmentViewModel>();
 
             for (int i = 0; i < Math.Min(5, postponable.Count); i++)

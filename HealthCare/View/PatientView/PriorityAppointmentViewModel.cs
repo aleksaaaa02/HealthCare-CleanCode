@@ -27,7 +27,7 @@ namespace HealthCare.View.AppointmentView
         {
             _patientService = Injector.GetService<PatientService>();
             _doctorService = Injector.GetService<DoctorService>();
-            _schedule = new Schedule();
+            _schedule = Injector.GetService<Schedule>();
             
             Doctors = new ObservableCollection<Doctor>();
             Appointments = new ObservableCollection<Appointment>();

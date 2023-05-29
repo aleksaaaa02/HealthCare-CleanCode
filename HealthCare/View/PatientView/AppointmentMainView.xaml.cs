@@ -21,7 +21,7 @@ namespace HealthCare.View.AppointmentView
         private readonly Schedule _schedule;
         public AppointmentMainView()
         {
-            _schedule = new Schedule();
+            _schedule = Injector.GetService<Schedule>();
             _appointmentService = Injector.GetService<AppointmentService>();
             _patientService = Injector.GetService<PatientService>();
             _doctorService = Injector.GetService<DoctorService>();

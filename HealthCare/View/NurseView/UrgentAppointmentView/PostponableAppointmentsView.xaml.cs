@@ -23,7 +23,7 @@ namespace HealthCare.View.UrgentAppointmentView
             _newAppointment = newAppointment;
 
             _notificationService = Injector.GetService<NotificationService>();
-            _schedule = new Schedule();
+            _schedule = Injector.GetService<Schedule>();
 
             _model = new PostponableAppointmentsViewModel(postponable);
             DataContext = _model;

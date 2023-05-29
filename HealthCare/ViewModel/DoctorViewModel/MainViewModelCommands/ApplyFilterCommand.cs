@@ -17,7 +17,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
         public ApplyFilterCommand(DoctorMainViewModel viewModel)
         {
             _doctorMainViewModel = viewModel;
-            _doctorSchedule = new DoctorSchedule();
+            _doctorSchedule = Injector.GetService<DoctorSchedule>();
         }
 
         public override void Execute(object parameter)
