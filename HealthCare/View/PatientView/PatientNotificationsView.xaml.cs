@@ -22,6 +22,7 @@ namespace HealthCare.View.PatientView
     public partial class PatientNotificationsView : UserControl
     {
         List<UserNotification> notifications;
+        List<Prescription> prescriptions;
         Hospital _hospital;
         public PatientNotificationsView(Hospital hospital)
         {
@@ -39,6 +40,23 @@ namespace HealthCare.View.PatientView
             Patient patient = (Patient)_hospital.Current;
             int notificationHoursThreshold = patient.NotificationHours;
             notifications = _hospital.UserNotificationService.GetForUser(_hospital.Current.JMBG);
+            prescriptions = _hospital.PrescriptionService.GetPatientsPrescriptions(patient.JMBG);
+            foreach(Prescription prescription in prescriptions)
+            {
+                foreach (DateTime pillDateTime in prescription.GetPillConsumptionTimes())
+                {
+                    if(pillDateTime > currentTime)
+                    {
+                        Medication medication = _hospital.MedicationService.Get(prescription.MedicationId);
+                        string notificationMessage = "Lek: " + medication.Name + "\n"
+                                                   + "Instrukcije: " + prescription.Instruction + "\n"
+                                                   + "Vreme uzimanja leka: " + pillDateTime.ToString();
+                        notifications.Add(new UserNotification(patient.JMBG, pillDateTime, "Popijte tabletu", notificationMessage, false));
+                    }
+                }
+            }
+
+            
             notifications = notifications.OrderBy(x => x.receiveTime).ToList();
             foreach (UserNotification userNotification in notifications)
             {
@@ -54,7 +72,7 @@ namespace HealthCare.View.PatientView
                         notificationControl.NotificationText.Text = userNotification.text;
                         if (userNotification.isCustom)
                         {
-                            SolidColorBrush brush = new SolidColorBrush(Colors.DarkCyan);
+                            SolidColorBrush brush = new SolidColorBrush(Colors.IndianRed);
                             notificationControl.Header.Background = brush;
                         }
                         notificationControl.TxtHoursLeft.Text = ((int)timeDifference.TotalHours).ToString() + " sati preostalo";

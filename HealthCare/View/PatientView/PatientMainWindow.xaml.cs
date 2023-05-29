@@ -31,6 +31,7 @@ namespace HealthCare.View.PatientView
             _mainWindow = mainWindow;
             //#179c8c green
             //#effcfa white
+            this.labelUsername.Text = _hospital.Current.Name;
             btnCrud.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             btnCrud.Focus();
             
