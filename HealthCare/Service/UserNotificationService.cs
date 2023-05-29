@@ -1,4 +1,5 @@
 ﻿using HealthCare.Model;
+using HealthCare.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace HealthCare.Service
 {
     public class UserNotificationService : NumericService<UserNotification>
     {
-        public UserNotificationService(string filepath) : base(filepath) { }
+        public UserNotificationService(IRepository<UserNotification> repository) : base(repository) { }
 
         public List<UserNotification> GetForUser(string userJmbg)
         {

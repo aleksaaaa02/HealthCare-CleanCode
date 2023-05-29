@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare;
 using HealthCare.Model;
 using HealthCare.View.AppointmentView;
 using System;
@@ -22,14 +22,12 @@ namespace HealthCare.View.PatientView
     /// </summary>
     public partial class DoctorSortView : UserControl
     {
-        Hospital _hospital;
         DoctorSortViewModel model;
         PatientMainWindow _mainWindow;
-        public DoctorSortView(PatientMainWindow mainWindow, Hospital hospital)
+        public DoctorSortView(PatientMainWindow mainWindow)
         {
-            model = new DoctorSortViewModel(hospital);
+            model = new DoctorSortViewModel();
             DataContext = model;
-            _hospital = hospital;
             _mainWindow = mainWindow;
             InitializeComponent();     
         }
@@ -49,7 +47,7 @@ namespace HealthCare.View.PatientView
             if (listViewRecord.SelectedItems.Count == 1)
             {
                 Doctor doctor = (Doctor)listViewRecord.SelectedItem;
-                AppointmentMainView appointmentMainView = new AppointmentMainView(_hospital,doctor);
+                AppointmentMainView appointmentMainView = new AppointmentMainView(doctor);
                 _mainWindow.mainContentGrid.Content = appointmentMainView;
 
             }           

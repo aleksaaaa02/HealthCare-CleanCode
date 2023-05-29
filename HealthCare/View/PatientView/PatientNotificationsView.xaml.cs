@@ -1,5 +1,8 @@
-﻿using HealthCare.Context;
+﻿using HealthCare;
+using HealthCare.Application;
+using HealthCare.Application.Common;
 using HealthCare.Model;
+using HealthCare.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,10 +26,16 @@ namespace HealthCare.View.PatientView
     {
         List<UserNotification> notifications;
         List<Prescription> prescriptions;
-        Hospital _hospital;
-        public PatientNotificationsView(Hospital hospital)
+        private readonly PrescriptionService _prescriptionService;
+        private readonly MedicationService _medicationService;
+        private readonly PatientService _patientService;
+        private readonly UserNotificationService _userNotificationService;
+        public PatientNotificationsView()
         {
-            _hospital = hospital;
+            _prescriptionService = Injector.GetService<PrescriptionService>(Injector.REGULAR_PRESCRIPTION_S);
+            _medicationService = Injector.GetService<MedicationService>();
+            _patientService = Injector.GetService<PatientService>();
+            _userNotificationService = Injector.GetService<UserNotificationService>();
             InitializeComponent();
             LoadNotifications();
             //DataContext = new PatientNotificationsViewModel(hospital);
@@ -37,17 +46,17 @@ namespace HealthCare.View.PatientView
         {
             NotificationsPanel.Children.Clear();
             DateTime currentTime = DateTime.Now;
-            Patient patient = (Patient)_hospital.Current;
+            Patient patient = (Patient)Context.Current;
             int notificationHoursThreshold = patient.NotificationHours;
-            notifications = _hospital.UserNotificationService.GetForUser(_hospital.Current.JMBG);
-            prescriptions = _hospital.PrescriptionService.GetPatientsPrescriptions(patient.JMBG);
+            notifications = _userNotificationService.GetForUser(Context.Current.JMBG);
+            prescriptions = _prescriptionService.GetPatientsPrescriptions(patient.JMBG);
             foreach(Prescription prescription in prescriptions)
             {
                 foreach (DateTime pillDateTime in prescription.GetPillConsumptionTimes())
                 {
                     if(pillDateTime > currentTime)
                     {
-                        Medication medication = _hospital.MedicationService.Get(prescription.MedicationId);
+                        Medication medication = _medicationService.Get(prescription.MedicationId);
                         string notificationMessage = "Lek: " + medication.Name + "\n"
                                                    + "Instrukcije: " + prescription.Instruction + "\n"
                                                    + "Vreme uzimanja leka: " + pillDateTime.ToString();
@@ -86,7 +95,7 @@ namespace HealthCare.View.PatientView
 
         private void expandButton_Click(object sender, RoutedEventArgs e)
         {
-            new NotificationCreationView(this,_hospital).Show();
+            new NotificationCreationView(this).Show();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -96,20 +105,20 @@ namespace HealthCare.View.PatientView
             {
                 if (notificationHours <= 0)
                 {
-                    Utility.ShowWarning("Broj sati mora biti pozitivan broj!");
+                    ViewUtil.ShowWarning("Broj sati mora biti pozitivan broj!");
                     return;
                 }
                 else
                 {
-                    Patient patient = (Patient)_hospital.Current;
+                    Patient patient = (Patient)Context.Current;
                     patient.NotificationHours = notificationHours;
-                    _hospital.PatientService.Update(patient);
+                    _patientService.Update(patient);
                     LoadNotifications();
                 }
             }
             else
             {
-                Utility.ShowWarning("Broj sati mora biti broj");
+                ViewUtil.ShowWarning("Broj sati mora biti broj");
             }
         }
     }

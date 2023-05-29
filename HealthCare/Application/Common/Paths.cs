@@ -3,18 +3,15 @@
     public abstract class Paths
     {
         private const string RESOURCE_ROOT = "../../../Resource/";
-
+        public const string USER_NOTIFICATIONS_REFERRALS = RESOURCE_ROOT + "user_notifications.csv";
         public const string REGULAR_PRESCRIPTIONS = RESOURCE_ROOT + "regular_prescriptions.csv";
         public const string THERAPY_PRESCRIPTIONS = RESOURCE_ROOT + "therapy_prescriptions.csv";
-
         public const string SPECIALIST_REFERRALS = RESOURCE_ROOT + "specialist_referrals.csv";
-        public const string TREATMENT_REFERRALS = RESOURCE_ROOT + "treatment_referrals.csv";
-
+        public const string TREATMENT_REFERRALS = RESOURCE_ROOT + "treatment_referrals.csv";    
         public const string MEDICATION_INVENTORY = RESOURCE_ROOT + "medication_inventory.csv";
         public const string EQUIPMENT_INVENTORY = RESOURCE_ROOT + "equipment_inventory.csv";
         public const string MEDICATION_ORDERS = RESOURCE_ROOT + "medication_orders.csv";
         public const string EQUIPMENT_ORDERS = RESOURCE_ROOT + "equipment_orders.csv";
-
         public const string NOTIFICATIONS = RESOURCE_ROOT + "notifications.csv";
         public const string PATIENT_LOGS = RESOURCE_ROOT + "patient_logs.csv";
         public const string APPOINTMENTS = RESOURCE_ROOT + "appointments.csv";

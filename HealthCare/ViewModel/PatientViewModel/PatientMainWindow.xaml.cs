@@ -1,4 +1,6 @@
-﻿using HealthCare.Context;
+﻿using HealthCare;
+using HealthCare.Application;
+using HealthCare.Service;
 using HealthCare.View.AppointmentView;
 using System;
 using System.Collections.Generic;
@@ -22,16 +24,14 @@ namespace HealthCare.View.PatientView
     /// </summary>
     public partial class PatientMainWindow : Window
     {
-        Hospital _hospital;
         MainWindow _mainWindow;
-        public PatientMainWindow(MainWindow mainWindow,Hospital hospital)
+        public PatientMainWindow(MainWindow mainWindow)
         {
             InitializeComponent();
-            _hospital = hospital;
             _mainWindow = mainWindow;
             //#179c8c green
             //#effcfa white
-            this.labelUsername.Text = _hospital.Current.Name;
+            this.labelUsername.Text = Context.Current.Name;
             btnCrud.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             btnCrud.Focus();
             
@@ -42,23 +42,23 @@ namespace HealthCare.View.PatientView
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             
-            mainContentGrid.Content = new AppointmentMainView(_hospital);
+            mainContentGrid.Content = new AppointmentMainView();
             
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            mainContentGrid.Content = new PriorityAppointmentView(_hospital);
+            mainContentGrid.Content = new PriorityAppointmentView();
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            mainContentGrid.Content = new PatientRecordView(_hospital);
+            mainContentGrid.Content = new PatientRecordView();
         }
 
         private void btnDoctors_Click(object sender, RoutedEventArgs e)
         {
-            mainContentGrid.Content = new DoctorSortView(this,_hospital);
+            mainContentGrid.Content = new DoctorSortView(this);
         }
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
@@ -68,7 +68,7 @@ namespace HealthCare.View.PatientView
 
         private void btnNotifications_Click(object sender, RoutedEventArgs e)
         {
-            mainContentGrid.Content = new PatientNotificationsView(_hospital);
+            mainContentGrid.Content = new PatientNotificationsView();
         }
 
         private void SetWindow(UserControl control)

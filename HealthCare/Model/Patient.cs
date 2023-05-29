@@ -48,7 +48,7 @@ namespace HealthCare.Model
             int patientNotifications = NotificationHours;
             if (MedicalRecord != null)
                 medicalRecordValues = MedicalRecord.Serialize();
-            string[] csvValues = userValues.Concat(patientValues).Concat(medicalRecordValues).ToArray();
+            string[] csvValues = userValues.Concat(patientValues).Concat(medicalRecordValues).Concat(patientNotificationHours).ToArray();
             return csvValues;
         }
 
@@ -63,12 +63,10 @@ namespace HealthCare.Model
             Username = values[6];
             Password = values[7];
             Gender = SerialUtil.ParseEnum<Gender>(values[8]);
-
             Blocked = bool.Parse(values[9]);
             MedicalRecord = new MedicalRecord();
             MedicalRecord.Deserialize(Util.SubArray(values, 10, 4));
-            MedicalRecord.FromCSV(Utility.SubArray(values, 10, 6));
-            NotificationHours = int.Parse(values[16]);
+            NotificationHours = int.Parse(values[14]);
         }
     }
 }

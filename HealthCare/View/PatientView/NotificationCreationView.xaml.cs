@@ -1,4 +1,5 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application.Common;
+using HealthCare;
 using HealthCare.Model;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using HealthCare.Application;
+using HealthCare.Service;
 
 namespace HealthCare.View.PatientView
 {
@@ -21,12 +24,13 @@ namespace HealthCare.View.PatientView
     /// </summary>
     public partial class NotificationCreationView : Window
     {
-        Hospital _hospital;
         PatientNotificationsView _previousView;
-        public NotificationCreationView(PatientNotificationsView previousView,Hospital hospital)
+        UserNotificationService _userNotificationService;
+
+        public NotificationCreationView(PatientNotificationsView previousView)
         {
-            _hospital = hospital;
             _previousView = previousView;
+            _userNotificationService = Injector.GetService<UserNotificationService>();
             InitializeComponent();
         }
 
@@ -40,25 +44,25 @@ namespace HealthCare.View.PatientView
             if (string.IsNullOrWhiteSpace(caption) || string.IsNullOrWhiteSpace(text) ||
                 !int.TryParse(txtHours.Text, out hours) || !int.TryParse(txtMinutes.Text, out minutes) || datePicker.SelectedDate==null)
             {
-                Utility.ShowWarning("Molimo vas unesite sva polja");
+                ViewUtil.ShowWarning("Molimo vas unesite sva polja");
                 return;
             }
 
             if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59)
             {
-                Utility.ShowWarning("Molimo vas unesite validno vreme");
+                ViewUtil.ShowWarning("Molimo vas unesite validno vreme");
                 return;
             }
 
             DateTime selectedDateTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, hours, minutes, 0);
             if (selectedDateTime < DateTime.Now)
             {
-                Utility.ShowWarning("Datum i vreme koje ste uneli su vec prosli, molimo vas unesite drugi datum i vreme");
+                ViewUtil.ShowWarning("Datum i vreme koje ste uneli su vec prosli, molimo vas unesite drugi datum i vreme");
                 return;
             }
             
-            UserNotification notification = new UserNotification(_hospital.Current.JMBG,selectedDateTime, caption, text,  true);
-            _hospital.UserNotificationService.Add(notification);
+            UserNotification notification = new UserNotification(Context.Current.JMBG,selectedDateTime, caption, text,  true);
+            _userNotificationService.Add(notification);
             MessageBox.Show("Uspesno ste dodali notifikaciju");
             _previousView.LoadNotifications();
         }

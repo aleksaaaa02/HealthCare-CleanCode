@@ -22,7 +22,7 @@ namespace HealthCare.View.AppointmentView
             _anamnesisService = Injector.GetService<AnamnesisService>();
             _doctorService = Injector.GetService<DoctorService>();
             _patientService = Injector.GetService<PatientService>();
-
+            _appointmentService = Injector.GetService<AppointmentService>();
             Appointments = new ObservableCollection<Appointment>();
             _patientAppointments = _appointmentService.GetByPatient(Context.Current.JMBG);
             LoadData(_patientAppointments);

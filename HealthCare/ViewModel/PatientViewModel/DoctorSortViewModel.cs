@@ -1,5 +1,7 @@
-﻿using HealthCare.Context;
+﻿using HealthCare;
+using HealthCare.Application;
 using HealthCare.Model;
+using HealthCare.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,14 +16,14 @@ namespace HealthCare.View.PatientView
     {
         public ObservableCollection<Doctor> Doctors { get; set; }
         public List<Doctor> _doctors;
-        public Hospital _hospital;
+        private readonly DoctorService _doctorService;
 
-        public DoctorSortViewModel(Hospital hospital)
+        public DoctorSortViewModel()
         {
-            _hospital = hospital;
             Doctors = new ObservableCollection<Doctor>();
-            _doctors = hospital.DoctorService.GetAll();
-            LoadData(hospital.DoctorService.GetAll());
+            _doctorService = Injector.GetService<DoctorService>();
+            _doctors = _doctorService.GetAll();
+            LoadData(_doctors);
         }
 
         public void LoadData(List<Doctor> doctors)

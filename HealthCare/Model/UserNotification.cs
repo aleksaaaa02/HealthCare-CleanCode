@@ -1,4 +1,5 @@
-﻿using HealthCare.Repository;
+﻿using HealthCare.Application.Common;
+using HealthCare.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace HealthCare.Model
 {
-    public class UserNotification : Identifier, ISerializable
+    public class UserNotification : RepositoryItem
     {
         public override object Key { get => notificationID; set => notificationID = (int)value; }
         public int notificationID { get; set; }
@@ -34,19 +35,32 @@ namespace HealthCare.Model
 
         public string[] ToCSV()
         {
-            return new string[] { notificationID.ToString(), patientID.ToString(), Utility.ToString(receiveTime), caption, text};
+            return new string[] { notificationID.ToString(), patientID.ToString(), Util.ToString(receiveTime), caption, text};
         }
 
         public void FromCSV(string[] values)
         {
             notificationID = int.Parse(values[0]);
             patientID = values[1].ToString();
-            receiveTime = Utility.ParseDate(values[2]);
+            receiveTime = Util.ParseDate(values[2]);
             caption = values[3];
             text = values[4];
             isCustom = true;
         }
 
+        public override string[] Serialize()
+        {
+            return new string[] {notificationID.ToString(),patientID, Util.ToString(receiveTime), caption,text,isCustom.ToString()};
+        }
 
+        public override void Deserialize(string[] values)
+        {
+            notificationID = int.Parse(values[0]);
+            patientID = values[1];
+            receiveTime = Util.ParseDate(values[2]);
+            caption = values[3];
+            text = values[4];
+            isCustom = true;
+        }
     }
 }

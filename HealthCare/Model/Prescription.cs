@@ -61,6 +61,9 @@ namespace HealthCare.Model
         }
 
         public override string[] Serialize()
+        {
+            return new string[] { Id.ToString(), MedicationId.ToString(), Instruction.ToString(), PatientJMBG, DoctorJMBG, DailyDosage.ToString(), HoursBetweenConsumption.ToString(), ConsumptionDays.ToString(), Util.ToString(Start), FirstUse.ToString() };
+        }
         public List<DateTime> GetPillConsumptionTimes()
         {
             List<DateTime> consumptionTimes = new List<DateTime>();

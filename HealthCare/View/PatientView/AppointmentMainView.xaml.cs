@@ -30,10 +30,13 @@ namespace HealthCare.View.AppointmentView
             IsUserBlocked();
         }
 
-        public AppointmentMainView(Hospital hospital, Doctor doctor)
+        public AppointmentMainView(Doctor doctor)
         {
+            _schedule = Injector.GetService<Schedule>();
+            _appointmentService = Injector.GetService<AppointmentService>();
+            _patientService = Injector.GetService<PatientService>();
+            _doctorService = Injector.GetService<DoctorService>();
             InitializeComponent();
-            _hospital = hospital;
             LoadData();
             IsUserBlocked();
             List<Doctor> oneDoctor = new List<Doctor>
