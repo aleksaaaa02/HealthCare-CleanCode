@@ -52,14 +52,14 @@ namespace HealthCare.Service
             return true;
         }
 
-        private IEnumerable<InventoryItem> GetEquipmentItems(int equipmentId)
+        private List<InventoryItem> GetEquipmentItems(int equipmentId)
         {
-            return GetAll().Where(x => x.ItemId == equipmentId);
+            return GetAll().Where(x => x.ItemId == equipmentId).ToList();
         }
 
-        public IEnumerable<InventoryItem> GetRoomItems(int roomId)
+        public List<InventoryItem> GetRoomItems(int roomId)
         {
-            return GetAll().Where(x => x.RoomId == roomId);
+            return GetAll().Where(x => x.RoomId == roomId).ToList();
         }
 
         public void ChangeDynamicEquipmentQuantity(Dictionary<int, int> newQuantities)
@@ -76,10 +76,11 @@ namespace HealthCare.Service
         {
             return GetAll().Find(x => x.ItemId == equipmentId && x.RoomId == roomId);
         }
+
         internal List<InventoryItem> CombineItems(IEnumerable<InventoryItem> items1, IEnumerable<InventoryItem> items2)
         {
             return items1.Union(items2)
-                .GroupBy(x => x.EquipmentId)
+                .GroupBy(x => x.ItemId)
                 .Select(g => new InventoryItem(g.Key, 0, g.Sum(x => x.Quantity)))
                 .ToList();
         }

@@ -1,12 +1,13 @@
 ﻿using HealthCare.Model;
 using HealthCare.Model.Renovation;
+using HealthCare.Repository;
 using System;
 
 namespace HealthCare.Service.RenovationService
 {
     public class BasicRenovationService : RenovationService<BasicRenovation>
     {
-        public BasicRenovationService(string filepath) : base(filepath) { }
+        public BasicRenovationService(IRepository<BasicRenovation> repository) : base(repository) { }
 
         public override void Execute(BasicRenovation renovation)
         {

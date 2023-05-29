@@ -1,17 +1,18 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
+using HealthCare.Service.RenovationService;
 using System.Windows;
 
 namespace HealthCare.View.ManagerView.RenovationView
 {
     public partial class SplittingRenovationView : Window
     {
-        private readonly Hospital _hospital;
-        public SplittingRenovationView(Hospital hospital, int roomId, TimeSlot scheduled)
+        private readonly JoiningRenovationService _joiningRenovationService;
+        public SplittingRenovationView(int roomId, TimeSlot scheduled)
         {
             InitializeComponent();
             
-            _hospital = hospital;
+            _joiningRenovationService = Injector.GetService<JoiningRenovationService>();
         }
     }
 }

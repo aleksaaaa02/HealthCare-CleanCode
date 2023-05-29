@@ -15,6 +15,10 @@
         public const string MEDICATION_ORDERS = RESOURCE_ROOT + "medication_orders.csv";
         public const string EQUIPMENT_ORDERS = RESOURCE_ROOT + "equipment_orders.csv";
 
+        public const string SPLITTING_RENOVATIONS = RESOURCE_ROOT + "splitting_renovations.csv";
+        public const string JOINING_RENOVATIONS = RESOURCE_ROOT + "joining_renovations.csv";
+        public const string BASIC_RENOVATIONS = RESOURCE_ROOT + "basic_renovations.csv";
+
         public const string NOTIFICATIONS = RESOURCE_ROOT + "notifications.csv";
         public const string PATIENT_LOGS = RESOURCE_ROOT + "patient_logs.csv";
         public const string APPOINTMENTS = RESOURCE_ROOT + "appointments.csv";
@@ -27,5 +31,6 @@
         public const string DOCTORS = RESOURCE_ROOT + "doctors.csv";
         public const string NURSES = RESOURCE_ROOT + "nurses.csv";
         public const string ROOMS = RESOURCE_ROOT + "rooms.csv";
+
     }
 }

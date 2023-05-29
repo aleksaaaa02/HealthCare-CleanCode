@@ -1,7 +1,9 @@
 ﻿using HealthCare.Application.Common;
 using HealthCare.Model;
+using HealthCare.Model.Renovation;
 using HealthCare.Repository;
 using HealthCare.Service;
+using HealthCare.Service.RenovationService;
 using HealthCare.Service.ScheduleService;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,8 @@ namespace HealthCare.Application
                 GetFileRepository<SpecialistReferral> (Paths.SPECIALIST_REFERRALS)) },
             { typeof(TreatmentReferralService), new TreatmentReferralService(
                 GetFileRepository<TreatmentReferral> (Paths.TREATMENT_REFERRALS)) },
+            { typeof(BasicRenovationService), new BasicRenovationService(
+                GetFileRepository<BasicRenovation> (Paths.BASIC_RENOVATIONS)) },
             { typeof(NotificationService), new NotificationService(
                 GetFileRepository<Notification> (Paths.NOTIFICATIONS)) },
             { typeof(AppointmentService), new AppointmentService(
@@ -59,9 +63,14 @@ namespace HealthCare.Application
             _services[typeof(PatientSchedule)] = new PatientSchedule();
             _services[typeof(DoctorSchedule)] = new DoctorSchedule();
             _services[typeof(Schedule)] = new Schedule();
+
+            _services[typeof(SplittingRenovationService)] = new SplittingRenovationService(
+                GetFileRepository<SplittingRenovation>(Paths.SPLITTING_RENOVATIONS));
+            _services[typeof(JoiningRenovationService)] = new JoiningRenovationService(
+                GetFileRepository<JoiningRenovation>(Paths.JOINING_RENOVATIONS));
+
             _services[typeof(TransferService)] = new TransferService(
                 GetFileRepository<TransferItem>(Paths.TRANSFERS));
-
             _services[typeof(OrderService)] = new Dictionary<string, object>()
             {
                 { EQUIPMENT_ORDER_S, new OrderService(

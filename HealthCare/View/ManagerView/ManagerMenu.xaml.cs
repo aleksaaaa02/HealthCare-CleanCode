@@ -31,7 +31,7 @@ namespace HealthCare.View.ManagerView
 
         private void Button_Renovation(object sender, RoutedEventArgs e)
         {
-            new RenovationListingView(this, _hospital).Show();
+            new RenovationListingView().ShowDialog();
         }
 
         private void Button_Logout(object sender, RoutedEventArgs e)

@@ -1,11 +1,12 @@
 ﻿using HealthCare.Model.Renovation;
+using HealthCare.Repository;
 using System;
 
 namespace HealthCare.Service.RenovationService
 {
-    public abstract class RenovationService<T> : NumericService<T> where T : BasicRenovation, new()
+    public abstract class RenovationService<T> : NumericService<T> where T : BasicRenovation
     {
-        protected RenovationService(string filepath) : base(filepath)
+        public RenovationService(IRepository<T> repository) : base(repository) 
         {
             ExecuteAll();
         }

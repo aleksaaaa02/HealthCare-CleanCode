@@ -1,4 +1,5 @@
-﻿using HealthCare.Repository;
+﻿using HealthCare.Application.Common;
+using HealthCare.Repository;
 using System.Linq;
 
 namespace HealthCare.Model.Renovation
@@ -16,17 +17,17 @@ namespace HealthCare.Model.Renovation
             ResultRoom = resultRoom;
         }
 
-        public override void FromCSV(string[] values)
+        public override void Deserialize(string[] values)
         {
-            base.FromCSV(values.SubArray(0, 4));
+            base.Deserialize(Util.SubArray(values, 0, 4));
             OtherRoomId = int.Parse(values[4]);
-            ResultRoom.FromCSV(values[5].Split('|'));
+            ResultRoom.Deserialize(values[5].Split('|'));
         }
 
-        public override string[] ToCSV()
+        public override string[] Serialize()
         {
-            string room = string.Join('|', ResultRoom.ToCSV());
-            return base.ToCSV().Concat(new string[] { OtherRoomId.ToString(), room }).ToArray();
+            string room = string.Join('|', ResultRoom.Serialize());
+            return base.Serialize().Concat(new string[] { OtherRoomId.ToString(), room }).ToArray();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using HealthCare.Model.Renovation;
+﻿using HealthCare.Application;
+using HealthCare.Model.Renovation;
+using HealthCare.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +12,12 @@ namespace HealthCare.Service.RenovationService
     public class JoiningRenovationService : RenovationService<JoiningRenovation>
     {
         private readonly RoomService _roomService;
-        private readonly Inventory _inventory;
+        private readonly InventoryService _inventory;
 
-        public JoiningRenovationService(string filepath, RoomService roomService, Inventory inventory) : base(filepath) 
+        public JoiningRenovationService(IRepository<JoiningRenovation> repository) : base(repository)
         {
-            _roomService = roomService;
-            _inventory = inventory;
+            _roomService = Injector.GetService<RoomService>();
+            _inventory = Injector.GetService<InventoryService>(Injector.EQUIPMENT_INVENTORY_S);
         }
 
         public override void Execute(JoiningRenovation renovation)

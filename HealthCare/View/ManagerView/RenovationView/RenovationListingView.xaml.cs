@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Model.Renovation;
@@ -16,19 +16,15 @@ namespace HealthCare.View.ManagerView
 {
     public partial class RenovationListingView : Window
     {
-        private readonly Hospital _hospital;
-        private readonly Window _parent;
         private readonly BasicRenovationService _basicRenovationService;
 
-        public RenovationListingView(Window parent, Hospital hospital)
+        public RenovationListingView()
         {
             InitializeComponent();
 
-            _hospital = hospital;
-            _parent = parent;
-            _basicRenovationService = hospital.BasicRenovationService;
+            _basicRenovationService = Injector.GetService<BasicRenovationService>();
 
-            DataContext = new RenovationViewModel(hospital.RoomService);
+            DataContext = new RenovationViewModel();
 
             btnRenovate.IsEnabled = true;
             btnJoin.IsEnabled = false;
@@ -71,7 +67,7 @@ namespace HealthCare.View.ManagerView
             }
             catch (ValidationException ve)
             {
-                Utility.ShowWarning(ve.Message);
+                ViewUtil.ShowWarning(ve.Message);
                 return false;
             }
             return true;
@@ -91,12 +87,6 @@ namespace HealthCare.View.ManagerView
             StartDatePicker.SelectedDate = null;
         }
 
-        private void btnExit_Click(object sender, RoutedEventArgs e)
-        {
-            _parent.Show();
-            Close();
-        }
-
         private void btnRenovate_Click(object sender, RoutedEventArgs e)
         {
             if (!IsValid()) return;
@@ -106,7 +96,7 @@ namespace HealthCare.View.ManagerView
 
             _basicRenovationService.Add(new BasicRenovation(roomId, scheduled));
 
-            Utility.ShowInformation("Uspesno zakazano renoviranje sobe.");
+            ViewUtil.ShowInformation("Uspesno zakazano renoviranje sobe.");
             Reset();
         }
 
@@ -117,7 +107,7 @@ namespace HealthCare.View.ManagerView
             var rooms = lvRooms.SelectedItems.Cast<RoomViewModel>();
             var scheduled = GetScheduled();
 
-            new JoiningRenovationView(_hospital, rooms.ToList(), scheduled).ShowDialog();
+            new JoiningRenovationView(rooms.ToList(), scheduled).ShowDialog();
             Reset();
         }
 
@@ -128,7 +118,7 @@ namespace HealthCare.View.ManagerView
             var roomId = ((RoomViewModel) lvRooms.SelectedItem).RoomId;
             var scheduled = GetScheduled();
 
-            new SplittingRenovationView(_hospital, roomId, scheduled).ShowDialog();
+            new SplittingRenovationView(roomId, scheduled).ShowDialog();
             Reset();
         }
 
@@ -141,7 +131,7 @@ namespace HealthCare.View.ManagerView
                 selected.RemoveAt(selected.Count - 1);
 
             btnJoin.IsEnabled = selected.Count == 2;
-            btnSplit.IsEnabled = cbComplex.IsChecked ?? false 
+            btnSplit.IsEnabled = (cbComplex.IsChecked ?? false)
                 && selected.Count < 2;
         }
 
@@ -156,6 +146,11 @@ namespace HealthCare.View.ManagerView
             btnRenovate.IsEnabled = true;
             btnSplit.IsEnabled = false;
             lvRooms_SelectionChanged(sender, e);
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
