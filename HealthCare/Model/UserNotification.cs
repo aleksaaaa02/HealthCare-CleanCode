@@ -50,7 +50,7 @@ namespace HealthCare.Model
 
         public override string[] Serialize()
         {
-            return new string[] {notificationID.ToString(),patientID, Util.ToString(receiveTime), caption,text,isCustom.ToString()};
+            return new string[] {notificationID.ToString(),patientID, Util.ToString(receiveTime), caption,text};
         }
 
         public override void Deserialize(string[] values)

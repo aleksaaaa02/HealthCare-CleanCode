@@ -30,11 +30,13 @@ namespace HealthCare.View.PatientView
             {
                 expandSection.Visibility = Visibility.Visible;
                 expandSection.Height = double.NaN;
+                expandIcon.Icon = FontAwesome.Sharp.IconChar.Minus;
             }
             else
             {
                 expandSection.Visibility = Visibility.Collapsed;
                 expandSection.Height = 0;
+                expandIcon.Icon = FontAwesome.Sharp.IconChar.Plus;
             }
         }
     }
