@@ -25,7 +25,8 @@ namespace HealthCare.Service
 
         public void RestockInventoryItem(InventoryItem item)
         {
-            var found = GetAll().Find(x => x.Equals(item));
+            var found = GetAll().Find(x =>
+                x.EquipmentId == item.EquipmentId && x.RoomId == item.RoomId);
 
             if (found is not null) {
                 found.Quantity += item.Quantity;
@@ -36,7 +37,9 @@ namespace HealthCare.Service
 
         public bool TryReduceInventoryItem(InventoryItem item)
         {
-            var found = GetAll().Find(x => x.Equals(item));
+            var a = GetAll();
+            var found = GetAll().Find(x => 
+                x.EquipmentId == item.EquipmentId && x.RoomId == item.RoomId);
 
             if (found is null || found.Quantity < item.Quantity)
                     return false;

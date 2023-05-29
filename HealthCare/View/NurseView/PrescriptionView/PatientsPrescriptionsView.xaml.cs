@@ -138,6 +138,12 @@ namespace HealthCare.View.NurseView.PrescriptionView
             selectedDate = selectedDate.AddHours(hours);
             selectedDate = selectedDate.AddMinutes(minutes);
 
+            if (selectedDate <= DateTime.Now)
+            {
+                Utility.ShowWarning("Datum ne sme da bude u proslosti.");
+                return;
+            }
+
             TimeSlot slot = new TimeSlot(selectedDate, new TimeSpan(0, 15, 0));
             Appointment appointment = new Appointment(_patient.JMBG, doctor.JMBG, slot, false);
 
