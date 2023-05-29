@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.ViewModel.DoctorViewModel.PatientInformation;
 using System.Text.RegularExpressions;
@@ -14,11 +14,11 @@ namespace HealthCare.View.DoctorView
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
-        public PatientInformationView(Patient patient, Hospital hospital, bool isEdit)
+        public PatientInformationView(Patient patient, bool isEdit)
         {
             InitializeComponent();
 
-            DataContext = new PatientInforamtionViewModel(patient, hospital, isEdit);            
+            DataContext = new PatientInformationViewModel(patient, isEdit);            
         }
     }
 }

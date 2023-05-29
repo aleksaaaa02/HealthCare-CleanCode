@@ -13,9 +13,9 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn  Header="Appointment ID" DisplayMemberBinding="{Binding Appointment.AppointmentID}"/>
-                    <GridViewColumn  Header="Ime doktora" DisplayMemberBinding="{Binding Appointment.Doctor.Name}"/>
-                    <GridViewColumn  Header="Prezime doktora" DisplayMemberBinding="{Binding Appointment.Patient.LastName}"/>
-                    <GridViewColumn  Header="Datum pregleda" DisplayMemberBinding="{Binding Appointment.TimeSlot.Start}"/>
+                    <GridViewColumn  Header="Ime doktora" DisplayMemberBinding="{Binding Doctor.Name}"/>
+                    <GridViewColumn  Header="Prezime doktora" DisplayMemberBinding="{Binding Doctor.LastName}"/>
+                    <GridViewColumn  Header="Datum termina" DisplayMemberBinding="{Binding Appointment.TimeSlot.Start}"/>
                     <GridViewColumn  Header="Vreme odlaganja" DisplayMemberBinding="{Binding RescheduleTime}"/>
                 </GridView>
             </ListView.View>

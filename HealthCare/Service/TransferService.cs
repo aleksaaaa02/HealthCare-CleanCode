@@ -1,22 +1,26 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Application;
+using HealthCare.Model;
+using HealthCare.Repository;
 using System;
 
 namespace HealthCare.Service
 {
     public class TransferService : NumericService<TransferItem>
     {
-        private readonly Inventory _inventory;
+        private readonly InventoryService _inventory;
 
-        public TransferService(string filepath, Inventory inventory) : base(filepath)
+        public TransferService(IRepository<TransferItem> repository) : base(repository) 
         {
-            _inventory = inventory;
+            _inventory = Injector.GetService<InventoryService>(Injector.EQUIPMENT_INVENTORY_S);
+
+            ExecuteAll();
         }
 
         public void Execute(TransferItem transfer) {
             var reduceItem = new InventoryItem(
-                transfer.EquipmentId, transfer.FromRoom, transfer.Quantity);
+                transfer.ItemId, transfer.FromRoom, transfer.Quantity);
             var restockItem = new InventoryItem(
-                transfer.EquipmentId, transfer.ToRoom, transfer.Quantity);
+                transfer.ItemId, transfer.ToRoom, transfer.Quantity);
 
             if (!_inventory.TryReduceInventoryItem(reduceItem))
                 return;

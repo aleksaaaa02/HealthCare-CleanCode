@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.ViewModel.DoctorViewModel.RoomReservation;
 using System.Windows;
@@ -7,10 +7,10 @@ namespace HealthCare.View.DoctorView.RoomReservation
 {
     public partial class RoomReservationView : Window
     {
-        public RoomReservationView(Hospital hospital, Appointment appointment)
+        public RoomReservationView(Appointment appointment)
         {
             InitializeComponent();
-            DataContext = new RoomReservationViewModel(hospital, appointment, this);
+            DataContext = new RoomReservationViewModel(appointment, this);
         }
     }
 }

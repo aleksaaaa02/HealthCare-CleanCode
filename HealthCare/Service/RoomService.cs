@@ -1,11 +1,12 @@
 ﻿using HealthCare.Model;
+using HealthCare.Repository;
 using System.Collections.Generic;
 
 namespace HealthCare.Service
 {
     public class RoomService : NumericService<Room>
     {
-        public RoomService(string filepath) : base(filepath) { }
+        public RoomService(IRepository<Room> repository) : base(repository) { }
 
         public int GetWarehouseId()
         {

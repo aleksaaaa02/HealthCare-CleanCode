@@ -1,6 +1,6 @@
-using HealthCare.Context;
+using HealthCare.Application;
+using HealthCare.Application.Common;
 using HealthCare.Exceptions;
-using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View;
 using HealthCare.View.AppointmentView;
@@ -14,19 +14,18 @@ namespace HealthCare
 {
     public partial class MainWindow : Window
     {
-        private readonly Hospital _hospital;
-
+        private readonly NotificationService _notificationService;
+        private readonly LoginService _loginService;
         public MainWindow()
         {
             InitializeComponent();
 
-            _hospital = new Hospital();
-            _hospital.LoadAll();
+            _notificationService = Injector.GetService<NotificationService>();
+            _loginService = Injector.GetService<LoginService>();
         }
 
         private void btnQuitApp_Click(object sender, RoutedEventArgs e)
         {
-            _hospital.SaveAll();
             ExitApp();
         }
 
@@ -37,21 +36,21 @@ namespace HealthCare
 
             try
             {
-                switch (_hospital.LoginRole(username, password))
+                switch (_loginService.Login(username, password))
                 {
-                    case UserRole.Manager:
-                        new ManagerMenu(this, _hospital).Show();
+                    case Role.Manager:
+                        new ManagerMenu(this).Show();
                         break;
-                    case UserRole.Doctor:
+                    case Role.Doctor:
                         ShowNotifications();
-                        new DoctorMainView(this, _hospital).Show();
+                        new DoctorMainView(this).Show();
                         break;
-                    case UserRole.Nurse:
-                        new NurseMenu(this, _hospital).Show();
+                    case Role.Nurse:
+                        new NurseMenu(this).Show();
                         break;
-                    case UserRole.Patient:
+                    case Role.Patient:
                         ShowNotifications();
-                        new AppointmentMainView(_hospital).Show();
+                        new AppointmentMainView().Show();
                         break;
                 }
 
@@ -61,19 +60,16 @@ namespace HealthCare
             }
             catch (LoginException ex)
             {
-                Utility.ShowWarning(ex.Message);
+                ViewUtil.ShowWarning(ex.Message);
             }
         }
 
         private void ShowNotifications()
         {
-            if (_hospital.Current is null)
-                return;
-
-            foreach (Notification notification in _hospital.NotificationService.GetForUser(_hospital.Current.JMBG))
+            foreach (var notification in _notificationService.GetForUser(Context.Current.JMBG))
             {
-                Utility.ShowInformation(notification.Display());
-                _hospital.NotificationService.Update(notification);
+                ViewUtil.ShowInformation(notification.Display());
+                _notificationService.Update(notification);
             }
         }
 
@@ -84,7 +80,7 @@ namespace HealthCare
 
         public void ExitApp()
         {
-            Application.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();
         }
     }
 }

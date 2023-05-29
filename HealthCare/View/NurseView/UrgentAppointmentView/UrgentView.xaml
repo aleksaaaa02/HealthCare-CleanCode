@@ -29,7 +29,7 @@
                     <GridViewColumn Width="Auto" Header="Prezime" DisplayMemberBinding="{Binding LastName}" />
                     <GridViewColumn Width="Auto" Header="JMBG" DisplayMemberBinding="{Binding JMBG}" />
                     <GridViewColumn Width="Auto" Header="DatRodj" DisplayMemberBinding="{Binding BirthDate}" />
-                    <GridViewColumn Width="Auto" Header="KorIme" DisplayMemberBinding="{Binding UserName}" />
+                    <GridViewColumn Width="Auto" Header="KorIme" DisplayMemberBinding="{Binding Username}" />
                 </GridView>
             </ListView.View>
         </ListView>

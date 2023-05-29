@@ -14,7 +14,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.DataViewModel
         public int MedicationId => _medication.Id;
         public string MedicationName => _medication.Name;
         public string Description => _medication.Description;
-        public string Ingredients => Utility.ToString(_medication.Ingredients);
+        public string Ingredients => ViewUtil.ToString(_medication.Ingredients);
         public bool InitialTherapy
         {
             get => _initialTherapy;

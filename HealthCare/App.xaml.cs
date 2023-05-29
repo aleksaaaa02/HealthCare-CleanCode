@@ -1,8 +1,6 @@
-﻿using System.Windows;
-
-namespace HealthCare
+﻿namespace HealthCare
 {
-    public partial class App : Application
+    public partial class App : System.Windows.Application
     {
     }
 }

@@ -1,4 +1,6 @@
-﻿using HealthCare.Repository;
+﻿using HealthCare.Application.Common;
+using HealthCare.Repository;
+using HealthCare.Serialize;
 using System;
 
 namespace HealthCare.Model 
@@ -11,7 +13,7 @@ namespace HealthCare.Model
         NoPreference
     }
 
-    public class Prescription : Identifier, ISerializable
+    public class Prescription : RepositoryItem
     {
         public override object Key { get => Id; set { Id = (int) value; } }
         public int Id { get; set; }
@@ -43,23 +45,23 @@ namespace HealthCare.Model
             return DailyDosage * ConsumptionDays;
         }
 
-        public void FromCSV(string[] values)
+        public override void Deserialize(string[] values)
         {
             Id = int.Parse(values[0]);
             MedicationId = int.Parse(values[1]);
-            Instruction = Utility.Parse<MealTime>(values[2]);
+            Instruction = SerialUtil.ParseEnum<MealTime>(values[2]);
             PatientJMBG = values[3];
             DoctorJMBG = values[4];
             DailyDosage = int.Parse(values[5]);
             HoursBetweenConsumption = int.Parse(values[6]);
             ConsumptionDays = int.Parse(values[7]);
-            Start = Utility.ParseDate(values[8]);
+            Start = Util.ParseDate(values[8]);
             FirstUse = bool.Parse(values[9]);
         }   
 
-        public string[] ToCSV()
+        public override string[] Serialize()
         {
-            return new string[] { Id.ToString(), MedicationId.ToString(), Instruction.ToString(), PatientJMBG, DoctorJMBG, DailyDosage.ToString(), HoursBetweenConsumption.ToString(), ConsumptionDays.ToString(), Utility.ToString(Start), FirstUse.ToString() };
+            return new string[] { Id.ToString(), MedicationId.ToString(), Instruction.ToString(), PatientJMBG, DoctorJMBG, DailyDosage.ToString(), HoursBetweenConsumption.ToString(), ConsumptionDays.ToString(), Util.ToString(Start), FirstUse.ToString() };
         }
     }
 }

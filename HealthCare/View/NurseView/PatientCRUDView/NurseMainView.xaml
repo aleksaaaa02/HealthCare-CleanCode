@@ -50,7 +50,7 @@
                     <GridViewColumn Width="Auto" Header="DatRodj" DisplayMemberBinding="{Binding BirthDate}" />
                     <GridViewColumn Width="Auto" Header="Telefon" DisplayMemberBinding="{Binding PhoneNumber}" />
                     <GridViewColumn Width="Auto" Header="Adresa" DisplayMemberBinding="{Binding Address}" />
-                    <GridViewColumn Width="Auto" Header="KorIme" DisplayMemberBinding="{Binding UserName}" />
+                    <GridViewColumn Width="Auto" Header="KorIme" DisplayMemberBinding="{Binding Username}" />
                     <GridViewColumn Width="Auto" Header="Loz" DisplayMemberBinding="{Binding Password}" />
                     <GridViewColumn Width="Auto" Header="Blokiran" DisplayMemberBinding="{Binding Blocked}" />
                     <GridViewColumn Width="Auto" Header="ZdrKarton" DisplayMemberBinding="{Binding MedicalRecord}" />

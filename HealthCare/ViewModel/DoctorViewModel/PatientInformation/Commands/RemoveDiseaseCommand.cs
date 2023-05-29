@@ -6,9 +6,9 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 {
     public class RemoveDiseaseCommand : CommandBase
     {
-        private readonly PatientInforamtionViewModel _viewModel;
+        private readonly PatientInformationViewModel _viewModel;
 
-        public RemoveDiseaseCommand(PatientInforamtionViewModel viewModel)
+        public RemoveDiseaseCommand(PatientInformationViewModel viewModel)
         {
             _viewModel = viewModel;
         }
@@ -23,7 +23,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
             }
             catch (ValidationException ve)
             {
-                Utility.ShowWarning(ve.Message);
+                ViewUtil.ShowWarning(ve.Message);
             }
         }
 

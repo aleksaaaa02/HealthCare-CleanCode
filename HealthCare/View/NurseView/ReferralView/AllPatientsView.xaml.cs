@@ -1,4 +1,4 @@
-﻿using HealthCare.Context;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using System.Windows;
 using HealthCare.ViewModel.NurseViewModel;
@@ -9,16 +9,13 @@ namespace HealthCare.View.NurseView.ReferralView
 {
     public partial class AllPatientsView : Window
     {
-        private Hospital _hospital;
         private PatientViewModel _model;
         private Patient? _patient;
-        public AllPatientsView(Hospital hospital)
+        public AllPatientsView()
         {
             InitializeComponent();
-            
-            _hospital = hospital;
 
-            _model = new PatientViewModel(_hospital.PatientService);
+            _model = new PatientViewModel();
             DataContext = _model;
             _model.Update();
 
@@ -40,7 +37,7 @@ namespace HealthCare.View.NurseView.ReferralView
             if (!Validate())
                 return;
 
-            new PatientsReferralsView(_patient,_hospital).ShowDialog();
+            new PatientsReferralsView(_patient).ShowDialog();
         }
 
         private void btnPrescribe_Click(object sender, RoutedEventArgs e)
@@ -48,7 +45,7 @@ namespace HealthCare.View.NurseView.ReferralView
             if (!Validate())
                 return;
 
-            new PatientsPrescriptionsView(_patient,_hospital).ShowDialog();
+            new PatientsPrescriptionsView(_patient).ShowDialog();
 
         }
 
@@ -56,7 +53,7 @@ namespace HealthCare.View.NurseView.ReferralView
         {
             if (_patient is null)
             {
-                Utility.ShowWarning("Izaberite pacijenta.");
+                ViewUtil.ShowWarning("Izaberite pacijenta.");
                 return false;
             }
             return true;

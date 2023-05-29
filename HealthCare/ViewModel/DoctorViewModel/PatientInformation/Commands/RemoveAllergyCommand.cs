@@ -6,8 +6,8 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
 {
     public class RemoveAllergyCommand : CommandBase
     {
-        private readonly PatientInforamtionViewModel _viewModel;
-        public RemoveAllergyCommand(PatientInforamtionViewModel viewModel) 
+        private readonly PatientInformationViewModel _viewModel;
+        public RemoveAllergyCommand(PatientInformationViewModel viewModel) 
         {
             _viewModel = viewModel;
         }
@@ -21,7 +21,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
             
             } catch(ValidationException ve)
             {
-                Utility.ShowWarning(ve.Message);
+                ViewUtil.ShowWarning(ve.Message);
             }
 
         }
