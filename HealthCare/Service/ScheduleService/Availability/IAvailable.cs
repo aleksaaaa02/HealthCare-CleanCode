@@ -1,6 +1,6 @@
 ﻿using HealthCare.Model;
 
-namespace HealthCare.Service.ScheduleService
+namespace HealthCare.Service.ScheduleService.Availability
 {
     public interface IAvailable<T>
     {

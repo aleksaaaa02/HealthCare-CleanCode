@@ -5,7 +5,7 @@ namespace HealthCare.Exceptions
 {
     class UsernameNotFoundException : LoginException
     {
-        public UsernameNotFoundException() : this("Nepostojeće korisnicko ime. Pokušajte ponovo") { }
+        public UsernameNotFoundException() : this("Nepostojece korisnicko ime. Pokusajte ponovo") { }
 
         public UsernameNotFoundException(string? message) : base(message) { }
 

@@ -5,7 +5,7 @@ namespace HealthCare.Exceptions
 {
     internal class ValidationException : Exception
     {
-        public ValidationException() : this("Uneseni neispravni podaci. Pokušajte ponovo.") { }
+        public ValidationException() : this("Uneseni neispravni podaci. Pokusajte ponovo.") { }
 
         public ValidationException(string? message) : base(message) { }
 

@@ -19,7 +19,7 @@
         <RadioButton Margin="89,76,0,0" Name="cbAppointment" GroupName="type" Width="60" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Checked="cbAppointment_Checked">Pregled</RadioButton>
         <RadioButton Margin="159,76,0,0" Name="cbOperation"  GroupName="type" Width="70" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Checked="cbOperation_Checked">Operacija</RadioButton>
 
-        <Label Content="Dužina trajanja:" Name="lblDuration" HorizontalAlignment="Left" Margin="273,70,0,0" VerticalAlignment="Top"/>
+        <Label Content="Duzina trajanja:" Name="lblDuration" HorizontalAlignment="Left" Margin="273,70,0,0" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Name="tbDuration" Margin="374,74,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
 
         <ListView Margin="10,110,10,60" Name="lvPatients" ItemsSource="{Binding Patients}" SelectionChanged="lvPatients_SelectionChanged">
@@ -34,7 +34,7 @@
             </ListView.View>
         </ListView>
 
-        <Button Content="Zakaži" Name="btnAdd" HorizontalAlignment="Left" Height="35" Margin="10,365,0,0" VerticalAlignment="Top" Width="130" Click="btnAdd_Click"/>
-        <Button Content="Izađi" Name="btnClose" HorizontalAlignment="Left" Height="35" Margin="160,365,0,0" VerticalAlignment="Top" Width="130" Click="btnClose_Click"/>
+        <Button Content="Zakazi" Name="btnAdd" HorizontalAlignment="Left" Height="35" Margin="10,365,0,0" VerticalAlignment="Top" Width="130" Click="btnAdd_Click"/>
+        <Button Content="Izadji" Name="btnClose" HorizontalAlignment="Left" Height="35" Margin="160,365,0,0" VerticalAlignment="Top" Width="130" Click="btnClose_Click"/>
     </Grid>
 </Window>
