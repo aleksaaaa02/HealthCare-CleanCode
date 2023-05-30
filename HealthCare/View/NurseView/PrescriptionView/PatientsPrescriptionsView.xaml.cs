@@ -12,7 +12,6 @@ namespace HealthCare.View.NurseView.PrescriptionView
 {
     public partial class PatientsPrescriptionsView : Window
     {
-        private readonly AppointmentService _appointmentService;
         private readonly DoctorService _doctorService;
         private readonly InventoryService _medicationInventory;
         private readonly PrescriptionService _prescriptionService;
@@ -34,8 +33,6 @@ namespace HealthCare.View.NurseView.PrescriptionView
             _medicationInventory = Injector.GetService<InventoryService>(Injector.MEDICATION_INVENTORY_S);
             _doctorService = Injector.GetService<DoctorService>();
             _roomService = Injector.GetService<RoomService>();
-            _appointmentService = Injector.GetService<AppointmentService>();
-
             _schedule = Injector.GetService<Schedule>();
 
             _patient = patient;
@@ -187,7 +184,6 @@ namespace HealthCare.View.NurseView.PrescriptionView
                 ViewUtil.ShowWarning("Izaberite recept");
                 return false;
             }
-
             return true;
         }
     }

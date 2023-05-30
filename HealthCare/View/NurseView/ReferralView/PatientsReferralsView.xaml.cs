@@ -12,7 +12,6 @@ namespace HealthCare.View.NurseView.ReferralView
 {
     public partial class PatientsReferralsView : Window
     {
-        private readonly AppointmentService _appointmentService;
         private readonly DoctorService _doctorService;
         private readonly Schedule _schedule;
         private readonly SpecialistReferralService _specialistReferralService;
@@ -26,11 +25,9 @@ namespace HealthCare.View.NurseView.ReferralView
             _model = new ReferralListingViewModel(patient);
             DataContext = _model;
 
-            _schedule = Injector.GetService<Schedule>();
-
-            _appointmentService = Injector.GetService<AppointmentService>();
             _specialistReferralService = Injector.GetService<SpecialistReferralService>();
             _doctorService = Injector.GetService<DoctorService>();
+            _schedule = Injector.GetService<Schedule>();
 
             _patient = patient;
             tbDate.SelectedDate = DateTime.Now;

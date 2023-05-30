@@ -13,7 +13,6 @@ namespace HealthCare.View.UrgentAppointmentView
 {
     public partial class UrgentView : Window
     {
-        private readonly AppointmentService _appointmentService;
         private readonly DoctorSchedule _doctorSchedule;
         private readonly DoctorService _doctorService;
         private readonly NotificationService _notificationService;
@@ -30,7 +29,6 @@ namespace HealthCare.View.UrgentAppointmentView
 
             _notificationService = Injector.GetService<NotificationService>();
             _doctorService = Injector.GetService<DoctorService>();
-            _appointmentService = Injector.GetService<AppointmentService>();
             _schedule = Injector.GetService<Schedule>();
             _doctorSchedule = Injector.GetService<DoctorSchedule>();
 
