@@ -19,12 +19,12 @@ namespace HealthCare.Service.ScheduleService
             };
         }
 
-        public int SetFirstAvailableRoom(Appointment appointment)
+        public void SetFirstAvailableRoom(Appointment appointment)
         {
             RoomType type = appointment.IsOperation ? RoomType.Operational 
                 : RoomType.Examinational;
 
-            return _roomService
+            appointment.RoomID = _roomService
                 .GetRoomsByType(type)
                 .Where(r => IsAvailable(r.Id, appointment.TimeSlot))
                 .Select(r => r.Id)

@@ -1,23 +1,23 @@
-﻿using HealthCare.Command;
-using HealthCare.Application;
+﻿using HealthCare.Application;
+using HealthCare.Command;
 using HealthCare.Exceptions;
 using HealthCare.Model;
-using HealthCare.Service;
 using HealthCare.View;
-using HealthCare.View.DoctorView.RoomReservation;
-using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
+using HealthCare.View.DoctorView;
 using HealthCare.ViewModels.DoctorViewModel;
+using HealthCare.Service;
 
 namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
 {
-    public class ShowReservationDialogCommand : CommandBase
+    public class StartExaminationCommand : CommandBase
     {
-        private readonly DoctorMainViewModel _viewModel;
+        private readonly DoctorMainViewModel _doctorMainViewModelViewModel;
         private readonly AppointmentService _appointmentService;
+        private Appointment? _appointment;
 
-        public ShowReservationDialogCommand(DoctorMainViewModel viewModel)
+        public StartExaminationCommand(DoctorMainViewModel viewModel)
         {
-            _viewModel = viewModel;
+            _doctorMainViewModelViewModel = viewModel;
             _appointmentService = Injector.GetService<AppointmentService>();
         }
 
@@ -26,35 +26,38 @@ namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
             try
             {
                 Validate();
-                AppointmentViewModel selectedAppointment = _viewModel.SelectedAppointment;
-                Appointment appointment = _appointmentService.Get(selectedAppointment.AppointmentID);
-                new RoomReservationView( appointment).Show();
+                StartExamination();
             }
             catch (ValidationException ve)
             {
                 ViewUtil.ShowWarning(ve.Message);
             }
         }
+        private void StartExamination()
+        {
+            new DoctorExamView(_appointment).Show();
+        }
 
         private void Validate()
         {
-            AppointmentViewModel selectedAppointment = _viewModel.SelectedAppointment;
+            var selectedAppointment = _doctorMainViewModelViewModel.SelectedAppointment;
             if (selectedAppointment is null)
             {
                 throw new ValidationException("Morate odabrati pregled iz tabele!");
             }
 
-            Appointment appointment = _appointmentService.Get(selectedAppointment.AppointmentID);
+            _appointment = _appointmentService.Get(selectedAppointment.AppointmentID);
 
-            if (appointment.AnamnesisID == 0)
+            if (_appointment.AnamnesisID == 0)
             {
                 throw new ValidationException("Pacijent jos uvek nije primljen!");
             }
 
-            if (!appointment.HasStarted())
+            if (!_appointment.HasStarted())
             {
                 throw new ValidationException("Pregled jos uvek nije poceo!");
             }
+
         }
     }
 }

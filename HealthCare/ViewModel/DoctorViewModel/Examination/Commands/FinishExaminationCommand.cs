@@ -15,13 +15,13 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination.Commands
         private readonly Appointment _appointment;
         private readonly int _roomId;
 
-        public FinishExaminationCommand(Window window, Appointment appointment, DoctorExamViewModel viewModel, int roomId) 
+        public FinishExaminationCommand(Window window, Appointment appointment, DoctorExamViewModel viewModel) 
         {
             _anamnesisService = Injector.GetService<AnamnesisService>();
             _viewModel = viewModel;
             _window = window;
             _appointment = appointment;
-            _roomId = roomId;
+            _roomId = appointment.RoomID;
         }
         public override void Execute(object parameter)
         {

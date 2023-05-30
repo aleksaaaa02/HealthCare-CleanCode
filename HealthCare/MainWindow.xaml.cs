@@ -10,6 +10,7 @@ using HealthCare.View.NurseView;
 using HealthCare.View.PatientView;
 using System.ComponentModel;
 using System.Windows;
+using HealthCare.View.NurseView;
 
 namespace HealthCare
 {
