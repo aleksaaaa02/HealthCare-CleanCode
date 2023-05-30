@@ -1,38 +1,36 @@
-﻿using HealthCare.Model;
+﻿using System.Windows.Input;
+using HealthCare.Model;
 using HealthCare.ViewModel.DoctorViewModel.UsedEquipment.Commands;
-using System.Windows.Input;
 
-namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment
+namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment;
+
+public class EquipmentViewModel : ViewModelBase
 {
+    private readonly Equipment _equipment;
+    private readonly InventoryItem _inventoryItem;
+    private int _currentQuantity;
 
-    public class EquipmentViewModel : ViewModelBase
+    public EquipmentViewModel(Equipment equipment, InventoryItem inventoryItem)
     {
-        private Equipment _equipment;
-        private InventoryItem _inventoryItem;
-        private int _currentQuantity;
-        
-        public ICommand UseEquipment { get; }
-        
-        public string EquipmentName => _equipment.Name;
-        public int EquipmentId => _equipment.Id;
-        public int InventoryId => _inventoryItem.Id;
-        public int CurrentQuantity {
-            get { return _currentQuantity; }
-            set
-            {
-                _currentQuantity = value;
-                OnPropertyChanged(nameof(CurrentQuantity));
-            }
-        }
+        _equipment = equipment;
+        _inventoryItem = inventoryItem;
+        _currentQuantity = _inventoryItem.Quantity;
+        UseEquipment = new QuantityChangeCommand(this);
+    }
 
-        public EquipmentViewModel(Equipment equipment, InventoryItem inventoryItem)
+    public ICommand UseEquipment { get; }
+
+    public string EquipmentName => _equipment.Name;
+    public int EquipmentId => _equipment.Id;
+    public int InventoryId => _inventoryItem.Id;
+
+    public int CurrentQuantity
+    {
+        get => _currentQuantity;
+        set
         {
-            _equipment = equipment;
-            _inventoryItem = inventoryItem;
-            _currentQuantity = _inventoryItem.Quantity;
-            UseEquipment = new QuantityChangeCommand(this);
+            _currentQuantity = value;
+            OnPropertyChanged();
         }
-
-       
     }
 }
