@@ -1,6 +1,4 @@
-﻿using HealthCare.Application;
-using HealthCare.View.NurseView.OrderMedicationView;
-using HealthCare.View.NurseView.ReferralView;
+﻿using HealthCare.View.NurseView.ReferralView;
 using HealthCare.View.ReceptionView;
 using HealthCare.View.UrgentAppointmentView;
 using System.ComponentModel;
@@ -45,7 +43,7 @@ namespace HealthCare.View.NurseView
 
         private void mnuOrder_Click(object sender, RoutedEventArgs e)
         {
-            new OrderMedicationView.OrderMedicationView().ShowDialog();
+            new OrderMedicationView().ShowDialog();
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
