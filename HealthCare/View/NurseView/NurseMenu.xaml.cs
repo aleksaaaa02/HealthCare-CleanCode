@@ -6,7 +6,7 @@ using HealthCare.View.UrgentAppointmentView;
 using System.ComponentModel;
 using System.Windows;
 
-namespace HealthCare.View.PatientView
+namespace HealthCare.View.NurseView
 {
     public partial class NurseMenu : Window
     {

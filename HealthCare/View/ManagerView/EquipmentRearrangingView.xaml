@@ -104,10 +104,10 @@
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
 
-            <Button Content="Nazad" Click="Button_Exit"/>
-            <Button Content="Transferuj" Grid.Column="1" FontWeight="Bold"
+            <Button Content="Transferuj" FontWeight="Bold"
                     Name="btnTransfer" Click="Button_Transfer"/>
+            <Button Content="Nazad" Grid.Column="1" Click="Button_Exit"/>
         </Grid>
-        <DatePicker Name="datePicker" Grid.Row="3" Grid.Column="1" Margin="20"/>
+        <DatePicker Name="datePicker" Grid.Row="3" Grid.Column="1" Margin="20" Height="40"/>
     </Grid>
 </Window>

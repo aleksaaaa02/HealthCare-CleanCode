@@ -9,7 +9,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace HealthCare.View.PatientView
+namespace HealthCare.View.NurseView
 {
     public partial class NurseMainView : Window
     {

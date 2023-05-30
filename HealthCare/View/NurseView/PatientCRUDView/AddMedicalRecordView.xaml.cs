@@ -3,7 +3,7 @@ using HealthCare.View.ReceptionView;
 using System.Windows;
 using System.Windows.Documents;
 
-namespace HealthCare.View.PatientView
+namespace HealthCare.View.NurseView
 {
     public partial class AddMedicalRecordView : Window
     {
