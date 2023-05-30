@@ -29,8 +29,6 @@ namespace HealthCare.View.PatientView
         {
             InitializeComponent();
             _mainWindow = mainWindow;
-            //#179c8c green
-            //#effcfa white
             this.labelUsername.Text = Context.Current.Name;
             btnCrud.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             btnCrud.Focus();
@@ -75,18 +73,5 @@ namespace HealthCare.View.PatientView
         {
             mainContentGrid.Content = control;
         }
-
-        //private void Button_Click_4(object sender, RoutedEventArgs e)
-        //{
-
-        //    DoubleAnimation animation = new DoubleAnimation
-        //    {
-        //        To = 150, // Target size, in this case, half the original size
-        //        Duration = TimeSpan.FromSeconds(0.5) // Animation duration
-        //    };
-
-        //    // Set the animation to modify the Width and Height properties of the dashboard container
-        //    nzm.BeginAnimation(Grid.WidthProperty, animation);
-        //}
     }
 }

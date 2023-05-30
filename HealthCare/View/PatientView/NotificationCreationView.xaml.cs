@@ -24,12 +24,12 @@ namespace HealthCare.View.PatientView
     /// </summary>
     public partial class NotificationCreationView : Window
     {
-        PatientNotificationsView _previousView;
+        PatientNotificationsViewModel _previousViewModel;
         UserNotificationService _userNotificationService;
 
-        public NotificationCreationView(PatientNotificationsView previousView)
+        public NotificationCreationView(PatientNotificationsViewModel previousViewModel)
         {
-            _previousView = previousView;
+            _previousViewModel = previousViewModel;
             _userNotificationService = Injector.GetService<UserNotificationService>();
             InitializeComponent();
         }
@@ -64,7 +64,7 @@ namespace HealthCare.View.PatientView
             UserNotification notification = new UserNotification(Context.Current.JMBG,selectedDateTime, caption, text,  true);
             _userNotificationService.Add(notification);
             MessageBox.Show("Uspesno ste dodali notifikaciju");
-            _previousView.LoadNotifications();
+            _previousViewModel.LoadNotifications();
         }
     }
 }

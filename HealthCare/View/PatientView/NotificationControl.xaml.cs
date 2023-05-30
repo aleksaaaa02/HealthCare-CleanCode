@@ -1,4 +1,7 @@
-﻿using System;
+﻿using HealthCare.Application;
+using HealthCare.Model;
+using HealthCare.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +22,18 @@ namespace HealthCare.View.PatientView
     /// </summary>
     public partial class NotificationControl : UserControl
     {
-        public NotificationControl()
+
+        public NotificationControl(UserNotification userNotification)
         {
             InitializeComponent();
+            NotificationCaption.Text = userNotification.caption;
+            NotificationText.Text = userNotification.text;
+            NotificationTime.Text = userNotification.receiveTime.ToString();
+            if (userNotification.isCustom)
+            {
+                SolidColorBrush brush = new SolidColorBrush(Colors.IndianRed);
+                Header.Background = brush;
+            }      
         }
 
         private void btnNotifications_Click(object sender, RoutedEventArgs e)
