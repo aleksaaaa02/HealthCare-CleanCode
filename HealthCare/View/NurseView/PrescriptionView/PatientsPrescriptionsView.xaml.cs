@@ -147,7 +147,7 @@ namespace HealthCare.View.NurseView.PrescriptionView
             TimeSlot slot = new TimeSlot(selectedDate, new TimeSpan(0, 15, 0));
             Appointment appointment = new Appointment(_patient.JMBG, doctor.JMBG, slot, false);
 
-            if (!_schedule.CheckAvailability(doctor.JMBG, _patient.JMBG, slot))
+            if (!_schedule.CheckAvailability(appointment))
             {
                 ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu.");
                 return;

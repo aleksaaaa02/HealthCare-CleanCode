@@ -54,7 +54,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appointments.Commands
             }
             else
             {
-                if (!_schedule.CheckAvailability(newAppointment.DoctorJMBG, newAppointment.PatientJMBG, newAppointment.TimeSlot))
+                if (!_schedule.CheckAvailability(newAppointment))
                 {
                     ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u ovom terminu, odaberite drugi termin");
                     return;
@@ -72,7 +72,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Appointments.Commands
         private void EditAppointment(Appointment newAppointment)
         {
             newAppointment.AppointmentID = Convert.ToInt32(_doctorMainViewModel.SelectedAppointment.AppointmentID);
-            if (!_schedule.CheckAvailability(newAppointment.DoctorJMBG, newAppointment.PatientJMBG, newAppointment.TimeSlot))
+            if (!_schedule.CheckAvailability(newAppointment))
             {
                 ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u ovom terminu, odaberite drugi termin");
                 return;

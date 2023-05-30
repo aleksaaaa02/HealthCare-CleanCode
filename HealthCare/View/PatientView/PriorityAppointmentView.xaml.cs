@@ -173,7 +173,7 @@ namespace HealthCare.View.AppointmentView
                 return;
             }
             Appointment appointment = (Appointment)appointmentListView.SelectedItem;
-            if (!_schedule.CheckAvailability(appointment.DoctorJMBG, appointment.PatientJMBG, appointment.TimeSlot))
+            if (!_schedule.CheckAvailability(appointment))
             {
                 ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
                 return;

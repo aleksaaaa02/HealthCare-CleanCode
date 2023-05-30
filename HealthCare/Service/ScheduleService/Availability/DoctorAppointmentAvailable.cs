@@ -4,17 +4,18 @@ using System.Linq;
 
 namespace HealthCare.Service.ScheduleService.Availability
 {
-    public class DoctorAppointmentAvailable : IAvailable<string>
+    public class DoctorAppointmentAvailable : IAvailable
     {
         private readonly AppointmentService _appointmentService;
         public DoctorAppointmentAvailable()
         {
             _appointmentService = Injector.GetService<AppointmentService>();
         }
-        public bool IsAvailable(string key, TimeSlot timeSlot)
+        public bool IsAvailable(Appointment appointment)
         {
-
-            return _appointmentService.GetAll().Where(x => x.DoctorJMBG == key).All(x => !x.TimeSlot.Overlaps(timeSlot));
+            return _appointmentService.GetAll()
+                .Where(x => x.DoctorJMBG == appointment.DoctorJMBG)
+                .All(x => !x.TimeSlot.Overlaps(appointment.TimeSlot));
         }
     }
 }

@@ -8,6 +8,7 @@ namespace HealthCare.Model
         public int AppointmentID { get; set; }
         public string PatientJMBG { get; set; }
         public string DoctorJMBG { get; set; }
+        public int RoomID { get; set; }
         public TimeSlot TimeSlot { get; set; }
         public bool IsOperation { get; set; }
         public int AnamnesisID { get; set; }
@@ -21,6 +22,7 @@ namespace HealthCare.Model
             TimeSlot = timeSlot;
             IsOperation = isOperation;
             AnamnesisID = 0;
+            RoomID = 0;
             IsUrgent = false;
         }
         public bool HasStarted()
@@ -38,7 +40,7 @@ namespace HealthCare.Model
         {
             return new string[] { 
                 AppointmentID.ToString(), PatientJMBG, DoctorJMBG, 
-                TimeSlot.ToString(), IsOperation.ToString(), AnamnesisID.ToString(), IsUrgent.ToString() };
+                TimeSlot.ToString(), IsOperation.ToString(), AnamnesisID.ToString(), IsUrgent.ToString() , RoomID.ToString()};
         }
 
         public override void Deserialize(string[] values)
@@ -50,6 +52,7 @@ namespace HealthCare.Model
             IsOperation = bool.Parse(values[4]);
             AnamnesisID = int.Parse(values[5]);
             IsUrgent = Convert.ToBoolean(values[6]);
+            RoomID = int.Parse(values[7]);
         }
     }
 }

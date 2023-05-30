@@ -7,22 +7,17 @@ using System.Linq;
 
 namespace HealthCare.Service.ScheduleService
 {
-    public class DoctorSchedule : IAvailable<string>
+    public class DoctorSchedule : ScheduleBase
     {
         private AppointmentService _appointmentService;
-        private List<IAvailable<string>> _availabilityValidators = new List<IAvailable<string>> ();
         public DoctorSchedule() 
         {
             _appointmentService = Injector.GetService<AppointmentService>();
-            _availabilityValidators = new List<IAvailable<string>> {
+            _availabilityValidators = new List<IAvailable> {
                 new DoctorAppointmentAvailable()
             };
         }
 
-        public bool IsAvailable(string key, TimeSlot timeSlot)
-        {
-            return _availabilityValidators.All(x => x.IsAvailable(key, timeSlot));
-        }
         public List<Appointment> GetAppointmentsForDays(Doctor doctor, DateTime start, int days)
         {
             DateTime end = start.AddDays(days);
@@ -50,7 +45,6 @@ namespace HealthCare.Service.ScheduleService
 
             return filtered;
         }
-
 
     }
 }

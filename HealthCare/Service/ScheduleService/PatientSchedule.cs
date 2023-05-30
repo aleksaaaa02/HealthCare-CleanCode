@@ -7,22 +7,17 @@ using System.Linq;
 
 namespace HealthCare.Service.ScheduleService
 {
-    public class PatientSchedule : IAvailable<string>
+    public class PatientSchedule : ScheduleBase
     {
         private AppointmentService _appointmentService;
-        private List<IAvailable<string>> _availabilityValidators;
         public PatientSchedule()
         {
             _appointmentService = Injector.GetService<AppointmentService>();
-            _availabilityValidators = new List<IAvailable<string>> {
+            _availabilityValidators = new List<IAvailable> {
                new PatientAppointmentAvailable()
             };
         }
 
-        public bool IsAvailable(string key, TimeSlot timeSlot)
-        {
-            return _availabilityValidators.All(x => x.IsAvailable(key, timeSlot));
-        }
         public Appointment? TryGetReceptionAppointment(Patient patient)
         {
             TimeSlot reception = new TimeSlot(DateTime.Now, new TimeSpan(0, 15, 0));
