@@ -22,7 +22,7 @@ namespace HealthCare.Service.ScheduleService.Availability
 
         public bool IsAvailable(int key, TimeSlot timeSlot)
         {
-            return _renovationServices.All(s => !s.GetRenovations()
+            return _renovationServices.All(s => s.GetRenovations()
                 .Where(x => x.RoomId == key)
                 .All(x => !x.Scheduled.Overlaps(timeSlot)));
         }

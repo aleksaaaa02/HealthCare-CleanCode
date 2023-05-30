@@ -33,7 +33,8 @@ namespace HealthCare.Service.ScheduleService
 
         public bool IsAvailable(Appointment appointment)
         {
-            return IsAvailable(appointment.RoomID, appointment.TimeSlot);
+            return appointment.RoomID == 0 || 
+                IsAvailable(appointment.RoomID, appointment.TimeSlot);
         }
     }
 }

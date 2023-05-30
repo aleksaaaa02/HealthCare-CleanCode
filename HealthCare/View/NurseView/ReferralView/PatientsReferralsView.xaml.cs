@@ -2,6 +2,7 @@
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.Service.ScheduleService;
+using HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands;
 using HealthCare.ViewModel.NurseViewModel;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 using System;
@@ -81,7 +82,7 @@ namespace HealthCare.View.NurseView.ReferralView
 
             TimeSlot slot = new TimeSlot(selectedDate, new TimeSpan(0,15,0));
             Appointment appointment = new Appointment(_patient.JMBG, referred.JMBG, slot ,false);
-
+            
             if (!_schedule.IsAvailable(appointment))
             {
                 ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu.");
