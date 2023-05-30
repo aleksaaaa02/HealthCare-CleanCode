@@ -16,7 +16,7 @@ public class AddPrescriptionCommand : CommandBase
 
     public AddPrescriptionCommand(Patient patient, PrescriptionViewModel prescriptionViewModel)
     {
-        _prescriptionService = Injector.GetService<PrescriptionService>(Injector.THERAPY_PRESCRIPTION_S);
+        _prescriptionService = Injector.GetService<PrescriptionService>(Injector.REGULAR_PRESCRIPTION_S);
         _medicationService = Injector.GetService<MedicationService>();
         _patient = patient;
         _prescriptionViewModel = prescriptionViewModel;
