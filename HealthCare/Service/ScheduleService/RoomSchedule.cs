@@ -14,7 +14,8 @@ namespace HealthCare.Service.ScheduleService
         {
             _roomService = Injector.GetService<RoomService>();
             _availabilityValidators = new List<IAvailable<int>> {
-               new RoomRenovationAvailable()
+               new RoomRenovationAvailable(),
+               new RoomAppointmentAvailable()
             };
         }
 

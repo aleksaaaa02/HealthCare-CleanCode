@@ -7,7 +7,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace HealthCare.View.NurseView.OrderMedicationView
+namespace HealthCare.View.NurseView
 {
     public partial class OrderMedicationView : Window
     {

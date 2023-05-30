@@ -13,6 +13,7 @@ namespace HealthCare.Service.ScheduleService
         private readonly DoctorSchedule _doctorSchedule;
         private readonly RoomSchedule _roomSchedule;
         private List<IAppointmentAvailable> _schedules;
+
         public Schedule()
         {
             _appointmentService = Injector.GetService<AppointmentService>();

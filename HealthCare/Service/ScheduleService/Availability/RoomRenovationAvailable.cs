@@ -24,7 +24,7 @@ namespace HealthCare.Service.ScheduleService.Availability
         {
             return _renovationServices.All(s => !s.GetRenovations()
                 .Where(x => x.RoomId == key)
-                .Any(x => x.Scheduled.Overlaps(timeSlot)));
+                .All(x => !x.Scheduled.Overlaps(timeSlot)));
         }
     }
 }

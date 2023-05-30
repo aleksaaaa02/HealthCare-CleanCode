@@ -2,6 +2,7 @@
 using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.View.NurseView;
 using HealthCare.View.PatientView;
 using System;
 using System.Collections.Generic;

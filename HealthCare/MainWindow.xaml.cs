@@ -6,6 +6,7 @@ using HealthCare.View;
 using HealthCare.View.AppointmentView;
 using HealthCare.View.DoctorView;
 using HealthCare.View.ManagerView;
+using HealthCare.View.NurseView;
 using HealthCare.View.PatientView;
 using System.ComponentModel;
 using System.Windows;

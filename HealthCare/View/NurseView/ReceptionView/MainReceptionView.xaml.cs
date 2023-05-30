@@ -2,6 +2,7 @@
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.Service.ScheduleService;
+using HealthCare.View.NurseView;
 using HealthCare.View.PatientView;
 using System.Windows;
 
