@@ -1,20 +1,14 @@
-﻿using HealthCare.Repository;
-using System;
+﻿using System;
+using HealthCare.Repository;
 
 namespace HealthCare.Model
 {
     public class Appointment : RepositoryItem
     {
-        public int AppointmentID { get; set; }
-        public string PatientJMBG { get; set; }
-        public string DoctorJMBG { get; set; }
-        public int RoomID { get; set; }
-        public TimeSlot TimeSlot { get; set; }
-        public bool IsOperation { get; set; }
-        public int AnamnesisID { get; set; }
-        public bool IsUrgent { get; set; }
+        public Appointment() : this("", "", new TimeSlot(), false)
+        {
+        }
 
-        public Appointment() : this("", "", new TimeSlot(), false) { }
         public Appointment(string patientJMBG, string doctorJMBG, TimeSlot timeSlot, bool isOperation)
         {
             PatientJMBG = patientJMBG;
@@ -25,10 +19,15 @@ namespace HealthCare.Model
             RoomID = 0;
             IsUrgent = false;
         }
-        public bool HasStarted()
-        {
-            return TimeSlot.Start < DateTime.Now && TimeSlot.End > DateTime.Now;
-        }
+
+        public int AppointmentID { get; set; }
+        public string PatientJMBG { get; set; }
+        public string DoctorJMBG { get; set; }
+        public int RoomID { get; set; }
+        public TimeSlot TimeSlot { get; set; }
+        public bool IsOperation { get; set; }
+        public int AnamnesisID { get; set; }
+        public bool IsUrgent { get; set; }
 
         public override object Key
         {
@@ -36,11 +35,19 @@ namespace HealthCare.Model
             set { AppointmentID = (int)value; }
         }
 
+        public bool HasStarted()
+        {
+            return TimeSlot.Start < DateTime.Now && TimeSlot.End > DateTime.Now;
+        }
+
         public override string[] Serialize()
         {
-            return new string[] { 
-                AppointmentID.ToString(), PatientJMBG, DoctorJMBG, 
-                TimeSlot.ToString(), IsOperation.ToString(), AnamnesisID.ToString(), IsUrgent.ToString() , RoomID.ToString()};
+            return new string[]
+            {
+                AppointmentID.ToString(), PatientJMBG, DoctorJMBG,
+                TimeSlot.ToString(), IsOperation.ToString(), AnamnesisID.ToString(), IsUrgent.ToString(),
+                RoomID.ToString()
+            };
         }
 
         public override void Deserialize(string[] values)

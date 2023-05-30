@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using HealthCare.Serialize;
 
 namespace HealthCare.Repository
 {

@@ -1,15 +1,13 @@
 ﻿using HealthCare.Repository;
-using System;
 
 namespace HealthCare.Model.Renovation
 {
     public class RenovationBase : RepositoryItem
     {
-        public int Id { get; set; }
-        public int RoomId { get; set; }
-        public TimeSlot Scheduled { get; set; }
-        public bool Executed { get; set; }
-        public RenovationBase() : this(0, new TimeSlot()) { }
+        public RenovationBase() : this(0, new TimeSlot())
+        {
+        }
+
         public RenovationBase(int roomId, TimeSlot scheduled)
         {
             Id = 0;
@@ -18,7 +16,16 @@ namespace HealthCare.Model.Renovation
             Executed = false;
         }
 
-        public override object Key { get => Id; set => Id = (int)value; }
+        public int Id { get; set; }
+        public int RoomId { get; set; }
+        public TimeSlot Scheduled { get; set; }
+        public bool Executed { get; set; }
+
+        public override object Key
+        {
+            get => Id;
+            set => Id = (int)value;
+        }
 
         public override void Deserialize(string[] values)
         {

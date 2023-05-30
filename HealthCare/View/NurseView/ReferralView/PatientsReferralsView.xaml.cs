@@ -1,31 +1,31 @@
-﻿using HealthCare.Application;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.Service.ScheduleService;
-using HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands;
 using HealthCare.ViewModel.NurseViewModel;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
-using System;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace HealthCare.View.NurseView.ReferralView
 {
     public partial class PatientsReferralsView : Window
     {
-        private readonly SpecialistReferralService _specialistReferralService;
+        private readonly AppointmentService _appointmentService;
         private readonly DoctorService _doctorService;
+        private readonly Schedule _schedule;
+        private readonly SpecialistReferralService _specialistReferralService;
         private ReferralListingViewModel _model;
         private Patient _patient;
         private ReferralViewModel? _referral;
-        private readonly AppointmentService _appointmentService;
-        private readonly Schedule _schedule;
+
         public PatientsReferralsView(Patient patient)
         {
             InitializeComponent();
             _model = new ReferralListingViewModel(patient);
             DataContext = _model;
-            
+
             _schedule = Injector.GetService<Schedule>();
 
             _appointmentService = Injector.GetService<AppointmentService>();
@@ -43,19 +43,20 @@ namespace HealthCare.View.NurseView.ReferralView
 
         private void lvReferrals_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _referral= (ReferralViewModel) lvReferrals.SelectedItem;
+            _referral = (ReferralViewModel)lvReferrals.SelectedItem;
         }
 
         private void btnMakeAppointment_Click(object sender, RoutedEventArgs e)
         {
-            if (_referral is null) {
+            if (_referral is null)
+            {
                 ViewUtil.ShowWarning("Izaberite upit koji zelite da iskoristite.");
                 return;
             }
 
             Doctor referred = _doctorService.Get(_referral.SpecialistReferral.ReferredDoctorJMBG);
 
-            if (!int.TryParse(tbHours.Text,out _) && !int.TryParse(tbMinutes.Text, out _))
+            if (!int.TryParse(tbHours.Text, out _) && !int.TryParse(tbMinutes.Text, out _))
             {
                 ViewUtil.ShowWarning("Sati i minuti moraju biti brojevi");
                 return;
@@ -80,9 +81,9 @@ namespace HealthCare.View.NurseView.ReferralView
                 return;
             }
 
-            TimeSlot slot = new TimeSlot(selectedDate, new TimeSpan(0,15,0));
-            Appointment appointment = new Appointment(_patient.JMBG, referred.JMBG, slot ,false);
-            
+            TimeSlot slot = new TimeSlot(selectedDate, new TimeSpan(0, 15, 0));
+            Appointment appointment = new Appointment(_patient.JMBG, referred.JMBG, slot, false);
+
             if (!_schedule.IsAvailable(appointment))
             {
                 ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu.");
@@ -95,7 +96,7 @@ namespace HealthCare.View.NurseView.ReferralView
             var updated = _specialistReferralService.Get(_referral.SpecialistReferral.Id);
             updated.IsUsed = true;
             _specialistReferralService.Update(updated);
-            
+
             _model.Update();
         }
     }

@@ -1,19 +1,16 @@
-﻿using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Model.Renovation;
-using HealthCare.Repository;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using HealthCare.Application;
+using HealthCare.Model.Renovation;
+using HealthCare.Repository;
 
 namespace HealthCare.Service.RenovationService
 {
     public class JoiningRenovationService : NumericService<JoiningRenovation>, IRenovationService
     {
-        private readonly RoomService _roomService;
         private readonly InventoryService _inventory;
+        private readonly RoomService _roomService;
 
         public JoiningRenovationService(IRepository<JoiningRenovation> repository) : base(repository)
         {
@@ -21,7 +18,12 @@ namespace HealthCare.Service.RenovationService
             _inventory = Injector.GetService<InventoryService>(Injector.EQUIPMENT_INVENTORY_S);
             ExecuteAll();
         }
-        
+
+        public IEnumerable<RenovationBase> GetRenovations()
+        {
+            return GetAll().Cast<RenovationBase>();
+        }
+
         public void Execute(JoiningRenovation renovation)
         {
             var items1 = _inventory.GetRoomItems(renovation.RoomId);
@@ -31,7 +33,8 @@ namespace HealthCare.Service.RenovationService
 
             items1.ForEach(x => _inventory.Remove(x.Id));
             items2.ForEach(x => _inventory.Remove(x.Id));
-            combined.ForEach(x =>{
+            combined.ForEach(x =>
+            {
                 x.RoomId = renovation.ResultRoom.Id;
                 _inventory.RestockInventoryItem(x);
             });
@@ -46,15 +49,11 @@ namespace HealthCare.Service.RenovationService
 
         public void ExecuteAll()
         {
-            GetAll().ForEach(x => {
+            GetAll().ForEach(x =>
+            {
                 if (!x.Executed && x.Scheduled.End <= DateTime.Now)
                     Execute(x);
             });
-        }
-
-        public IEnumerable<RenovationBase> GetRenovations()
-        {
-            return GetAll().Cast<RenovationBase>();
         }
     }
 }

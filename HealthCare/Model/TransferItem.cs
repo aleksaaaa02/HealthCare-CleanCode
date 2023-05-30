@@ -1,22 +1,25 @@
-﻿using HealthCare.Application.Common;
-using HealthCare.Serialize;
-using System;
+﻿using System;
 using System.Linq;
+using HealthCare.Application.Common;
 
 namespace HealthCare.Model
 {
     public class TransferItem : OrderItem
     {
-        public int FromRoom { get; set; }
-        public int ToRoom { get; set; }
+        public TransferItem() : this(0, 0, DateTime.MinValue, false, 0, 0)
+        {
+        }
 
-        public TransferItem() : this(0, 0, DateTime.MinValue, false, 0, 0) { }
-        public TransferItem(int equipmentId, int quantity, DateTime scheduled, bool executed, int fromRoom, int toRoom) : 
+        public TransferItem(int equipmentId, int quantity, DateTime scheduled, bool executed, int fromRoom,
+            int toRoom) :
             base(equipmentId, quantity, scheduled, executed)
         {
             FromRoom = fromRoom;
             ToRoom = toRoom;
         }
+
+        public int FromRoom { get; set; }
+        public int ToRoom { get; set; }
 
         public override string[] Serialize()
         {

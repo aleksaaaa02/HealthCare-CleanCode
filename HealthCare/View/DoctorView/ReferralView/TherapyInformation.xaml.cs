@@ -1,7 +1,6 @@
-﻿using HealthCare.Application;
+﻿using System.Windows;
 using HealthCare.Model;
 using HealthCare.ViewModel.DoctorViewModel.Referrals;
-using System.Windows;
 
 namespace HealthCare.View.DoctorView.ReferralView
 {

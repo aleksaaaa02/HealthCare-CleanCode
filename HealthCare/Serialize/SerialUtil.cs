@@ -1,7 +1,5 @@
-﻿using HealthCare.Application.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace HealthCare.Serialize
 {

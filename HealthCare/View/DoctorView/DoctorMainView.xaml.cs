@@ -1,7 +1,6 @@
-﻿using HealthCare.Application;
-using HealthCare.ViewModels.DoctorViewModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
+using HealthCare.ViewModels.DoctorViewModel;
 
 namespace HealthCare.View.DoctorView
 {
@@ -17,7 +16,7 @@ namespace HealthCare.View.DoctorView
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
-        {            
+        {
             _loginWindow.Show();
         }
     }

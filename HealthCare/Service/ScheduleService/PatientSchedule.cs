@@ -1,9 +1,8 @@
-﻿using HealthCare.Application;
+﻿using System;
+using System.Collections.Generic;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service.ScheduleService.Availability;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace HealthCare.Service.ScheduleService
 {
@@ -14,9 +13,15 @@ namespace HealthCare.Service.ScheduleService
         public PatientSchedule()
         {
             _appointmentService = Injector.GetService<AppointmentService>();
-            _availabilityValidators = new List<IAvailable<string>> {
-               new PatientAppointmentAvailable()
+            _availabilityValidators = new List<IAvailable<string>>
+            {
+                new PatientAppointmentAvailable()
             };
+        }
+
+        public bool IsAvailable(Appointment appointment)
+        {
+            return IsAvailable(appointment.PatientJMBG, appointment.TimeSlot);
         }
 
         public Appointment? TryGetReceptionAppointment(string patientJMBG)
@@ -26,11 +31,6 @@ namespace HealthCare.Service.ScheduleService
             return _appointmentService
                 .GetByPatient(patientJMBG)
                 .Find(x => !x.IsOperation && reception.Contains(x.TimeSlot.Start));
-        }
-
-        public bool IsAvailable(Appointment appointment)
-        {
-            return IsAvailable(appointment.PatientJMBG, appointment.TimeSlot);
         }
     }
 }

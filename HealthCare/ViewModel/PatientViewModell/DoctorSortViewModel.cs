@@ -1,19 +1,18 @@
-﻿using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Forms;
+using HealthCare.Application;
+using HealthCare.Model;
+using HealthCare.Service;
 
 namespace HealthCare.ViewModel.PatientViewModell
 {
     class DoctorSortViewModel
     {
-        public ObservableCollection<Doctor> Doctors { get; set; }
-        public List<Doctor> _doctors;
         private readonly DoctorService _doctorService;
+        public List<Doctor> _doctors;
 
         public DoctorSortViewModel()
         {
@@ -22,6 +21,8 @@ namespace HealthCare.ViewModel.PatientViewModell
             _doctors = _doctorService.GetAll();
             LoadData(_doctors);
         }
+
+        public ObservableCollection<Doctor> Doctors { get; set; }
 
         public void LoadData(List<Doctor> doctors)
         {
@@ -35,10 +36,10 @@ namespace HealthCare.ViewModel.PatientViewModell
         public void Filter(string filterProperty)
         {
             IEnumerable<Doctor> query = _doctors.ToList().Where(
-             x =>
-             x.Name.Contains(filterProperty, StringComparison.OrdinalIgnoreCase) ||
-             x.LastName.Contains(filterProperty, StringComparison.OrdinalIgnoreCase) ||
-             x.Specialization.Contains(filterProperty, StringComparison.OrdinalIgnoreCase)
+                x =>
+                    x.Name.Contains(filterProperty, StringComparison.OrdinalIgnoreCase) ||
+                    x.LastName.Contains(filterProperty, StringComparison.OrdinalIgnoreCase) ||
+                    x.Specialization.Contains(filterProperty, StringComparison.OrdinalIgnoreCase)
             ).ToList();
             LoadData(query.ToList());
         }

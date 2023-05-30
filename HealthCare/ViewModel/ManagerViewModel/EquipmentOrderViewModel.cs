@@ -1,17 +1,15 @@
-﻿using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using HealthCare.Application;
+using HealthCare.Service;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {
     public class EquipmentOrderViewModel : ViewModelBase
     {
-        private readonly InventoryService _inventoryService;
         private readonly EquipmentService _equipmentService;
-        public ObservableCollection<OrderItemViewModel> Items { get; }
+        private readonly InventoryService _inventoryService;
 
         public EquipmentOrderViewModel()
         {
@@ -21,6 +19,8 @@ namespace HealthCare.ViewModel.ManagerViewModel
             Items = new ObservableCollection<OrderItemViewModel>();
             LoadAll();
         }
+
+        public ObservableCollection<OrderItemViewModel> Items { get; }
 
         public void LoadAll()
         {

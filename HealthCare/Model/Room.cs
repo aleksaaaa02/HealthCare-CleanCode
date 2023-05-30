@@ -11,19 +11,23 @@ namespace HealthCare.Model
         Reception,
         Warehouse
     }
+
     public class Room : RepositoryItem
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public RoomType Type { get; set; }
+        public Room() : this(0, "", RoomType.Warehouse)
+        {
+        }
 
-        public Room() : this(0, "", RoomType.Warehouse) { }
         public Room(int id, string name, RoomType type)
         {
             Id = id;
             Name = name;
             Type = type;
         }
+
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public RoomType Type { get; set; }
 
         public override object Key
         {

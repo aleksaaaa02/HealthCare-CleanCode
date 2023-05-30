@@ -1,27 +1,35 @@
-﻿using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.View;
-using HealthCare.View.PatientView;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
+using HealthCare.Application;
+using HealthCare.Model;
+using HealthCare.Service;
+using HealthCare.View;
+using HealthCare.View.PatientView;
 
 namespace HealthCare.ViewModel.PatientViewModell
 {
     public class PatientNotificationsViewModel : INotifyPropertyChanged
     {
-        private readonly UserNotificationService _userNotificationService;
-        private readonly PrescriptionService _prescriptionService;
-        private ObservableCollection<UserNotification> _notifications;
-        private ObservableCollection<UserControl> _notificationControls;
         private readonly MedicationService _medicationService;
+        private readonly PrescriptionService _prescriptionService;
+        private readonly UserNotificationService _userNotificationService;
+        private ObservableCollection<UserControl> _notificationControls;
+        private ObservableCollection<UserNotification> _notifications;
         private List<Prescription> prescriptions;
+
+        public PatientNotificationsViewModel()
+        {
+            _userNotificationService = Injector.GetService<UserNotificationService>();
+            _prescriptionService = Injector.GetService<PrescriptionService>(Injector.REGULAR_PRESCRIPTION_S);
+            _medicationService = Injector.GetService<MedicationService>();
+            Notifications = new ObservableCollection<UserNotification>();
+            NotificationControls = new ObservableCollection<UserControl>();
+            LoadNotifications();
+        }
 
         public ObservableCollection<UserNotification> Notifications
         {
@@ -43,15 +51,7 @@ namespace HealthCare.ViewModel.PatientViewModell
             }
         }
 
-        public PatientNotificationsViewModel()
-        {
-            _userNotificationService = Injector.GetService<UserNotificationService>();
-            _prescriptionService = Injector.GetService<PrescriptionService>(Injector.REGULAR_PRESCRIPTION_S);
-            _medicationService = Injector.GetService<MedicationService>();
-            Notifications = new ObservableCollection<UserNotification>();
-            NotificationControls = new ObservableCollection<UserControl>();
-            LoadNotifications();
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public void LoadNotifications()
         {
@@ -73,17 +73,21 @@ namespace HealthCare.ViewModel.PatientViewModell
                     {
                         Medication medication = _medicationService.Get(prescription.MedicationId);
                         string notificationMessage = "Lek: " + medication.Name + "\n"
-                                                   + "Instrukcije: " + ViewUtil.Translate(prescription.Instruction) + "\n"
-                                                   + "Vreme uzimanja leka: " + pillDateTime.ToString();
-                        userNotifications.Add(new UserNotification(currentUserJMBG, pillDateTime, "Popijte tabletu", notificationMessage, false));
+                                                     + "Instrukcije: " + ViewUtil.Translate(prescription.Instruction) +
+                                                     "\n"
+                                                     + "Vreme uzimanja leka: " + pillDateTime.ToString();
+                        userNotifications.Add(new UserNotification(currentUserJMBG, pillDateTime, "Popijte tabletu",
+                            notificationMessage, false));
                     }
                 }
             }
+
             Patient patient = (Patient)Context.Current;
             userNotifications = userNotifications
-            .Where(notification => (notification.receiveTime - currentTime) < TimeSpan.FromHours(patient.NotificationHours))
-            .OrderBy(notification => notification.receiveTime)
-            .ToList();
+                .Where(notification =>
+                    (notification.receiveTime - currentTime) < TimeSpan.FromHours(patient.NotificationHours))
+                .OrderBy(notification => notification.receiveTime)
+                .ToList();
             Notifications.Clear();
             foreach (var notification in userNotifications)
             {
@@ -100,8 +104,6 @@ namespace HealthCare.ViewModel.PatientViewModell
                 NotificationControls.Add(notificationControl);
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

@@ -1,22 +1,23 @@
-﻿using HealthCare.Application;
+﻿using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.Service.ScheduleService;
 using HealthCare.ViewModel.NurseViewModel;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace HealthCare.View.UrgentAppointmentView
 {
     public partial class PostponableAppointmentsView : Window
     {
         private readonly NotificationService _notificationService;
-        private PostponableAppointmentsViewModel _model;
-        private AppointmentViewModel? _selected;
-        private Appointment _newAppointment;
         private readonly Schedule _schedule;
+        private PostponableAppointmentsViewModel _model;
+        private Appointment _newAppointment;
+        private AppointmentViewModel? _selected;
+
         public PostponableAppointmentsView(Appointment newAppointment, List<Appointment> postponable)
         {
             InitializeComponent();
@@ -46,6 +47,7 @@ namespace HealthCare.View.UrgentAppointmentView
                 ViewUtil.ShowWarning("Izaberite polje iz tabele");
                 return;
             }
+
             _newAppointment.TimeSlot.Start = _selected.Appointment.TimeSlot.Start;
             _newAppointment.DoctorJMBG = _selected.Appointment.DoctorJMBG;
             _schedule.Postpone(_selected.Appointment);
@@ -61,6 +63,5 @@ namespace HealthCare.View.UrgentAppointmentView
             ViewUtil.ShowInformation("Uspesno odlozen termin.");
             Close();
         }
-
     }
 }

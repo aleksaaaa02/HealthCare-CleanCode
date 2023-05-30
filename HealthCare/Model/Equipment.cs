@@ -14,12 +14,10 @@ namespace HealthCare.Model
 
     public class Equipment : RepositoryItem
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public EquipmentType Type { get; set; }
-        public bool IsDynamic { get; set; }
+        public Equipment() : this(0, "", EquipmentType.Examinational, false)
+        {
+        }
 
-        public Equipment() : this(0, "", EquipmentType.Examinational, false) { }
         public Equipment(int id, string name, EquipmentType type, bool dynamic)
         {
             Id = id;
@@ -27,6 +25,12 @@ namespace HealthCare.Model
             Type = type;
             IsDynamic = dynamic;
         }
+
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public EquipmentType Type { get; set; }
+        public bool IsDynamic { get; set; }
+
         public override object Key
         {
             get => Id;

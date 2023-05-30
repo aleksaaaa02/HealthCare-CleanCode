@@ -1,20 +1,21 @@
-﻿using HealthCare.Repository;
-using HealthCare.Serialize;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using HealthCare.Repository;
+using HealthCare.Serialize;
 
 namespace HealthCare.Model
 {
     public class Notification : RepositoryItem
     {
-        public int Id { get; set; }
-        public List<string> Recipients { get; set; }
-        public string Text { get; set; }
-        public bool Seen { get; set; }
+        public Notification() : this("", new string[0])
+        {
+        }
 
-        public Notification() : this("", new string[0]) { }
         public Notification(string text, params string[] recipients) :
-            this(0, text, false, recipients) { }
+            this(0, text, false, recipients)
+        {
+        }
+
         public Notification(int id, string text, bool seen, params string[] recipients)
         {
             Id = id;
@@ -23,16 +24,21 @@ namespace HealthCare.Model
             Recipients = recipients.ToList();
         }
 
-        public string Display()
-        {
-            Seen = true;
-            return Text;
-        }
+        public int Id { get; set; }
+        public List<string> Recipients { get; set; }
+        public string Text { get; set; }
+        public bool Seen { get; set; }
 
         public override object Key
         {
             get => Id;
             set { Id = (int)value; }
+        }
+
+        public string Display()
+        {
+            Seen = true;
+            return Text;
         }
 
         public override string[] Serialize()

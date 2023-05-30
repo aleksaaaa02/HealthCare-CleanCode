@@ -1,22 +1,23 @@
-﻿using HealthCare.Application;
+﻿using System;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using HealthCare.Application;
 using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.Service.ScheduleService;
 using HealthCare.ViewModel.PatientViewModell;
-using System;
-using System.IO;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace HealthCare.View.AppointmentView
 {
     public partial class PriorityAppointmentView : UserControl
     {
-        private readonly Schedule _schedule;
         private readonly AppointmentService _appointmentService;
+        private readonly Schedule _schedule;
 
         PriorityAppointmentViewModel model;
+
         public PriorityAppointmentView()
         {
             InitializeComponent();
@@ -71,6 +72,7 @@ namespace HealthCare.View.AppointmentView
                 ViewUtil.ShowWarning("Molimo Vas izaberite ispravan vremenski interval");
                 return false;
             }
+
             return true;
         }
 
@@ -88,7 +90,6 @@ namespace HealthCare.View.AppointmentView
             if (radioDatum.IsChecked == true)
             {
                 model.getAppointments(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd, doctor, "Date");
-
             }
             else if (radioDoktor.IsChecked == true)
             {
@@ -98,7 +99,7 @@ namespace HealthCare.View.AppointmentView
             {
                 ViewUtil.ShowWarning("Izaberite prioritet");
                 return;
-            }    
+            }
         }
 
         private void TbHoursStart_TextChanged(object sender, TextChangedEventArgs e)
@@ -142,7 +143,6 @@ namespace HealthCare.View.AppointmentView
                 {
                     tbMinutesStart.Text = "0";
                 }
-
             }
             else
             {
@@ -168,17 +168,19 @@ namespace HealthCare.View.AppointmentView
 
         private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
-            if (appointmentListView.SelectedItems.Count != 1) 
+            if (appointmentListView.SelectedItems.Count != 1)
             {
                 ViewUtil.ShowWarning("Niste izabrali pregled");
                 return;
             }
+
             Appointment appointment = (Appointment)appointmentListView.SelectedItem;
             if (!_schedule.IsAvailable(appointment))
             {
                 ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
                 return;
             }
+
             _schedule.Add(appointment);
             ViewUtil.ShowInformation("Uspesno dodat pregled");
             WriteAction("CREATE");
@@ -187,9 +189,9 @@ namespace HealthCare.View.AppointmentView
 
         public void WriteAction(string action)
         {
-            string stringtocsv = Context.Current.JMBG + "|" + action + "|" + Util.ToString(DateTime.Now) + Environment.NewLine;
+            string stringtocsv = Context.Current.JMBG + "|" + action + "|" + Util.ToString(DateTime.Now) +
+                                 Environment.NewLine;
             File.AppendAllText(Paths.PATIENT_LOGS, stringtocsv);
         }
     }
-
 }

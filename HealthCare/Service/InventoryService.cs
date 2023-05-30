@@ -1,14 +1,15 @@
-﻿using HealthCare.Model;
-using HealthCare.Repository;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using HealthCare.Model;
+using HealthCare.Repository;
 
 namespace HealthCare.Service
 {
     public class InventoryService : NumericService<InventoryItem>
     {
-        public InventoryService(IRepository<InventoryItem> repository) : base(repository) { }
+        public InventoryService(IRepository<InventoryItem> repository) : base(repository)
+        {
+        }
 
         public int GetTotalQuantity(int equipmentId)
         {
@@ -28,21 +29,23 @@ namespace HealthCare.Service
             var found = GetAll().Find(x =>
                 x.ItemId == item.ItemId && x.RoomId == item.RoomId);
 
-            if (found is not null) {
+            if (found is not null)
+            {
                 found.Quantity += item.Quantity;
                 Update(found);
-            } else
+            }
+            else
                 Add(item);
         }
 
         public bool TryReduceInventoryItem(InventoryItem item)
         {
             var a = GetAll();
-            var found = GetAll().Find(x => 
+            var found = GetAll().Find(x =>
                 x.ItemId == item.ItemId && x.RoomId == item.RoomId);
 
             if (found is null || found.Quantity < item.Quantity)
-                    return false;
+                return false;
 
             found.Quantity -= item.Quantity;
             if (found.Quantity == 0)
@@ -64,7 +67,7 @@ namespace HealthCare.Service
 
         public void ChangeDynamicEquipmentQuantity(Dictionary<int, int> newQuantities)
         {
-            foreach(KeyValuePair<int, int> entry in newQuantities)
+            foreach (KeyValuePair<int, int> entry in newQuantities)
             {
                 InventoryItem item = Get(entry.Key);
                 item.Quantity = entry.Value;

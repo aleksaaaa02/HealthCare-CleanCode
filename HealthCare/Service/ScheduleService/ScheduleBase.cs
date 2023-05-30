@@ -1,7 +1,7 @@
-﻿using HealthCare.Model;
-using HealthCare.Service.ScheduleService.Availability;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using HealthCare.Model;
+using HealthCare.Service.ScheduleService.Availability;
 
 namespace HealthCare.Service.ScheduleService
 {

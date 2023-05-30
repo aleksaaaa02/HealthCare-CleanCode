@@ -1,6 +1,6 @@
-﻿using HealthCare.Model;
+﻿using System.Windows.Media;
+using HealthCare.Model;
 using HealthCare.View;
-using System.Windows.Media;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {
@@ -9,13 +9,6 @@ namespace HealthCare.ViewModel.ManagerViewModel
         private readonly InventoryItem _item;
         public readonly Equipment Equipment;
         public readonly Room Room;
-        public string EquipmentName => Equipment.Name;
-        public string EquipmentType => ViewUtil.Translate(Equipment.Type);
-        public string RoomName => Room.Name;
-        public string RoomType => ViewUtil.Translate(Room.Type);
-        public int Quantity => _item.Quantity;
-        public string IsDynamic => ViewUtil.Translate(Equipment.IsDynamic);
-        public Brush Color => Quantity < 5 ? Brushes.Red : Brushes.Black;
 
         public InventoryItemViewModel(InventoryItem item, Equipment equipment, Room room)
         {
@@ -23,5 +16,13 @@ namespace HealthCare.ViewModel.ManagerViewModel
             Equipment = equipment;
             Room = room;
         }
+
+        public string EquipmentName => Equipment.Name;
+        public string EquipmentType => ViewUtil.Translate(Equipment.Type);
+        public string RoomName => Room.Name;
+        public string RoomType => ViewUtil.Translate(Room.Type);
+        public int Quantity => _item.Quantity;
+        public string IsDynamic => ViewUtil.Translate(Equipment.IsDynamic);
+        public Brush Color => Quantity < 5 ? Brushes.Red : Brushes.Black;
     }
 }

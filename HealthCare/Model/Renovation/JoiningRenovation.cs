@@ -1,21 +1,23 @@
-﻿using HealthCare.Application.Common;
-using HealthCare.Repository;
-using System.Linq;
+﻿using System.Linq;
+using HealthCare.Application.Common;
 
 namespace HealthCare.Model.Renovation
 {
     public class JoiningRenovation : RenovationBase
     {
-        public int OtherRoomId { get; set; }
-        public Room ResultRoom { get; set; }
+        public JoiningRenovation() : this(0, new TimeSlot(), 0, new Room())
+        {
+        }
 
-        public JoiningRenovation() : this(0, new TimeSlot(), 0, new Room()) { }
         public JoiningRenovation(int roomId, TimeSlot scheduled, int otherRoomId, Room resultRoom)
             : base(roomId, scheduled)
         {
             OtherRoomId = otherRoomId;
             ResultRoom = resultRoom;
         }
+
+        public int OtherRoomId { get; set; }
+        public Room ResultRoom { get; set; }
 
         public override void Deserialize(string[] values)
         {

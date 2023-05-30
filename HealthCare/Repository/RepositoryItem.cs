@@ -1,11 +1,13 @@
 ﻿using HealthCare.Serialize;
-using System.Collections.Generic;
 
 namespace HealthCare.Repository
 {
     public abstract class RepositoryItem : ISerializable
     {
         public abstract object Key { get; set; }
+
+        public abstract string[] Serialize();
+        public abstract void Deserialize(string[] values);
 
 
         public override bool Equals(object? obj)
@@ -17,8 +19,5 @@ namespace HealthCare.Repository
         {
             return Key.GetHashCode();
         }
-
-        public abstract string[] Serialize();
-        public abstract void Deserialize(string[] values);
     }
 }

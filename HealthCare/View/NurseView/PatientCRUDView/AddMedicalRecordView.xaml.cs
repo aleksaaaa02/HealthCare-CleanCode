@@ -1,7 +1,7 @@
-﻿using HealthCare.Model;
-using HealthCare.View.ReceptionView;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Documents;
+using HealthCare.Model;
+using HealthCare.View.ReceptionView;
 
 namespace HealthCare.View.NurseView
 {
@@ -9,6 +9,7 @@ namespace HealthCare.View.NurseView
     {
         private NurseMainView? _nurseView;
         private CreatePatientView? _patientView;
+
         public AddMedicalRecordView(NurseMainView window)
         {
             InitializeComponent();
@@ -21,7 +22,8 @@ namespace HealthCare.View.NurseView
                 tbWidth.Text = _nurseView._record.Weight.ToString();
                 rtbMedicalHistory.AppendText(string.Join(",", _nurseView._record.MedicalHistory));
             }
-            else {
+            else
+            {
                 _nurseView._record = new MedicalRecord();
             }
         }
@@ -60,7 +62,7 @@ namespace HealthCare.View.NurseView
                 _nurseView._record = medicalRecord;
             else if (_patientView is not null)
                 _patientView._record = medicalRecord;
-            Close();  
+            Close();
         }
 
         public bool Validate()

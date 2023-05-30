@@ -1,5 +1,4 @@
-﻿using HealthCare.Application;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Windows;
 
@@ -19,6 +18,7 @@ namespace HealthCare.View.ManagerView
         {
             new InventoryListingView().ShowDialog();
         }
+
         private void Button_Ordering(object sender, RoutedEventArgs e)
         {
             new EquipmentOrderView().ShowDialog();

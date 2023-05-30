@@ -1,22 +1,19 @@
-﻿using HealthCare.Application;
-using HealthCare.Model;
+﻿using System.Collections.ObjectModel;
+using HealthCare.Application;
 using HealthCare.Service;
-using HealthCare.Service.RenovationService;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {
     public class RenovationViewModel
     {
-        public ObservableCollection<RoomViewModel> Items { get; }
-
         public RenovationViewModel()
         {
             Items = new ObservableCollection<RoomViewModel>();
             LoadAll();
         }
+
+        public ObservableCollection<RoomViewModel> Items { get; }
 
         public void LoadAll()
         {

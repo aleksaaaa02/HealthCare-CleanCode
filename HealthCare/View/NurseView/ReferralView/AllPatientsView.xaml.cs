@@ -1,9 +1,8 @@
-﻿using HealthCare.Application;
-using HealthCare.Model;
-using System.Windows;
-using HealthCare.ViewModel.NurseViewModel;
+﻿using System.Windows;
 using System.Windows.Controls;
+using HealthCare.Model;
 using HealthCare.View.NurseView.PrescriptionView;
+using HealthCare.ViewModel.NurseViewModel;
 
 namespace HealthCare.View.NurseView.ReferralView
 {
@@ -11,6 +10,7 @@ namespace HealthCare.View.NurseView.ReferralView
     {
         private PatientViewModel _model;
         private Patient? _patient;
+
         public AllPatientsView()
         {
             InitializeComponent();
@@ -46,7 +46,6 @@ namespace HealthCare.View.NurseView.ReferralView
                 return;
 
             new PatientsPrescriptionsView(_patient).ShowDialog();
-
         }
 
         private bool Validate()
@@ -56,8 +55,8 @@ namespace HealthCare.View.NurseView.ReferralView
                 ViewUtil.ShowWarning("Izaberite pacijenta.");
                 return false;
             }
+
             return true;
         }
-
     }
 }

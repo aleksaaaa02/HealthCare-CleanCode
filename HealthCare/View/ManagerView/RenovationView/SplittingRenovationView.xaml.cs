@@ -1,24 +1,19 @@
-﻿using HealthCare.Application;
-using HealthCare.Exceptions;
-using HealthCare.Model;
-using HealthCare.Model.Renovation;
-using HealthCare.Service;
-using HealthCare.Service.RenovationService;
-using HealthCare.Service.ScheduleService;
-using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Documents;
-using System.Xml.Linq;
+using HealthCare.Application;
+using HealthCare.Model;
+using HealthCare.Model.Renovation;
+using HealthCare.Service.RenovationService;
+using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 
 namespace HealthCare.View.ManagerView.RenovationView
 {
     public partial class SplittingRenovationView : Window
     {
-        private readonly SplittingRenovationService _splittingRenovationService;
-        private readonly TimeSlot _scheduled;
         private readonly int _roomId;
+        private readonly TimeSlot _scheduled;
+        private readonly SplittingRenovationService _splittingRenovationService;
 
         public SplittingRenovationView(RoomViewModel roomModel, TimeSlot scheduled)
         {
@@ -39,6 +34,7 @@ namespace HealthCare.View.ManagerView.RenovationView
                 cbType1.Items.Add(ViewUtil.Translate(a));
                 cbType2.Items.Add(ViewUtil.Translate(a));
             }
+
             cbType1.SelectedIndex = 0;
             cbType2.SelectedIndex = 0;
         }
@@ -68,6 +64,5 @@ namespace HealthCare.View.ManagerView.RenovationView
         {
             Close();
         }
-
     }
 }

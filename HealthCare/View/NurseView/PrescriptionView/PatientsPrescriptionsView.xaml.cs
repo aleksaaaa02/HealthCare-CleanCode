@@ -1,26 +1,27 @@
-﻿using HealthCare.Application;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.Service.ScheduleService;
 using HealthCare.ViewModel.NurseViewModel;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
-using System;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace HealthCare.View.NurseView.PrescriptionView
 {
     public partial class PatientsPrescriptionsView : Window
     {
-        private readonly PrescriptionService _prescriptionService;
-        private readonly InventoryService _medicationInventory;
+        private readonly AppointmentService _appointmentService;
         private readonly DoctorService _doctorService;
+        private readonly InventoryService _medicationInventory;
+        private readonly PrescriptionService _prescriptionService;
         private readonly RoomService _roomService;
         private readonly Schedule _schedule;
-        private readonly AppointmentService _appointmentService;
         private PrescriptionListingViewModel _model;
-        private PrescriptionViewModel? _prescription;
         private Patient _patient;
+        private PrescriptionViewModel? _prescription;
+
         public PatientsPrescriptionsView(Patient patient)
         {
             InitializeComponent();
@@ -40,10 +41,12 @@ namespace HealthCare.View.NurseView.PrescriptionView
             _patient = patient;
             tbDate.SelectedDate = DateTime.Now;
         }
+
         private void lvPrescriptions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _prescription = (PrescriptionViewModel) lvPrescriptions.SelectedItem;
-            if (_prescription is null) {
+            _prescription = (PrescriptionViewModel)lvPrescriptions.SelectedItem;
+            if (_prescription is null)
+            {
                 btnUse.IsEnabled = true;
                 btnProlonge.IsEnabled = true;
                 return;
@@ -54,12 +57,13 @@ namespace HealthCare.View.NurseView.PrescriptionView
                 btnUse.IsEnabled = true;
                 btnProlonge.IsEnabled = false;
             }
-            else {
+            else
+            {
                 btnUse.IsEnabled = false;
                 btnProlonge.IsEnabled = true;
             }
-
         }
+
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -72,7 +76,8 @@ namespace HealthCare.View.NurseView.PrescriptionView
 
             Prescription prescription = _prescriptionService.Get(_prescription.Prescription.Id);
 
-            if (!prescription.FirstUse) {
+            if (!prescription.FirstUse)
+            {
                 ViewUtil.ShowWarning("Vec ste iskoristili recept.");
                 return;
             }
@@ -93,12 +98,14 @@ namespace HealthCare.View.NurseView.PrescriptionView
                 return;
             Prescription prescription = _prescriptionService.Get(_prescription.Prescription.Id);
 
-            if (prescription.FirstUse) {
+            if (prescription.FirstUse)
+            {
                 ViewUtil.ShowWarning("Niste iskoristili recept.");
                 return;
             }
 
-            if (prescription.Start.AddDays(prescription.ConsumptionDays - 1) > DateTime.Now) {
+            if (prescription.Start.AddDays(prescription.ConsumptionDays - 1) > DateTime.Now)
+            {
                 ViewUtil.ShowWarning("Nije vam isteklo vreme.");
                 return;
             }
@@ -158,9 +165,10 @@ namespace HealthCare.View.NurseView.PrescriptionView
             _model.Update();
         }
 
-        private bool GiveMedication(Prescription prescription) {
+        private bool GiveMedication(Prescription prescription)
+        {
             var reduceItem = new InventoryItem(
-            prescription.MedicationId, _roomService.GetWarehouseId(), prescription.GetQuantity());
+                prescription.MedicationId, _roomService.GetWarehouseId(), prescription.GetQuantity());
 
             if (!_medicationInventory.TryReduceInventoryItem(reduceItem))
             {
@@ -179,8 +187,8 @@ namespace HealthCare.View.NurseView.PrescriptionView
                 ViewUtil.ShowWarning("Izaberite recept");
                 return false;
             }
+
             return true;
         }
-
     }
 }

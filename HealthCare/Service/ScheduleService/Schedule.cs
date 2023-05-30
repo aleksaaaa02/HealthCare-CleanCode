@@ -1,13 +1,13 @@
-﻿using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service.ScheduleService.Availability;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using HealthCare.Application;
+using HealthCare.Model;
+using HealthCare.Service.ScheduleService.Availability;
 
 namespace HealthCare.Service.ScheduleService
 {
-    public class Schedule 
+    public class Schedule
     {
         private readonly AppointmentService _appointmentService;
         private readonly DoctorSchedule _doctorSchedule;

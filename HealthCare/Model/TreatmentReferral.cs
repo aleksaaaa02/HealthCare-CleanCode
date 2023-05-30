@@ -1,24 +1,18 @@
-﻿using HealthCare.Repository;
-using HealthCare.Serialize;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Documents;
+using HealthCare.Repository;
+using HealthCare.Serialize;
 
 namespace HealthCare.Model
 {
     public class TreatmentReferral : RepositoryItem
     {
-        public override object Key { get => Id; set { Id = (int) value; } }
-        public int Id { get; set; }
-        public int DaysOfTreatment { get; set; }
-        public string PatientJMBG { get; set; }
-        public string DoctorJMBG { get; set; }
-        public int TherapyID { get; set; }
-        public List<string> AdditionalExamination { get; set; }
-        public bool IsUsed { get; set; }
+        public TreatmentReferral()
+        {
+        }
 
-        public TreatmentReferral() { }
-        public TreatmentReferral(int daysOfTreatment, string patientJMBG, string doctorJMBG, int therapyId, List<string> additionalExamination)
+        public TreatmentReferral(int daysOfTreatment, string patientJMBG, string doctorJMBG, int therapyId,
+            List<string> additionalExamination)
         {
             DaysOfTreatment = daysOfTreatment;
             PatientJMBG = patientJMBG;
@@ -27,6 +21,20 @@ namespace HealthCare.Model
             AdditionalExamination = additionalExamination;
             IsUsed = false;
         }
+
+        public override object Key
+        {
+            get => Id;
+            set { Id = (int)value; }
+        }
+
+        public int Id { get; set; }
+        public int DaysOfTreatment { get; set; }
+        public string PatientJMBG { get; set; }
+        public string DoctorJMBG { get; set; }
+        public int TherapyID { get; set; }
+        public List<string> AdditionalExamination { get; set; }
+        public bool IsUsed { get; set; }
 
         public override void Deserialize(string[] values)
         {
@@ -41,7 +49,11 @@ namespace HealthCare.Model
 
         public override string[] Serialize()
         {
-            return new string[] { Id.ToString(), DaysOfTreatment.ToString(), PatientJMBG, DoctorJMBG, IsUsed.ToString(), TherapyID.ToString(), SerialUtil.ToString(AdditionalExamination)};
+            return new string[]
+            {
+                Id.ToString(), DaysOfTreatment.ToString(), PatientJMBG, DoctorJMBG, IsUsed.ToString(),
+                TherapyID.ToString(), SerialUtil.ToString(AdditionalExamination)
+            };
         }
     }
 }

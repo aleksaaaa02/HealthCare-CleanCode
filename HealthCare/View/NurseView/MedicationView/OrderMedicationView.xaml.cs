@@ -1,11 +1,11 @@
-﻿using HealthCare.Application;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.NurseViewModel;
-using System;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace HealthCare.View.NurseView
 {
@@ -13,6 +13,7 @@ namespace HealthCare.View.NurseView
     {
         private readonly OrderService _medicationOrderService;
         private MedicationOrderListingViewModel _model;
+
         public OrderMedicationView()
         {
             InitializeComponent();
@@ -63,6 +64,7 @@ namespace HealthCare.View.NurseView
 
                 someSelected |= item.IsSelected;
             }
+
             if (!someSelected)
                 throw new ValidationException("Nema unetih porudžbina.");
         }

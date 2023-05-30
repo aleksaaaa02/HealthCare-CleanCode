@@ -1,9 +1,9 @@
-﻿using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service.ScheduleService.Availability;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using HealthCare.Application;
+using HealthCare.Model;
+using HealthCare.Service.ScheduleService.Availability;
 
 namespace HealthCare.Service.ScheduleService
 {
@@ -11,12 +11,18 @@ namespace HealthCare.Service.ScheduleService
     {
         private AppointmentService _appointmentService;
 
-        public DoctorSchedule() 
+        public DoctorSchedule()
         {
             _appointmentService = Injector.GetService<AppointmentService>();
-            _availabilityValidators = new List<IAvailable<string>> {
+            _availabilityValidators = new List<IAvailable<string>>
+            {
                 new DoctorAppointmentAvailable()
             };
+        }
+
+        public bool IsAvailable(Appointment appointment)
+        {
+            return IsAvailable(appointment.DoctorJMBG, appointment.TimeSlot);
         }
 
         public List<Appointment> GetAppointmentsForDays(Doctor doctor, DateTime start, int days)
@@ -48,11 +54,6 @@ namespace HealthCare.Service.ScheduleService
                 filtered.Add(postponable.Last());
 
             return filtered;
-        }
-
-        public bool IsAvailable(Appointment appointment)
-        {
-            return IsAvailable(appointment.DoctorJMBG, appointment.TimeSlot);
         }
     }
 }

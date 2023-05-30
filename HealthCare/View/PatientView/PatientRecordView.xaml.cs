@@ -1,19 +1,18 @@
-﻿using HealthCare.Model;
+﻿using System.Windows.Controls;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 using HealthCare.ViewModel.PatientViewModell;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace HealthCare.View.AppointmentView
 {
     public partial class PatientRecordView : UserControl
     {
         PatientRecordViewModel model;
+
         public PatientRecordView()
         {
             model = new PatientRecordViewModel();
             DataContext = model;
-            InitializeComponent();           
+            InitializeComponent();
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

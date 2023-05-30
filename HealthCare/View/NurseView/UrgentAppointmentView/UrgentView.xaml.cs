@@ -1,25 +1,26 @@
-﻿using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.ScheduleService;
-using HealthCare.ViewModel.NurseViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using HealthCare.Application;
+using HealthCare.Model;
+using HealthCare.Service;
+using HealthCare.Service.ScheduleService;
+using HealthCare.ViewModel.NurseViewModel;
 
 namespace HealthCare.View.UrgentAppointmentView
 {
     public partial class UrgentView : Window
     {
-        private readonly NotificationService _notificationService;
-        private readonly DoctorService _doctorService;
-        private readonly Schedule _schedule;
         private readonly AppointmentService _appointmentService;
         private readonly DoctorSchedule _doctorSchedule;
+        private readonly DoctorService _doctorService;
+        private readonly NotificationService _notificationService;
+        private readonly Schedule _schedule;
         private PatientViewModel _model;
         private Patient? _patient;
+
         public UrgentView()
         {
             InitializeComponent();
@@ -69,6 +70,7 @@ namespace HealthCare.View.UrgentAppointmentView
             tbDuration.Text = "15";
             tbDuration.IsEnabled = false;
         }
+
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             if (!Validate())
@@ -87,8 +89,8 @@ namespace HealthCare.View.UrgentAppointmentView
                 _schedule.AddUrgent(appointment);
 
                 _notificationService.Add(new Notification(
-                $"Hitan termin sa ID-jem {appointment.AppointmentID} je kreiran.",
-                _doctorService.Get(appointment.DoctorJMBG).JMBG));
+                    $"Hitan termin sa ID-jem {appointment.AppointmentID} je kreiran.",
+                    _doctorService.Get(appointment.DoctorJMBG).JMBG));
 
                 ViewUtil.ShowInformation("Uspesno kreiran hitan termin.");
                 return;

@@ -1,22 +1,9 @@
-﻿using HealthCare;
+﻿using System.Windows;
+using System.Windows.Controls;
 using HealthCare.Application;
-using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.PatientViewModell;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace HealthCare.View.PatientView
 {
@@ -25,9 +12,9 @@ namespace HealthCare.View.PatientView
     /// </summary>
     public partial class PatientNotificationsView : UserControl
     {
-        
         private readonly PatientService _patientService;
         PatientNotificationsViewModel _viewModel;
+
         public PatientNotificationsView()
         {
             _patientService = Injector.GetService<PatientService>();
@@ -35,10 +22,9 @@ namespace HealthCare.View.PatientView
             _viewModel.LoadNotifications();
             DataContext = _viewModel;
             InitializeComponent();
-            
         }
 
-        
+
         private void expandButton_Click(object sender, RoutedEventArgs e)
         {
             new NotificationCreationView(_viewModel).Show();

@@ -1,6 +1,5 @@
-﻿using HealthCare.Repository;
-using HealthCare.Serialize;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using HealthCare.Repository;
 
 namespace HealthCare.Service
 {

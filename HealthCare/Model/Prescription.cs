@@ -1,10 +1,10 @@
-﻿using HealthCare.Application.Common;
+﻿using System;
+using System.Collections.Generic;
+using HealthCare.Application.Common;
 using HealthCare.Repository;
 using HealthCare.Serialize;
-using System;
-using System.Collections.Generic;
 
-namespace HealthCare.Model 
+namespace HealthCare.Model
 {
     public enum MealTime
     {
@@ -16,19 +16,12 @@ namespace HealthCare.Model
 
     public class Prescription : RepositoryItem
     {
-        public override object Key { get => Id; set { Id = (int) value; } }
-        public int Id { get; set; }
-        public int MedicationId { get; set; }
-        public int DailyDosage { get; set; }
-        public int HoursBetweenConsumption { get; set; }
-        public int ConsumptionDays { get; set; }
-        public MealTime Instruction { get; set; }
-        public string PatientJMBG { get; set; }
-        public string DoctorJMBG { get; set; }
-        public DateTime Start { get; set; }
-        public bool FirstUse { get; set; }
-        public Prescription() { }
-        public Prescription(int medicationId, MealTime instruction, string patientJMBG,string doctorJMBG, int dailyDosage, int hoursBetweenConsumption, int consumptionDays)
+        public Prescription()
+        {
+        }
+
+        public Prescription(int medicationId, MealTime instruction, string patientJMBG, string doctorJMBG,
+            int dailyDosage, int hoursBetweenConsumption, int consumptionDays)
         {
             MedicationId = medicationId;
             Instruction = instruction;
@@ -40,6 +33,23 @@ namespace HealthCare.Model
             Start = DateTime.Now;
             FirstUse = false;
         }
+
+        public override object Key
+        {
+            get => Id;
+            set { Id = (int)value; }
+        }
+
+        public int Id { get; set; }
+        public int MedicationId { get; set; }
+        public int DailyDosage { get; set; }
+        public int HoursBetweenConsumption { get; set; }
+        public int ConsumptionDays { get; set; }
+        public MealTime Instruction { get; set; }
+        public string PatientJMBG { get; set; }
+        public string DoctorJMBG { get; set; }
+        public DateTime Start { get; set; }
+        public bool FirstUse { get; set; }
 
         public int GetQuantity()
         {
@@ -62,8 +72,14 @@ namespace HealthCare.Model
 
         public override string[] Serialize()
         {
-            return new string[] { Id.ToString(), MedicationId.ToString(), Instruction.ToString(), PatientJMBG, DoctorJMBG, DailyDosage.ToString(), HoursBetweenConsumption.ToString(), ConsumptionDays.ToString(), Util.ToString(Start), FirstUse.ToString() };
+            return new string[]
+            {
+                Id.ToString(), MedicationId.ToString(), Instruction.ToString(), PatientJMBG, DoctorJMBG,
+                DailyDosage.ToString(), HoursBetweenConsumption.ToString(), ConsumptionDays.ToString(),
+                Util.ToString(Start), FirstUse.ToString()
+            };
         }
+
         public List<DateTime> GetPillConsumptionTimes()
         {
             List<DateTime> consumptionTimes = new List<DateTime>();
@@ -82,16 +98,21 @@ namespace HealthCare.Model
                     startDate = startDate.AddHours(HoursBetweenConsumption);
                     pillsCounter++;
                 }
+
                 daysCounter++;
             }
 
             return consumptionTimes;
         }
+
         public string[] ToCSV()
         {
-            return new string[] { Id.ToString(), MedicationId.ToString(), Instruction.ToString(), PatientJMBG, DoctorJMBG, DailyDosage.ToString(), HoursBetweenConsumption.ToString(), ConsumptionDays.ToString(), Util.ToString(Start), FirstUse.ToString() };
+            return new string[]
+            {
+                Id.ToString(), MedicationId.ToString(), Instruction.ToString(), PatientJMBG, DoctorJMBG,
+                DailyDosage.ToString(), HoursBetweenConsumption.ToString(), ConsumptionDays.ToString(),
+                Util.ToString(Start), FirstUse.ToString()
+            };
         }
-
-        
     }
 }

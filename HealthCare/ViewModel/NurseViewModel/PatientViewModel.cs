@@ -1,13 +1,12 @@
-﻿using HealthCare.Application;
+﻿using System.Collections.ObjectModel;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
-using System.Collections.ObjectModel;
 
 namespace HealthCare.ViewModel.NurseViewModel
 {
     public class PatientViewModel
     {
-        public ObservableCollection<Patient> Patients { get; set; }
         private PatientService _patientService;
 
         public PatientViewModel()
@@ -15,6 +14,8 @@ namespace HealthCare.ViewModel.NurseViewModel
             Patients = new ObservableCollection<Patient>();
             _patientService = Injector.GetService<PatientService>();
         }
+
+        public ObservableCollection<Patient> Patients { get; set; }
 
         public void Update()
         {

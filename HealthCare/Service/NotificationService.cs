@@ -1,14 +1,14 @@
-﻿using HealthCare.Model;
+﻿using System.Collections.Generic;
+using HealthCare.Model;
 using HealthCare.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace HealthCare.Service
 {
     public class NotificationService : NumericService<Notification>
     {
-        public NotificationService(IRepository<Notification> repository) : base(repository) { }
+        public NotificationService(IRepository<Notification> repository) : base(repository)
+        {
+        }
 
         public List<Notification> GetForUser(string userJmbg)
         {

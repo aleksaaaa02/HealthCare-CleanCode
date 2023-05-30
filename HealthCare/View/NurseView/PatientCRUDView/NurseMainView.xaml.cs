@@ -1,13 +1,13 @@
-﻿using HealthCare.Application;
-using HealthCare.Application.Common;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.ViewModel.NurseViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using HealthCare.Application;
+using HealthCare.Application.Common;
+using HealthCare.Model;
+using HealthCare.Service;
+using HealthCare.ViewModel.NurseViewModel;
 
 namespace HealthCare.View.NurseView
 {
@@ -31,8 +31,11 @@ namespace HealthCare.View.NurseView
             _patient = null;
             _record = null;
 
-            _textBoxes = new List<TextBox> { tbName, tbLastName, tbAddress, tbBirthDate,
-                                            tbUsername, tbPassword, tbJMBG, tbPhoneNumber};
+            _textBoxes = new List<TextBox>
+            {
+                tbName, tbLastName, tbAddress, tbBirthDate,
+                tbUsername, tbPassword, tbJMBG, tbPhoneNumber
+            };
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -81,8 +84,8 @@ namespace HealthCare.View.NurseView
 
         private void lvPatients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _patient = (Patient) lvPatients.SelectedItem;
-            if (_patient is null) return; 
+            _patient = (Patient)lvPatients.SelectedItem;
+            if (_patient is null) return;
 
             tbName.Text = _patient.Name;
             tbLastName.Text = _patient.LastName;

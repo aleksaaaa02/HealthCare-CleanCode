@@ -1,18 +1,18 @@
-﻿using HealthCare.Model;
-using HealthCare.View;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using HealthCare.Model;
+using HealthCare.View;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {
     internal class InventoryFilter
     {
-        public List<InventoryItemViewModel> Items { get; private set; }
-
         public InventoryFilter(List<InventoryItemViewModel> items)
         {
             Items = items;
         }
+
+        public List<InventoryItemViewModel> Items { get; private set; }
 
         public void FilterQuantity(bool[] args)
         {
@@ -54,7 +54,8 @@ namespace HealthCare.ViewModel.ManagerViewModel
 
         private bool HasAllTokens(InventoryItemViewModel item, string[] tokens)
         {
-            var searchParameters = new string[] {
+            var searchParameters = new string[]
+            {
                 ViewUtil.Translate(item.Equipment.IsDynamic),
                 ViewUtil.Translate(item.Equipment.Type),
                 ViewUtil.Translate(item.Room.Type),

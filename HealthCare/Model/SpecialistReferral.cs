@@ -4,21 +4,29 @@ namespace HealthCare.Model
 {
     public class SpecialistReferral : RepositoryItem
     {
-        public override object Key { get => Id; set { Id = (int)value; } }
-        public int Id { get; set; }
-        public string PatientJMBG { get; set; }
-        public string DoctorJMBG { get; set; }
-        public string ReferredDoctorJMBG { get; set; }
-        public bool IsUsed { get; set; }
-        public SpecialistReferral() { }
+        public SpecialistReferral()
+        {
+        }
 
-        public SpecialistReferral(string patientJMBG, string doctorJMBG,  string referredDoctorJMBG)
+        public SpecialistReferral(string patientJMBG, string doctorJMBG, string referredDoctorJMBG)
         {
             PatientJMBG = patientJMBG;
             DoctorJMBG = doctorJMBG;
             ReferredDoctorJMBG = referredDoctorJMBG;
             IsUsed = false;
         }
+
+        public override object Key
+        {
+            get => Id;
+            set { Id = (int)value; }
+        }
+
+        public int Id { get; set; }
+        public string PatientJMBG { get; set; }
+        public string DoctorJMBG { get; set; }
+        public string ReferredDoctorJMBG { get; set; }
+        public bool IsUsed { get; set; }
 
         public override void Deserialize(string[] values)
         {
@@ -31,7 +39,7 @@ namespace HealthCare.Model
 
         public override string[] Serialize()
         {
-            return new string[] { Id.ToString(), PatientJMBG, DoctorJMBG, ReferredDoctorJMBG, IsUsed.ToString()};
+            return new string[] { Id.ToString(), PatientJMBG, DoctorJMBG, ReferredDoctorJMBG, IsUsed.ToString() };
         }
     }
 }

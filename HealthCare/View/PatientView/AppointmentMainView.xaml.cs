@@ -1,26 +1,26 @@
-﻿using HealthCare.Application;
-using HealthCare.Application.Common;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.ScheduleService;
-using HealthCare.View.PatientView;
-using HealthCare.ViewModel.NurseViewModel.DataViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using HealthCare.Application;
+using HealthCare.Application.Common;
+using HealthCare.Model;
+using HealthCare.Service;
+using HealthCare.Service.ScheduleService;
+using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 
 namespace HealthCare.View.AppointmentView
 {
     public partial class AppointmentMainView : UserControl
     {
-        private readonly PatientService _patientService;
-        private readonly DoctorService _doctorService;
         private readonly AppointmentService _appointmentService;
+        private readonly DoctorService _doctorService;
+        private readonly PatientService _patientService;
         private readonly Schedule _schedule;
+
         public AppointmentMainView()
         {
             _schedule = Injector.GetService<Schedule>();
@@ -50,7 +50,8 @@ namespace HealthCare.View.AppointmentView
 
         public void WriteActionToFile(string action)
         {
-            string stringtocsv = Context.Current.JMBG + "|" + action + "|" + Util.ToString(DateTime.Now) + Environment.NewLine;
+            string stringtocsv = Context.Current.JMBG + "|" + action + "|" + Util.ToString(DateTime.Now) +
+                                 Environment.NewLine;
             File.AppendAllText(Paths.PATIENT_LOGS, stringtocsv);
         }
 
@@ -64,7 +65,6 @@ namespace HealthCare.View.AppointmentView
                 int createCounter = 0;
                 while ((line = reader.ReadLine()) != null)
                 {
-
                     string[] values = line.Split('|');
                     if (values[0] == patient.JMBG)
                     {
@@ -77,10 +77,9 @@ namespace HealthCare.View.AppointmentView
                             if (values[1] == "UPDATE" || values[1] == "DELETE") updateDeleteCounter++;
                         }
                     }
-
-
                 }
-                if(updateDeleteCounter >= 5 || createCounter > 8)
+
+                if (updateDeleteCounter >= 5 || createCounter > 8)
                 {
                     patient.Blocked = true;
                 }
@@ -88,9 +87,11 @@ namespace HealthCare.View.AppointmentView
                 {
                     patient.Blocked = false;
                 }
+
                 _patientService.Update(patient);
             }
         }
+
         public void LoadData()
         {
             List<Appointment> appointments = _appointmentService.GetByPatient(Context.Current.JMBG);
@@ -104,13 +105,12 @@ namespace HealthCare.View.AppointmentView
         private void TbMinutes_TextChanged(object sender, TextChangedEventArgs e)
         {
             string text = tbMinutes.Text;
-            if(int.TryParse(text, out int minutes))
+            if (int.TryParse(text, out int minutes))
             {
-                if(minutes > 59 || minutes < 0)
+                if (minutes > 59 || minutes < 0)
                 {
                     tbMinutes.Text = "0";
                 }
-
             }
             else
             {
@@ -121,9 +121,9 @@ namespace HealthCare.View.AppointmentView
         private void TbHours_TextChanged(object sender, TextChangedEventArgs e)
         {
             string text = tbHours.Text;
-            if(int.TryParse(text, out int hours))
+            if (int.TryParse(text, out int hours))
             {
-                if(hours > 23 || hours < 0)
+                if (hours > 23 || hours < 0)
                 {
                     tbHours.Text = "0";
                 }
@@ -142,6 +142,7 @@ namespace HealthCare.View.AppointmentView
                 ViewUtil.ShowWarning("Zao nam je, ali vas profil je blokiran");
                 return;
             }
+
             Doctor doctor = (Doctor)doctorListView.SelectedItem;
             int hours = int.Parse(tbHours.Text);
             int minutes = int.Parse(tbMinutes.Text);
@@ -151,7 +152,7 @@ namespace HealthCare.View.AppointmentView
                 return;
             }
             else
-            { 
+            {
                 DateTime currentDate = DateTime.Now;
                 DateTime selectedDate = tbDate.SelectedDate.Value;
                 selectedDate = selectedDate.AddHours(hours);
@@ -163,20 +164,24 @@ namespace HealthCare.View.AppointmentView
                     return;
                 }
             }
-            if(doctorListView.SelectedItems.Count != 1)
+
+            if (doctorListView.SelectedItems.Count != 1)
             {
                 ViewUtil.ShowWarning("Molimo Vas izaberite doktora");
                 return;
             }
+
             DateTime date = tbDate.SelectedDate.Value;
             date = date.AddHours(hours);
             date = date.AddMinutes(minutes);
-            Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, new TimeSlot(date,new TimeSpan(0,15,0)), false);
+            Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG,
+                new TimeSlot(date, new TimeSpan(0, 15, 0)), false);
             if (!_schedule.IsAvailable(appointment))
             {
                 ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
                 return;
             }
+
             _schedule.Add(appointment);
             ViewUtil.ShowInformation("Uspesno dodat pregled");
             WriteActionToFile("CREATE");
@@ -193,7 +198,6 @@ namespace HealthCare.View.AppointmentView
                 tbHours.Text = appointment.TimeSlot.Start.Hour.ToString();
                 tbMinutes.Text = appointment.TimeSlot.Start.Minute.ToString();
             }
-            
         }
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
@@ -204,7 +208,8 @@ namespace HealthCare.View.AppointmentView
                 ViewUtil.ShowWarning("Zao nam je, ali vas profil je blokiran");
                 return;
             }
-            if (appListView.SelectedItems.Count == 1) 
+
+            if (appListView.SelectedItems.Count == 1)
             {
                 Appointment appointment = ((AppointmentViewModel)appListView.SelectedItem).Appointment;
                 _appointmentService.Remove(appointment);
@@ -218,12 +223,10 @@ namespace HealthCare.View.AppointmentView
                 ViewUtil.ShowWarning("Molimo Vas izaberite pregled");
                 return;
             }
-           
         }
 
         private void BtnUpdate_Click(object sender, RoutedEventArgs e)
         {
-
             Patient patient = (Patient)Context.Current;
             if (patient.Blocked)
             {
@@ -253,23 +256,26 @@ namespace HealthCare.View.AppointmentView
                 }
                 else
                 {
-
                 }
             }
+
             if (doctorListView.SelectedItems.Count != 1)
             {
                 ViewUtil.ShowWarning("Molimo Vas izaberite doktora");
                 return;
             }
+
             DateTime date = tbDate.SelectedDate.Value;
             date = date.AddHours(hours);
-            date = date.AddMinutes(minutes);    
-            if(appListView.SelectedItems.Count != 1)
+            date = date.AddMinutes(minutes);
+            if (appListView.SelectedItems.Count != 1)
             {
                 ViewUtil.ShowWarning("Molimo Vas izaberite pregled");
                 return;
             }
-            Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, new TimeSlot(date, new TimeSpan(0, 15, 0)), false);
+
+            Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG,
+                new TimeSlot(date, new TimeSpan(0, 15, 0)), false);
             Appointment appointment2 = ((AppointmentViewModel)appListView.SelectedItem).Appointment;
             appointment.AppointmentID = appointment2.AppointmentID;
             appointment.RoomID = appointment2.RoomID;
@@ -278,12 +284,12 @@ namespace HealthCare.View.AppointmentView
                 ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
                 return;
             }
+
             _appointmentService.Update(appointment);
             ViewUtil.ShowInformation("Uspesno azuriran pregled");
             WriteActionToFile("UPDATE");
             LoadData();
             IsUserBlocked();
-
         }
     }
 }
