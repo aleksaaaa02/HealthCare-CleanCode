@@ -1,18 +1,19 @@
 ﻿using HealthCare.Command;
 using HealthCare.ViewModels.DoctorViewModel;
 
-namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
+namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands;
+
+public class ResetFilterCommand : CommandBase
 {
-    public class ResetFilterCommand : CommandBase
+    private readonly DoctorMainViewModel _viewModel;
+
+    public ResetFilterCommand(DoctorMainViewModel viewModel)
     {
-        private readonly DoctorMainViewModel _viewModel;
-        public ResetFilterCommand(DoctorMainViewModel viewModel)
-        {
-            _viewModel = viewModel;
-        }
-        public override void Execute(object parameter)
-        {
-            _viewModel.Update();
-        }
+        _viewModel = viewModel;
+    }
+
+    public override void Execute(object parameter)
+    {
+        _viewModel.Update();
     }
 }

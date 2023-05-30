@@ -1,60 +1,50 @@
-﻿using HealthCare.Command;
+﻿using System.ComponentModel.DataAnnotations;
 using HealthCare.Application;
-using HealthCare.Model;
+using HealthCare.Command;
 using HealthCare.Service;
 using HealthCare.View;
 using HealthCare.View.DoctorView;
-using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModels.DoctorViewModel;
-using System.ComponentModel.DataAnnotations;
 
-namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
+namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands;
+
+public class EditAppointmentDoctorCommand : CommandBase
 {
-    public class EditAppointmentDoctorCommand : CommandBase
+    private readonly AppointmentService _appointmentService;
+    private readonly DoctorMainViewModel _doctorMainViewModel;
+
+    public EditAppointmentDoctorCommand(DoctorMainViewModel viewModel)
     {
-        private readonly DoctorMainViewModel _doctorMainViewModel;
-        private readonly AppointmentService _appointmentService;
-        public EditAppointmentDoctorCommand(DoctorMainViewModel viewModel)
+        _doctorMainViewModel = viewModel;
+        _appointmentService = Injector.GetService<AppointmentService>();
+    }
+
+    public override void Execute(object parameter)
+    {
+        try
         {
-            _doctorMainViewModel = viewModel;
-            _appointmentService = Injector.GetService<AppointmentService>();
+            Validate();
+            EditSelectedAppointment();
         }
-
-        public override void Execute(object parameter)
+        catch (ValidationException ve)
         {
-            try
-            {
-                Validate();
-                EditSelectedAppointment();
-            }
-            catch (ValidationException ve)
-            {
-                ViewUtil.ShowWarning(ve.Message);
-            }
+            ViewUtil.ShowWarning(ve.Message);
         }
+    }
 
-        private void EditSelectedAppointment()
-        {
-            AppointmentViewModel appointmentViewModel = _doctorMainViewModel.SelectedAppointment;
-            Appointment selectedAppointment = _appointmentService.Get(appointmentViewModel.AppointmentID);
-            new MakeAppointmentView(_doctorMainViewModel, selectedAppointment).ShowDialog();
-        }
+    private void EditSelectedAppointment()
+    {
+        var appointmentViewModel = _doctorMainViewModel.SelectedAppointment;
+        var selectedAppointment = _appointmentService.Get(appointmentViewModel.AppointmentID);
+        new MakeAppointmentView(_doctorMainViewModel, selectedAppointment).ShowDialog();
+    }
 
-        private void Validate()
-        {
-            AppointmentViewModel appointmentViewModel = _doctorMainViewModel.SelectedAppointment;
-            if (appointmentViewModel == null)
-            {
-                throw new ValidationException("Morate odabrati pregled/operaciju iz tabele!");
-            }
+    private void Validate()
+    {
+        var appointmentViewModel = _doctorMainViewModel.SelectedAppointment;
+        if (appointmentViewModel == null) throw new ValidationException("Morate odabrati pregled/operaciju iz tabele!");
 
-            Appointment selectedAppointment = _appointmentService.Get(appointmentViewModel.AppointmentID);
-            if (selectedAppointment == null)
-            {
-                throw new ValidationException("Ups doslo je do greske");
-            }
-
-        }
-
+        var selectedAppointment = _appointmentService.Get(appointmentViewModel.AppointmentID);
+        if (selectedAppointment == null) throw new ValidationException("Ups doslo je do greske");
     }
 }
