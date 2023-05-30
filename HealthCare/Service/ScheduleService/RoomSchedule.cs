@@ -1,23 +1,38 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Application;
+using HealthCare.Model;
 using HealthCare.Service.ScheduleService.Availability;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace HealthCare.Service.ScheduleService
 {
-    public class RoomSchedule
+    public class RoomSchedule : ScheduleBase<int>, IAppointmentAvailable
     {
-        private List<IAvailable<int>> _availabilityValidators;
+        private readonly RoomService _roomService;
+
         public RoomSchedule()
         {
+            _roomService = Injector.GetService<RoomService>();
             _availabilityValidators = new List<IAvailable<int>> {
                new RoomRenovationAvailable()
             };
         }
 
-        public bool IsAvailable(int key, TimeSlot timeSlot)
+        public int SetFirstAvailableRoom(Appointment appointment)
         {
-            return _availabilityValidators.All(x => x.IsAvailable(key, timeSlot));
+            RoomType type = appointment.IsOperation ? RoomType.Operational 
+                : RoomType.Examinational;
+
+            return _roomService
+                .GetRoomsByType(type)
+                .Where(r => IsAvailable(r.Id, appointment.TimeSlot))
+                .Select(r => r.Id)
+                .FirstOrDefault(0);
+        }
+
+        public bool IsAvailable(Appointment appointment)
+        {
+            return IsAvailable(appointment.RoomID, appointment.TimeSlot);
         }
     }
 }

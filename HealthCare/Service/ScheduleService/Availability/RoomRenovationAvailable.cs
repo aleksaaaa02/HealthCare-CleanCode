@@ -1,8 +1,6 @@
 ﻿using HealthCare.Application;
 using HealthCare.Model;
-using HealthCare.Model.Renovation;
 using HealthCare.Service.RenovationService;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 

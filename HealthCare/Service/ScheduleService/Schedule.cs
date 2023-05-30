@@ -1,94 +1,103 @@
 ﻿using HealthCare.Application;
 using HealthCare.Model;
+using HealthCare.Service.ScheduleService.Availability;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace HealthCare.Service.ScheduleService
 {
     public class Schedule 
     {
-        private readonly PatientSchedule _patientSchedule;
-        private readonly DoctorSchedule _doctorSchedule;  
         private readonly AppointmentService _appointmentService;
+        private readonly DoctorSchedule _doctorSchedule;
+        private readonly RoomSchedule _roomSchedule;
+        private List<IAppointmentAvailable> _schedules;
         public Schedule()
         {
-            _doctorSchedule = Injector.GetService<DoctorSchedule>();
-            _patientSchedule = Injector.GetService<PatientSchedule>();
             _appointmentService = Injector.GetService<AppointmentService>();
-        }
-
-        public bool CheckAvailability(string doctorJMBG, string patientJMBG, TimeSlot slot)
-        {
-            return _doctorSchedule.IsAvailable(doctorJMBG, slot) 
-                && _patientSchedule.IsAvailable(patientJMBG, slot);
-        }
-        public DateTime GetSoonestStartingTime(Appointment appointment)
-        {
-            DateTime postpone = DateTime.MaxValue;
-            TimeSlot slot = new TimeSlot(appointment.TimeSlot);
-
-            foreach (Appointment a in _appointmentService.GetAll())
+            _doctorSchedule = Injector.GetService<DoctorSchedule>();
+            _roomSchedule = Injector.GetService<RoomSchedule>();
+            _schedules = new List<IAppointmentAvailable>
             {
-                slot.Start = a.TimeSlot.End;
-                if (slot.Start >= DateTime.Now &&
-                    slot.Start < postpone &&
-                    CheckAvailability(appointment.DoctorJMBG, appointment.PatientJMBG, slot))
-                    postpone = slot.Start;
+                Injector.GetService<PatientSchedule>(),
+                _doctorSchedule,
+                _roomSchedule
+            };
+        }
+
+        public bool IsAvailable(Appointment appointment)
+        {
+            return _schedules.All(x => x.IsAvailable(appointment));
+        }
+
+        public TimeSlot GetSoonestTimeSlot(Appointment given)
+        {
+            DateTime end, postpone = DateTime.MaxValue;
+            TimeSpan duration = given.TimeSlot.Duration;
+            TimeSlot temp = given.TimeSlot;
+
+            foreach (Appointment appointment in _appointmentService.GetAll())
+            {
+                end = appointment.TimeSlot.End;
+                given.TimeSlot = new TimeSlot(end, duration);
+
+                if (end >= DateTime.Now && end < postpone && IsAvailable(given))
+                    postpone = end;
             }
 
-            return postpone;
+            given.TimeSlot = temp;
+            return new TimeSlot(postpone, duration);
         }
-        public void PostponeAppointment(Appointment appointment)
+
+        public void Postpone(Appointment appointment)
         {
-            appointment.TimeSlot.Start = GetSoonestStartingTime(appointment);
+            appointment.TimeSlot = GetSoonestTimeSlot(appointment);
             _appointmentService.Update(appointment);
         }
 
-        public void AddUrgentAppointment(Appointment appointment)
+        public void AddUrgent(Appointment appointment)
         {
-            foreach (Appointment app in _appointmentService.GetPossibleIntersections(appointment))
-                PostponeAppointment(app);
+            _appointmentService.GetOverlapping(appointment).ForEach(a => Postpone(a));
 
             appointment.IsUrgent = true;
+            Add(appointment);
+        }
+
+        public void Add(Appointment appointment)
+        {
+            _roomSchedule.SetFirstAvailableRoom(appointment);
             _appointmentService.Add(appointment);
         }
 
-        public Appointment? TryGetUrgent(TimeSpan duration, List<Doctor> specialists)
+        public Appointment? TryGetUrgent(TimeSpan duration, List<string> specialists)
         {
-            Appointment urgent = new Appointment();
-            urgent.TimeSlot = new TimeSlot(DateTime.MaxValue, duration);
+            var possible = specialists.Select(doctor => GetUrgentForDoctor(duration, doctor));
 
-            foreach (Doctor doctor in specialists)
-                urgent = GetUrgentForDoctor(urgent, doctor);
+            Appointment? best = possible.OrderBy(x => x.TimeSlot.Start).FirstOrDefault();
 
             DateTime twoHours = DateTime.Now + new TimeSpan(2, 0, 0);
-            if (urgent.TimeSlot.Start > twoHours)
-                return null;
-            return urgent;
+            return best is not null && best.TimeSlot.Start <= twoHours ? best : null;
         }
 
-        private Appointment GetUrgentForDoctor(Appointment urgent, Doctor doctor)
+        private Appointment GetUrgentForDoctor(TimeSpan duration, string doctorJMBG)
         {
-            TimeSpan duration = urgent.TimeSlot.Duration;
+            Appointment urgent = new Appointment();
+            urgent.DoctorJMBG = doctorJMBG;
+            urgent.TimeSlot = new TimeSlot(DateTime.Now, duration);
 
-            if (_doctorSchedule.IsAvailable(doctor.JMBG, new TimeSlot(DateTime.Now, duration)))
-            {
-                urgent.TimeSlot.Start = DateTime.Now;
-                urgent.DoctorJMBG = doctor.JMBG;
+            if (_doctorSchedule.IsAvailable(urgent))
                 return urgent;
-            }
 
-            foreach (Appointment appointment in _appointmentService.GetByDoctor(doctor.JMBG))
+            urgent.TimeSlot.Start = DateTime.MaxValue;
+            foreach (Appointment appointment in _appointmentService.GetByDoctor(doctorJMBG))
             {
                 DateTime end = appointment.TimeSlot.End;
-                TimeSlot newTimeslot = new TimeSlot(end, duration);
+                TimeSlot slot = new TimeSlot(end, duration);
 
                 if (end > DateTime.Now && end < urgent.TimeSlot.Start &&
-                    CheckAvailability(doctor.JMBG, urgent.PatientJMBG, newTimeslot))
-                {
+                    _doctorSchedule.IsAvailable(doctorJMBG, slot))
                     urgent.TimeSlot.Start = end;
-                    urgent.DoctorJMBG = doctor.JMBG;
-                }
             }
 
             return urgent;

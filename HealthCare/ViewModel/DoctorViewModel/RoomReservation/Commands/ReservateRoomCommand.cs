@@ -5,7 +5,6 @@ using HealthCare.Model;
 using HealthCare.Service.ScheduleService;
 using HealthCare.View;
 using HealthCare.View.DoctorView;
-using System;
 using System.Windows;
 
 namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation.Commands
@@ -50,7 +49,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.RoomReservation.Commands
             }
             int roomID = _roomReservationViewModel.SelectedRoom.RoomId;
             TimeSlot timeSlot = _appointment.TimeSlot;
-            if (!_roomSchedule.IsAvailable(roomID, timeSlot))
+            if (!_roomSchedule.IsAvailable(_appointment))
             {
                 throw new ValidationException("Soba je u fazi renovacije");
             }

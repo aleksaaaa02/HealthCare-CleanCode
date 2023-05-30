@@ -92,9 +92,10 @@ namespace HealthCare.ViewModel.PatientViewModell
             while (startDate < endDate)
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
-                if (_schedule.CheckAvailability(doctor.JMBG, patient.JMBG, timeSlot))
+                Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
+                if (_schedule.IsAvailable(appointment))
                 {
-                    return new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
+                    return appointment;
                 }
                 else
                 {
@@ -117,9 +118,10 @@ namespace HealthCare.ViewModel.PatientViewModell
             while (appointments.Count() < 3)
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
-                if (_schedule.CheckAvailability(doctor.JMBG, patient.JMBG, timeSlot))
+                Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
+                if (_schedule.IsAvailable(appointment))
                 {
-                    appointments.Add(new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false));
+                    appointments.Add(appointment);
                 }
                 startDate = startDate.AddMinutes(15);
             }
@@ -138,9 +140,10 @@ namespace HealthCare.ViewModel.PatientViewModell
                 while (startDate < endDate)
                 {
                     TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
-                    if (_schedule.CheckAvailability(doctor.JMBG, patient.JMBG, timeSlot))
+                    Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
+                    if (_schedule.IsAvailable(appointment))
                     {
-                        return new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
+                        return appointment;
                     }
                     startDate = startDate.AddMinutes(15);
                     if (startDate.Hour >= hoursEnd && startDate.Minute >= minutesEnd)
@@ -162,9 +165,10 @@ namespace HealthCare.ViewModel.PatientViewModell
             while (startDate < endDate)
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
-                if (_schedule.CheckAvailability(doctor.JMBG, patient.JMBG, timeSlot))
+                Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
+                if (_schedule.IsAvailable(appointment))
                 {
-                    return new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
+                    return appointment;
                 }
                 startDate = startDate.AddMinutes(15);
                 if (startDate.Hour >= hoursEnd && startDate.Minute >= minutesEnd)

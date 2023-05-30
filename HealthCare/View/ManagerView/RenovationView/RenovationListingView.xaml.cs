@@ -61,7 +61,9 @@ namespace HealthCare.View.ManagerView
         private void ValidateRoom(RoomViewModel room, TimeSlot slot)
         {
             var id = room.RoomId;
-            if (!_roomSchedule.IsAvailable(id, slot))
+            Appointment appointment = new Appointment("", "", slot, false);
+            appointment.RoomID = id;
+            if (!_roomSchedule.IsAvailable(appointment))
                 throw new ValidationException(
                     $"Soba sa ID-jem {id} nije slobodna u izabranom terminu.");
         }

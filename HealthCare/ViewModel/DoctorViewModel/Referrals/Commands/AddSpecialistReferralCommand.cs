@@ -45,9 +45,9 @@ namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands
         private string SpecializationReferral() {
             
             string specialization = _specialistReferralViewModel.Specialization;
-            if(_doctorService.GetFirstBySpecialization(specialization) is Doctor doctor)
+            if(_doctorService.GetFirstBySpecialization(specialization) is string jmbg)
             {
-                return doctor.JMBG;
+                return jmbg;
             }
             throw new ValidationException("Za datu specijalizaciju ne postoji trenutno doktor");
 

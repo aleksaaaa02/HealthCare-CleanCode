@@ -172,12 +172,12 @@ namespace HealthCare.View.AppointmentView
             date = date.AddHours(hours);
             date = date.AddMinutes(minutes);
             Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, new TimeSlot(date,new TimeSpan(0,15,0)), false);
-            if (!_schedule.CheckAvailability(doctor.JMBG, patient.JMBG, appointment.TimeSlot))
+            if (!_schedule.IsAvailable(appointment))
             {
                 ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
                 return;
             }
-            _appointmentService.Add(appointment);
+            _schedule.Add(appointment);
             ViewUtil.ShowInformation("Uspesno dodat pregled");
             WriteActionToFile("CREATE");
             LoadData();
@@ -272,7 +272,8 @@ namespace HealthCare.View.AppointmentView
             Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, new TimeSlot(date, new TimeSpan(0, 15, 0)), false);
             Appointment appointment2 = ((AppointmentViewModel)appListView.SelectedItem).Appointment;
             appointment.AppointmentID = appointment2.AppointmentID;
-            if (!_schedule.CheckAvailability(doctor.JMBG, patient.JMBG,appointment.TimeSlot))
+            appointment.RoomID = appointment2.RoomID;
+            if (!_schedule.IsAvailable(appointment))
             {
                 ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
                 return;

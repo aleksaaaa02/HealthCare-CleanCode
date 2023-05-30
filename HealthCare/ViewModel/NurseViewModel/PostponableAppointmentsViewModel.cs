@@ -20,7 +20,7 @@ namespace HealthCare.ViewModel.NurseViewModel
             for (int i = 0; i < Math.Min(5, postponable.Count); i++)
                     Appointments.Add(new AppointmentViewModel(
                         postponable[i],
-                        _schedule.GetSoonestStartingTime(postponable[i])));
+                        _schedule.GetSoonestTimeSlot(postponable[i]).Start));
 
         }
     }

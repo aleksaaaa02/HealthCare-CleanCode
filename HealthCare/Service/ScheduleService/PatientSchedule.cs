@@ -7,10 +7,10 @@ using System.Linq;
 
 namespace HealthCare.Service.ScheduleService
 {
-    public class PatientSchedule : IAvailable<string>
+    public class PatientSchedule : ScheduleBase<string>, IAppointmentAvailable
     {
         private AppointmentService _appointmentService;
-        private List<IAvailable<string>> _availabilityValidators;
+
         public PatientSchedule()
         {
             _appointmentService = Injector.GetService<AppointmentService>();
@@ -19,17 +19,18 @@ namespace HealthCare.Service.ScheduleService
             };
         }
 
-        public bool IsAvailable(string key, TimeSlot timeSlot)
-        {
-            return _availabilityValidators.All(x => x.IsAvailable(key, timeSlot));
-        }
-        public Appointment? TryGetReceptionAppointment(Patient patient)
+        public Appointment? TryGetReceptionAppointment(string patientJMBG)
         {
             TimeSlot reception = new TimeSlot(DateTime.Now, new TimeSpan(0, 15, 0));
 
-            return _appointmentService.GetByPatient(patient.JMBG).Find(x =>
-                    !x.IsOperation && reception.Contains(x.TimeSlot.Start));
+            return _appointmentService
+                .GetByPatient(patientJMBG)
+                .Find(x => !x.IsOperation && reception.Contains(x.TimeSlot.Start));
         }
 
+        public bool IsAvailable(Appointment appointment)
+        {
+            return IsAvailable(appointment.PatientJMBG, appointment.TimeSlot);
+        }
     }
 }

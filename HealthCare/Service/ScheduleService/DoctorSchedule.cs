@@ -7,10 +7,10 @@ using System.Linq;
 
 namespace HealthCare.Service.ScheduleService
 {
-    public class DoctorSchedule : IAvailable<string>
+    public class DoctorSchedule : ScheduleBase<string>, IAppointmentAvailable
     {
         private AppointmentService _appointmentService;
-        private List<IAvailable<string>> _availabilityValidators = new List<IAvailable<string>> ();
+
         public DoctorSchedule() 
         {
             _appointmentService = Injector.GetService<AppointmentService>();
@@ -19,20 +19,19 @@ namespace HealthCare.Service.ScheduleService
             };
         }
 
-        public bool IsAvailable(string key, TimeSlot timeSlot)
-        {
-            return _availabilityValidators.All(x => x.IsAvailable(key, timeSlot));
-        }
         public List<Appointment> GetAppointmentsForDays(Doctor doctor, DateTime start, int days)
         {
             DateTime end = start.AddDays(days);
-            return _appointmentService.GetByDoctor(doctor.JMBG)
-                .Where(x => x.TimeSlot.InBetweenDates(start, end)).ToList();
+            return _appointmentService
+                .GetByDoctor(doctor.JMBG)
+                .Where(x => x.TimeSlot.InBetweenDates(start, end))
+                .ToList();
         }
 
-        public List<Appointment> GetPostponable(TimeSpan duration, Doctor specialist)
+        public List<Appointment> GetPostponable(TimeSpan duration, string doctorJmbg)
         {
-            var postponable =  _appointmentService.GetByDoctor(specialist.JMBG).FindAll(x => x.TimeSlot.Start >= DateTime.Now);
+            var postponable = _appointmentService.GetByDoctor(doctorJmbg)
+                .Where(x => x.TimeSlot.Start > DateTime.Now).ToList();
             return FilterPostponable(duration, postponable);
         }
 
@@ -51,6 +50,9 @@ namespace HealthCare.Service.ScheduleService
             return filtered;
         }
 
-
+        public bool IsAvailable(Appointment appointment)
+        {
+            return IsAvailable(appointment.DoctorJMBG, appointment.TimeSlot);
+        }
     }
 }

@@ -13,24 +13,27 @@ namespace HealthCare.Service
         {
             return GetAll().Where(x => x.DoctorJMBG == doctorJMBG).ToList();
         }
+
         public List<Appointment> GetByPatient(string patientJMBG)
         {
             return GetAll().Where(x => x.PatientJMBG == patientJMBG).ToList();
         }
-        public List<Appointment> GetPossibleIntersections(Appointment appointment)
+
+        public List<Appointment> GetOverlapping(Appointment appointment)
         {
             return GetAll().FindAll(x =>
-                        x.AppointmentID != appointment.AppointmentID &&
-                        (x.PatientJMBG.Equals(appointment.PatientJMBG) ||
-                        x.DoctorJMBG.Equals(appointment.DoctorJMBG)) &&
-                        x.TimeSlot.Overlaps(appointment.TimeSlot));
+                x.AppointmentID != appointment.AppointmentID &&
+                x.TimeSlot.Overlaps(appointment.TimeSlot) && (
+                x.PatientJMBG.Equals(appointment.PatientJMBG) ||
+                x.DoctorJMBG.Equals(appointment.DoctorJMBG) ||
+                x.RoomID.Equals(appointment.RoomID)));
         }
         public List<string> GetExaminedPatients(string doctorJMBG)
         {
-            return GetAll().Where(x => x.DoctorJMBG == doctorJMBG)
+            return GetAll()
+                .Where(x => x.DoctorJMBG == doctorJMBG)
                 .Select(x => x.PatientJMBG)
                 .Distinct().ToList();    
         }
-
     }
 }

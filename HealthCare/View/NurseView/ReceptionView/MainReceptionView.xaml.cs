@@ -34,7 +34,7 @@ namespace HealthCare.View.ReceptionView
                 return;
             }
 
-            Appointment? starting = _patientSchedule.TryGetReceptionAppointment(patient);
+            Appointment? starting = _patientSchedule.TryGetReceptionAppointment(patient.JMBG);
             if (starting is null)
             {
                 ViewUtil.ShowWarning("Pacijent nema preglede u narednih 15 minuta.");

@@ -174,12 +174,12 @@ namespace HealthCare.View.AppointmentView
                 return;
             }
             Appointment appointment = (Appointment)appointmentListView.SelectedItem;
-            if (!_schedule.CheckAvailability(appointment.DoctorJMBG, appointment.PatientJMBG, appointment.TimeSlot))
+            if (!_schedule.IsAvailable(appointment))
             {
                 ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
                 return;
             }
-            _appointmentService.Add(appointment);
+            _schedule.Add(appointment);
             ViewUtil.ShowInformation("Uspesno dodat pregled");
             WriteAction("CREATE");
             model.IsUserBlocked();

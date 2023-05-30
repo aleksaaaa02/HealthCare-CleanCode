@@ -10,12 +10,13 @@ namespace HealthCare.Service
     {
         public DoctorService(IRepository<Doctor> repository) : base(repository) { }
 
-        public List<Doctor> GetBySpecialization(string specialization)
+        public List<string> GetBySpecialization(string specialization)
         {
-            return GetAll().Where(x => x.IsCapable(specialization)).ToList();
+            return GetAll().Where(x => x.IsCapable(specialization))
+                .Select(x => x.JMBG).ToList();
         }
 
-        public Doctor? GetFirstBySpecialization(string specialization)
+        public string? GetFirstBySpecialization(string specialization)
         {
             return GetBySpecialization(specialization).FirstOrDefault();
         }
