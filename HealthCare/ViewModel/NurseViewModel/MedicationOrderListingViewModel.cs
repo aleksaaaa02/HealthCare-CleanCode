@@ -1,24 +1,25 @@
-﻿using HealthCare.Application;
+﻿using System.Collections.ObjectModel;
+using HealthCare.Application;
 using HealthCare.Service;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
-using System.Collections.ObjectModel;
 
 namespace HealthCare.ViewModel.NurseViewModel
 {
-    public class MedicationOrderListingViewModel:ViewModelBase
+    public class MedicationOrderListingViewModel : ViewModelBase
     {
-        private readonly MedicationService _medicationService;
         private readonly InventoryService _inventoryService;
+        private readonly MedicationService _medicationService;
 
-        public ObservableCollection<OrderMedicationViewModel> Items { get; }
-
-        public MedicationOrderListingViewModel() {
+        public MedicationOrderListingViewModel()
+        {
             _medicationService = Injector.GetService<MedicationService>();
             _inventoryService = Injector.GetService<InventoryService>(Injector.MEDICATION_INVENTORY_S);
 
             Items = new ObservableCollection<OrderMedicationViewModel>();
             LoadAll();
         }
+
+        public ObservableCollection<OrderMedicationViewModel> Items { get; }
 
         public void LoadAll()
         {
@@ -29,7 +30,6 @@ namespace HealthCare.ViewModel.NurseViewModel
                 var quantity = _inventoryService.GetTotalQuantity(id);
                 Items.Add(new OrderMedicationViewModel(medication, quantity));
             }
-
         }
     }
 }

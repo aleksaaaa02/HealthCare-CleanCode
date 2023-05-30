@@ -1,25 +1,30 @@
-﻿using HealthCare.Repository;
+﻿using System.Collections.Generic;
+using HealthCare.Repository;
 using HealthCare.View;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace HealthCare.Model
 {
     public class Therapy : RepositoryItem
     {
-        public override object Key { get => Id; set => Id = (int)value; }
-        public int Id { get; set; }
-        public List<int> InitialMedication { get; set; } 
-        public string PatientJMBG { get; set; }
+        public Therapy() : this(new(), "")
+        {
+        }
 
-        public Therapy() : this(new(), "") { }
-
-        public Therapy(List<int> initialMedication, string patientJMBG) 
+        public Therapy(List<int> initialMedication, string patientJMBG)
         {
             InitialMedication = initialMedication;
             PatientJMBG = patientJMBG;
         }
+
+        public override object Key
+        {
+            get => Id;
+            set => Id = (int)value;
+        }
+
+        public int Id { get; set; }
+        public List<int> InitialMedication { get; set; }
+        public string PatientJMBG { get; set; }
 
         public override void Deserialize(string[] values)
         {
@@ -31,7 +36,7 @@ namespace HealthCare.Model
 
         public override string[] Serialize()
         {
-            return new string[] { Id.ToString(), PatientJMBG, string.Join('|', InitialMedication)};
+            return new string[] { Id.ToString(), PatientJMBG, string.Join('|', InitialMedication) };
         }
     }
 }

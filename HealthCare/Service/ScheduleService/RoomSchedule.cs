@@ -1,8 +1,8 @@
-﻿using HealthCare.Application;
+﻿using System.Collections.Generic;
+using System.Linq;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service.ScheduleService.Availability;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace HealthCare.Service.ScheduleService
 {
@@ -13,15 +13,23 @@ namespace HealthCare.Service.ScheduleService
         public RoomSchedule()
         {
             _roomService = Injector.GetService<RoomService>();
-            _availabilityValidators = new List<IAvailable<int>> {
-               new RoomRenovationAvailable(),
-               new RoomAppointmentAvailable()
+            _availabilityValidators = new List<IAvailable<int>>
+            {
+                new RoomRenovationAvailable(),
+                new RoomAppointmentAvailable()
             };
+        }
+
+        public bool IsAvailable(Appointment appointment)
+        {
+            return appointment.RoomID == 0 ||
+                   IsAvailable(appointment.RoomID, appointment.TimeSlot);
         }
 
         public void SetFirstAvailableRoom(Appointment appointment)
         {
-            RoomType type = appointment.IsOperation ? RoomType.Operational 
+            RoomType type = appointment.IsOperation
+                ? RoomType.Operational
                 : RoomType.Examinational;
 
             appointment.RoomID = _roomService
@@ -29,12 +37,6 @@ namespace HealthCare.Service.ScheduleService
                 .Where(r => IsAvailable(r.Id, appointment.TimeSlot))
                 .Select(r => r.Id)
                 .FirstOrDefault(0);
-        }
-
-        public bool IsAvailable(Appointment appointment)
-        {
-            return appointment.RoomID == 0 || 
-                IsAvailable(appointment.RoomID, appointment.TimeSlot);
         }
     }
 }

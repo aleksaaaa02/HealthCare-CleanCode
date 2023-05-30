@@ -1,12 +1,13 @@
-﻿using HealthCare.Repository;
-using HealthCare.Serialize;
-using System.Linq;
+﻿using System.Linq;
+using HealthCare.Repository;
 
 namespace HealthCare.Service
 {
     public abstract class NumericService<T> : Service<T> where T : RepositoryItem
     {
-        public NumericService(IRepository<T> repository) : base(repository) { }
+        public NumericService(IRepository<T> repository) : base(repository)
+        {
+        }
 
         public new int Add(T item)
         {

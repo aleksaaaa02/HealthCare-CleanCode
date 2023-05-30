@@ -1,14 +1,14 @@
-﻿using HealthCare.Application;
+﻿using System;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Repository;
-using System;
 
 namespace HealthCare.Service
 {
     public class OrderService : NumericService<OrderItem>
     {
-        private readonly RoomService _roomService;
         private readonly InventoryService _inventory;
+        private readonly RoomService _roomService;
 
         public OrderService(IRepository<OrderItem> repository, InventoryService inventory) : base(repository)
         {
@@ -33,8 +33,9 @@ namespace HealthCare.Service
 
         public void ExecuteAll()
         {
-            GetAll().ForEach(x => {
-                if (!x.Executed && x.Scheduled <= DateTime.Now) 
+            GetAll().ForEach(x =>
+            {
+                if (!x.Executed && x.Scheduled <= DateTime.Now)
                     Execute(x);
             });
         }

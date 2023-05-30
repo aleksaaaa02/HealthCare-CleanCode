@@ -5,12 +5,20 @@ namespace HealthCare.Exceptions
 {
     public class WrongPasswordException : LoginException
     {
-        public WrongPasswordException() : this("Pogresna lozinka. Pokusajte ponovo.") { }
+        public WrongPasswordException() : this("Pogresna lozinka. Pokusajte ponovo.")
+        {
+        }
 
-        public WrongPasswordException(string? message) : base(message) { }
+        public WrongPasswordException(string? message) : base(message)
+        {
+        }
 
-        public WrongPasswordException(string? message, Exception? innerException) : base(message, innerException) { }
+        public WrongPasswordException(string? message, Exception? innerException) : base(message, innerException)
+        {
+        }
 
-        protected WrongPasswordException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        protected WrongPasswordException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
     }
 }

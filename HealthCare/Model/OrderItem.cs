@@ -1,19 +1,15 @@
-﻿using HealthCare.Application.Common;
+﻿using System;
+using HealthCare.Application.Common;
 using HealthCare.Repository;
-using HealthCare.Serialize;
-using System;
 
 namespace HealthCare.Model
 {
     public class OrderItem : RepositoryItem
     {
-        public int Id { get; set; }
-        public int ItemId { get; set; }
-        public int Quantity { get; set; }
-        public DateTime Scheduled { get; set; }
-        public bool Executed { get; set; }
+        public OrderItem() : this(0, 0, DateTime.MinValue, false)
+        {
+        }
 
-        public OrderItem() : this(0, 0, DateTime.MinValue, false) { }
         public OrderItem(int equipmentId, int quantity, DateTime scheduled, bool executed)
         {
             Id = 0;
@@ -23,6 +19,12 @@ namespace HealthCare.Model
             Executed = executed;
         }
 
+        public int Id { get; set; }
+        public int ItemId { get; set; }
+        public int Quantity { get; set; }
+        public DateTime Scheduled { get; set; }
+        public bool Executed { get; set; }
+
         public override object Key
         {
             get => Id;
@@ -31,10 +33,12 @@ namespace HealthCare.Model
 
         public override string[] Serialize()
         {
-            return new string[] { 
-                Id.ToString(), ItemId.ToString(), 
-                Quantity.ToString(), Util.ToString(Scheduled), 
-                Executed.ToString() };
+            return new string[]
+            {
+                Id.ToString(), ItemId.ToString(),
+                Quantity.ToString(), Util.ToString(Scheduled),
+                Executed.ToString()
+            };
         }
 
         public override void Deserialize(string[] values)

@@ -1,8 +1,8 @@
-﻿using HealthCare.Application;
+﻿using System.Collections.Generic;
+using System.Linq;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service.RenovationService;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace HealthCare.Service.ScheduleService.Availability
 {

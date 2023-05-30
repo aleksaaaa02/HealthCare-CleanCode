@@ -1,13 +1,15 @@
-﻿using HealthCare.Model;
-using HealthCare.Repository;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using HealthCare.Model;
+using HealthCare.Repository;
 
 namespace HealthCare.Service
 {
     public class SpecialistReferralService : NumericService<SpecialistReferral>
     {
-        public SpecialistReferralService(IRepository<SpecialistReferral> repository) : base(repository) { }
+        public SpecialistReferralService(IRepository<SpecialistReferral> repository) : base(repository)
+        {
+        }
 
         public List<SpecialistReferral> GetPatientsReferrals(string patientJMBG)
         {

@@ -7,19 +7,24 @@ namespace HealthCare.Service
 {
     public enum Role
     {
-        Patient, Doctor, Nurse, Manager
+        Patient,
+        Doctor,
+        Nurse,
+        Manager
     }
 
     public class LoginService
     {
-        private readonly IRepository<Patient> _patientRepository;
+        private const string ADMIN_USER = "admin";
+        private const string ADMIN_PASS = "admin";
         private readonly IRepository<Doctor> _doctorRepository;
         private readonly IRepository<User> _nurseRepository;
+        private readonly IRepository<Patient> _patientRepository;
 
         public LoginService(
-            IRepository<Patient> patientRepository, 
-            IRepository<Doctor> doctorRepository, 
-            IRepository<User> nurseRepository) 
+            IRepository<Patient> patientRepository,
+            IRepository<Doctor> doctorRepository,
+            IRepository<User> nurseRepository)
         {
             _patientRepository = patientRepository;
             _doctorRepository = doctorRepository;
@@ -57,8 +62,5 @@ namespace HealthCare.Service
 
             throw new UsernameNotFoundException();
         }
-
-        private const string ADMIN_USER = "admin";
-        private const string ADMIN_PASS = "admin";
     }
 }

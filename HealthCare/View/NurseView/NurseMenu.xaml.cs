@@ -1,14 +1,15 @@
-﻿using HealthCare.View.NurseView.ReferralView;
+﻿using System.ComponentModel;
+using System.Windows;
+using HealthCare.View.NurseView.ReferralView;
 using HealthCare.View.ReceptionView;
 using HealthCare.View.UrgentAppointmentView;
-using System.ComponentModel;
-using System.Windows;
 
 namespace HealthCare.View.NurseView
 {
     public partial class NurseMenu : Window
     {
         private MainWindow _window;
+
         public NurseMenu(MainWindow window)
         {
             InitializeComponent();

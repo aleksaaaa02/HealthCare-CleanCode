@@ -1,6 +1,6 @@
-﻿using HealthCare.Application;
+﻿using System.Linq;
+using HealthCare.Application;
 using HealthCare.Model;
-using System.Linq;
 
 namespace HealthCare.Service.ScheduleService.Availability
 {

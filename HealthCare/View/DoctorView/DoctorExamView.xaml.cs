@@ -1,6 +1,6 @@
-﻿using HealthCare.Model;
+﻿using System.Windows;
+using HealthCare.Model;
 using HealthCare.ViewModel.DoctorViewModel.Examination;
-using System.Windows;
 
 namespace HealthCare.View.DoctorView
 {

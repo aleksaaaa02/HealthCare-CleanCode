@@ -1,17 +1,20 @@
-﻿using HealthCare.Model;
+﻿using System;
+using System.Collections.Generic;
 using HealthCare.Model.Renovation;
 using HealthCare.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace HealthCare.Service.RenovationService
 {
     public class BasicRenovationService : NumericService<RenovationBase>, IRenovationService
     {
-        public BasicRenovationService(IRepository<RenovationBase> repository) : base(repository) 
+        public BasicRenovationService(IRepository<RenovationBase> repository) : base(repository)
         {
             ExecuteAll();
+        }
+
+        public IEnumerable<RenovationBase> GetRenovations()
+        {
+            return GetAll();
         }
 
         public void Execute(RenovationBase renovation)
@@ -22,15 +25,11 @@ namespace HealthCare.Service.RenovationService
 
         public void ExecuteAll()
         {
-            GetAll().ForEach(x => {
+            GetAll().ForEach(x =>
+            {
                 if (!x.Executed && x.Scheduled.End <= DateTime.Now)
                     Execute(x);
             });
-        }
-
-        public IEnumerable<RenovationBase> GetRenovations()
-        {
-            return GetAll();
         }
     }
 }

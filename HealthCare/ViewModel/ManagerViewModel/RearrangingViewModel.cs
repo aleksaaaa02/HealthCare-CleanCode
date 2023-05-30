@@ -1,21 +1,17 @@
-﻿using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using HealthCare.Application;
+using HealthCare.Model;
+using HealthCare.Service;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {
     public class RearrangingViewModel
     {
-        private readonly InventoryService _inventoryService;
         private readonly EquipmentService _equipmentService;
+        private readonly InventoryService _inventoryService;
         private readonly RoomService _roomService;
-
-        public ObservableCollection<InventoryItemViewModel> FromRooms { get; }
-        public ObservableCollection<InventoryItemViewModel> ToRooms { get; }
-        public List<Equipment> Equipment => _equipmentService.GetAll();
 
         public RearrangingViewModel()
         {
@@ -26,6 +22,10 @@ namespace HealthCare.ViewModel.ManagerViewModel
             ToRooms = new ObservableCollection<InventoryItemViewModel>();
         }
 
+        public ObservableCollection<InventoryItemViewModel> FromRooms { get; }
+        public ObservableCollection<InventoryItemViewModel> ToRooms { get; }
+        public List<Equipment> Equipment => _equipmentService.GetAll();
+
         public void Load(Equipment equipment)
         {
             FromRooms.Clear();
@@ -33,12 +33,13 @@ namespace HealthCare.ViewModel.ManagerViewModel
             var fromRooms = new List<InventoryItemViewModel>();
             var toRooms = new List<InventoryItemViewModel>();
 
-            foreach (Room room in _roomService.GetAll()) {
+            foreach (Room room in _roomService.GetAll())
+            {
                 var found = _inventoryService.SearchByEquipmentAndRoom(equipment.Id, room.Id);
 
                 if (found is not null && found.Quantity > 0)
                     fromRooms.Add(new InventoryItemViewModel(found, equipment, room));
-                else 
+                else
                     found = new InventoryItem(0, equipment.Id, room.Id, 0);
 
                 toRooms.Add(new InventoryItemViewModel(found, equipment, room));
@@ -48,7 +49,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
             Sort(toRooms).ForEach(model => ToRooms.Add(model));
         }
 
-        public List<InventoryItemViewModel> Sort(List<InventoryItemViewModel> items, int order=1)
+        public List<InventoryItemViewModel> Sort(List<InventoryItemViewModel> items, int order = 1)
         {
             IEnumerable<InventoryItemViewModel> sorted;
             if (order == -1)

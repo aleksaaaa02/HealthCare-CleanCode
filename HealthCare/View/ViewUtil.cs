@@ -1,10 +1,9 @@
-﻿using HealthCare.Application.Common;
-using HealthCare.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Documents;
+using HealthCare.Application.Common;
+using HealthCare.Model;
 
 namespace HealthCare.View
 {
@@ -50,7 +49,7 @@ namespace HealthCare.View
 
         public static string Translate(EquipmentType type)
         {
-            switch(type)
+            switch (type)
             {
                 case EquipmentType.Examinational:
                     return "za preglede";
@@ -105,8 +104,8 @@ namespace HealthCare.View
         public static List<int> GetIntList(string text, char delimiter = ',')
         {
             return Array.ConvertAll(
-                text.Split(delimiter).Select(x => x.Trim())
-                .ToArray(), int.Parse)
+                    text.Split(delimiter).Select(x => x.Trim())
+                        .ToArray(), int.Parse)
                 .ToList();
         }
 

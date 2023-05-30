@@ -4,11 +4,6 @@ namespace HealthCare.ViewModel.NurseViewModel.DataViewModel
 {
     public class ReferralViewModel
     {
-        public SpecialistReferral SpecialistReferral { get; set; }
-        public string FromName { get; set; }
-        public string ToName { get; set; }
-        public string ReferredSpecialty { get; set; }
-
         public ReferralViewModel(SpecialistReferral referral, Doctor from, Doctor to)
         {
             SpecialistReferral = referral;
@@ -16,5 +11,10 @@ namespace HealthCare.ViewModel.NurseViewModel.DataViewModel
             ToName = to.Name + " " + to.LastName;
             ReferredSpecialty = to.Specialization;
         }
+
+        public SpecialistReferral SpecialistReferral { get; set; }
+        public string FromName { get; set; }
+        public string ToName { get; set; }
+        public string ReferredSpecialty { get; set; }
     }
 }

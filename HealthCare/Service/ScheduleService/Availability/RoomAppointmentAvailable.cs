@@ -1,11 +1,6 @@
-﻿using HealthCare.Application;
+﻿using System.Linq;
+using HealthCare.Application;
 using HealthCare.Model;
-using HealthCare.Service.RenovationService;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCare.Service.ScheduleService.Availability
 {

@@ -1,18 +1,17 @@
-﻿using HealthCare.Application;
+﻿using System.Windows;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.Service.ScheduleService;
 using HealthCare.View.NurseView;
-using HealthCare.View.PatientView;
-using System.Windows;
-using HealthCare.View.NurseView;
 
 namespace HealthCare.View.ReceptionView
 {
-    public partial class MainReceptionView : Window 
+    public partial class MainReceptionView : Window
     {
-        private readonly PatientService _patientService;
         private readonly PatientSchedule _patientSchedule;
+        private readonly PatientService _patientService;
+
         public MainReceptionView()
         {
             InitializeComponent();
@@ -30,7 +29,7 @@ namespace HealthCare.View.ReceptionView
             string JMBG = tbJMBG.Text.Trim();
             Patient? patient = _patientService.TryGet(JMBG);
 
-            if(patient is null)
+            if (patient is null)
             {
                 new CreatePatientView(JMBG).ShowDialog();
                 return;
@@ -42,6 +41,7 @@ namespace HealthCare.View.ReceptionView
                 ViewUtil.ShowWarning("Pacijent nema preglede u narednih 15 minuta.");
                 return;
             }
+
             new NurseAnamnesisView(starting.AppointmentID, patient).ShowDialog();
         }
     }

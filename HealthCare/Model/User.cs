@@ -1,7 +1,7 @@
-﻿using HealthCare.Application.Common;
+﻿using System;
+using HealthCare.Application.Common;
 using HealthCare.Repository;
 using HealthCare.Serialize;
-using System;
 
 namespace HealthCare.Model
 {
@@ -10,20 +10,15 @@ namespace HealthCare.Model
         Male,
         Female
     }
+
     public class User : RepositoryItem
     {
-        public string Name { get; set; }
-        public string LastName { get; set; }
-        public string JMBG { get; set; }
-        public DateTime BirthDate { get; set; }
-        public string PhoneNumber {get; set; }
-        public string Address { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public Gender Gender { get; set; }
+        public User() : this("", "", "", DateTime.MinValue, "", "", "", "", Gender.Female)
+        {
+        }
 
-        public User() : this("", "", "", DateTime.MinValue, "", "", "", "", Gender.Female) { }
-        public User(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address, string userName, string password, Gender gender)
+        public User(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address,
+            string userName, string password, Gender gender)
         {
             Name = name;
             LastName = lastName;
@@ -36,6 +31,16 @@ namespace HealthCare.Model
             Gender = gender;
         }
 
+        public string Name { get; set; }
+        public string LastName { get; set; }
+        public string JMBG { get; set; }
+        public DateTime BirthDate { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Address { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public Gender Gender { get; set; }
+
         public override object Key
         {
             get => JMBG;
@@ -44,9 +49,11 @@ namespace HealthCare.Model
 
         public override string[] Serialize()
         {
-            return new string[] { 
-                Name, LastName, JMBG, Util.ToString(BirthDate), 
-                PhoneNumber, Address, Username, Password, Gender.ToString() };
+            return new string[]
+            {
+                Name, LastName, JMBG, Util.ToString(BirthDate),
+                PhoneNumber, Address, Username, Password, Gender.ToString()
+            };
         }
 
         public override void Deserialize(string[] values)

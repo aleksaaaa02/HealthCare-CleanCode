@@ -1,20 +1,19 @@
-﻿using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Model.Renovation;
-using HealthCare.Service;
-using HealthCare.Service.RenovationService;
-using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using HealthCare.Application;
+using HealthCare.Model;
+using HealthCare.Model.Renovation;
+using HealthCare.Service.RenovationService;
+using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 
 namespace HealthCare.View.ManagerView.RenovationView
 {
     public partial class JoiningRenovationView : Window
     {
         private readonly JoiningRenovationService _joiningRenovationService;
-        private readonly TimeSlot _scheduled;
         private readonly int _room1, _room2;
+        private readonly TimeSlot _scheduled;
 
         public JoiningRenovationView(List<RoomViewModel> rooms, TimeSlot scheduled)
         {
@@ -58,6 +57,5 @@ namespace HealthCare.View.ManagerView.RenovationView
         {
             Close();
         }
-
     }
 }

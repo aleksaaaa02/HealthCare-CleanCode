@@ -1,6 +1,6 @@
-﻿using HealthCare.Model;
+﻿using System.Windows;
+using HealthCare.Model;
 using HealthCare.ViewModel.DoctorViewModel.Prescriptions;
-using System.Windows;
 
 namespace HealthCare.View.DoctorView.PrescriptionView
 {

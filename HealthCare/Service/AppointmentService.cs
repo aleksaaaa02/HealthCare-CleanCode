@@ -1,13 +1,15 @@
-﻿using HealthCare.Model;
-using HealthCare.Repository;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using HealthCare.Model;
+using HealthCare.Repository;
 
 namespace HealthCare.Service
 {
     public class AppointmentService : NumericService<Appointment>
     {
-        public AppointmentService(IRepository<Appointment> repository) : base(repository) { }
+        public AppointmentService(IRepository<Appointment> repository) : base(repository)
+        {
+        }
 
         public List<Appointment> GetByDoctor(string doctorJMBG)
         {
@@ -24,16 +26,17 @@ namespace HealthCare.Service
             return GetAll().FindAll(x =>
                 x.AppointmentID != appointment.AppointmentID &&
                 x.TimeSlot.Overlaps(appointment.TimeSlot) && (
-                x.PatientJMBG.Equals(appointment.PatientJMBG) ||
-                x.DoctorJMBG.Equals(appointment.DoctorJMBG) ||
-                x.RoomID.Equals(appointment.RoomID)));
+                    x.PatientJMBG.Equals(appointment.PatientJMBG) ||
+                    x.DoctorJMBG.Equals(appointment.DoctorJMBG) ||
+                    x.RoomID.Equals(appointment.RoomID)));
         }
+
         public List<string> GetExaminedPatients(string doctorJMBG)
         {
             return GetAll()
                 .Where(x => x.DoctorJMBG == doctorJMBG)
                 .Select(x => x.PatientJMBG)
-                .Distinct().ToList();    
+                .Distinct().ToList();
         }
     }
 }

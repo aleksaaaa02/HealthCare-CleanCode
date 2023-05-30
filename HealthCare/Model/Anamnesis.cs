@@ -1,15 +1,11 @@
-﻿using HealthCare.Repository;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using HealthCare.Repository;
 
 namespace HealthCare.Model
 {
     public class Anamnesis : RepositoryItem
     {
-        public int ID { get; set; }
-        public string DoctorsObservations { get; set; }
-        public List<string> Symptoms { get; set; }
-
         public Anamnesis()
         {
             ID = 0;
@@ -23,6 +19,10 @@ namespace HealthCare.Model
             DoctorsObservations = doctorsObservations;
             Symptoms = symptoms;
         }
+
+        public int ID { get; set; }
+        public string DoctorsObservations { get; set; }
+        public List<string> Symptoms { get; set; }
 
         public override object Key
         {

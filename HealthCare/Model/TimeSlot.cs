@@ -1,23 +1,31 @@
-﻿using HealthCare.Application.Common;
-using HealthCare.Serialize;
-using System;
+﻿using System;
+using HealthCare.Application.Common;
 
 namespace HealthCare.Model
 {
     public class TimeSlot
     {
-        public DateTime Start { get; set; }
-        public TimeSpan Duration { get; set; }
-        public DateTime End => Start + Duration;
+        public TimeSlot() : this(DateTime.MinValue, TimeSpan.Zero)
+        {
+        }
 
-        public TimeSlot() : this(DateTime.MinValue, TimeSpan.Zero) { }
-        public TimeSlot(TimeSlot other) : this(other.Start, other.Duration) { }
-        public TimeSlot(DateTime start, DateTime end) : this(start, end-start) { }
+        public TimeSlot(TimeSlot other) : this(other.Start, other.Duration)
+        {
+        }
+
+        public TimeSlot(DateTime start, DateTime end) : this(start, end - start)
+        {
+        }
+
         public TimeSlot(DateTime start, TimeSpan duration)
         {
             Start = start;
             Duration = duration;
         }
+
+        public DateTime Start { get; set; }
+        public TimeSpan Duration { get; set; }
+        public DateTime End => Start + Duration;
 
         public bool Overlaps(TimeSlot term)
         {

@@ -1,4 +1,7 @@
-﻿using HealthCare.Application;
+﻿using System;
+using System.Linq;
+using System.Windows;
+using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Model.Renovation;
@@ -7,9 +10,6 @@ using HealthCare.Service.ScheduleService;
 using HealthCare.View.ManagerView.RenovationView;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModel.ManagerViewModel;
-using System;
-using System.Linq;
-using System.Windows;
 
 namespace HealthCare.View.ManagerView
 {
@@ -79,6 +79,7 @@ namespace HealthCare.View.ManagerView
                 ViewUtil.ShowWarning(ve.Message);
                 return false;
             }
+
             return true;
         }
 
@@ -124,7 +125,7 @@ namespace HealthCare.View.ManagerView
         {
             if (!IsValid()) return;
 
-            var roomModel = (RoomViewModel) lvRooms.SelectedItem;
+            var roomModel = (RoomViewModel)lvRooms.SelectedItem;
             var scheduled = GetScheduled();
 
             new SplittingRenovationView(roomModel, scheduled).ShowDialog();
@@ -141,7 +142,7 @@ namespace HealthCare.View.ManagerView
 
             btnJoin.IsEnabled = selected.Count == 2;
             btnSplit.IsEnabled = (cbComplex.IsChecked ?? false)
-                && selected.Count < 2;
+                                 && selected.Count < 2;
         }
 
         private void cbComplex_Checked(object sender, RoutedEventArgs e)

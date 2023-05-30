@@ -1,22 +1,21 @@
-﻿using HealthCare.Application;
-using HealthCare.Application.Common;
-using HealthCare.Serialize;
-using HealthCare.Service;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using HealthCare.Application;
+using HealthCare.Application.Common;
+using HealthCare.Service;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {
     public class InventoryListingViewModel : ViewModelBase
     {
-        private readonly InventoryService _inventoryService;
         private readonly EquipmentService _equipmentService;
+        private readonly InventoryService _inventoryService;
         private readonly RoomService _roomService;
-        public ObservableCollection<InventoryItemViewModel> Items { get; }
-        public ObservableCollection<bool> BoxSelectionArgs { get; }
         private List<InventoryItemViewModel> _models;
+
+        private string _searchQuery = "";
 
         public InventoryListingViewModel()
         {
@@ -26,9 +25,23 @@ namespace HealthCare.ViewModel.ManagerViewModel
 
             Items = new ObservableCollection<InventoryItemViewModel>();
             BoxSelectionArgs = new ObservableCollection<bool>();
-            
+
             _models = GetModels();
             LoadAll();
+        }
+
+        public ObservableCollection<InventoryItemViewModel> Items { get; }
+        public ObservableCollection<bool> BoxSelectionArgs { get; }
+
+        public string SearchQuery
+        {
+            get => _searchQuery;
+            set
+            {
+                _searchQuery = value;
+                OnPropertyChanged();
+                Filter();
+            }
         }
 
         public void Filter()
@@ -63,12 +76,12 @@ namespace HealthCare.ViewModel.ManagerViewModel
 
         private List<InventoryItemViewModel> GetModels()
         {
-            return _inventoryService.GetAll().Select(x => 
+            return _inventoryService.GetAll().Select(x =>
                 new InventoryItemViewModel(
-                    x, 
-                    _equipmentService.Get(x.ItemId), 
+                    x,
+                    _equipmentService.Get(x.ItemId),
                     _roomService.Get(x.RoomId)
-            )).ToList();
+                )).ToList();
         }
 
         private void CollectionChanged(object? sender, NotifyCollectionChangedEventArgs args)
@@ -85,18 +98,6 @@ namespace HealthCare.ViewModel.ManagerViewModel
                 BoxSelectionArgs.Add(false);
 
             BoxSelectionArgs.CollectionChanged += CollectionChanged;
-        }
-
-        private string _searchQuery = "";
-        public string SearchQuery
-        {
-            get => _searchQuery;
-            set
-            {
-                _searchQuery = value;
-                OnPropertyChanged();
-                Filter();
-            }
         }
     }
 }

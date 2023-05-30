@@ -1,18 +1,19 @@
-﻿using HealthCare.Application;
+﻿using System.Collections.ObjectModel;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
-using System.Collections.ObjectModel;
 
 namespace HealthCare.ViewModel.NurseViewModel
 {
     public class ReferralListingViewModel
     {
-        public ObservableCollection<ReferralViewModel> Referrals { get; set; }
-        private readonly SpecialistReferralService _specialistReferralService;
         private readonly DoctorService _doctorService;
+        private readonly SpecialistReferralService _specialistReferralService;
         private Patient _patient;
-        public ReferralListingViewModel(Patient patient) {
+
+        public ReferralListingViewModel(Patient patient)
+        {
             Referrals = new ObservableCollection<ReferralViewModel>();
             _specialistReferralService = Injector.GetService<SpecialistReferralService>();
             _doctorService = Injector.GetService<DoctorService>();
@@ -20,7 +21,9 @@ namespace HealthCare.ViewModel.NurseViewModel
             _patient = patient;
 
             Update();
-        }    
+        }
+
+        public ObservableCollection<ReferralViewModel> Referrals { get; set; }
 
         public void Update()
         {

@@ -1,18 +1,18 @@
-﻿using HealthCare.Application;
+﻿using System.Windows;
+using System.Windows.Documents;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
-using System.Windows;
-using System.Windows.Documents;
 
 namespace HealthCare.View.NurseView
 {
     public partial class NurseAnamnesisView : Window
     {
         private readonly AnamnesisService _anamnesisService;
-        private readonly PatientService _patientService;
-        private readonly AppointmentService _appointmentService;
         private readonly int _appointmentId;
+        private readonly AppointmentService _appointmentService;
         private readonly Patient _patient;
+        private readonly PatientService _patientService;
 
         public NurseAnamnesisView(int appointmentID, Patient patient)
         {
@@ -40,23 +40,23 @@ namespace HealthCare.View.NurseView
             Anamnesis anamnesis = new Anamnesis();
 
             TextRange textRange = new TextRange(
-                   rtbAllergies.Document.ContentStart,
-                   rtbAllergies.Document.ContentEnd);
+                rtbAllergies.Document.ContentStart,
+                rtbAllergies.Document.ContentEnd);
             _patient.MedicalRecord.Allergies = ViewUtil.GetStringList(textRange.Text);
 
             textRange = new TextRange(
-                   rtbSymptoms.Document.ContentStart,
-                   rtbSymptoms.Document.ContentEnd);
+                rtbSymptoms.Document.ContentStart,
+                rtbSymptoms.Document.ContentEnd);
             anamnesis.Symptoms = ViewUtil.GetStringList(textRange.Text);
 
             textRange = new TextRange(
-                   rtbMedicalHistory.Document.ContentStart,
-                   rtbMedicalHistory.Document.ContentEnd);
+                rtbMedicalHistory.Document.ContentStart,
+                rtbMedicalHistory.Document.ContentEnd);
             _patient.MedicalRecord.MedicalHistory = ViewUtil.GetStringList(textRange.Text);
 
             int newID = _anamnesisService.Add(anamnesis);
-            
-            Appointment appointment = _appointmentService.Get(_appointmentId); 
+
+            Appointment appointment = _appointmentService.Get(_appointmentId);
             appointment.AnamnesisID = newID;
             _appointmentService.Update(appointment);
 

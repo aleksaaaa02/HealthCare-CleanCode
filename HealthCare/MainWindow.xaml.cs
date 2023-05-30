@@ -1,23 +1,21 @@
+using System.ComponentModel;
+using System.Windows;
 using HealthCare.Application;
-using HealthCare.Application.Common;
 using HealthCare.Exceptions;
 using HealthCare.Service;
 using HealthCare.View;
-using HealthCare.View.AppointmentView;
 using HealthCare.View.DoctorView;
 using HealthCare.View.ManagerView;
 using HealthCare.View.NurseView;
 using HealthCare.View.PatientView;
-using System.ComponentModel;
-using System.Windows;
-using HealthCare.View.NurseView;
 
 namespace HealthCare
 {
     public partial class MainWindow : Window
     {
-        private readonly NotificationService _notificationService;
         private readonly LoginService _loginService;
+        private readonly NotificationService _notificationService;
+
         public MainWindow()
         {
             InitializeComponent();

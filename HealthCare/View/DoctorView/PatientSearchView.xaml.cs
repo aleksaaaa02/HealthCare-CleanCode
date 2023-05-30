@@ -1,6 +1,5 @@
-﻿using HealthCare.Application;
+﻿using System.Windows;
 using HealthCare.ViewModel.DoctorViewModel.PatientInformation;
-using System.Windows;
 
 namespace HealthCare.View.DoctorView
 {
@@ -10,7 +9,6 @@ namespace HealthCare.View.DoctorView
         {
             InitializeComponent();
             DataContext = new PatientSearchViewModel();
-
         }
     }
 }

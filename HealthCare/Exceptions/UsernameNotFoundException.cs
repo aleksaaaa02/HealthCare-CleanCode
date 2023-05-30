@@ -5,12 +5,20 @@ namespace HealthCare.Exceptions
 {
     class UsernameNotFoundException : LoginException
     {
-        public UsernameNotFoundException() : this("Nepostojece korisnicko ime. Pokusajte ponovo") { }
+        public UsernameNotFoundException() : this("Nepostojece korisnicko ime. Pokusajte ponovo")
+        {
+        }
 
-        public UsernameNotFoundException(string? message) : base(message) { }
+        public UsernameNotFoundException(string? message) : base(message)
+        {
+        }
 
-        public UsernameNotFoundException(string? message, Exception? innerException) : base(message, innerException) { }
+        public UsernameNotFoundException(string? message, Exception? innerException) : base(message, innerException)
+        {
+        }
 
-        protected UsernameNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        protected UsernameNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
     }
 }

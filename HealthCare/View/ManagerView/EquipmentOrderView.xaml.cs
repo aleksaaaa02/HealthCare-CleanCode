@@ -1,11 +1,11 @@
-﻿using HealthCare.Application;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.ManagerViewModel;
-using System;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace HealthCare.View.ManagerView
 {
@@ -30,9 +30,12 @@ namespace HealthCare.View.ManagerView
 
         private void Button_Order(object sender, RoutedEventArgs e)
         {
-            try {
+            try
+            {
                 Validate();
-            } catch (ValidationException ve) {
+            }
+            catch (ValidationException ve)
+            {
                 ViewUtil.ShowWarning(ve.Message);
                 return;
             }
@@ -50,7 +53,7 @@ namespace HealthCare.View.ManagerView
             var scheduled = DateTime.Now + new TimeSpan(24, 0, 0);
             _orderService.Add(new OrderItem(equipmentId, quantity, scheduled, false));
         }
-        
+
         private void Validate()
         {
             bool someSelected = false;
@@ -61,6 +64,7 @@ namespace HealthCare.View.ManagerView
 
                 someSelected |= item.IsSelected;
             }
+
             if (!someSelected)
                 throw new ValidationException("Nema unetih porudžbina.");
         }

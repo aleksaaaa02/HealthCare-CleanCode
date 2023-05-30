@@ -5,6 +5,8 @@ namespace HealthCare.Service
 {
     public class EquipmentService : NumericService<Equipment>
     {
-        public EquipmentService(IRepository<Equipment> repository) : base(repository) { }
+        public EquipmentService(IRepository<Equipment> repository) : base(repository)
+        {
+        }
     }
 }

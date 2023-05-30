@@ -1,10 +1,10 @@
-﻿using HealthCare.Application;
+﻿using System;
+using System.Windows;
+using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.ManagerViewModel;
-using System;
-using System.Windows;
 
 namespace HealthCare.View.ManagerView
 {
@@ -34,13 +34,18 @@ namespace HealthCare.View.ManagerView
             _model.Load(_selected);
         }
 
-        private void Button_Transfer(object sender, RoutedEventArgs e) {
-            try {
+        private void Button_Transfer(object sender, RoutedEventArgs e)
+        {
+            try
+            {
                 Validate();
-            } catch (ValidationException ve) {
+            }
+            catch (ValidationException ve)
+            {
                 ViewUtil.ShowWarning(ve.Message);
                 return;
             }
+
             if (_selected is null) return;
 
             CreateTransfer();
@@ -60,7 +65,8 @@ namespace HealthCare.View.ManagerView
             var to = ((InventoryItemViewModel)lvToRoom.SelectedItem).Room.Id;
 
             var transfer = new TransferItem(equipment, quantity, DateTime.Now, false, from, to);
-            if (date is null) {
+            if (date is null)
+            {
                 _transferService.Execute(transfer);
                 return;
             }
