@@ -3,6 +3,7 @@ using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.Service.ScheduleService;
+using HealthCare.ViewModel.PatientViewModell;
 using System;
 using System.IO;
 using System.Windows;
@@ -10,7 +11,7 @@ using System.Windows.Controls;
 
 namespace HealthCare.View.AppointmentView
 {
-    public partial class PriorityAppointmentView : Window
+    public partial class PriorityAppointmentView : UserControl
     {
         private readonly Schedule _schedule;
         private readonly AppointmentService _appointmentService;
@@ -186,7 +187,7 @@ namespace HealthCare.View.AppointmentView
 
         public void WriteAction(string action)
         {
-            string stringtocsv = Context.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
+            string stringtocsv = Context.Current.JMBG + "|" + action + "|" + Util.ToString(DateTime.Now) + Environment.NewLine;
             File.AppendAllText(Paths.PATIENT_LOGS, stringtocsv);
         }
     }

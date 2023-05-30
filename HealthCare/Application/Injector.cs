@@ -16,6 +16,8 @@ namespace HealthCare.Application
         {
             { typeof(SpecialistReferralService), new SpecialistReferralService(
                 GetFileRepository<SpecialistReferral> (Paths.SPECIALIST_REFERRALS)) },
+            { typeof(UserNotificationService), new UserNotificationService(
+                GetFileRepository<UserNotification> (Paths.USER_NOTIFICATIONS_REFERRALS)) },
             { typeof(TreatmentReferralService), new TreatmentReferralService(
                 GetFileRepository<TreatmentReferral> (Paths.TREATMENT_REFERRALS)) },
             { typeof(BasicRenovationService), new BasicRenovationService(

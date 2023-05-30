@@ -1,11 +1,10 @@
-﻿<Window x:Class="HealthCare.View.AppointmentView.AppointmentMainView"
+﻿<UserControl x:Class="HealthCare.View.AppointmentView.AppointmentMainView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.AppointmentView"
-        mc:Ignorable="d"
-        Title="AppointmentMainView" Height="500" Width="800">
+        mc:Ignorable="d" Height="500" Width="800">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.5*"/>
@@ -55,15 +54,13 @@
             <ListView x:Name="appListView" Grid.Row="1" SelectionChanged="AppListView_SelectionChanged" SelectionMode="Single">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn  Header="Appointment ID" DisplayMemberBinding="{Binding AppointmentID}"/>
-                        <GridViewColumn  Header="Ime pacijenta" DisplayMemberBinding="{Binding PatientJMBG}"/>
-                        <GridViewColumn  Header="Ime doktora" DisplayMemberBinding="{Binding DoctorJMBG}"/>
-                        <GridViewColumn  Header="Datum pregleda" DisplayMemberBinding="{Binding TimeSlot.Start}"/>
+                        <GridViewColumn  Header="Appointment ID" DisplayMemberBinding="{Binding Appointment.AppointmentID}"/>
+                        <GridViewColumn  Header="Prezime pacijenta" DisplayMemberBinding="{Binding Patient.LastName}"/>
+                        <GridViewColumn  Header="Prezime doktora" DisplayMemberBinding="{Binding Doctor.LastName}"/>
+                        <GridViewColumn  Header="Datum pregleda" DisplayMemberBinding="{Binding Appointment.TimeSlot.Start}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Button x:Name="btnRecord" Content="Prikazi karton" HorizontalAlignment="Left" Margin="415,10,0,0" VerticalAlignment="Top" Click="BtnRecord_Click_1"/>
-            <Button x:Name="btnPriority" Content="Kreiranje sa prioritetom" HorizontalAlignment="Left" Margin="551,10,0,0" VerticalAlignment="Top" Click="BtnPriority_Click"/>
         </Grid>
 
         <Grid Grid.Row="3" Grid.ColumnSpan="2">
@@ -72,4 +69,4 @@
             <Button x:Name="btnDelete" Content="Obrisi" HorizontalAlignment="Left" Margin="187,0,0,0" VerticalAlignment="Center" Click="BtnDelete_Click"/>
         </Grid>
     </Grid>
-</Window>
+</UserControl>

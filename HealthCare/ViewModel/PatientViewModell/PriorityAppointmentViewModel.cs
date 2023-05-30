@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace HealthCare.View.AppointmentView
+namespace HealthCare.ViewModel.PatientViewModell
 {
     public class PriorityAppointmentViewModel
     {
@@ -28,7 +28,7 @@ namespace HealthCare.View.AppointmentView
             _patientService = Injector.GetService<PatientService>();
             _doctorService = Injector.GetService<DoctorService>();
             _schedule = Injector.GetService<Schedule>();
-            
+
             Doctors = new ObservableCollection<Doctor>();
             Appointments = new ObservableCollection<Appointment>();
             LoadDoctors(_doctorService.GetAll());
@@ -52,12 +52,12 @@ namespace HealthCare.View.AppointmentView
             }
         }
 
-        public void getAppointments(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor, String priority)
+        public void getAppointments(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor, string priority)
         {
             endDate = endDate.AddHours(hoursEnd);
             endDate = endDate.AddMinutes(minutesEnd);
             Appointment resultAppointment;
-            if (priority=="Date")
+            if (priority == "Date")
             {
                 resultAppointment = GetAppointmentByDateAndDoctor(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd, doctor);
                 if (resultAppointment == null)
@@ -100,7 +100,7 @@ namespace HealthCare.View.AppointmentView
                 else
                 {
                     startDate = startDate.AddMinutes(15);
-                    if (startDate.Hour >= hoursEnd && startDate.Minute>=minutesEnd)
+                    if (startDate.Hour >= hoursEnd && startDate.Minute >= minutesEnd)
                     {
                         startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart, minutesStart, 0);
                     }
@@ -193,7 +193,7 @@ namespace HealthCare.View.AppointmentView
                     string[] values = line.Split('|');
                     if (values[0] == patient.JMBG)
                     {
-                        DateTime inputDate = DateTime.Parse(values[2]);
+                        DateTime inputDate = Util.ParseDate(values[2]);
                         DateTime currentDate = DateTime.Now;
                         int daysDifference = (currentDate - inputDate).Days;
                         if (daysDifference < 30)

@@ -3,6 +3,8 @@ using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.Service.ScheduleService;
+using HealthCare.View.PatientView;
+using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +15,7 @@ using System.Windows.Controls;
 
 namespace HealthCare.View.AppointmentView
 {
-    public partial class AppointmentMainView : Window
+    public partial class AppointmentMainView : UserControl
     {
         private readonly PatientService _patientService;
         private readonly DoctorService _doctorService;
@@ -30,9 +32,25 @@ namespace HealthCare.View.AppointmentView
             IsUserBlocked();
         }
 
+        public AppointmentMainView(Doctor doctor)
+        {
+            _schedule = Injector.GetService<Schedule>();
+            _appointmentService = Injector.GetService<AppointmentService>();
+            _patientService = Injector.GetService<PatientService>();
+            _doctorService = Injector.GetService<DoctorService>();
+            InitializeComponent();
+            LoadData();
+            IsUserBlocked();
+            List<Doctor> oneDoctor = new List<Doctor>
+            {
+                doctor
+            };
+            doctorListView.ItemsSource = new ObservableCollection<Doctor>(oneDoctor);
+        }
+
         public void WriteActionToFile(string action)
         {
-            string stringtocsv = Context.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
+            string stringtocsv = Context.Current.JMBG + "|" + action + "|" + Util.ToString(DateTime.Now) + Environment.NewLine;
             File.AppendAllText(Paths.PATIENT_LOGS, stringtocsv);
         }
 
@@ -50,7 +68,7 @@ namespace HealthCare.View.AppointmentView
                     string[] values = line.Split('|');
                     if (values[0] == patient.JMBG)
                     {
-                        DateTime inputDate = DateTime.Parse(values[2]);
+                        DateTime inputDate = Util.ParseDate(values[2]);
                         DateTime currentDate = DateTime.Now;
                         int daysDifference = (currentDate - inputDate).Days;
                         if (daysDifference < 30)
@@ -77,9 +95,10 @@ namespace HealthCare.View.AppointmentView
         {
             List<Appointment> appointments = _appointmentService.GetByPatient(Context.Current.JMBG);
             List<Doctor> doctors = _doctorService.GetAll();
-            appListView.ItemsSource = new ObservableCollection<Appointment>(appointments);
+            var appModels = new ObservableCollection<AppointmentViewModel>();
+            appointments.ForEach(a => appModels.Add(new AppointmentViewModel(a, DateTime.Now)));
+            appListView.ItemsSource = appModels;
             doctorListView.ItemsSource = new ObservableCollection<Doctor>(doctors);
-
         }
 
         private void TbMinutes_TextChanged(object sender, TextChangedEventArgs e)
@@ -169,7 +188,7 @@ namespace HealthCare.View.AppointmentView
         {
             if (appListView.SelectedItems.Count == 1)
             {
-                Appointment appointment = (Appointment)appListView.SelectedItem;
+                Appointment appointment = ((AppointmentViewModel)appListView.SelectedItem).Appointment;
                 tbDate.SelectedDate = appointment.TimeSlot.Start;
                 tbHours.Text = appointment.TimeSlot.Start.Hour.ToString();
                 tbMinutes.Text = appointment.TimeSlot.Start.Minute.ToString();
@@ -187,7 +206,7 @@ namespace HealthCare.View.AppointmentView
             }
             if (appListView.SelectedItems.Count == 1) 
             {
-                Appointment appointment = (Appointment)appListView.SelectedItem;
+                Appointment appointment = ((AppointmentViewModel)appListView.SelectedItem).Appointment;
                 _appointmentService.Remove(appointment);
                 WriteActionToFile("DELETE");
                 ViewUtil.ShowInformation("Uspesno obrisan pregled");
@@ -251,7 +270,7 @@ namespace HealthCare.View.AppointmentView
                 return;
             }
             Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, new TimeSlot(date, new TimeSpan(0, 15, 0)), false);
-            Appointment appointment2 = (Appointment)appListView.SelectedItem;
+            Appointment appointment2 = ((AppointmentViewModel)appListView.SelectedItem).Appointment;
             appointment.AppointmentID = appointment2.AppointmentID;
             appointment.RoomID = appointment2.RoomID;
             if (!_schedule.IsAvailable(appointment))
@@ -265,16 +284,6 @@ namespace HealthCare.View.AppointmentView
             LoadData();
             IsUserBlocked();
 
-        }
-
-        private void BtnRecord_Click_1(object sender, RoutedEventArgs e)
-        {
-            new PatientRecordView().Show();
-        }
-
-        private void BtnPriority_Click(object sender, RoutedEventArgs e)
-        {
-            new PriorityAppointmentView().Show();
         }
     }
 }

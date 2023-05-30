@@ -1,4 +1,5 @@
 ﻿using HealthCare.Application;
+using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.NurseViewModel;
@@ -131,7 +132,7 @@ namespace HealthCare.View.PatientView
             _patient.Name = tbName.Text;
             _patient.LastName = tbLastName.Text;
             _patient.JMBG = tbJMBG.Text;
-            _patient.BirthDate = DateTime.Parse(tbBirthDate.Text);
+            _patient.BirthDate = Util.ParseDate(tbBirthDate.Text);
             _patient.PhoneNumber = tbPhoneNumber.Text;
             _patient.Address = tbAddress.Text;
 
