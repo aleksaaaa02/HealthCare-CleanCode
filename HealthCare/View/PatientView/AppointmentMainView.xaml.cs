@@ -13,7 +13,7 @@ using System.Windows.Controls;
 
 namespace HealthCare.View.AppointmentView
 {
-    public partial class AppointmentMainView : Window
+    public partial class AppointmentMainView : UserControl
     {
         private readonly PatientService _patientService;
         private readonly DoctorService _doctorService;
@@ -28,6 +28,22 @@ namespace HealthCare.View.AppointmentView
             InitializeComponent();
             LoadData();
             IsUserBlocked();
+        }
+
+        public AppointmentMainView(Doctor doctor)
+        {
+            _schedule = Injector.GetService<Schedule>();
+            _appointmentService = Injector.GetService<AppointmentService>();
+            _patientService = Injector.GetService<PatientService>();
+            _doctorService = Injector.GetService<DoctorService>();
+            InitializeComponent();
+            LoadData();
+            IsUserBlocked();
+            List<Doctor> oneDoctor = new List<Doctor>
+            {
+                doctor
+            };
+            doctorListView.ItemsSource = new ObservableCollection<Doctor>(oneDoctor);
         }
 
         public void WriteActionToFile(string action)
@@ -264,16 +280,6 @@ namespace HealthCare.View.AppointmentView
             LoadData();
             IsUserBlocked();
 
-        }
-
-        private void BtnRecord_Click_1(object sender, RoutedEventArgs e)
-        {
-            new PatientRecordView().Show();
-        }
-
-        private void BtnPriority_Click(object sender, RoutedEventArgs e)
-        {
-            new PriorityAppointmentView().Show();
         }
     }
 }

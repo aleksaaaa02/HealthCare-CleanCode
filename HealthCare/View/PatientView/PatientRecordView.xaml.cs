@@ -1,10 +1,11 @@
 ﻿using HealthCare.Model;
+using HealthCare.ViewModel.PatientViewModell;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace HealthCare.View.AppointmentView
 {
-    public partial class PatientRecordView : Window
+    public partial class PatientRecordView : UserControl
     {
         PatientRecordViewModel model;
         public PatientRecordView()

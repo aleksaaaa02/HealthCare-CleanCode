@@ -10,15 +10,19 @@ namespace HealthCare.Model
     public class Doctor : User
     {
         public string Specialization { get; set; }
-
+        public int Rating { get; set; }
         public Doctor() : base()
         {
             Specialization = "";
+            Random rnd = new Random();
+            Rating = rnd.Next(1, 6);
         }
         public Doctor(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address, string userName, string password, Gender gender, string specialization)
             : base(name, lastName, jMBG, birthDate, phoneNumber, address, userName, password, gender)
         {
             Specialization = specialization;
+            Random rnd = new Random();
+            Rating = rnd.Next(1, 6);
         }
 
         public bool IsCapable(string NeededSpecialization)

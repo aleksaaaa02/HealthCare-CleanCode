@@ -2,6 +2,7 @@
 using HealthCare.Repository;
 using HealthCare.Serialize;
 using System;
+using System.Collections.Generic;
 
 namespace HealthCare.Model 
 {
@@ -57,11 +58,40 @@ namespace HealthCare.Model
             ConsumptionDays = int.Parse(values[7]);
             Start = Util.ParseDate(values[8]);
             FirstUse = bool.Parse(values[9]);
-        }   
+        }
 
         public override string[] Serialize()
         {
             return new string[] { Id.ToString(), MedicationId.ToString(), Instruction.ToString(), PatientJMBG, DoctorJMBG, DailyDosage.ToString(), HoursBetweenConsumption.ToString(), ConsumptionDays.ToString(), Util.ToString(Start), FirstUse.ToString() };
         }
+        public List<DateTime> GetPillConsumptionTimes()
+        {
+            List<DateTime> consumptionTimes = new List<DateTime>();
+            DateTime startDate = Start.Date;
+            int daysCounter = 0;
+
+            while (daysCounter < ConsumptionDays)
+            {
+                int pillsCounter = 0;
+                startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, 8, 0, 0);
+                startDate = startDate.AddDays(1);
+
+                while (pillsCounter < DailyDosage)
+                {
+                    consumptionTimes.Add(startDate);
+                    startDate = startDate.AddHours(HoursBetweenConsumption);
+                    pillsCounter++;
+                }
+                daysCounter++;
+            }
+
+            return consumptionTimes;
+        }
+        public string[] ToCSV()
+        {
+            return new string[] { Id.ToString(), MedicationId.ToString(), Instruction.ToString(), PatientJMBG, DoctorJMBG, DailyDosage.ToString(), HoursBetweenConsumption.ToString(), ConsumptionDays.ToString(), Util.ToString(Start), FirstUse.ToString() };
+        }
+
+        
     }
 }
