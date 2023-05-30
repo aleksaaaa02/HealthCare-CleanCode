@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.NurseView"
         mc:Ignorable="d"
-        Title="OrderMedicineView" Height="450" Width="400">
+        Title="OrderMedicationView" Height="450" Width="400">
     <Grid>
         <Label Content="Narucivanje lekova" Name="lblTitle" HorizontalAlignment="Left" Margin="10,00,0,0" FontSize="17" FontWeight="Bold" VerticalAlignment="Top"/>
 
