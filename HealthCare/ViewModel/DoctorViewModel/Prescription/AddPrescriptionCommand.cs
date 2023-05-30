@@ -73,6 +73,9 @@ public class AddPrescriptionCommand : CommandBase
 
         if (_prescriptionViewModel.ConsumptionDays <= 0)
             throw new ValidationException("Broj dana konzumacije nije validan");
+        
+        if (_prescriptionViewModel.HoursBetweenConsumption  * _prescriptionViewModel.DailyDosage > 23)
+            throw new ValidationException("Ne ispravan unos vremena i leka na dnevnom nivou");
 
         if (_prescriptionViewModel.SelectedMedication is null)
             throw new ValidationException("Niste odabrali lek");

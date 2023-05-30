@@ -72,6 +72,9 @@ public class AddTherapyToReferralCommand : CommandBase
         if (_therapyInformationViewModel.HoursBetweenConsumption <= 0)
             throw new ValidationException("Sati izmedju konzumacije nisu validni");
 
+        if (_therapyInformationViewModel.HoursBetweenConsumption * _therapyInformationViewModel.DailyDosage > 23)
+            throw new ValidationException("Ne ispravan unos vremena i leka na dnevnom nivou");
+
         if (_therapyInformationViewModel.ConsumptionDays <= 0)
             throw new ValidationException("Broj dana konzumacije nije validan");
     }
