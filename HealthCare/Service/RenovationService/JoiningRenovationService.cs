@@ -14,8 +14,8 @@ namespace HealthCare.Service.RenovationService
 
         public JoiningRenovationService(IRepository<JoiningRenovation> repository) : base(repository)
         {
-            _roomService = Injector.GetService<RoomService>();
             _inventory = Injector.GetService<InventoryService>(Injector.EQUIPMENT_INVENTORY_S);
+            _roomService = Injector.GetService<RoomService>();
             ExecuteAll();
         }
 
@@ -30,18 +30,18 @@ namespace HealthCare.Service.RenovationService
             var items2 = _inventory.GetRoomItems(renovation.OtherRoomId);
 
             var combined = _inventory.CombineItems(items1, items2);
+            int newId = _roomService.Add(renovation.ResultRoom);
 
             items1.ForEach(x => _inventory.Remove(x.Id));
             items2.ForEach(x => _inventory.Remove(x.Id));
             combined.ForEach(x =>
             {
-                x.RoomId = renovation.ResultRoom.Id;
+                x.RoomId = newId;
                 _inventory.RestockInventoryItem(x);
             });
 
             _roomService.Remove(renovation.RoomId);
             _roomService.Remove(renovation.OtherRoomId);
-            _roomService.Add(renovation.ResultRoom);
 
             renovation.Executed = true;
             Update(renovation);
