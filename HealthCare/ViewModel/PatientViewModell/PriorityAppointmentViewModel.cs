@@ -189,7 +189,7 @@ namespace HealthCare.ViewModel.PatientViewModell
                     string[] values = line.Split('|');
                     if (values[0] == patient.JMBG)
                     {
-                        DateTime inputDate = DateTime.Parse(values[2]);
+                        DateTime inputDate = Util.ParseDate(values[2]);
                         DateTime currentDate = DateTime.Now;
                         int daysDifference = (currentDate - inputDate).Days;
                         if (daysDifference < 30)

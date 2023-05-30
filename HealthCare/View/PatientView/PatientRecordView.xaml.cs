@@ -1,4 +1,5 @@
 ﻿using HealthCare.Model;
+using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 using HealthCare.ViewModel.PatientViewModell;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,11 +28,11 @@ namespace HealthCare.View.AppointmentView
 
         private void ListViewRecord_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Appointment appointment = (Appointment)listViewRecord.SelectedItem;
+            var appointment = (AppointmentViewModel)listViewRecord.SelectedItem;
 
             if (listViewRecord.SelectedItems.Count == 1)
             {
-                model.ShowAnamnesis(appointment);
+                model.ShowAnamnesis(appointment.Appointment);
             }
         }
     }

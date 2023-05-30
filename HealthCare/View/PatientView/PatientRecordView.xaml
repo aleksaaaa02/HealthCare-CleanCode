@@ -13,7 +13,7 @@
         <ListView x:Name="listViewRecord" Grid.Row="2" ItemsSource="{Binding Appointments}" SelectionChanged="ListViewRecord_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn  Header="Datum" DisplayMemberBinding="{Binding TimeSlot.Start}"/>
+                    <GridViewColumn  Header="Datum" DisplayMemberBinding="{Binding Appointment.TimeSlot.Start}"/>
                     <GridViewColumn  Header="DoktorIme" DisplayMemberBinding="{Binding Doctor.Name}"/>
                     <GridViewColumn  Header="Specijalizacija" DisplayMemberBinding="{Binding Doctor.Specialization}"/>
                 </GridView>

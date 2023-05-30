@@ -1,6 +1,7 @@
 ﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +16,7 @@ namespace HealthCare.ViewModel.PatientViewModell
         private readonly AppointmentService _appointmentService;
         private readonly DoctorService _doctorService;
         private readonly PatientService _patientService;
-        public ObservableCollection<Appointment> Appointments { get; set; }
+        public ObservableCollection<AppointmentViewModel> Appointments { get; set; }
         public List<Appointment> _patientAppointments;
         public PatientRecordViewModel()
         {
@@ -23,7 +24,7 @@ namespace HealthCare.ViewModel.PatientViewModell
             _doctorService = Injector.GetService<DoctorService>();
             _patientService = Injector.GetService<PatientService>();
             _appointmentService = Injector.GetService<AppointmentService>();
-            Appointments = new ObservableCollection<Appointment>();
+            Appointments = new ObservableCollection<AppointmentViewModel>();
             _patientAppointments = _appointmentService.GetByPatient(Context.Current.JMBG);
             LoadData(_patientAppointments);
         }
@@ -32,6 +33,15 @@ namespace HealthCare.ViewModel.PatientViewModell
         {
             Appointments.Clear();
             foreach (Appointment appointment in appointments)
+            {
+                Appointments.Add(new AppointmentViewModel(appointment, DateTime.Now));
+            }
+        }
+
+        public void LoadData(List<AppointmentViewModel> appointments)
+        {
+            Appointments.Clear();
+            foreach (AppointmentViewModel appointment in appointments)
             {
                 Appointments.Add(appointment);
             }
@@ -42,13 +52,13 @@ namespace HealthCare.ViewModel.PatientViewModell
             switch (sortProperty)
             {
                 case "Datum":
-                    LoadData(Appointments.OrderBy(x => x.TimeSlot.Start).ToList());
+                    LoadData(Appointments.OrderBy(x => x.Appointment.TimeSlot.Start).ToList());
                     break;
                 case "Doktor":
-                    LoadData(Appointments.OrderBy(x => _doctorService.Get(x.DoctorJMBG).Name).ToList());
+                    LoadData(Appointments.OrderBy(x => _doctorService.Get(x.Appointment.DoctorJMBG).Name).ToList());
                     break;
                 case "Specijalizacija":
-                    LoadData(Appointments.OrderBy(x => _doctorService.Get(x.DoctorJMBG).Specialization).ToList());
+                    LoadData(Appointments.OrderBy(x => _doctorService.Get(x.Appointment.DoctorJMBG).Specialization).ToList());
                     break;
                 default: break;
             }

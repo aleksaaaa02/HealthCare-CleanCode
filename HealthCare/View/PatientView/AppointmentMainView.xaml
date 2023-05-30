@@ -54,10 +54,10 @@
             <ListView x:Name="appListView" Grid.Row="1" SelectionChanged="AppListView_SelectionChanged" SelectionMode="Single">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn  Header="Appointment ID" DisplayMemberBinding="{Binding AppointmentID}"/>
-                        <GridViewColumn  Header="Ime pacijenta" DisplayMemberBinding="{Binding PatientJMBG}"/>
-                        <GridViewColumn  Header="Ime doktora" DisplayMemberBinding="{Binding DoctorJMBG}"/>
-                        <GridViewColumn  Header="Datum pregleda" DisplayMemberBinding="{Binding TimeSlot.Start}"/>
+                        <GridViewColumn  Header="Appointment ID" DisplayMemberBinding="{Binding Appointment.AppointmentID}"/>
+                        <GridViewColumn  Header="Prezime pacijenta" DisplayMemberBinding="{Binding Patient.LastName}"/>
+                        <GridViewColumn  Header="Prezime doktora" DisplayMemberBinding="{Binding Doctor.LastName}"/>
+                        <GridViewColumn  Header="Datum pregleda" DisplayMemberBinding="{Binding Appointment.TimeSlot.Start}"/>
                     </GridView>
                 </ListView.View>
             </ListView>

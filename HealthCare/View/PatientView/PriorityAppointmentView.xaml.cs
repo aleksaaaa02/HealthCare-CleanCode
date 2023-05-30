@@ -187,7 +187,7 @@ namespace HealthCare.View.AppointmentView
 
         public void WriteAction(string action)
         {
-            string stringtocsv = Context.Current.JMBG + "|" + action + "|" + DateTime.Now.ToShortDateString() + Environment.NewLine;
+            string stringtocsv = Context.Current.JMBG + "|" + action + "|" + Util.ToString(DateTime.Now) + Environment.NewLine;
             File.AppendAllText(Paths.PATIENT_LOGS, stringtocsv);
         }
     }
