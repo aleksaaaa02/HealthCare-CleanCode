@@ -1,6 +1,8 @@
 ﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.View;
+using HealthCare.View.PatientView;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace HealthCare.View.PatientView
+namespace HealthCare.ViewModel.PatientViewModell
 {
     public class PatientNotificationsViewModel : INotifyPropertyChanged
     {
@@ -71,13 +73,17 @@ namespace HealthCare.View.PatientView
                     {
                         Medication medication = _medicationService.Get(prescription.MedicationId);
                         string notificationMessage = "Lek: " + medication.Name + "\n"
-                                                   + "Instrukcije: " + prescription.Instruction + "\n"
+                                                   + "Instrukcije: " + ViewUtil.Translate(prescription.Instruction) + "\n"
                                                    + "Vreme uzimanja leka: " + pillDateTime.ToString();
                         userNotifications.Add(new UserNotification(currentUserJMBG, pillDateTime, "Popijte tabletu", notificationMessage, false));
                     }
                 }
             }
-            userNotifications = userNotifications.OrderBy(x => x.receiveTime).ToList();
+            Patient patient = (Patient)Context.Current;
+            userNotifications = userNotifications
+            .Where(notification => (notification.receiveTime - currentTime) < TimeSpan.FromHours(patient.NotificationHours))
+            .OrderBy(notification => notification.receiveTime)
+            .ToList();
             Notifications.Clear();
             foreach (var notification in userNotifications)
             {

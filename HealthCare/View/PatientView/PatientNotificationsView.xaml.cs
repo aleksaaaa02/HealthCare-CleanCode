@@ -3,6 +3,7 @@ using HealthCare.Application;
 using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.ViewModel.PatientViewModell;
 using System;
 using System.Collections.Generic;
 using System.Linq;

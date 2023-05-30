@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using HealthCare.Application;
 using HealthCare.Service;
+using HealthCare.ViewModel.PatientViewModell;
 
 namespace HealthCare.View.PatientView
 {

@@ -281,20 +281,5 @@ namespace HealthCare.View.AppointmentView
             IsUserBlocked();
 
         }
-
-        private void BtnRecord_Click(object sender, RoutedEventArgs e)
-        {
-            //new PatientRecordView(_hospital).Show();
-        }
-
-        private void BtnRecord_Click_1(object sender, RoutedEventArgs e)
-        {
-            //new PatientRecordView(_hospital).Show();
-        }
-
-        private void BtnPriority_Click(object sender, RoutedEventArgs e)
-        {
-            //new PriorityAppointmentView(_hospital).Show();
-        }
     }
 }

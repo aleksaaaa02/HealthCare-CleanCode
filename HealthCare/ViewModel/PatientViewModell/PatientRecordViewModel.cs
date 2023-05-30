@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 
-namespace HealthCare.View.AppointmentView
+namespace HealthCare.ViewModel.PatientViewModell
 {
     public class PatientRecordViewModel
     {
@@ -31,7 +31,7 @@ namespace HealthCare.View.AppointmentView
         public void LoadData(List<Appointment> appointments)
         {
             Appointments.Clear();
-            foreach(Appointment appointment in appointments)
+            foreach (Appointment appointment in appointments)
             {
                 Appointments.Add(appointment);
             }
@@ -39,7 +39,7 @@ namespace HealthCare.View.AppointmentView
 
         public void Sort(string sortProperty)
         {
-            switch(sortProperty)
+            switch (sortProperty)
             {
                 case "Datum":
                     LoadData(Appointments.OrderBy(x => x.TimeSlot.Start).ToList());
@@ -57,7 +57,7 @@ namespace HealthCare.View.AppointmentView
         public void Filter(string filterProperty)
         {
             IEnumerable<Appointment> query = _patientAppointments.ToList().Where(
-             x => 
+             x =>
              _doctorService.Get(x.DoctorJMBG).Name.Contains(filterProperty, StringComparison.OrdinalIgnoreCase) ||
              _doctorService.Get(x.DoctorJMBG).Specialization.Contains(filterProperty, StringComparison.OrdinalIgnoreCase) ||
              x.TimeSlot.Start.ToString().Contains(filterProperty, StringComparison.OrdinalIgnoreCase)
@@ -68,13 +68,13 @@ namespace HealthCare.View.AppointmentView
         public void ShowAnamnesis(Appointment appointment)
         {
             Anamnesis anamnesis;
-            try 
+            try
             {
-                anamnesis = _anamnesisService.Get(appointment.AnamnesisID);     
+                anamnesis = _anamnesisService.Get(appointment.AnamnesisID);
             }
             catch
             {
-                MessageBox.Show("Pregled jos nije obavljen","Anamneza");
+                MessageBox.Show("Pregled jos nije obavljen", "Anamneza");
                 return;
             }
             Patient patient = _patientService.Get(appointment.PatientJMBG);
@@ -82,13 +82,13 @@ namespace HealthCare.View.AppointmentView
             string message = "Pacijent: " + patient.Name + " " + patient.LastName + "\n" +
                              "Doktor: " + doctor.Name + " " + doctor.LastName + "\n" +
                              "Simptomi: " + "\n";
-            foreach(string symptom in anamnesis.Symptoms)
+            foreach (string symptom in anamnesis.Symptoms)
             {
                 message += "   " + symptom + "\n";
             }
-            message+= "\n";
-            message+= "Zapazanja doktora: " + anamnesis.DoctorsObservations;
-            MessageBox.Show(message,"Anamneza");
+            message += "\n";
+            message += "Zapazanja doktora: " + anamnesis.DoctorsObservations;
+            MessageBox.Show(message, "Anamneza");
         }
     }
 }

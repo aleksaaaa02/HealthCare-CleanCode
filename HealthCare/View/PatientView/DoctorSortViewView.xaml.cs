@@ -1,6 +1,7 @@
 ﻿using HealthCare;
 using HealthCare.Model;
 using HealthCare.View.AppointmentView;
+using HealthCare.ViewModel.PatientViewModell;
 using System;
 using System.Collections.Generic;
 using System.Linq;

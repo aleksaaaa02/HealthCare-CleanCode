@@ -61,8 +61,6 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Button x:Name="btnRecord" Content="Prikazi karton" HorizontalAlignment="Left" Margin="415,10,0,0" VerticalAlignment="Top" Click="BtnRecord_Click_1"/>
-            <Button x:Name="btnPriority" Content="Kreiranje sa prioritetom" HorizontalAlignment="Left" Margin="551,10,0,0" VerticalAlignment="Top" Click="BtnPriority_Click"/>
         </Grid>
 
         <Grid Grid.Row="3" Grid.ColumnSpan="2">

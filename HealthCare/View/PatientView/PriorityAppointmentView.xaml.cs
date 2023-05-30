@@ -3,6 +3,7 @@ using HealthCare.Application.Common;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.Service.ScheduleService;
+using HealthCare.ViewModel.PatientViewModell;
 using System;
 using System.IO;
 using System.Windows;

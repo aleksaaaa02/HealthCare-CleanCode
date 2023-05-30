@@ -1,5 +1,4 @@
-﻿using HealthCare;
-using HealthCare.Application;
+﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using System;
@@ -10,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace HealthCare.View.PatientView
+namespace HealthCare.ViewModel.PatientViewModell
 {
     class DoctorSortViewModel
     {
@@ -41,7 +40,7 @@ namespace HealthCare.View.PatientView
              x =>
              x.Name.Contains(filterProperty, StringComparison.OrdinalIgnoreCase) ||
              x.LastName.Contains(filterProperty, StringComparison.OrdinalIgnoreCase) ||
-             x.Specialization.Contains(filterProperty, StringComparison.OrdinalIgnoreCase) 
+             x.Specialization.Contains(filterProperty, StringComparison.OrdinalIgnoreCase)
             ).ToList();
             LoadData(query.ToList());
         }
@@ -60,7 +59,7 @@ namespace HealthCare.View.PatientView
                     LoadData(Doctors.OrderBy(x => x.Specialization).ToList());
                     break;
                 case "Prosecna ocena":
-                    
+
                     LoadData(Doctors.OrderBy(x => x.Rating).ToList());
                     break;
                 default:
