@@ -1,44 +1,53 @@
-﻿using HealthCare.Repository;
-using System;
+﻿using System;
+using HealthCare.Application.Common;
+using HealthCare.Repository;
 
 namespace HealthCare.Model
 {
-    public class OrderItem : Identifier, ISerializable
+    public class OrderItem : RepositoryItem
     {
-        public override object Key { get => Id; set => Id = (int)value; }
-        public int Id { get; set; }
-        public int EquipmentId { get; set; }
-        public int Quantity { get; set; }
-        public DateTime Scheduled { get; set; }
-        public bool Executed { get; set; }
-
-        public OrderItem() : this(0, 0, DateTime.MinValue, false) { }
-        public OrderItem(int equipmentId, int quantity, DateTime scheduled, bool executed) : 
-            this(0, equipmentId, quantity, scheduled, executed) { }
-        public OrderItem(int id, int equipmentId, int quantity, DateTime scheduled, bool executed)
+        public OrderItem() : this(0, 0, DateTime.MinValue, false)
         {
-            Id = id;
-            EquipmentId = equipmentId;
+        }
+
+        public OrderItem(int equipmentId, int quantity, DateTime scheduled, bool executed)
+        {
+            Id = 0;
+            ItemId = equipmentId;
             Quantity = quantity;
             Scheduled = scheduled;
             Executed = executed;
         }
 
-        public virtual void FromCSV(string[] values)
+        public int Id { get; set; }
+        public int ItemId { get; set; }
+        public int Quantity { get; set; }
+        public DateTime Scheduled { get; set; }
+        public bool Executed { get; set; }
+
+        public override object Key
         {
-            Id = int.Parse(values[0]);
-            EquipmentId = int.Parse(values[1]);
-            Quantity = int.Parse(values[2]);
-            Scheduled = Utility.ParseDate(values[3]);
-            Executed = bool.Parse(values[4]);
+            get => Id;
+            set { Id = (int)value; }
         }
 
-        public virtual string[] ToCSV()
+        public override string[] Serialize()
         {
-            return new string[] { 
-                Id.ToString(), EquipmentId.ToString(), 
-                Quantity.ToString(), Utility.ToString(Scheduled), 
-                Executed.ToString() };
+            return new string[]
+            {
+                Id.ToString(), ItemId.ToString(),
+                Quantity.ToString(), Util.ToString(Scheduled),
+                Executed.ToString()
+            };
+        }
+
+        public override void Deserialize(string[] values)
+        {
+            Id = int.Parse(values[0]);
+            ItemId = int.Parse(values[1]);
+            Quantity = int.Parse(values[2]);
+            Scheduled = Util.ParseDate(values[3]);
+            Executed = bool.Parse(values[4]);
         }
     }
 }

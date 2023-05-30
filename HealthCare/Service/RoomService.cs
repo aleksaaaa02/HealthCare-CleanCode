@@ -1,16 +1,19 @@
-﻿using HealthCare.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using HealthCare.Model;
+using HealthCare.Repository;
 
 namespace HealthCare.Service
 {
     public class RoomService : NumericService<Room>
     {
-        public RoomService(string filepath) : base(filepath) { }
+        public RoomService(IRepository<Room> repository) : base(repository)
+        {
+        }
 
         public int GetWarehouseId()
         {
             var warehouses = GetRoomsByType(RoomType.Warehouse);
-            if (warehouses.Count == 0) 
+            if (warehouses.Count == 0)
                 throw new KeyNotFoundException();
 
             return warehouses[0].Id;

@@ -1,17 +1,21 @@
-﻿using HealthCare.Model;
-using System;
+﻿using System;
+using HealthCare.Application;
+using HealthCare.Model;
+using HealthCare.Repository;
 
 namespace HealthCare.Service
 {
     public class OrderService : NumericService<OrderItem>
     {
-        private readonly Inventory _inventory;
+        private readonly InventoryService _inventory;
         private readonly RoomService _roomService;
 
-        public OrderService(string filepath, Inventory inventory, RoomService roomService) : base(filepath) 
+        public OrderService(IRepository<OrderItem> repository, InventoryService inventory) : base(repository)
         {
+            _roomService = Injector.GetService<RoomService>();
             _inventory = inventory;
-            _roomService = roomService;
+
+            ExecuteAll();
         }
 
         public void Execute(OrderItem item)
@@ -19,7 +23,7 @@ namespace HealthCare.Service
             int warehouseId = _roomService.GetWarehouseId();
 
             var restockItem = new InventoryItem(
-                item.EquipmentId, warehouseId, item.Quantity);
+                item.ItemId, warehouseId, item.Quantity);
 
             _inventory.RestockInventoryItem(restockItem);
             item.Executed = true;
@@ -29,8 +33,9 @@ namespace HealthCare.Service
 
         public void ExecuteAll()
         {
-            GetAll().ForEach(x => {
-                if (!x.Executed && x.Scheduled <= DateTime.Now) 
+            GetAll().ForEach(x =>
+            {
+                if (!x.Executed && x.Scheduled <= DateTime.Now)
                     Execute(x);
             });
         }

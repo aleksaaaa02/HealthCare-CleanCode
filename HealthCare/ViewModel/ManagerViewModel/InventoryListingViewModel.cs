@@ -1,42 +1,70 @@
-﻿using HealthCare.Context;
-using HealthCare.Service;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Linq;
+using HealthCare.Application;
+using HealthCare.Application.Common;
+using HealthCare.Service;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {
     public class InventoryListingViewModel : ViewModelBase
     {
-        private readonly Inventory _inventory;
         private readonly EquipmentService _equipmentService;
+        private readonly InventoryService _inventoryService;
         private readonly RoomService _roomService;
-        public ObservableCollection<InventoryItemViewModel> Items { get; }
         private List<InventoryItemViewModel> _models;
 
-        public InventoryListingViewModel(Hospital hospital)
+        private string _searchQuery = "";
+
+        public InventoryListingViewModel()
         {
-            _inventory = hospital.Inventory;
-            _equipmentService = hospital.EquipmentService;
-            _roomService = hospital.RoomService;
+            _inventoryService = Injector.GetService<InventoryService>(Injector.EQUIPMENT_INVENTORY_S);
+            _equipmentService = Injector.GetService<EquipmentService>();
+            _roomService = Injector.GetService<RoomService>();
+
             Items = new ObservableCollection<InventoryItemViewModel>();
+            BoxSelectionArgs = new ObservableCollection<bool>();
 
             _models = GetModels();
             LoadAll();
         }
 
+        public ObservableCollection<InventoryItemViewModel> Items { get; }
+        public ObservableCollection<bool> BoxSelectionArgs { get; }
+
+        public string SearchQuery
+        {
+            get => _searchQuery;
+            set
+            {
+                _searchQuery = value;
+                OnPropertyChanged();
+                Filter();
+            }
+        }
+
         public void Filter()
         {
             InventoryFilter filter = new InventoryFilter(_models);
-            filter.FilterQuantity(TgNone, TgLittle, TgLot);
-            filter.FilterEquipmentType(TgExaminationalEq, TgOperationalEq, TgFurnitureEq, TgHallwayEq);
-            filter.FilterRoomType(TgExaminationalRm, TgOperationalRm, TgPatientCareRm, TgReceptionRm, TgWarehouseRm);
-            filter.FilterAnyProperty(TbQuery);
-            LoadModels(filter.GetFiltered());
+
+            var args = BoxSelectionArgs.ToArray();
+            var quantityArgs = Util.SubArray(args, 0, 3);
+            var equipmentArgs = Util.SubArray(args, 3, 4);
+            var roomArgs = Util.SubArray(args, 7, 5);
+
+            filter.FilterQuantity(quantityArgs);
+            filter.FilterEquipmentType(equipmentArgs);
+            filter.FilterRoomType(roomArgs);
+            filter.FilterAnyProperty(_searchQuery);
+
+            LoadModels(filter.Items);
         }
 
         public void LoadAll()
         {
-            InitializeButtons();
+            InitializeBoxCollection();
+            SearchQuery = "";
             LoadModels(_models);
         }
 
@@ -48,104 +76,28 @@ namespace HealthCare.ViewModel.ManagerViewModel
 
         private List<InventoryItemViewModel> GetModels()
         {
-            var models = new List<InventoryItemViewModel>();
-            _inventory.GetAll().ForEach(x => {
-                var equipment = _equipmentService.Get(x.EquipmentId);
-                var room = _roomService.Get(x.RoomId);
-                models.Add(new InventoryItemViewModel(x, equipment, room));
-            });
-            return models;
+            return _inventoryService.GetAll().Select(x =>
+                new InventoryItemViewModel(
+                    x,
+                    _equipmentService.Get(x.ItemId),
+                    _roomService.Get(x.RoomId)
+                )).ToList();
         }
 
-        private void InitializeButtons()
+        private void CollectionChanged(object? sender, NotifyCollectionChangedEventArgs args)
         {
-            TgExaminationalRm = false;
-            TgOperationalRm = false;
-            TgPatientCareRm = false;
-            TgReceptionRm = false;
-            TgWarehouseRm = false;
-            
-            TgExaminationalEq = false;
-            TgOperationalEq = false;
-            TgFurnitureEq = false;
-            TgHallwayEq = false;
-            
-            TgNone = false;
-            TgLittle = false;
-            TgLot = false;
-            
-            TbQuery = "";
+            Filter();
         }
 
-        private bool _tgNone, _tgLittle, _tgLot;
-        private bool _tgExaminationalEq, _tgOperationalEq, _tgFurnitureEq, _tgHallwayEq;
-        private bool _tgExaminationalRm, _tgOperationalRm, _tgPatientCareRm, _tgReceptionRm, _tgWarehouseRm;
-        private string _tbQuery = "";
+        private void InitializeBoxCollection()
+        {
+            BoxSelectionArgs.CollectionChanged -= CollectionChanged;
 
-        public bool TgNone
-        {
-            get => _tgNone;
-            set { _tgNone = value; OnPropertyChanged(); Filter(); }
-        }
-        public bool TgLittle
-        {
-            get => _tgLittle;
-            set { _tgLittle = value; OnPropertyChanged(); Filter(); }
-        }
-        public bool TgLot
-        {
-            get => _tgLot;
-            set { _tgLot = value; OnPropertyChanged(); Filter(); }
-        }
-        public bool TgExaminationalEq
-        {
-            get => _tgExaminationalEq;
-            set { _tgExaminationalEq = value; OnPropertyChanged(); Filter(); }
-        }
-        public bool TgOperationalEq
-        {
-            get => _tgOperationalEq;
-            set { _tgOperationalEq = value; OnPropertyChanged(); Filter(); }
-        }
-        public bool TgFurnitureEq
-        {
-            get => _tgFurnitureEq;
-            set { _tgFurnitureEq = value; OnPropertyChanged(); Filter(); }
-        }
-        public bool TgHallwayEq
-        {
-            get => _tgHallwayEq;
-            set { _tgHallwayEq = value; OnPropertyChanged(); Filter(); }
-        }
-        public bool TgExaminationalRm
-        {
-            get => _tgExaminationalRm;
-            set { _tgExaminationalRm = value; OnPropertyChanged(); Filter(); }
-        }
-        public bool TgOperationalRm
-        {
-            get => _tgOperationalRm;
-            set { _tgOperationalRm = value; OnPropertyChanged(); Filter(); }
-        }
-        public bool TgPatientCareRm
-        {
-            get => _tgPatientCareRm;
-            set { _tgPatientCareRm = value; OnPropertyChanged(); Filter(); }
-        }
-        public bool TgReceptionRm
-        {
-            get => _tgReceptionRm;
-            set { _tgReceptionRm = value; OnPropertyChanged(); Filter(); }
-        }
-        public bool TgWarehouseRm
-        {
-            get => _tgWarehouseRm;
-            set { _tgWarehouseRm = value; OnPropertyChanged(); Filter(); }
-        }
-        public string TbQuery
-        {
-            get => _tbQuery;
-            set { _tbQuery = value; OnPropertyChanged(); Filter(); }
+            BoxSelectionArgs.Clear();
+            for (int i = 0; i < 12; i++)
+                BoxSelectionArgs.Add(false);
+
+            BoxSelectionArgs.CollectionChanged += CollectionChanged;
         }
     }
 }

@@ -1,19 +1,19 @@
-﻿using HealthCare.Command;
-using System.Windows;
+﻿using System.Windows;
+using HealthCare.Command;
 
-namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands
+namespace HealthCare.ViewModel.DoctorViewModel.MainViewModelCommands;
+
+public class LogOutCommand : CommandBase
 {
-    public class LogOutCommand : CommandBase
-    {
-        private readonly Window _window;
-        public LogOutCommand(Window window)
-        {
-            _window = window;
-        }
+    private readonly Window _window;
 
-        public override void Execute(object parameter)
-        {
-            _window.Close();
-        }
+    public LogOutCommand(Window window)
+    {
+        _window = window;
+    }
+
+    public override void Execute(object parameter)
+    {
+        _window.Close();
     }
 }

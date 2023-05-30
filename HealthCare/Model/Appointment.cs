@@ -1,49 +1,65 @@
-﻿using HealthCare.Repository;
-using System;
+﻿using System;
+using HealthCare.Repository;
 
 namespace HealthCare.Model
 {
-    public class Appointment : ISerializable
+    public class Appointment : RepositoryItem
     {
+        public Appointment() : this("", "", new TimeSlot(), false)
+        {
+        }
+
+        public Appointment(string patientJMBG, string doctorJMBG, TimeSlot timeSlot, bool isOperation)
+        {
+            PatientJMBG = patientJMBG;
+            DoctorJMBG = doctorJMBG;
+            TimeSlot = timeSlot;
+            IsOperation = isOperation;
+            AnamnesisID = 0;
+            RoomID = 0;
+            IsUrgent = false;
+        }
+
         public int AppointmentID { get; set; }
-        public Patient Patient { get; set; }
-        public Doctor Doctor { get; set; }
+        public string PatientJMBG { get; set; }
+        public string DoctorJMBG { get; set; }
+        public int RoomID { get; set; }
         public TimeSlot TimeSlot { get; set; }
         public bool IsOperation { get; set; }
         public int AnamnesisID { get; set; }
         public bool IsUrgent { get; set; }
 
-        public Appointment() : this(new Patient(), new Doctor(), new TimeSlot(), false) { }
-        public Appointment(Patient patient, Doctor doctor, TimeSlot timeSlot, bool isOperation)
+        public override object Key
         {
-            Patient = patient;
-            Doctor = doctor;
-            TimeSlot = timeSlot;
-            IsOperation = isOperation;
-            AnamnesisID = 0;
-            IsUrgent = false;
+            get => AppointmentID;
+            set { AppointmentID = (int)value; }
         }
 
-        public string[] ToCSV()
+        public bool HasStarted()
         {
-            return new string[] { 
-                AppointmentID.ToString(), Patient.JMBG.ToString(), Doctor.JMBG.ToString(), 
-                TimeSlot.ToString(), IsOperation.ToString(), AnamnesisID.ToString(), IsUrgent.ToString() };
+            return TimeSlot.Start < DateTime.Now && TimeSlot.End > DateTime.Now;
         }
 
-        public void FromCSV(string[] values)
+        public override string[] Serialize()
+        {
+            return new string[]
+            {
+                AppointmentID.ToString(), PatientJMBG, DoctorJMBG,
+                TimeSlot.ToString(), IsOperation.ToString(), AnamnesisID.ToString(), IsUrgent.ToString(),
+                RoomID.ToString()
+            };
+        }
+
+        public override void Deserialize(string[] values)
         {
             AppointmentID = int.Parse(values[0]);
-            Patient = new Patient();
-            Patient.JMBG = values[1];
-
-            Doctor = new Doctor();
-            Doctor.JMBG = values[2];
-
+            PatientJMBG = values[1];
+            DoctorJMBG = values[2];
             TimeSlot = TimeSlot.Parse(values[3]);
             IsOperation = bool.Parse(values[4]);
             AnamnesisID = int.Parse(values[5]);
             IsUrgent = Convert.ToBoolean(values[6]);
+            RoomID = int.Parse(values[7]);
         }
     }
 }

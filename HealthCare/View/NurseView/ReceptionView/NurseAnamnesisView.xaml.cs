@@ -1,26 +1,31 @@
-﻿using HealthCare.Context;
+﻿using System.Windows;
+using System.Windows.Documents;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
-using System.Windows;
-using System.Windows.Documents;
 
-namespace HealthCare.View.PatientView
+namespace HealthCare.View.NurseView
 {
     public partial class NurseAnamnesisView : Window
     {
-        private readonly Hospital _hospital;
+        private readonly AnamnesisService _anamnesisService;
         private readonly int _appointmentId;
+        private readonly AppointmentService _appointmentService;
         private readonly Patient _patient;
+        private readonly PatientService _patientService;
 
-        public NurseAnamnesisView(Hospital hospital,int appointmentID, Patient patient)
+        public NurseAnamnesisView(int appointmentID, Patient patient)
         {
             InitializeComponent();
-            _hospital = hospital;
+            _anamnesisService = Injector.GetService<AnamnesisService>();
+            _patientService = Injector.GetService<PatientService>();
+            _appointmentService = Injector.GetService<AppointmentService>();
+
             _appointmentId = appointmentID;
             _patient = patient;
 
-            string allergies = Utility.ToString(patient.MedicalRecord.Allergies);
-            string medicalHistory = Utility.ToString(patient.MedicalRecord.MedicalHistory);
+            string allergies = ViewUtil.ToString(patient.MedicalRecord.Allergies);
+            string medicalHistory = ViewUtil.ToString(patient.MedicalRecord.MedicalHistory);
             rtbAllergies.AppendText(allergies);
             rtbMedicalHistory.AppendText(medicalHistory);
         }
@@ -35,25 +40,27 @@ namespace HealthCare.View.PatientView
             Anamnesis anamnesis = new Anamnesis();
 
             TextRange textRange = new TextRange(
-                   rtbAllergies.Document.ContentStart,
-                   rtbAllergies.Document.ContentEnd);
-            _patient.MedicalRecord.Allergies = Utility.GetArray(textRange.Text);
+                rtbAllergies.Document.ContentStart,
+                rtbAllergies.Document.ContentEnd);
+            _patient.MedicalRecord.Allergies = ViewUtil.GetStringList(textRange.Text);
 
             textRange = new TextRange(
-                   rtbSymptoms.Document.ContentStart,
-                   rtbSymptoms.Document.ContentEnd);
-            anamnesis.Symptoms = Utility.GetArray(textRange.Text);
+                rtbSymptoms.Document.ContentStart,
+                rtbSymptoms.Document.ContentEnd);
+            anamnesis.Symptoms = ViewUtil.GetStringList(textRange.Text);
 
             textRange = new TextRange(
-                   rtbMedicalHistory.Document.ContentStart,
-                   rtbMedicalHistory.Document.ContentEnd);
-            _patient.MedicalRecord.MedicalHistory = Utility.GetArray(textRange.Text);
+                rtbMedicalHistory.Document.ContentStart,
+                rtbMedicalHistory.Document.ContentEnd);
+            _patient.MedicalRecord.MedicalHistory = ViewUtil.GetStringList(textRange.Text);
 
-            int newID = _hospital.AnamnesisService.AddAnamnesis(anamnesis);
-            Schedule.GetAppointment(_appointmentId).AnamnesisID = newID;
+            int newID = _anamnesisService.Add(anamnesis);
 
-            _hospital.PatientService.UpdateAccount(_patient);
-            _hospital.SaveAll();
+            Appointment appointment = _appointmentService.Get(_appointmentId);
+            appointment.AnamnesisID = newID;
+            _appointmentService.Update(appointment);
+
+            _patientService.Update(_patient);
             Close();
         }
     }

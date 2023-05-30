@@ -1,53 +1,30 @@
-﻿using HealthCare.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using HealthCare.Model;
+using HealthCare.Repository;
 
 namespace HealthCare.Service
 {
-    public class DoctorService : Service<Doctor>, IUserService
+    public class DoctorService : Service<Doctor>
     {
-        public DoctorService(string filePath) : base(filePath) { }  
-
-        public Doctor GetAccount(string JMBG)
+        public DoctorService(IRepository<Doctor> repository) : base(repository)
         {
-            return Get(JMBG);
-        }
-        public List<Patient> GetExaminedPatients(Doctor doctor)
-        {
-            HashSet<Patient> patients = new HashSet<Patient>();
-            foreach (var appointment in Schedule.Appointments)
-            {
-                if (appointment.Doctor.Equals(doctor))
-                {
-                    patients.Add(appointment.Patient);
-                }
-            }
-            return patients.ToList();
         }
 
-        public List<Doctor> GetAccounts() 
+        public List<string> GetBySpecialization(string specialization)
         {
-            return GetAll();
+            return GetAll().Where(x => x.IsCapable(specialization))
+                .Select(x => x.JMBG).ToList();
         }
 
-        public User? GetByUsername(string username)
+        public string? GetFirstBySpecialization(string specialization)
         {
-            return GetAll().Find(x => x.UserName == username);
-        }
-
-        public List<Doctor> GetBySpecialization(string specialization)
-        {
-            return GetAll().Where(x => x.IsCapable(specialization)).ToList();
+            return GetBySpecialization(specialization).FirstOrDefault();
         }
 
         public List<string> GetSpecializations()
         {
             return GetAll().Select(x => x.Specialization).Distinct().ToList();
-        }
-
-        public UserRole GetRole()
-        {
-            return UserRole.Doctor;
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using HealthCare.Repository;
-using System;
+﻿using System;
+using HealthCare.Application.Common;
+using HealthCare.Repository;
+using HealthCare.Serialize;
 
 namespace HealthCare.Model
 {
@@ -8,21 +10,15 @@ namespace HealthCare.Model
         Male,
         Female
     }
-    public class User : Identifier, ISerializable
-    {
-        public override object Key { get => JMBG; set => JMBG = (string)value; }
-        public string Name { get; set; }
-        public string LastName { get; set; }
-        public string JMBG { get; set; }
-        public DateTime BirthDate { get; set; }
-        public string PhoneNumber {get; set; }
-        public string Address { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public Gender Gender { get; set; }
 
-        public User() : this("", "", "", DateTime.MinValue, "", "", "", "", Gender.Female) { }
-        public User(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address, string userName, string password, Gender gender)
+    public class User : RepositoryItem
+    {
+        public User() : this("", "", "", DateTime.MinValue, "", "", "", "", Gender.Female)
+        {
+        }
+
+        public User(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address,
+            string userName, string password, Gender gender)
         {
             Name = name;
             LastName = lastName;
@@ -30,39 +26,47 @@ namespace HealthCare.Model
             BirthDate = birthDate;
             PhoneNumber = phoneNumber;
             Address = address;
-            UserName = userName;
+            Username = userName;
             Password = password;
             Gender = gender;
         }
 
-        public string[] ToCSV()
+        public string Name { get; set; }
+        public string LastName { get; set; }
+        public string JMBG { get; set; }
+        public DateTime BirthDate { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Address { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public Gender Gender { get; set; }
+
+        public override object Key
         {
-            return new string[] { 
-                Name, LastName, JMBG, Utility.ToString(BirthDate), 
-                PhoneNumber, Address, UserName, Password, Gender.ToString() };
+            get => JMBG;
+            set { JMBG = (string)value; }
         }
 
-        public void FromCSV(string[] values)
+        public override string[] Serialize()
+        {
+            return new string[]
+            {
+                Name, LastName, JMBG, Util.ToString(BirthDate),
+                PhoneNumber, Address, Username, Password, Gender.ToString()
+            };
+        }
+
+        public override void Deserialize(string[] values)
         {
             Name = values[0];
             LastName = values[1];
             JMBG = values[2];
-            BirthDate = Utility.ParseDate(values[3]);
+            BirthDate = Util.ParseDate(values[3]);
             PhoneNumber = values[4];
             Address = values[5];
-            UserName = values[6];
+            Username = values[6];
             Password = values[7];
-            Gender = Utility.Parse<Gender>(values[8]);
-        }
-
-        public override bool Equals(object? obj)
-        {
-            return obj is User user && JMBG == user.JMBG;
-        }
-
-        public override int GetHashCode()
-        {
-            return JMBG.GetHashCode();
+            Gender = SerialUtil.ParseEnum<Gender>(values[8]);
         }
     }
 }

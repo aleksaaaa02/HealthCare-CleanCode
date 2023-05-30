@@ -1,37 +1,41 @@
-﻿using HealthCare.Context;
-using HealthCare.Model;
-using HealthCare.ViewModel.NurseViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using HealthCare.Application;
+using HealthCare.Application.Common;
+using HealthCare.Model;
+using HealthCare.Service;
+using HealthCare.ViewModel.NurseViewModel;
 
-namespace HealthCare.View.PatientView
+namespace HealthCare.View.NurseView
 {
     public partial class NurseMainView : Window
     {
-        private Hospital _hospital;
+        private readonly PatientService _patientService;
         private PatientViewModel _model;
         private Patient? _patient;
         public MedicalRecord? _record;
         private List<TextBox> _textBoxes;
 
-        public NurseMainView(Hospital hospital)
+        public NurseMainView()
         {
             InitializeComponent();
 
-            _hospital = hospital;
-
-            _model = new PatientViewModel(_hospital.PatientService);
+            _model = new PatientViewModel();
             DataContext = _model;
-
             _model.Update();
+
+            _patientService = Injector.GetService<PatientService>();
             _patient = null;
             _record = null;
 
-            _textBoxes = new List<TextBox> { tbName, tbLastName, tbAddress, tbBirthDate,
-                                            tbUsername, tbPassword, tbJMBG, tbPhoneNumber};
+            _textBoxes = new List<TextBox>
+            {
+                tbName, tbLastName, tbAddress, tbBirthDate,
+                tbUsername, tbPassword, tbJMBG, tbPhoneNumber
+            };
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -43,13 +47,15 @@ namespace HealthCare.View.PatientView
         {
             if (!Validate())
             {
-                Utility.ShowWarning("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
+                ViewUtil.ShowWarning("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
                 return;
             }
 
             CreatePatient();
-            if (!_hospital.PatientService.CreateAccount(_patient))
-                Utility.ShowWarning("Pacijent sa unetim _jmbg vec postoji");
+            if (_patientService.Contains(_patient))
+                ViewUtil.ShowWarning("Pacijent sa unetim _jmbg vec postoji");
+            else
+                _patientService.Add(_patient);
 
             _record = null;
             _model.Update();
@@ -59,26 +65,27 @@ namespace HealthCare.View.PatientView
         {
             if (_patient is null)
             {
-                Utility.ShowWarning("Nije selektovan nalog.");
+                ViewUtil.ShowWarning("Nije selektovan nalog.");
                 return;
             }
 
-            MessageBoxResult result = Utility.ShowConfirmation("Da li ste sigurni da zelite da obrisete pacijenta?");
+            MessageBoxResult result = ViewUtil.ShowConfirmation("Da li ste sigurni da zelite da obrisete pacijenta?");
             if (result == MessageBoxResult.No)
                 return;
 
             _patient = (Patient)lvPatients.SelectedItem;
-            if (!_hospital.PatientService.DeleteAccount(_patient.JMBG))
-                Utility.ShowWarning("Pacijent sa unetim _jmbg ne postoji");
-
+            if (!_patientService.Contains(_patient.JMBG))
+                ViewUtil.ShowWarning("Pacijent sa unetim _jmbg ne postoji");
+            else
+                _patientService.Remove(_patient.JMBG);
             ClearBoxes();
             _model.Update();
         }
 
         private void lvPatients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _patient = (Patient) lvPatients.SelectedItem;
-            if (_patient is null) return; 
+            _patient = (Patient)lvPatients.SelectedItem;
+            if (_patient is null) return;
 
             tbName.Text = _patient.Name;
             tbLastName.Text = _patient.LastName;
@@ -86,7 +93,7 @@ namespace HealthCare.View.PatientView
             tbAddress.Text = _patient.Address;
             tbPassword.Text = _patient.Password;
             tbPhoneNumber.Text = _patient.PhoneNumber;
-            tbUsername.Text = _patient.UserName;
+            tbUsername.Text = _patient.Username;
             tbBirthDate.Text = _patient.BirthDate.ToString();
 
             if (_patient.Gender == Gender.Male)
@@ -109,13 +116,16 @@ namespace HealthCare.View.PatientView
         {
             if (!Validate())
             {
-                Utility.ShowWarning("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
+                ViewUtil.ShowWarning("Unesite sva polja. Datum je u formatu dd-MM-YYYY");
                 return;
             }
 
             CreatePatient();
-            if(!_hospital.PatientService.UpdateAccount(_patient))
-                Utility.ShowWarning("Pacijent sa unetim _jmbg ne postoji");
+            if (!_patientService.Contains(_patient.JMBG))
+                ViewUtil.ShowWarning("Pacijent sa unetim _jmbg ne postoji");
+            else
+                _patientService.Update(_patient);
+
             _model.Update();
         }
 
@@ -125,7 +135,7 @@ namespace HealthCare.View.PatientView
             _patient.Name = tbName.Text;
             _patient.LastName = tbLastName.Text;
             _patient.JMBG = tbJMBG.Text;
-            _patient.BirthDate = DateTime.Parse(tbBirthDate.Text);
+            _patient.BirthDate = Util.ParseDate(tbBirthDate.Text);
             _patient.PhoneNumber = tbPhoneNumber.Text;
             _patient.Address = tbAddress.Text;
 
@@ -133,7 +143,7 @@ namespace HealthCare.View.PatientView
                 _patient.Gender = Gender.Male;
             else _patient.Gender = Gender.Female;
 
-            _patient.UserName = tbUsername.Text;
+            _patient.Username = tbUsername.Text;
             _patient.Password = tbPassword.Text;
 
             if (chbBlocked.IsChecked is bool CheckedBlocked && CheckedBlocked)

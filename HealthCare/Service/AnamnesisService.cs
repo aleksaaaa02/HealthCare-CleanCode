@@ -1,15 +1,12 @@
 using HealthCare.Model;
+using HealthCare.Repository;
 
 namespace HealthCare.Service
 {
     public class AnamnesisService : NumericService<Anamnesis>
     {
-        public AnamnesisService(string filepath) : base(filepath) { }
-
-        public int AddAnamnesis(Anamnesis anamnesis)
+        public AnamnesisService(IRepository<Anamnesis> repository) : base(repository)
         {
-            Add(anamnesis);
-            return anamnesis.ID;
         }
     }
 }

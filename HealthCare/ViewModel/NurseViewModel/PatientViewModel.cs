@@ -1,19 +1,21 @@
-﻿using HealthCare.Model;
+﻿using System.Collections.ObjectModel;
+using HealthCare.Application;
+using HealthCare.Model;
 using HealthCare.Service;
-using System.Collections.ObjectModel;
 
 namespace HealthCare.ViewModel.NurseViewModel
 {
     public class PatientViewModel
     {
-        public ObservableCollection<Patient> Patients { get; set; }
         private PatientService _patientService;
 
-        public PatientViewModel(PatientService patientService)
+        public PatientViewModel()
         {
             Patients = new ObservableCollection<Patient>();
-            _patientService = patientService;
+            _patientService = Injector.GetService<PatientService>();
         }
+
+        public ObservableCollection<Patient> Patients { get; set; }
 
         public void Update()
         {

@@ -2,35 +2,32 @@
 using HealthCare.Exceptions;
 using HealthCare.View;
 
-namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment.Commands
+namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment.Commands;
+
+public class QuantityChangeCommand : CommandBase
 {
-    public class QuantityChangeCommand : CommandBase
+    private readonly EquipmentViewModel _equipmentViewModel;
+
+    public QuantityChangeCommand(EquipmentViewModel equipmentViewModel)
     {
-        private EquipmentViewModel _equipmentViewModel;
+        _equipmentViewModel = equipmentViewModel;
+    }
 
-        public QuantityChangeCommand(EquipmentViewModel equipmentViewModel)
+    public override void Execute(object parameter)
+    {
+        try
         {
-            _equipmentViewModel = equipmentViewModel;
+            Validate();
+            _equipmentViewModel.CurrentQuantity -= 1;
         }
+        catch (ValidationException ve)
+        {
+            ViewUtil.ShowWarning(ve.Message);
+        }
+    }
 
-        public override void Execute(object parameter)
-        {
-            try
-            {
-                Validate();
-                _equipmentViewModel.CurrentQuantity -= 1;
-            }
-            catch (ValidationException ve) 
-            {
-                Utility.ShowWarning(ve.Message);
-            }
-        }
-        private void Validate()
-        {
-            if (_equipmentViewModel.CurrentQuantity <= 0)
-            {
-                throw new ValidationException("Trenutne opreme nema na stanju!");
-            }
-        }
+    private void Validate()
+    {
+        if (_equipmentViewModel.CurrentQuantity <= 0) throw new ValidationException("Trenutne opreme nema na stanju!");
     }
 }

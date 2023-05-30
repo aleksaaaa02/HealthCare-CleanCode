@@ -1,27 +1,25 @@
-﻿using HealthCare.Context;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.ManagerViewModel;
-using System;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace HealthCare.View.ManagerView
 {
     public partial class EquipmentOrderView : Window
     {
-        private EquipmentOrderViewModel _model;
         private readonly OrderService _orderService;
-        private Window _parent;
+        private EquipmentOrderViewModel _model;
 
-        public EquipmentOrderView(Window parent, Hospital hospital)
+        public EquipmentOrderView()
         {
             InitializeComponent();
-            _parent = parent;
-            _orderService = hospital.OrderService;
+            _orderService = Injector.GetService<OrderService>(Injector.EQUIPMENT_ORDER_S);
 
-            _model = new EquipmentOrderViewModel(hospital);
+            _model = new EquipmentOrderViewModel();
             DataContext = _model;
         }
 
@@ -30,18 +28,15 @@ namespace HealthCare.View.ManagerView
             _model.LoadAll();
         }
 
-        private void Button_Exit(object sender, RoutedEventArgs e)
-        {
-            _parent.Show();
-            Close();
-        }
-
         private void Button_Order(object sender, RoutedEventArgs e)
         {
-            try {
+            try
+            {
                 Validate();
-            } catch (ValidationException ve) {
-                Utility.ShowWarning(ve.Message);
+            }
+            catch (ValidationException ve)
+            {
+                ViewUtil.ShowWarning(ve.Message);
                 return;
             }
 
@@ -49,7 +44,7 @@ namespace HealthCare.View.ManagerView
                 if (item.IsSelected)
                     MakeOrder(item.EquipmentId, int.Parse(item.OrderQuantity));
 
-            Utility.ShowInformation("Poručivanje uspešno.");
+            ViewUtil.ShowInformation("Poručivanje uspešno.");
             _model.LoadAll();
         }
 
@@ -58,7 +53,7 @@ namespace HealthCare.View.ManagerView
             var scheduled = DateTime.Now + new TimeSpan(24, 0, 0);
             _orderService.Add(new OrderItem(equipmentId, quantity, scheduled, false));
         }
-        
+
         private void Validate()
         {
             bool someSelected = false;
@@ -69,6 +64,7 @@ namespace HealthCare.View.ManagerView
 
                 someSelected |= item.IsSelected;
             }
+
             if (!someSelected)
                 throw new ValidationException("Nema unetih porudžbina.");
         }
@@ -89,9 +85,8 @@ namespace HealthCare.View.ManagerView
                 tb.Text = "0";
         }
 
-        private void Window_Closed(object sender, EventArgs e)
+        private void Button_Exit(object sender, RoutedEventArgs e)
         {
-            _parent.IsEnabled = true;
             Close();
         }
     }

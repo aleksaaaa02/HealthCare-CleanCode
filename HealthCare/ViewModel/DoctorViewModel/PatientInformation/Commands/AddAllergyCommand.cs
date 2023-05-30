@@ -2,36 +2,33 @@
 using HealthCare.Exceptions;
 using HealthCare.View;
 
-namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
+namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands;
+
+public class AddAllergyCommand : CommandBase
 {
-    public class AddAllergyCommand : CommandBase
+    private readonly PatientInformationViewModel _viewModel;
+
+    public AddAllergyCommand(PatientInformationViewModel viewModel)
     {
-        private readonly PatientInforamtionViewModel _viewModel;
+        _viewModel = viewModel;
+    }
 
-        public AddAllergyCommand(PatientInforamtionViewModel viewModel) 
+    public override void Execute(object parameter)
+    {
+        try
         {
-            _viewModel = viewModel;
+            Validate();
+            _viewModel.AddAllergy(_viewModel.Allergy);
         }
+        catch (ValidationException ve)
+        {
+            ViewUtil.ShowWarning(ve.Message);
+        }
+    }
 
-        public override void Execute(object parameter)
-        {
-            try
-            {
-                Validate();
-                _viewModel.AddAllergy(_viewModel.Allergy);
-                
-            } catch(ValidationException ve) 
-            {
-                Utility.ShowWarning(ve.Message);
-            }
-        }
-
-        private void Validate()
-        {
-            if (string.IsNullOrWhiteSpace(_viewModel.Allergy))
-            {
-                throw new ValidationException("Morate uneti alergiju u polje");
-            }
-        }
+    private void Validate()
+    {
+        if (string.IsNullOrWhiteSpace(_viewModel.Allergy))
+            throw new ValidationException("Morate uneti alergiju u polje");
     }
 }

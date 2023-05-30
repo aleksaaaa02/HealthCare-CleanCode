@@ -1,16 +1,15 @@
-﻿using HealthCare.Context;
+﻿using System.Windows;
 using HealthCare.Model;
 using HealthCare.ViewModel.DoctorViewModel.Examination;
-using System.Windows;
 
 namespace HealthCare.View.DoctorView
 {
     public partial class DoctorExamView : Window
     {
-        public DoctorExamView(Hospital hospital, Appointment appointment, int roomId)
+        public DoctorExamView(Appointment appointment)
         {
             InitializeComponent();
-            DataContext = new DoctorExamViewModel(hospital, this, appointment, roomId);
+            DataContext = new DoctorExamViewModel(this, appointment);
         }
     }
 }

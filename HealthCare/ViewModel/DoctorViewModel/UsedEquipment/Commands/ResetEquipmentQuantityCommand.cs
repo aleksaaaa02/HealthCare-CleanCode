@@ -1,19 +1,18 @@
 ﻿using HealthCare.Command;
 
-namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment.Commands
+namespace HealthCare.ViewModel.DoctorViewModel.UsedEquipment.Commands;
+
+public class ResetEquipmentQuantityCommand : CommandBase
 {
-    public class ResetEquipmentQuantityCommand : CommandBase
+    private readonly UsedDynamicEquipmentViewModel _viewModel;
+
+    public ResetEquipmentQuantityCommand(UsedDynamicEquipmentViewModel viewModel)
     {
-        private readonly UsedDynamicEquipmentViewModel _viewModel;
+        _viewModel = viewModel;
+    }
 
-        public ResetEquipmentQuantityCommand(UsedDynamicEquipmentViewModel viewModel)
-        {
-            _viewModel = viewModel;
-        }
-
-        public override void Execute(object parameter)
-        {
-            _viewModel.Update();
-        }
+    public override void Execute(object parameter)
+    {
+        _viewModel.Update();
     }
 }

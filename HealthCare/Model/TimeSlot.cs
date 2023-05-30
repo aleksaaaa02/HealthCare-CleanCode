@@ -1,21 +1,31 @@
-﻿using HealthCare.Repository;
-using System;
+﻿using System;
+using HealthCare.Application.Common;
 
 namespace HealthCare.Model
 {
     public class TimeSlot
     {
-        public DateTime Start { get; set; }
-        public TimeSpan Duration { get; set; }
-        public DateTime End => Start + Duration;
+        public TimeSlot() : this(DateTime.MinValue, TimeSpan.Zero)
+        {
+        }
 
-        public TimeSlot() : this(DateTime.MinValue, TimeSpan.Zero) { }
-        public TimeSlot(TimeSlot other) : this(other.Start, other.Duration) { }
+        public TimeSlot(TimeSlot other) : this(other.Start, other.Duration)
+        {
+        }
+
+        public TimeSlot(DateTime start, DateTime end) : this(start, end - start)
+        {
+        }
+
         public TimeSlot(DateTime start, TimeSpan duration)
         {
             Start = start;
             Duration = duration;
         }
+
+        public DateTime Start { get; set; }
+        public TimeSpan Duration { get; set; }
+        public DateTime End => Start + Duration;
 
         public bool Overlaps(TimeSlot term)
         {
@@ -34,15 +44,15 @@ namespace HealthCare.Model
 
         public override string ToString()
         {
-            return Utility.ToString(Start) + "|" + Utility.ToString(Duration);
+            return Util.ToString(Start) + "|" + Util.ToString(Duration);
         }
 
         public static TimeSlot Parse(string s)
         {
             string[] tokens = s.Split('|');
             return new TimeSlot(
-                Utility.ParseDate(tokens[0]),
-                Utility.ParseDuration(tokens[1]));
+                Util.ParseDate(tokens[0]),
+                Util.ParseDuration(tokens[1]));
         }
     }
 }

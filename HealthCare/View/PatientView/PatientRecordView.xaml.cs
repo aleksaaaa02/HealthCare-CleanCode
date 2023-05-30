@@ -1,18 +1,18 @@
-﻿using HealthCare.Context;
-using HealthCare.Model;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using HealthCare.ViewModel.NurseViewModel.DataViewModel;
+using HealthCare.ViewModel.PatientViewModell;
 
 namespace HealthCare.View.AppointmentView
 {
-    public partial class PatientRecordView : Window
+    public partial class PatientRecordView : UserControl
     {
         PatientRecordViewModel model;
-        public PatientRecordView(Hospital hospital)
+
+        public PatientRecordView()
         {
-            model = new PatientRecordViewModel(hospital);
+            model = new PatientRecordViewModel();
             DataContext = model;
-            InitializeComponent();           
+            InitializeComponent();
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -27,11 +27,11 @@ namespace HealthCare.View.AppointmentView
 
         private void ListViewRecord_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Appointment appointment = (Appointment)listViewRecord.SelectedItem;
+            var appointment = (AppointmentViewModel)listViewRecord.SelectedItem;
 
             if (listViewRecord.SelectedItems.Count == 1)
             {
-                model.ShowAnamnesis(appointment);
+                model.ShowAnamnesis(appointment.Appointment);
             }
         }
     }

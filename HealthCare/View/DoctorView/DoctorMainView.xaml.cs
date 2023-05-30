@@ -1,7 +1,6 @@
-﻿using HealthCare.Context;
-using HealthCare.ViewModels.DoctorViewModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
+using HealthCare.ViewModels.DoctorViewModel;
 
 namespace HealthCare.View.DoctorView
 {
@@ -9,15 +8,15 @@ namespace HealthCare.View.DoctorView
     {
         private MainWindow _loginWindow;
 
-        public DoctorMainView(MainWindow loginWindow, Hospital hospital)
+        public DoctorMainView(MainWindow loginWindow)
         {
             _loginWindow = loginWindow;
             InitializeComponent();
-            DataContext = new DoctorMainViewModel(hospital, this);
+            DataContext = new DoctorMainViewModel(this);
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
-        {            
+        {
             _loginWindow.Show();
         }
     }

@@ -8,8 +8,8 @@
         Title="DoctorExamView" Height="620" Width="900">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="0.35*"/>
+            <ColumnDefinition Width="0.65*"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
@@ -17,7 +17,7 @@
                 <RowDefinition Height="0.30*"/>
                 <RowDefinition Height="0.1*"/>
             </Grid.RowDefinitions>
-            <ScrollViewer Grid.Row="0">
+            <Grid Grid.Row="0">
                 <StackPanel Grid.Row="0" Margin="10 0">
                     <TextBlock Text="Pacijent" HorizontalAlignment="Left" FontSize="24" FontWeight="Bold" VerticalAlignment="Top"/>
                     <Label Content="Ime"/>
@@ -26,17 +26,13 @@
                     <TextBox Text="{Binding LastName}" IsReadOnly="True"/>
                     <Label Content="JMBG"/>
                     <TextBox Text="{Binding JMBG}"  IsReadOnly="True"/>
-                    <Label Content="Datum Rodjenja"/>
-                    <DatePicker Text="{Binding Birthday}" Focusable="False" IsHitTestVisible="False"/>
-                    <Label Content="Pol"/>
-                    <TextBox Text="{Binding Gender}" IsReadOnly="True"/>
                     <Label Content="Visina (cm):"/>
                     <TextBox Text="{Binding Height}" HorizontalAlignment="Left" IsReadOnly="True" Width="100" TextAlignment="Center"/>
                     <Label Content="Tezina (kg):"/>
                     <TextBox Text="{Binding Weight}" HorizontalAlignment="Left" IsReadOnly="True" Width="100" TextAlignment="Center"/>
                     <TextBlock Text="Istorija Bolesti" FontSize="20" FontWeight="Bold"/>
                 </StackPanel>
-            </ScrollViewer>
+            </Grid>
 
             <Grid Grid.Row="1" Margin="10 0">
                 <ListView ItemsSource="{Binding PreviousDisease}" SelectedItem="{Binding SelectedDisease}" SelectionMode="Single">
@@ -89,10 +85,14 @@
                     </ScrollViewer>
                  </StackPanel>
             </ScrollViewer>
-            <StackPanel Grid.Row="1" VerticalAlignment="Center">
-                <Button Content="Zavrsi Pregled" HorizontalAlignment="Center" Margin="0 0 0 5" Width="120" Height="30" Command="{Binding FinishExaminationCommand}"  VerticalAlignment="Center"/>
-                <Button Content="Izadji" HorizontalAlignment="Center" Margin="0 5 0 0" Width="120" Height="30" Command="{Binding CancelExaminationCommand}" VerticalAlignment="Center"/>
-            </StackPanel>
+            <Grid Grid.Row="1">
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Content="Zavrsi Pregled" HorizontalAlignment="Center" Width="120" Margin="0 0 5 0" Height="30" Command="{Binding FinishExaminationCommand}"  VerticalAlignment="Center"/>
+                    <Button Content="Izdaj Recept" HorizontalAlignment="Center" Width="120" Margin="0 0 5 0" Height="30" Command="{Binding MakePrescriptionCommand}" VerticalAlignment="Center"/>
+                    <Button Content="Uput za bolnicko lecenje" HorizontalAlignment="Center" Width="150" Margin="0 0 5 0" Height="30" Command="{Binding MakeTreatmentReferralCommand}" VerticalAlignment="Center"/>
+                    <Button Content="Uput za specijalistu" HorizontalAlignment="Center" Width="120" Height="30" Command="{Binding MakeSpecialistReferralCommand}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
         </Grid>
 
     </Grid>

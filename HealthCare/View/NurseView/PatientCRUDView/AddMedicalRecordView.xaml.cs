@@ -1,14 +1,15 @@
-﻿using HealthCare.Model;
-using HealthCare.View.ReceptionView;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Documents;
+using HealthCare.Model;
+using HealthCare.View.ReceptionView;
 
-namespace HealthCare.View.PatientView
+namespace HealthCare.View.NurseView
 {
     public partial class AddMedicalRecordView : Window
     {
         private NurseMainView? _nurseView;
         private CreatePatientView? _patientView;
+
         public AddMedicalRecordView(NurseMainView window)
         {
             InitializeComponent();
@@ -21,7 +22,8 @@ namespace HealthCare.View.PatientView
                 tbWidth.Text = _nurseView._record.Weight.ToString();
                 rtbMedicalHistory.AppendText(string.Join(",", _nurseView._record.MedicalHistory));
             }
-            else {
+            else
+            {
                 _nurseView._record = new MedicalRecord();
             }
         }
@@ -43,7 +45,7 @@ namespace HealthCare.View.PatientView
         {
             if (!Validate())
             {
-                Utility.ShowWarning("Visina i tezina moraju biti brojevi");
+                ViewUtil.ShowWarning("Visina i tezina moraju biti brojevi");
                 return;
             }
 
@@ -54,13 +56,13 @@ namespace HealthCare.View.PatientView
                 rtbMedicalHistory.Document.ContentStart,
                 rtbMedicalHistory.Document.ContentEnd
             );
-            medicalRecord.MedicalHistory = Utility.GetArray(textRange.Text);
+            medicalRecord.MedicalHistory = ViewUtil.GetStringList(textRange.Text);
 
             if (_nurseView is not null)
                 _nurseView._record = medicalRecord;
             else if (_patientView is not null)
                 _patientView._record = medicalRecord;
-            Close();  
+            Close();
         }
 
         public bool Validate()

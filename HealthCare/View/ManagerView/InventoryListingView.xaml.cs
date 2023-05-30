@@ -1,22 +1,17 @@
-﻿using HealthCare.Context;
+﻿using System.Windows;
 using HealthCare.ViewModel.ManagerViewModel;
-using System;
-using System.Windows;
 
 namespace HealthCare.View.ManagerView
 {
     public partial class InventoryListingView : Window
     {
-        private Window _parent;
         private InventoryListingViewModel _model;
 
-        public InventoryListingView(Window parent, Hospital hospital)
+        public InventoryListingView()
         {
             InitializeComponent();
-            _parent = parent;
-            _parent.IsEnabled = false;
 
-            _model = new InventoryListingViewModel(hospital);
+            _model = new InventoryListingViewModel();
             DataContext = _model;
         }
 
@@ -25,9 +20,8 @@ namespace HealthCare.View.ManagerView
             _model.LoadAll();
         }
 
-        private void Window_Closed(object sender, EventArgs e)
+        private void Button_Exit(object sender, RoutedEventArgs e)
         {
-            _parent.IsEnabled = true;
             Close();
         }
     }
