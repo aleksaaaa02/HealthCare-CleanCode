@@ -6,10 +6,10 @@ namespace HealthCare.View.DoctorView
 {
     public partial class DoctorExamView : Window
     {
-        public DoctorExamView(Appointment appointment, int roomId)
+        public DoctorExamView(Appointment appointment)
         {
             InitializeComponent();
-            DataContext = new DoctorExamViewModel(this, appointment, roomId);
+            DataContext = new DoctorExamViewModel(this, appointment);
         }
     }
 }

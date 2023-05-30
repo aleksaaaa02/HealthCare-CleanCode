@@ -4,6 +4,7 @@ using HealthCare.Service;
 using HealthCare.Service.ScheduleService;
 using HealthCare.View.PatientView;
 using System.Windows;
+using HealthCare.View.NurseView;
 
 namespace HealthCare.View.ReceptionView
 {

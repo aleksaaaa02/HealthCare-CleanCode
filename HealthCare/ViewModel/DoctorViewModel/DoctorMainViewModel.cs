@@ -75,7 +75,7 @@ namespace HealthCare.ViewModels.DoctorViewModel
             ShowDetailedPatientInfoCommand = new ShowPatientInfoCommand(this, false);
             ApplyFilterCommand = new ApplyFilterCommand(this);
             ShowPatientSearchCommand = new ShowPatientSearchViewCommand();
-            StartExaminationCommand = new ShowReservationDialogCommand(this);
+            StartExaminationCommand = new StartExaminationCommand(this);
             Update();
         }
 

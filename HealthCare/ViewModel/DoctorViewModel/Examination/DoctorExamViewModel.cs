@@ -130,7 +130,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
         }
 
 
-        public DoctorExamViewModel(Window window, Appointment appointment, int roomId)
+        public DoctorExamViewModel(Window window, Appointment appointment)
         {
             _anamnesisService = Injector.GetService<AnamnesisService>();
             _patientService = Injector.GetService<PatientService>();
@@ -139,7 +139,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Examination
             
             
             UpdatePatientCommand = new ShowPatientInfoCommand(this, true);
-            FinishExaminationCommand = new FinishExaminationCommand(window, appointment, this, roomId);
+            FinishExaminationCommand = new FinishExaminationCommand(window, appointment, this);
             MakeSpecialistReferralCommand = new ShowSpecialistReferralViewCommand(_selectedPatient);
             MakeTreatmentReferralCommand = new ShowTreatmentReferralViewCommand(_selectedPatient);
             MakePrescriptionCommand = new ShowPrescriptionViewCommand(_selectedPatient);

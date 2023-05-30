@@ -11,4 +11,8 @@
     <PackageReference Include="FontAwesome.Sharp" Version="6.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModel\DoctorViewModel\RoomReservation\Commands\" />
+  </ItemGroup>
+
 </Project>
