@@ -48,8 +48,8 @@ namespace HealthCare.View.UrgentAppointmentView
             }
             _newAppointment.TimeSlot.Start = _selected.Appointment.TimeSlot.Start;
             _newAppointment.DoctorJMBG = _selected.Appointment.DoctorJMBG;
-            _schedule.PostponeAppointment(_selected.Appointment);
-            _schedule.AddUrgentAppointment(_newAppointment);
+            _schedule.Postpone(_selected.Appointment);
+            _schedule.AddUrgent(_newAppointment);
 
             _notificationService.Add(new Notification(
                 "Termin sa ID-jem " + _selected.Appointment.AppointmentID + " je pomeren.",

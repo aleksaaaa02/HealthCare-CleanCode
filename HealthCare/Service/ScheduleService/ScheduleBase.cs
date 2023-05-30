@@ -5,13 +5,13 @@ using System.Linq;
 
 namespace HealthCare.Service.ScheduleService
 {
-    public abstract class ScheduleBase : IAvailable
+    public abstract class ScheduleBase<T> : IAvailable<T>
     {
-        protected List<IAvailable> _availabilityValidators = new List<IAvailable>();
+        protected List<IAvailable<T>> _availabilityValidators = new List<IAvailable<T>>();
 
-        public bool IsAvailable(Appointment appointment)
+        public bool IsAvailable(T key, TimeSlot timeSlot)
         {
-            return _availabilityValidators.All(x => x.IsAvailable(appointment));
+            return _availabilityValidators.All(x => x.IsAvailable(key, timeSlot));
         }
     }
 }

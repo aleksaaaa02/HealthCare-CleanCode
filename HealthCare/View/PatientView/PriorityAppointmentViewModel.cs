@@ -93,7 +93,7 @@ namespace HealthCare.View.AppointmentView
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
                 Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
-                if (_schedule.CheckAvailability(appointment))
+                if (_schedule.IsAvailable(appointment))
                 {
                     return appointment;
                 }
@@ -119,7 +119,7 @@ namespace HealthCare.View.AppointmentView
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
                 Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
-                if (_schedule.CheckAvailability(appointment))
+                if (_schedule.IsAvailable(appointment))
                 {
                     appointments.Add(appointment);
                 }
@@ -141,7 +141,7 @@ namespace HealthCare.View.AppointmentView
                 {
                     TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
                     Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
-                    if (_schedule.CheckAvailability(appointment))
+                    if (_schedule.IsAvailable(appointment))
                     {
                         return appointment;
                     }
@@ -166,7 +166,7 @@ namespace HealthCare.View.AppointmentView
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
                 Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
-                if (_schedule.CheckAvailability(appointment))
+                if (_schedule.IsAvailable(appointment))
                 {
                     return appointment;
                 }

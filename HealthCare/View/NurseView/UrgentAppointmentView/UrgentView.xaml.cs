@@ -78,13 +78,13 @@ namespace HealthCare.View.UrgentAppointmentView
             }
 
             TimeSpan duration = new TimeSpan(0, int.Parse(tbDuration.Text), 0);
-            List<Doctor> specialists = _doctorService.GetBySpecialization(cbSpecialization.SelectedValue.ToString());
+            List<string> specialists = _doctorService.GetBySpecialization(cbSpecialization.SelectedValue.ToString());
 
             Appointment? appointment = _schedule.TryGetUrgent(duration, specialists);
             if (appointment is not null)
             {
                 appointment = FillAppointmentDetails(appointment);
-                _schedule.AddUrgentAppointment(appointment);
+                _schedule.AddUrgent(appointment);
 
                 _notificationService.Add(new Notification(
                 "Hitan termin sa ID-jem " + appointment.AppointmentID + " je kreiran.",
@@ -95,10 +95,10 @@ namespace HealthCare.View.UrgentAppointmentView
             }
 
             List<Appointment> postponable = new List<Appointment>();
-            foreach (Doctor doctor in specialists)
-                postponable.AddRange(_doctorSchedule.GetPostponable(duration, doctor));
+            foreach (string doctorJmbg in specialists)
+                postponable.AddRange(_doctorSchedule.GetPostponable(duration, doctorJmbg));
 
-            postponable = postponable.OrderBy(x => _schedule.GetSoonestStartingTime(x)).ToList();
+            postponable = postponable.OrderBy(x => _schedule.GetSoonestTimeSlot(x).Start).ToList();
 
             appointment = FillAppointmentDetails(appointment);
             appointment.TimeSlot = new TimeSlot(DateTime.MinValue, duration);

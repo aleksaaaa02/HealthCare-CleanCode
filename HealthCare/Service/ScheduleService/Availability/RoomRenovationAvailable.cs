@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace HealthCare.Service.ScheduleService.Availability
 {
-    public class RoomRenovationAvailable : IAvailable
+    public class RoomRenovationAvailable : IAvailable<int>
     {
         private readonly List<IRenovationService> _renovationServices;
 
@@ -20,11 +20,11 @@ namespace HealthCare.Service.ScheduleService.Availability
             };
         }
 
-        public bool IsAvailable(Appointment appointment)
+        public bool IsAvailable(int key, TimeSlot timeSlot)
         {
             return _renovationServices.All(s => !s.GetRenovations()
-                .Where(x => x.RoomId == appointment.RoomID)
-                .Any(x => x.Scheduled.Overlaps(appointment.TimeSlot)));
+                .Where(x => x.RoomId == key)
+                .Any(x => x.Scheduled.Overlaps(timeSlot)));
         }
     }
 }

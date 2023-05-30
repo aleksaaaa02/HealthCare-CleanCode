@@ -82,12 +82,13 @@ namespace HealthCare.View.NurseView.ReferralView
             TimeSlot slot = new TimeSlot(selectedDate, new TimeSpan(0,15,0));
             Appointment appointment = new Appointment(_patient.JMBG, referred.JMBG, slot ,false);
 
-            if (!_schedule.CheckAvailability(appointment))
+            if (!_schedule.IsAvailable(appointment))
             {
                 ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu.");
                 return;
             }
-            _appointmentService.Add(appointment);
+
+            _schedule.Add(appointment);
             ViewUtil.ShowInformation("Uspesno ste zakazali pregled.");
 
             var updated = _specialistReferralService.Get(_referral.SpecialistReferral.Id);

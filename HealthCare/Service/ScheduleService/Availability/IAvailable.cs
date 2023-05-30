@@ -2,9 +2,8 @@
 
 namespace HealthCare.Service.ScheduleService.Availability
 {
-    public interface IAvailable
+    public interface IAvailable<T>
     {
-        public bool IsAvailable(Appointment key);
-
+        bool IsAvailable(T key, TimeSlot timeSlot);
     }
 }

@@ -7,13 +7,14 @@ using System.Linq;
 
 namespace HealthCare.Service.ScheduleService
 {
-    public class DoctorSchedule : ScheduleBase
+    public class DoctorSchedule : ScheduleBase<string>, IAppointmentAvailable
     {
         private AppointmentService _appointmentService;
+
         public DoctorSchedule() 
         {
             _appointmentService = Injector.GetService<AppointmentService>();
-            _availabilityValidators = new List<IAvailable> {
+            _availabilityValidators = new List<IAvailable<string>> {
                 new DoctorAppointmentAvailable()
             };
         }
@@ -21,13 +22,17 @@ namespace HealthCare.Service.ScheduleService
         public List<Appointment> GetAppointmentsForDays(Doctor doctor, DateTime start, int days)
         {
             DateTime end = start.AddDays(days);
-            return _appointmentService.GetByDoctor(doctor.JMBG)
-                .Where(x => x.TimeSlot.InBetweenDates(start, end)).ToList();
+            return _appointmentService
+                .GetByDoctor(doctor.JMBG)
+                .Where(x => x.TimeSlot.InBetweenDates(start, end))
+                .ToList();
         }
 
-        public List<Appointment> GetPostponable(TimeSpan duration, Doctor specialist)
+        public List<Appointment> GetPostponable(TimeSpan duration, string doctorJmbg)
         {
-            var postponable =  _appointmentService.GetByDoctor(specialist.JMBG).FindAll(x => x.TimeSlot.Start >= DateTime.Now);
+            var postponable = _appointmentService
+                .GetByDoctor(doctorJmbg)
+                .FindAll(x => x.TimeSlot.Start >= DateTime.Now);
             return FilterPostponable(duration, postponable);
         }
 
@@ -46,5 +51,9 @@ namespace HealthCare.Service.ScheduleService
             return filtered;
         }
 
+        public bool IsAvailable(Appointment appointment)
+        {
+            return IsAvailable(appointment.DoctorJMBG, appointment.TimeSlot);
+        }
     }
 }
