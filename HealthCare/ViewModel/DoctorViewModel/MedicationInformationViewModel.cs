@@ -1,65 +1,64 @@
-﻿using HealthCare.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using HealthCare.Model;
 
-namespace HealthCare.ViewModel.DoctorViewModel
+namespace HealthCare.ViewModel.DoctorViewModel;
+
+public class MedicationInformationViewModel : ViewModelBase
 {
-    public class MedicationInformationViewModel : ViewModelBase
+    private readonly Medication _medication;
+    private readonly ObservableCollection<string> _medicationIngredients;
+    private string _description;
+    private int _id;
+    private string _name;
+
+    public MedicationInformationViewModel(Medication medication)
     {
-        private ObservableCollection<string> _medicationIngredients;
-        private int _id;
-        private string _name;
-        private string _description;
-        private readonly Medication _medication;
+        _medication = medication;
+        _medicationIngredients = new ObservableCollection<string>();
 
-        public IEnumerable<string> MedicationIngredients => _medicationIngredients;
+        Description = medication.Description;
+        ID = medication.Id;
+        Name = medication.Name;
 
-        public int ID
-        {
-            get => _id;
-            set
-            {
-                _id = value;
-                OnPropertyChanged(nameof(ID));
-            }
-        }
-        public string Name
-        {
-            get => _name;
-            set
-            {
-                _name = value;
-                OnPropertyChanged(nameof(Name));
-            }
-        }
-        public string Description
-        {
-            get => _description;
-            set
-            {
-                _description = value;
-                OnPropertyChanged(nameof(Description)); 
-            }
-        }
+        Update();
+    }
 
-        public MedicationInformationViewModel(Medication medication) 
-        {
-            _medication = medication;
-            _medicationIngredients = new ObservableCollection<string>();
+    public IEnumerable<string> MedicationIngredients => _medicationIngredients;
 
-            Description = medication.Description;
-            ID = medication.Id;
-            Name = medication.Name; 
-
-            Update();
-        }
-        private void Update()
+    public int ID
+    {
+        get => _id;
+        set
         {
-            _medicationIngredients.Clear();
-            foreach(string ingredient in _medication.Ingredients)
-            {
-                _medicationIngredients.Add(ingredient);
-            }
+            _id = value;
+            OnPropertyChanged();
         }
+    }
+
+    public string Name
+    {
+        get => _name;
+        set
+        {
+            _name = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string Description
+    {
+        get => _description;
+        set
+        {
+            _description = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private void Update()
+    {
+        _medicationIngredients.Clear();
+        foreach (var ingredient in _medication.Ingredients) _medicationIngredients.Add(ingredient);
     }
 }

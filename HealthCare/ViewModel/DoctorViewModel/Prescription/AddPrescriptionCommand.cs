@@ -1,90 +1,88 @@
-﻿using HealthCare.Command;
-using HealthCare.Application;
+﻿using HealthCare.Application;
+using HealthCare.Command;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.View;
 
-namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions
+namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions;
+
+public class AddPrescriptionCommand : CommandBase
 {
-    public class AddPrescriptionCommand : CommandBase
+    private readonly MedicationService _medicationService;
+    private readonly Patient _patient;
+    private readonly PrescriptionService _prescriptionService;
+    private readonly PrescriptionViewModel _prescriptionViewModel;
+
+    public AddPrescriptionCommand(Patient patient, PrescriptionViewModel prescriptionViewModel)
     {
-        private readonly PrescriptionService _prescriptionService;
-        private readonly MedicationService _medicationService;
-        private Patient _patient;
-        private PrescriptionViewModel _prescriptionViewModel;
+        _prescriptionService = Injector.GetService<PrescriptionService>(Injector.THERAPY_PRESCRIPTION_S);
+        _medicationService = Injector.GetService<MedicationService>();
+        _patient = patient;
+        _prescriptionViewModel = prescriptionViewModel;
+    }
 
-        public AddPrescriptionCommand(Patient patient, PrescriptionViewModel prescriptionViewModel) 
+    public override void Execute(object parameter)
+    {
+        try
         {
-            _prescriptionService = Injector.GetService<PrescriptionService>(Injector.THERAPY_PRESCRIPTION_S);
-            _medicationService = Injector.GetService<MedicationService>();
-            _patient = patient;
-            _prescriptionViewModel = prescriptionViewModel;
-        
+            Validate();
+            MakePrescription();
+            ViewUtil.ShowInformation("Recept uspesno izdat!");
         }
-
-        public override void Execute(object parameter)
+        catch (ValidationException ex)
         {
-            try
-            {
-                Validate();
-                MakePrescription();
-                ViewUtil.ShowInformation("Recept uspesno izdat!");
-
-            }
-            catch (ValidationException ex)
-            {
-                ViewUtil.ShowWarning(ex.Message);
-            }
+            ViewUtil.ShowWarning(ex.Message);
         }
-        
-        private void MakePrescription()
-        {
-            int dailyDosage = _prescriptionViewModel.DailyDosage;
-            int hoursBetweenConsumption = _prescriptionViewModel.HoursBetweenConsumption;
-            int consumptionDays = _prescriptionViewModel.ConsumptionDays;
-            int selectedMedication = _prescriptionViewModel.SelectedMedication.MedicationId;
-            string doctorJMBG = Context.Current.JMBG;
-            MealTime mealTime = GetMealTime();
+    }
 
-            CheckPatientAllergies(_patient, selectedMedication);
+    private void MakePrescription()
+    {
+        var dailyDosage = _prescriptionViewModel.DailyDosage;
+        var hoursBetweenConsumption = _prescriptionViewModel.HoursBetweenConsumption;
+        var consumptionDays = _prescriptionViewModel.ConsumptionDays;
+        var selectedMedication = _prescriptionViewModel.SelectedMedication.MedicationId;
+        var doctorJMBG = Context.Current.JMBG;
+        var mealTime = GetMealTime();
 
-            Prescription prescription = new Prescription(selectedMedication, mealTime, _patient.JMBG, doctorJMBG, dailyDosage, hoursBetweenConsumption, consumptionDays);
-            _prescriptionService.Add(prescription);
-        }
-        
-        private MealTime GetMealTime()
-        {
-            if (_prescriptionViewModel.BeforeMeal) return MealTime.BeforeMeal;
+        CheckPatientAllergies(_patient, selectedMedication);
 
-            if (_prescriptionViewModel.AfterMeal) return MealTime.AfterMeal;
-            
-            if (_prescriptionViewModel.DuringMeal) return MealTime.DuringMeal;
+        var prescription = new Prescription(selectedMedication, mealTime, _patient.JMBG, doctorJMBG, dailyDosage,
+            hoursBetweenConsumption, consumptionDays);
+        _prescriptionService.Add(prescription);
+    }
 
-            return MealTime.NoPreference;
-        }
-        
-        private void Validate()
-        {
-            if (_prescriptionViewModel.DailyDosage <= 0)
-                throw new ValidationException("Dnevna doza unosa nije validna");    
-            
-            if(_prescriptionViewModel.HoursBetweenConsumption <= 0)
-                throw new ValidationException("Sati izmedju konzumacije nisu validni");
-            
-            if (_prescriptionViewModel.ConsumptionDays <= 0)
-                throw new ValidationException("Broj dana konzumacije nije validan");
-            
-            if (_prescriptionViewModel.SelectedMedication is null)
-                throw new ValidationException("Niste odabrali lek"); 
-        }
-        
-        private void CheckPatientAllergies(Patient patient, int medicationID)
-        {
-            Medication medication = _medicationService.Get(medicationID);
+    private MealTime GetMealTime()
+    {
+        if (_prescriptionViewModel.BeforeMeal) return MealTime.BeforeMeal;
 
-            if (patient.IsAllergic(medication.Ingredients))
-                throw new ValidationException("Pacijent je alergican na lek: " + medication.Name);
-        }
+        if (_prescriptionViewModel.AfterMeal) return MealTime.AfterMeal;
+
+        if (_prescriptionViewModel.DuringMeal) return MealTime.DuringMeal;
+
+        return MealTime.NoPreference;
+    }
+
+    private void Validate()
+    {
+        if (_prescriptionViewModel.DailyDosage <= 0)
+            throw new ValidationException("Dnevna doza unosa nije validna");
+
+        if (_prescriptionViewModel.HoursBetweenConsumption <= 0)
+            throw new ValidationException("Sati izmedju konzumacije nisu validni");
+
+        if (_prescriptionViewModel.ConsumptionDays <= 0)
+            throw new ValidationException("Broj dana konzumacije nije validan");
+
+        if (_prescriptionViewModel.SelectedMedication is null)
+            throw new ValidationException("Niste odabrali lek");
+    }
+
+    private void CheckPatientAllergies(Patient patient, int medicationID)
+    {
+        var medication = _medicationService.Get(medicationID);
+
+        if (patient.IsAllergic(medication.Ingredients))
+            throw new ValidationException("Pacijent je alergican na lek: " + medication.Name);
     }
 }

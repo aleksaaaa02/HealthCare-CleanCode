@@ -1,74 +1,73 @@
-﻿using HealthCare.Application;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModel.DoctorViewModel.Referrals.Commands;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
 
-namespace HealthCare.ViewModel.DoctorViewModel.Referrals
+namespace HealthCare.ViewModel.DoctorViewModel.Referrals;
+
+public class SpecialistReferralViewModel : ViewModelBase
 {
-    public class SpecialistReferralViewModel : ViewModelBase
+    private readonly ObservableCollection<DoctorsViewModel> _doctors;
+    private readonly DoctorService _doctorService;
+    public readonly Patient ExaminedPatient;
+    private bool _isSpecializationReferral;
+
+    private DoctorsViewModel _selectedDoctor;
+    private string _specialization;
+
+    public SpecialistReferralViewModel(Patient patient)
     {
-        private readonly DoctorService _doctorService;
+        _doctorService = Injector.GetService<DoctorService>();
+        ExaminedPatient = patient;
+        _specialization = "";
+        MakeSpecialistReferralCommand = new AddSpecialistReferralCommand(this);
 
-        private DoctorsViewModel _selectedDoctor;
-        private ObservableCollection<DoctorsViewModel> _doctors;
-        private string _specialization;
-        private bool _isSpecializationReferral;
-        public readonly Patient ExaminedPatient;        
 
-        public IEnumerable<DoctorsViewModel> Doctors => _doctors;
-        public string Specialization
+        _doctors = new ObservableCollection<DoctorsViewModel>();
+        Update();
+    }
+
+    public IEnumerable<DoctorsViewModel> Doctors => _doctors;
+
+    public string Specialization
+    {
+        get => _specialization;
+        set
         {
-            get => _specialization;
-            set
-            {
-                _specialization = value;
-                OnPropertyChanged(nameof(Specialization));
-            }
+            _specialization = value;
+            OnPropertyChanged();
         }
-        public DoctorsViewModel SelectedDoctor
+    }
+
+    public DoctorsViewModel SelectedDoctor
+    {
+        get => _selectedDoctor;
+        set
         {
-            get => _selectedDoctor;
-            set
-            {
-                _selectedDoctor = value;
-                OnPropertyChanged(nameof(SelectedDoctor));
-            }
+            _selectedDoctor = value;
+            OnPropertyChanged();
         }
-        public bool IsSpecializationReferral
+    }
+
+    public bool IsSpecializationReferral
+    {
+        get => _isSpecializationReferral;
+        set
         {
-            get => _isSpecializationReferral;
-            set
-            {
-                _isSpecializationReferral = value;
-                OnPropertyChanged(nameof(IsSpecializationReferral));
-            }
+            _isSpecializationReferral = value;
+            OnPropertyChanged();
         }
-        public ICommand MakeSpecialistReferralCommand { get; }
+    }
 
-        public SpecialistReferralViewModel(Patient patient)
-        {
-            _doctorService = Injector.GetService<DoctorService>();
-            ExaminedPatient = patient;
-            _specialization = "";
-            MakeSpecialistReferralCommand = new AddSpecialistReferralCommand(this);
+    public ICommand MakeSpecialistReferralCommand { get; }
 
-
-            _doctors = new ObservableCollection<DoctorsViewModel>();
-            Update();
-        }
-
-        private void Update()
-        {
-            _doctors.Clear();
-            foreach (var doctor in _doctorService.GetAll())
-            {
-                _doctors.Add(new DoctorsViewModel(doctor));
-            }
-
-        }
+    private void Update()
+    {
+        _doctors.Clear();
+        foreach (var doctor in _doctorService.GetAll()) _doctors.Add(new DoctorsViewModel(doctor));
     }
 }
