@@ -2,37 +2,34 @@
 using HealthCare.Exceptions;
 using HealthCare.View;
 
-namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands
+namespace HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands;
+
+public class RemoveDiseaseCommand : CommandBase
 {
-    public class RemoveDiseaseCommand : CommandBase
+    private readonly PatientInformationViewModel _viewModel;
+
+    public RemoveDiseaseCommand(PatientInformationViewModel viewModel)
     {
-        private readonly PatientInformationViewModel _viewModel;
+        _viewModel = viewModel;
+    }
 
-        public RemoveDiseaseCommand(PatientInformationViewModel viewModel)
+    public override void Execute(object parameter)
+    {
+        try
         {
-            _viewModel = viewModel;
+            Validate();
+            var selectedDisease = _viewModel.SelectedDisease;
+            _viewModel.RemovePreviousDisease(selectedDisease);
         }
+        catch (ValidationException ve)
+        {
+            ViewUtil.ShowWarning(ve.Message);
+        }
+    }
 
-        public override void Execute(object parameter)
-        {
-            try
-            {
-                Validate();
-                string selectedDisease = _viewModel.SelectedDisease;
-                _viewModel.RemovePreviousDisease(selectedDisease);
-            }
-            catch (ValidationException ve)
-            {
-                ViewUtil.ShowWarning(ve.Message);
-            }
-        }
-
-        private void Validate()
-        {
-            if (_viewModel.SelectedDisease is null)
-            {
-                throw new ValidationException("Morate odabrati bolest koju zelite da uklonite.");
-            }
-        }
+    private void Validate()
+    {
+        if (_viewModel.SelectedDisease is null)
+            throw new ValidationException("Morate odabrati bolest koju zelite da uklonite.");
     }
 }
