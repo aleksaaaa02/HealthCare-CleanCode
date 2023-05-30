@@ -52,10 +52,10 @@ namespace HealthCare.View.UrgentAppointmentView
             _schedule.AddUrgent(_newAppointment);
 
             _notificationService.Add(new Notification(
-                "Termin sa ID-jem " + _selected.Appointment.AppointmentID + " je pomeren.",
+                $"Termin sa ID-jem {_selected.Appointment.AppointmentID} je pomeren.",
                 _selected.Appointment.DoctorJMBG, _selected.Appointment.PatientJMBG));
             _notificationService.Add(new Notification(
-                "Hitan termin sa ID-jem " + _selected.Appointment.AppointmentID + " je kreiran.",
+                $"Hitan termin sa ID-jem {_newAppointment.AppointmentID} je kreiran.",
                 _selected.Appointment.DoctorJMBG));
 
             ViewUtil.ShowInformation("Uspesno odlozen termin.");

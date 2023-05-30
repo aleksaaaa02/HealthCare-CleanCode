@@ -87,7 +87,7 @@ namespace HealthCare.View.UrgentAppointmentView
                 _schedule.AddUrgent(appointment);
 
                 _notificationService.Add(new Notification(
-                "Hitan termin sa ID-jem " + appointment.AppointmentID + " je kreiran.",
+                $"Hitan termin sa ID-jem {appointment.AppointmentID} je kreiran.",
                 _doctorService.Get(appointment.DoctorJMBG).JMBG));
 
                 ViewUtil.ShowInformation("Uspesno kreiran hitan termin.");
