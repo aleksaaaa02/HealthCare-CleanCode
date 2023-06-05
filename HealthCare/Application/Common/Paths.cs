@@ -13,6 +13,8 @@ namespace HealthCare.Application.Common
         public const string MEDICATION_ORDERS = RESOURCE_ROOT + "medication_orders.csv";
         public const string EQUIPMENT_ORDERS = RESOURCE_ROOT + "equipment_orders.csv";
 
+        public const string ABSENCE_REQUESTS = RESOURCE_ROOT + "absence_requests.csv";
+
         public const string SPLITTING_RENOVATIONS = RESOURCE_ROOT + "splitting_renovations.csv";
         public const string JOINING_RENOVATIONS = RESOURCE_ROOT + "joining_renovations.csv";
         public const string BASIC_RENOVATIONS = RESOURCE_ROOT + "basic_renovations.csv";
