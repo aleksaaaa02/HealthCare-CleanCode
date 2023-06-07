@@ -70,6 +70,10 @@ namespace HealthCare.Application
                     GetFileRepository<Doctor>(Paths.DOCTORS))
             },
             {
+                typeof(TreatmentService), new TreatmentService(
+                    GetFileRepository<Treatment>(Paths.TREATMENTS))
+            },
+            {
                 typeof(LoginService), new LoginService(
                     GetFileRepository<Patient>(Paths.PATIENTS),
                     GetFileRepository<Doctor>(Paths.DOCTORS),
