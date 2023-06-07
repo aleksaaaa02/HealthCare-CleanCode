@@ -12,7 +12,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.AbsenceRequest
         public ICommand MakeAbsenceRequestCommand { get; }
         public AbsenceRequestViewModel()
         {
-            MakeAbsenceRequestCommand = new MakeAbsenceRequestCommand();
+            MakeAbsenceRequestCommand = new MakeAbsenceRequestCommand(this);
         }
 
     }

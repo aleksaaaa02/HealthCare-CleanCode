@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.DoctorView.AbsenceRequestView"
+        xmlns:validationRules="clr-namespace:HealthCare.View.DoctorView.ValidationRules"
         mc:Ignorable="d"
         Title="AbsenceRequestView" Height="400" Width="600">
     <Grid>
@@ -26,14 +27,32 @@
                 <DatePicker Focusable="False" Height="30" VerticalContentAlignment="Center" SelectedDate="{Binding AbsenceStartingDate}"/>
 
                 <Label Height="30" VerticalContentAlignment="Center" Margin="0 20 0 0" Content="Broj dana za odsustvo:"/>
-                <TextBox Height="30" Text="{Binding AbsenceDurationDays}"/>
+                <TextBox Height="30" x:Name="tbDays">
+                    <TextBox.Text>
+                        <Binding Path="AbsenceDurationDays" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validationRules:PositiveIntegerValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </StackPanel>
             <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5">
 
             </StackPanel>
         </Grid>
         <Grid Grid.Row="2">
-            <Button Width="150" Height="40" Content="Posalji zahtev" Command="{Binding MakeAbsenceRequestCommand}"/>
+            <Button Width="150" Height="40" Content="Posalji zahtev" Command="{Binding MakeAbsenceRequestCommand}" Margin="226,18,224,19">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=tbDays, Path=(Validation.HasError)}" Value="True">
+                                <Setter Property="IsEnabled" Value="False"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </Grid>
     </Grid>
 </Window>
