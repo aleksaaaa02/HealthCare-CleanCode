@@ -70,6 +70,10 @@ namespace HealthCare.Application
                     GetFileRepository<Doctor>(Paths.DOCTORS))
             },
             {
+                typeof(TreatmentService), new TreatmentService(
+                    GetFileRepository<Treatment>(Paths.TREATMENTS))
+            },
+            {
                 typeof(LoginService), new LoginService(
                     GetFileRepository<Patient>(Paths.PATIENTS),
                     GetFileRepository<Doctor>(Paths.DOCTORS),
@@ -78,6 +82,11 @@ namespace HealthCare.Application
             {
                 typeof(RoomService), new RoomService(
                     GetFileRepository<Room>(Paths.ROOMS))
+            },
+            {
+                typeof(AbsenceRequestService), new AbsenceRequestService(
+                    GetFileRepository<AbsenceRequest>(Paths.ABSENCE_REQUESTS)
+                    )
             },
             {
                 typeof(PrescriptionService), new Dictionary<string, object>()
