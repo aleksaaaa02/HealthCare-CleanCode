@@ -50,7 +50,8 @@ namespace HealthCare
                         break;
                     case Role.Patient:
                         ShowNotifications();
-                        new PatientMainWindow(this).Show();
+                        //new PatientMainWindow(this).Show();
+                        new ChatApp().Show();
                         break;
                 }
 
