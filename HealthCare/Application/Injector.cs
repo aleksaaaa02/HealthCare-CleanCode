@@ -80,6 +80,11 @@ namespace HealthCare.Application
                     GetFileRepository<Room>(Paths.ROOMS))
             },
             {
+                typeof(AbsenceRequestService), new AbsenceRequestService(
+                    GetFileRepository<AbsenceRequest>(Paths.ABSENCE_REQUESTS)
+                    )
+            },
+            {
                 typeof(PrescriptionService), new Dictionary<string, object>()
                 {
                     {
