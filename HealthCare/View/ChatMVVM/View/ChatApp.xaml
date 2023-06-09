@@ -6,7 +6,7 @@
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         xmlns:local="clr-namespace:HealthCare.View" xmlns:viewmodel="clr-namespace:HealthCare.View.ChatMVVM.ViewModel"
         mc:Ignorable="d"
-         Height="650" Width="1200"
+        Height="650" Width="1200"
         Background="#36393F"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -15,7 +15,7 @@
     <Window.DataContext>
         <viewmodel:ChatViewModel/>
     </Window.DataContext>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -110,7 +110,7 @@
                 </Grid>
             </Border>
 
-            <ListView ItemsSource="{Binding SelectedContact.Messages}"
+            <ListView x:Name="MessageListView" ItemsSource="{Binding Messages}"
                       Background="Transparent"
                       BorderThickness="0"
                       ItemContainerStyle="{StaticResource ChatItem}"

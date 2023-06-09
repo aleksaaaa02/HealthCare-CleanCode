@@ -43,10 +43,12 @@ namespace HealthCare
                         break;
                     case Role.Doctor:
                         ShowNotifications();
-                        new DoctorMainView(this).Show();
+                        //new DoctorMainView(this).Show();
+                        new ChatApp().Show();
                         break;
                     case Role.Nurse:
                         new NurseMenu(this).Show();
+
                         break;
                     case Role.Patient:
                         ShowNotifications();

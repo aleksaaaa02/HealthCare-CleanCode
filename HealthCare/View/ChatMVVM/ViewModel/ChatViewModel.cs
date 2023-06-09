@@ -1,31 +1,57 @@
-﻿using HealthCare.Command;
-using HealthCare.View.ChatMVVM.Model;
+﻿using HealthCare.Application;
+using HealthCare.Command;
+using HealthCare.Model;
+using HealthCare.Service;
 using HealthCare.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 
 namespace HealthCare.View.ChatMVVM.ViewModel
 {
     class ChatViewModel : ViewModelBase
     {
-        public ObservableCollection<MessageModel> Messages { get; set; }
+        private ObservableCollection<Message> _messages;
 
-        public ObservableCollection<ContactModel> Contacts { get; set; }
+        public ObservableCollection<Message> Messages
+        {
+            get { return _messages; }
+            set
+            {
+                _messages = value;
+                OnPropertyChanged();
+            }
+        }
 
+        public ObservableCollection<Contact> Contacts { get; set; }
+
+        public readonly DoctorService doctorService;
+
+        public readonly ContactService contactService;
+
+        public readonly MessageService messageService;
         public RelayCommand SendCommand { get; set; }
 
-        private ContactModel _selectedContact;
+        public event EventHandler ScrollToBottom;
 
-        public ContactModel SelectedContact
+        private Contact _selectedContact;
+
+        public Contact SelectedContact
         {
             get { return _selectedContact; }
-            set { 
+            set
+            {
                 _selectedContact = value;
+                loadMessages();
                 OnPropertyChanged();
+                foreach(Message message in Messages.Where(x => x.senderJMBG!=Context.Current.JMBG))
+                {
+                    message.seen = true;
+                    messageService.Update(message);
+                }
+                _selectedContact.UpdateUnreadMessages(Messages.Count(m => !m.seen && m.senderJMBG != Context.Current.JMBG));
             }
         }
 
@@ -34,7 +60,8 @@ namespace HealthCare.View.ChatMVVM.ViewModel
         public string Message
         {
             get { return _message; }
-            set { 
+            set
+            {
                 _message = value;
                 OnPropertyChanged();
             }
@@ -42,88 +69,60 @@ namespace HealthCare.View.ChatMVVM.ViewModel
 
         public ChatViewModel()
         {
-            Messages = new ObservableCollection<MessageModel>();
-            Contacts = new ObservableCollection<ContactModel>();
+            Messages = new ObservableCollection<Message>();
+            Contacts = new ObservableCollection<Contact>();
+            doctorService = Injector.GetService<DoctorService>();
+            contactService = Injector.GetService<ContactService>();
+            messageService = Injector.GetService<MessageService>();
+            loadContacts();
+
             SendCommand = new RelayCommand(o =>
             {
-                Messages.Add(new MessageModel
+                if (_selectedContact != null)
                 {
-                    Message = Message,
-                    FirstMessage = false
-                }); ;
+                    Message message = new Message()
+                    {
+                        contactID = _selectedContact.ID,
+                        message = Message,
+                        senderJMBG = Context.Current.JMBG,
+                        time = DateTime.Now,
+                        senderName = doctorService.Get(Context.Current.JMBG).Username,
+                        seen = false
 
+
+                };
+                    Messages.Add(message);
+                    messageService.Add(message);
+                }
                 Message = "";
 
             });
+        }
 
-            Messages.Add(new MessageModel
+        public void loadMessages()
+        {
+            if (_selectedContact != null)
             {
-                Username = "Tvoja keva",
-                UsernameColor = "#409aff",
-                ImageSource = "nesto",
-                Message = "Test",
-                Time = DateTime.Now,
-                IsNativeOrigin = false,
-                FirstMessage = true
-        });
-            for(int i = 0; i < 3; i++)
-            {
-                Messages.Add(new MessageModel
+                List<Message> messages = messageService.GetByContact(_selectedContact.ID);
+                foreach (Message message in messages)
                 {
-                    Username = "Chanel",
-                    UsernameColor = "#409aff",
-                    ImageSource = "https://images.genius.com/0ee67ebc42b7c0d9924dcd8148dea503.1000x1000x1.png",
-                    Message = "Test",
-                    Time = DateTime.Now,
-                    IsNativeOrigin = false,
-                    FirstMessage = false
-                });
+                    message.senderName = doctorService.Get(_selectedContact.Participants.FirstOrDefault(item => item != Context.Current.JMBG)).Username;
+
+                }
+                Messages = new ObservableCollection<Message>(messages);
             }
 
-            for (int i = 0; i < 3; i++)
+            
+        }
+        public void loadContacts()
+        {
+            List<Contact> contacts = contactService.GetForUser(Context.Current.JMBG);
+            foreach (Contact contact in contacts)
             {
-                Messages.Add(new MessageModel
-                {
-                    Username = "Mitar",
-                    UsernameColor = "#409aff",
-                    ImageSource = "https://maiaapi.monics.me/uploads/Mitar_Perovic_ed691877c4.jpeg",
-                    Message = "Responsive ti je mama",
-                    Time = DateTime.Now,
-                    IsNativeOrigin = true,
-                });
+                String otherJMBG = contact.Participants.FirstOrDefault(item => item != Context.Current.JMBG);
+                contact.OtherUsername = doctorService.Get(otherJMBG).Username;
             }
-
-            Messages.Add(new MessageModel
-            {
-                Username = "Mitar ali sussy",
-                UsernameColor = "#409aff",
-                ImageSource = "https://maiaapi.monics.me/uploads/Mitar_Perovic_ed691877c4.jpeg",
-                Message = "Sex?",
-                Time = DateTime.Now,
-                IsNativeOrigin = true,
-            });
-
-            Contacts.Add(new ContactModel
-            {
-                Username = "Chanel",
-                ImageSource = "https://images.genius.com/0ee67ebc42b7c0d9924dcd8148dea503.1000x1000x1.png",
-                Messages = Messages
-            }) ;
-
-            Contacts.Add(new ContactModel
-            {
-                Username = "Mitar",
-                ImageSource = "https://maiaapi.monics.me/uploads/Mitar_Perovic_ed691877c4.jpeg",
-                Messages = Messages
-            });
-
-            Contacts.Add(new ContactModel
-            {
-                Username = "Mitar ali sussy",
-                ImageSource = "https://maiaapi.monics.me/uploads/Mitar_Perovic_ed691877c4.jpeg",
-                Messages = Messages
-            });
-
+            Contacts = new ObservableCollection<Contact>(contacts);
         }
     }
 }

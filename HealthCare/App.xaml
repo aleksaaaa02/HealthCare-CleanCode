@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="./Themes/ContactCard.xaml"/>
                 <ResourceDictionary Source="./Themes/ChatItem.xaml"/>
                 <ResourceDictionary Source="./Themes/SearchMessageBox.xaml"/>
+                <ResourceDictionary Source="./Themes/CustomScrollbar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
 

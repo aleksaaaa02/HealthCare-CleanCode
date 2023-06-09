@@ -19,6 +19,9 @@ namespace HealthCare.Application.Common
         public const string JOINING_RENOVATIONS = RESOURCE_ROOT + "joining_renovations.csv";
         public const string BASIC_RENOVATIONS = RESOURCE_ROOT + "basic_renovations.csv";
 
+        public const string CONTACTS = RESOURCE_ROOT + "contacts.csv";
+        public const string MESSAGES = RESOURCE_ROOT + "messages.csv";
+
         public const string NOTIFICATIONS = RESOURCE_ROOT + "notifications.csv";
         public const string PATIENT_LOGS = RESOURCE_ROOT + "patient_logs.csv";
         public const string APPOINTMENTS = RESOURCE_ROOT + "appointments.csv";
