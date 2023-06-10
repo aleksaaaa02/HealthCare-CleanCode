@@ -110,7 +110,7 @@
                 </Grid>
             </Border>
 
-            <ListView x:Name="MessageListView" ItemsSource="{Binding Messages}"
+            <ListView x:Name="MessageListView" ItemsSource="{Binding SelectedContact.Messages}"
                       Background="Transparent"
                       BorderThickness="0"
                       ItemContainerStyle="{StaticResource ChatItem}"

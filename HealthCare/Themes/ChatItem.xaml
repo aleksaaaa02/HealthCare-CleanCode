@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp">
     <Style TargetType="ListViewItem" x:Key="ChatItem">
         <Setter Property="Template">
             <Setter.Value>
@@ -12,16 +13,17 @@
                                             RenderOptions.BitmapScalingMode="Fant"/>
                             </Ellipse.Fill>
                         </Ellipse>-->
+                        
 
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="{Binding senderName}"
+                                <Label Content="{Binding SenderName}"
                                    Foreground="White"
                                    FontWeight="SemiBold"
                                    VerticalAlignment="Center"
                                    Margin="0,0,-5,0" />
 
-                                <Label Content="{Binding time}"
+                                <Label Content="{Binding Time}"
                                    Foreground="LightGray"
                                    FontWeight="SemiBold"
                                    FontSize="8"
@@ -29,7 +31,7 @@
                                    VerticalAlignment="Center"/>
                             </StackPanel>
 
-                            <Label Content="{Binding message}"
+                            <Label Content="{Binding MessageText}"
                                    Foreground="White"
                                    FontWeight="SemiBold"
                                    VerticalAlignment="Center"/>

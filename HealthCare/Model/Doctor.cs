@@ -2,6 +2,7 @@
 using System.Linq;
 using HealthCare.Application.Common;
 using HealthCare.Serialize;
+using HealthCare.View.ChatMVVM;
 
 namespace HealthCare.Model
 {
@@ -21,10 +22,23 @@ namespace HealthCare.Model
             Specialization = specialization;
             Random rnd = new Random();
             Rating = rnd.Next(1, 6);
+            Color = ColorRandomizer.GetRandomColor();
+        }
+
+        public Doctor(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address,
+            string userName, string password, Gender gender, string specialization, string color)
+            : base(name, lastName, jMBG, birthDate, phoneNumber, address, userName, password, gender)
+        {
+            Specialization = specialization;
+            Random rnd = new Random();
+            Rating = rnd.Next(1, 6);
+            Color = color;
         }
 
         public string Specialization { get; set; }
         public int Rating { get; set; }
+        
+        public string Color { get; set; }
 
         public bool IsCapable(string NeededSpecialization)
         {
@@ -34,7 +48,7 @@ namespace HealthCare.Model
         public override string[] Serialize()
         {
             string[] userValues = base.Serialize();
-            return userValues.Concat(new string[] { Specialization }).ToArray();
+            return userValues.Concat(new string[] { Specialization, Rating.ToString(), Color }).ToArray();
         }
 
         public override void Deserialize(string[] values)
@@ -48,8 +62,9 @@ namespace HealthCare.Model
             Username = values[6];
             Password = values[7];
             Gender = SerialUtil.ParseEnum<Gender>(values[8]);
-
             Specialization = values[9];
+            Rating = int.Parse(values[10]);
+            Color = values[11];
         }
     }
 }

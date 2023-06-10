@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HealthCare.View.ChatMVVM
+{
+    public class ColorRandomizer
+    {
+        private static List<string> colors = new List<string>
+    {
+        "#5865F2",
+        "#EB459E",
+        "#FEE75C",
+        "#57F287",
+        "#FFFFFF"
+    };
+
+        private static Random random = new Random();
+
+        public static string GetRandomColor()
+        {
+            int index = random.Next(colors.Count);
+            return colors[index];
+        }
+    }
+}

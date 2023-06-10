@@ -25,7 +25,7 @@ namespace HealthCare.View.ChatMVVM.ViewModel
             }
         }
 
-        public ObservableCollection<Contact> Contacts { get; set; }
+        public ObservableCollection<ContactViewModel> Contacts { get; set; }
 
         public readonly DoctorService doctorService;
 
@@ -36,22 +36,21 @@ namespace HealthCare.View.ChatMVVM.ViewModel
 
         public event EventHandler ScrollToBottom;
 
-        private Contact _selectedContact;
+        private ContactViewModel _selectedContact;
 
-        public Contact SelectedContact
+        public ContactViewModel SelectedContact
         {
             get { return _selectedContact; }
             set
             {
                 _selectedContact = value;
-                loadMessages();
-                OnPropertyChanged();
-                foreach(Message message in Messages.Where(x => x.senderJMBG!=Context.Current.JMBG))
+                foreach(Message message in _selectedContact.Messages.Where(x => x.SenderJMBG!=Context.Current.JMBG))
                 {
-                    message.seen = true;
+                    message.Seen = true;
                     messageService.Update(message);
                 }
-                _selectedContact.UpdateUnreadMessages(Messages.Count(m => !m.seen && m.senderJMBG != Context.Current.JMBG));
+                _selectedContact.RecalculateAll();
+                OnPropertyChanged(nameof(SelectedContact));
             }
         }
 
@@ -69,8 +68,7 @@ namespace HealthCare.View.ChatMVVM.ViewModel
 
         public ChatViewModel()
         {
-            Messages = new ObservableCollection<Message>();
-            Contacts = new ObservableCollection<Contact>();
+            Contacts = new ObservableCollection<ContactViewModel>();
             doctorService = Injector.GetService<DoctorService>();
             contactService = Injector.GetService<ContactService>();
             messageService = Injector.GetService<MessageService>();
@@ -82,47 +80,32 @@ namespace HealthCare.View.ChatMVVM.ViewModel
                 {
                     Message message = new Message()
                     {
-                        contactID = _selectedContact.ID,
-                        message = Message,
-                        senderJMBG = Context.Current.JMBG,
-                        time = DateTime.Now,
-                        senderName = doctorService.Get(Context.Current.JMBG).Username,
-                        seen = false
+                        contactID = _selectedContact.contact.ID,
+                        MessageText = Message,
+                        SenderJMBG = Context.Current.JMBG,
+                        Time = DateTime.Now,
+                        SenderName = doctorService.Get(Context.Current.JMBG).Username,
+                        Seen = false
 
 
                 };
-                    Messages.Add(message);
+                    _selectedContact.Messages.Add(message);
                     messageService.Add(message);
                 }
                 Message = "";
 
             });
         }
-
-        public void loadMessages()
-        {
-            if (_selectedContact != null)
-            {
-                List<Message> messages = messageService.GetByContact(_selectedContact.ID);
-                foreach (Message message in messages)
-                {
-                    message.senderName = doctorService.Get(_selectedContact.Participants.FirstOrDefault(item => item != Context.Current.JMBG)).Username;
-
-                }
-                Messages = new ObservableCollection<Message>(messages);
-            }
-
-            
-        }
         public void loadContacts()
         {
             List<Contact> contacts = contactService.GetForUser(Context.Current.JMBG);
+            List<ContactViewModel> contactViewModels = new List<ContactViewModel>();
             foreach (Contact contact in contacts)
             {
-                String otherJMBG = contact.Participants.FirstOrDefault(item => item != Context.Current.JMBG);
-                contact.OtherUsername = doctorService.Get(otherJMBG).Username;
+                ContactViewModel a = new ContactViewModel(contact);
+                contactViewModels.Add(a);               
             }
-            Contacts = new ObservableCollection<Contact>(contacts);
+            Contacts = new ObservableCollection<ContactViewModel>(contactViewModels);
         }
     }
 }
