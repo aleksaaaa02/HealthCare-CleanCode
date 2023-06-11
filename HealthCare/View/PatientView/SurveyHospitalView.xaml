@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:HealthCare.View.PatientView"
         mc:Ignorable="d"
         Title="SurveyHospitalView" Height="450" Width="940"
-        xmlns:viewmodel="clr-namespace:HealthCare.ViewModel.PatientViewModell"
-        xmlns:converters="clr-namespace:HealthCare.Converter">
+        xmlns:viewmodel="clr-namespace:HealthCare.ViewModel.PatientViewModell">
     <Window.DataContext>
         <viewmodel:SurveyHospitalViewModel/>
     </Window.DataContext>

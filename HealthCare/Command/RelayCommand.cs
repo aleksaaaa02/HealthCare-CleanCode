@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace HealthCare.Command
 {
-    class RelayCommand : ICommand
+    public class RelayCommand : ICommand
     {
         private Action<object> execute;
 

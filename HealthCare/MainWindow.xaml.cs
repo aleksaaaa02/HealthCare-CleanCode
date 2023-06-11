@@ -54,7 +54,8 @@ namespace HealthCare
                         ShowNotifications();
                         //new PatientMainWindow(this).Show();
                         //new ChatApp().Show();
-                        new SurveyHospitalView().Show();
+                        // new SurveyHospitalView().Show();
+                        new SurveyDoctorView().Show();
                         break;
                 }
 

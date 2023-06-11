@@ -6,15 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.ComponentModel.Design;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace HealthCare.ViewModel.PatientViewModell
 {
-    public class SurveyHospitalViewModel
+    public class SurveyDoctorViewModel
     {
         private ObservableCollection<Survey> surveys;
         public ObservableCollection<Survey> Surveys
@@ -29,16 +29,44 @@ namespace HealthCare.ViewModel.PatientViewModell
                 }
             }
         }
-        
+
+
+        private ObservableCollection<Appointment> appointments;
+        public ObservableCollection<Appointment> Appointments
+        {
+            get => appointments;
+            set
+            {
+                if (appointments != value)
+                {
+                    appointments = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
+
+        private Appointment selectedAppointment;
+
+        public Appointment SelectedAppointment
+        {
+            get { return selectedAppointment; }
+            set { selectedAppointment = value; MessageBox.Show("a"); }
+        }
+
+
+
         public AppointmentService appointmentService = Injector.GetService<AppointmentService>();
         public SurveyService surveyService = Injector.GetService<SurveyService>();
 
         public RelayCommand SubmitSurvey { get; set; }
 
-        public SurveyHospitalViewModel()
+        public SurveyDoctorViewModel()
         {
             Surveys = new ObservableCollection<Survey>();
             loadSurveys();
+            loadAppointments();
         }
 
 
@@ -54,14 +82,6 @@ namespace HealthCare.ViewModel.PatientViewModell
                 AdditionalComment = ""
             });
 
-            Surveys.Add(new Survey
-            {
-                TopicName = "CISTOCA",
-                DoctorJMBG = "",
-                Description = "Kako ste zadovoljni cistocom bolnice?",
-                SelectedRating = 1,
-                AdditionalComment = ""
-            });
 
             Surveys.Add(new Survey
             {
@@ -77,6 +97,7 @@ namespace HealthCare.ViewModel.PatientViewModell
             {
                 foreach (Survey survey in Surveys)
                 {
+                    survey.DoctorJMBG = selectedAppointment.DoctorJMBG;
                     surveyService.Add(survey);
                 }
             });
@@ -88,9 +109,14 @@ namespace HealthCare.ViewModel.PatientViewModell
 
         public bool checkAllSurveys()
         {
-            int unCheckedSurveys = Surveys.Count(m => m.SelectedRating==0);
+            int unCheckedSurveys = Surveys.Count(m => m.SelectedRating == 0);
             if (unCheckedSurveys > 0) return false;
             return true;
+        }
+
+        public void loadAppointments()
+        {
+            Appointments = new ObservableCollection<Appointment>(appointmentService.GetByPatient(Context.Current.JMBG));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -99,8 +125,5 @@ namespace HealthCare.ViewModel.PatientViewModell
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
-
-
 }
