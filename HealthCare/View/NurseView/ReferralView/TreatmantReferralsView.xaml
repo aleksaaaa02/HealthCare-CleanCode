@@ -4,22 +4,39 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.NurseView.ReferralView"
+        xmlns:viewModel="clr-namespace:HealthCare.ViewModel.NurseViewModel.TreatmantsReferralsMVVM"
         mc:Ignorable="d"
-        Title="TreatmantReferralsView" Height="350" Width="500">
+        Title="TreatmantReferralsView" Height="350" Width="700">
+
+    <Window.DataContext>
+        <viewModel:TreatmantReferralViewModel/>
+    </Window.DataContext>
+
+
     <Grid>
         <Label Content="Uputi za bolnicko lecenje" Name="lblTitle" HorizontalAlignment="Left" Margin="10,00,0,0" FontSize="17" FontWeight="Bold" VerticalAlignment="Top"/>
 
-        <ListView Margin="10,40,10,80" Name="lvReferrals" ItemsSource="{Binding Referrals}" SelectionChanged="lvReferrals_SelectionChanged">
+        <ListView Margin="10,40,230,80" Name="lvReferrals" ItemsSource="{Binding Referrals}" SelectedItem="{Binding Selected}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="Auto" Header="ID" DisplayMemberBinding="{Binding Id}" />
-                    <GridViewColumn Width="Auto" Header="Preporucio" DisplayMemberBinding="{Binding DaysOfTreatment}"/>
-                    <GridViewColumn Width="Auto" Header="Doktor" DisplayMemberBinding="{Binding DoctorJMBG}" />
+                    <GridViewColumn Width="Auto" Header="Broj dana" DisplayMemberBinding="{Binding Days}"/>
+                    <GridViewColumn Width="Auto" Header="Doktor" DisplayMemberBinding="{Binding Doctor}" />
                     <GridViewColumn Width="Auto" Header="Terapija" DisplayMemberBinding="{Binding Therapy}" />
-                    <GridViewColumn Width="Auto" Header="Iskoriscen?" DisplayMemberBinding="{Binding IsUsed}" />
                 </GridView>
             </ListView.View>
         </ListView>
+
+        <ListView Margin="500,40,10,80" Name="lvRooms" ItemsSource="{Binding Rooms}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="Auto" Header="ID" DisplayMemberBinding="{Binding Id}" />
+                    <GridViewColumn Width="Auto" Header="Namena" />
+                    <GridViewColumn Width="Auto" Header="Broj kreveta" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
 
         <Button Content="Iskoristi" Name="btnUse" HorizontalAlignment="Left" Height="35" Margin="10,250,0,0" VerticalAlignment="Top" Width="130"/>
         <Button Content="Izadji" Name="btnClose"  HorizontalAlignment="Right" Height="35" Margin="0,250,10,0" VerticalAlignment="Top" Width="130"/>
