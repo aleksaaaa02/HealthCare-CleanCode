@@ -16,7 +16,8 @@ namespace HealthCare.Service.ScheduleService
             _availabilityValidators = new List<IAvailable<int>>
             {
                 new RoomRenovationAvailable(),
-                new RoomAppointmentAvailable()
+                new RoomAppointmentAvailable(),
+                new RoomTreatmentAvailable()
             };
         }
 
@@ -32,11 +33,17 @@ namespace HealthCare.Service.ScheduleService
                 ? RoomType.Operational
                 : RoomType.Examinational;
 
-            appointment.RoomID = _roomService
-                .GetRoomsByType(type)
-                .Where(r => IsAvailable(r.Id, appointment.TimeSlot))
-                .Select(r => r.Id)
+            appointment.RoomID = GetAvailableRoomsByType(type, appointment.TimeSlot)
                 .FirstOrDefault(0);
+        }
+
+        public List<int> GetAvailableRoomsByType(RoomType type, TimeSlot timeSlot)
+        {
+            return _roomService
+                .GetRoomsByType(type)
+                .Where(r => IsAvailable(r.Id, timeSlot))
+                .Select(r => r.Id)
+                .ToList();
         }
     }
 }
