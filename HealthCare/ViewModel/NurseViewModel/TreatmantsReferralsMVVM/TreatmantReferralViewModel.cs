@@ -3,7 +3,6 @@ using HealthCare.Model;
 using HealthCare.Service;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows;
 
 namespace HealthCare.ViewModel.NurseViewModel.TreatmantsReferralsMVVM
 {
@@ -28,14 +27,15 @@ namespace HealthCare.ViewModel.NurseViewModel.TreatmantsReferralsMVVM
             }
         }
 
-
-        public TreatmantReferralViewModel(){
+        private Patient _patient;
+        public TreatmantReferralViewModel(Patient patient){
             _treatmentReferralService = Injector.GetService<TreatmentReferralService>();
+            _patient = patient;
             loadReferrals();
         }
 
         public void loadReferrals() {
-            List<TreatmentReferral> referrals = _treatmentReferralService.GetAll();
+            List<TreatmentReferral> referrals = _treatmentReferralService.GetPatientsReferrals(_patient.JMBG);
             List<PatientsTreatmantRefarralsViewModel> referralsViewModel = new List<PatientsTreatmantRefarralsViewModel>();
             foreach (TreatmentReferral referral in referrals) {
                 PatientsTreatmantRefarralsViewModel model = new PatientsTreatmantRefarralsViewModel(referral);

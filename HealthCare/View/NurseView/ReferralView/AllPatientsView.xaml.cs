@@ -45,7 +45,7 @@ namespace HealthCare.View.NurseView.ReferralView
             if (!Validate())
                 return;
 
-            new TreatmantReferralsView().ShowDialog();
+            new TreatmantReferralsView(_patient).ShowDialog();
         }
 
         private void btnPrescribe_Click(object sender, RoutedEventArgs e)

@@ -8,11 +8,6 @@
         mc:Ignorable="d"
         Title="TreatmantReferralsView" Height="350" Width="700">
 
-    <Window.DataContext>
-        <viewModel:TreatmantReferralViewModel/>
-    </Window.DataContext>
-
-
     <Grid>
         <Label Content="Uputi za bolnicko lecenje" Name="lblTitle" HorizontalAlignment="Left" Margin="10,00,0,0" FontSize="17" FontWeight="Bold" VerticalAlignment="Top"/>
 

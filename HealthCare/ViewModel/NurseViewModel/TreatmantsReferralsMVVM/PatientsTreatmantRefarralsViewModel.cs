@@ -3,7 +3,6 @@ using HealthCare.Application;
 using HealthCare.Service;
 using HealthCare.Model;
 using System.Collections.ObjectModel;
-using System.Windows;
 
 namespace HealthCare.ViewModel.NurseViewModel.TreatmantsReferralsMVVM
 {
@@ -17,6 +16,11 @@ namespace HealthCare.ViewModel.NurseViewModel.TreatmantsReferralsMVVM
         private TreatmentReferral _treatmentReferral;
         public PatientsTreatmantRefarralsViewModel(TreatmentReferral referral) {
             treatmentReferral = referral;
+            Id = referral.Id;
+            Days = referral.DaysOfTreatment;
+            Doctor = doctorService.Get(referral.DoctorJMBG).Name + " "
+                     + doctorService.Get(referral.DoctorJMBG).LastName;
+            Therapy = string.Join(",", therapyService.Get(referral.TherapyID).InitialMedication);
         }
 
         public TreatmentReferral treatmentReferral {
@@ -30,8 +34,7 @@ namespace HealthCare.ViewModel.NurseViewModel.TreatmantsReferralsMVVM
         public int Id {
             get => _id;
             set {
-                MessageBox.Show("a");
-                _id = _treatmentReferral.Id;
+                _id = value;
             }
         }
 
@@ -39,7 +42,7 @@ namespace HealthCare.ViewModel.NurseViewModel.TreatmantsReferralsMVVM
         public int Days {
             get => _days;
             set {
-                _days = _treatmentReferral.DaysOfTreatment;
+                _days = value;
             }
         }
 
@@ -47,8 +50,7 @@ namespace HealthCare.ViewModel.NurseViewModel.TreatmantsReferralsMVVM
         public string Doctor {
             get => _doctor;
             set {
-                _doctor = doctorService.Get(_treatmentReferral.DoctorJMBG).Name + " " 
-                     + doctorService.Get(_treatmentReferral.DoctorJMBG).LastName;
+                _doctor = value;
             }
         }
 
@@ -57,7 +59,7 @@ namespace HealthCare.ViewModel.NurseViewModel.TreatmantsReferralsMVVM
         {
             get => _therapy;
             set {
-                _therapy = string.Join(",", therapyService.Get(_treatmentReferral.TherapyID).InitialMedication);
+                _therapy = value;
             }
         }
 
