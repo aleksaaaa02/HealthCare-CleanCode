@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCare.View.ChatMVVM
+namespace HealthCare.Application.Common
 {
     public class ColorRandomizer
     {

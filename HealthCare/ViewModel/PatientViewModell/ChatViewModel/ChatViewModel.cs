@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 
-namespace HealthCare.View.ChatMVVM.ViewModel
+namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
 {
     class ChatViewModel : ViewModelBase
     {
@@ -44,7 +44,7 @@ namespace HealthCare.View.ChatMVVM.ViewModel
             set
             {
                 _selectedContact = value;
-                foreach(Message message in _selectedContact.Messages.Where(x => x.SenderJMBG!=Context.Current.JMBG))
+                foreach (Message message in _selectedContact.Messages.Where(x => x.SenderJMBG != Context.Current.JMBG))
                 {
                     message.Seen = true;
                     messageService.Update(message);
@@ -88,7 +88,7 @@ namespace HealthCare.View.ChatMVVM.ViewModel
                         Seen = false
 
 
-                };
+                    };
                     _selectedContact.Messages.Add(message);
                     messageService.Add(message);
                 }
@@ -103,7 +103,7 @@ namespace HealthCare.View.ChatMVVM.ViewModel
             foreach (Contact contact in contacts)
             {
                 ContactViewModel a = new ContactViewModel(contact);
-                contactViewModels.Add(a);               
+                contactViewModels.Add(a);
             }
             Contacts = new ObservableCollection<ContactViewModel>(contactViewModels);
         }

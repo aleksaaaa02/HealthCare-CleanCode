@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-        xmlns:local="clr-namespace:HealthCare.View" xmlns:viewmodel="clr-namespace:HealthCare.View.ChatMVVM.ViewModel"
+        xmlns:local="clr-namespace:HealthCare.View" xmlns:viewmodel="clr-namespace:HealthCare.ViewModel.PatientViewModell.ChatViewModel"
         mc:Ignorable="d"
         Height="650" Width="1200"
         Background="#36393F"

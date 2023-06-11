@@ -6,15 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace HealthCare.View.ChatMVVM.ViewModel
+namespace HealthCare.Converter
 {
-    public class GreaterThanZeroConverter : IValueConverter
+    public class RatingToBooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is int intValue)
+            if (value is int rating && parameter is int selectedRating)
             {
-                return intValue > 0;
+                return rating == selectedRating;
             }
 
             return false;
@@ -22,7 +22,12 @@ namespace HealthCare.View.ChatMVVM.ViewModel
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotSupportedException();
+            if (value is bool isChecked && isChecked && parameter is int selectedRating)
+            {
+                return selectedRating;
+            }
+
+            return Binding.DoNothing;
         }
     }
 }

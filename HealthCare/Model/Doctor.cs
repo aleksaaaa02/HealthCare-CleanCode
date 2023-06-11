@@ -2,7 +2,6 @@
 using System.Linq;
 using HealthCare.Application.Common;
 using HealthCare.Serialize;
-using HealthCare.View.ChatMVVM;
 
 namespace HealthCare.Model
 {

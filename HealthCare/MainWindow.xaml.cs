@@ -53,7 +53,8 @@ namespace HealthCare
                     case Role.Patient:
                         ShowNotifications();
                         //new PatientMainWindow(this).Show();
-                        new ChatApp().Show();
+                        //new ChatApp().Show();
+                        new SurveyHospitalView().Show();
                         break;
                 }
 
