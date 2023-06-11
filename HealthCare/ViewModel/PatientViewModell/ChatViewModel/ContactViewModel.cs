@@ -18,12 +18,14 @@ namespace HealthCare.Model
         public DoctorService doctorService => Injector.GetService<DoctorService>();
 
 
-        private Contact _contact;
+        
 
         public ContactViewModel(Contact contactInput)
         {
             contact = contactInput;
         }
+
+        private Contact _contact;
         public Contact contact
         {
             get
@@ -38,6 +40,8 @@ namespace HealthCare.Model
                 RecalculateOtherUsername();
             }
         }
+
+
 
         private string _otherUsername;
         public string OtherUsername
@@ -146,7 +150,7 @@ namespace HealthCare.Model
         private SolidColorBrush CalculateDoctorColor()
         {
             string otherJMBG = _contact.Participants.FirstOrDefault(x => x != Context.Current.JMBG);
-            string doctorColor = doctorService.Get(otherJMBG)?.Color ?? "#FF0000";  // Default color if doctor not found or Color is not set
+            string doctorColor = doctorService.Get(otherJMBG)?.Color ?? "#FF0000";
             Color color = (Color)ColorConverter.ConvertFromString(doctorColor);
             SolidColorBrush brush = new SolidColorBrush(color);
             return brush;
@@ -164,4 +168,7 @@ namespace HealthCare.Model
         }
 
     }
+
+
+    
 }

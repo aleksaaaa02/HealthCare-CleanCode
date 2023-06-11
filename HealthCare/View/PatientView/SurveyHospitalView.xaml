@@ -5,9 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.PatientView"
         mc:Ignorable="d"
-        Title="SurveyHospitalView" Height="450" Width="800">
+        Title="SurveyHospitalView" Height="450" Width="940"
+        xmlns:viewmodel="clr-namespace:HealthCare.ViewModel.PatientViewModell"
+        xmlns:converters="clr-namespace:HealthCare.Converter">
+    <Window.DataContext>
+        <viewmodel:SurveyHospitalViewModel/>
+    </Window.DataContext>
     <Grid>
-        <ItemsControl ItemsSource="{Binding SurveySections}"
-              ItemTemplate="{StaticResource SurveySectionTemplate}" />
+        <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding Surveys}"
+                  ItemTemplate="{StaticResource SurveySectionTemplate}" />
+        </ScrollViewer>
+        <Button Content="Posalji" Command="{Binding SubmitSurvey}"  Margin="10,10,0,0" VerticalAlignment="Top" Width="75"/>
     </Grid>
 </Window>

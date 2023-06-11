@@ -21,33 +21,11 @@ namespace HealthCare.View.PatientView
     /// </summary>
     public partial class SurveyHospitalView : Window
     {
-        public ObservableCollection<Survey> SurveySections { get; set; }
 
 
         public SurveyHospitalView()
         {
             InitializeComponent();
-            SurveySections = new ObservableCollection<Survey>();
-
-            SurveySections.Add(new Survey
-            {
-                Description = "a",
-                SelectedRating = 1,
-            });
-
-            SurveySections.Add(new Survey
-            {
-                Description = "b",
-                SelectedRating = 2,
-            });
-
-            SurveySections.Add(new Survey
-            {
-                Description = "c",
-                SelectedRating = 3,
-            });
-
-            DataContext = this;
         }
     }
 }

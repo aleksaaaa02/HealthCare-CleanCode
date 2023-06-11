@@ -34,6 +34,10 @@ namespace HealthCare.Application
                     GetFileRepository<Message>(Paths.MESSAGES))
             },
             {
+                typeof(SurveyService), new SurveyService(
+                    GetFileRepository<Survey>(Paths.SURVEYS))
+            },
+            {
                 typeof(UserNotificationService), new UserNotificationService(
                     GetFileRepository<UserNotification>(Paths.USER_NOTIFICATIONS_REFERRALS))
             },
