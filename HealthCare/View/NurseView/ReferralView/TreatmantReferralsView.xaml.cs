@@ -9,7 +9,7 @@ namespace HealthCare.View.NurseView.ReferralView
         public TreatmantReferralsView(Patient patient)
         {
             InitializeComponent();
-            DataContext = new TreatmantReferralViewModel(patient);
+            DataContext = new TreatmantReferralViewModel(patient, this);
         }
     }
 }

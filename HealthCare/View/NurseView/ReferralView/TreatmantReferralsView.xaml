@@ -22,19 +22,19 @@
             </ListView.View>
         </ListView>
 
-        <ListView Margin="500,40,10,80" Name="lvRooms" ItemsSource="{Binding Rooms}">
+        <ListView Margin="465,40,10,80" Name="lvRooms" ItemsSource="{Binding Rooms}" SelectedItem="{Binding SelectedRoom}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="Auto" Header="ID" DisplayMemberBinding="{Binding Id}" />
-                    <GridViewColumn Width="Auto" Header="Namena" />
-                    <GridViewColumn Width="Auto" Header="Broj kreveta" />
+                    <GridViewColumn Width="Auto" Header="Tip" DisplayMemberBinding="{Binding Type}"/>
+                    <GridViewColumn Width="Auto" Header="Ime" DisplayMemberBinding="{Binding Name}"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
 
-        <Button Content="Iskoristi" Name="btnUse" HorizontalAlignment="Left" Height="35" Margin="10,250,0,0" VerticalAlignment="Top" Width="130"/>
-        <Button Content="Izadji" Name="btnClose"  HorizontalAlignment="Right" Height="35" Margin="0,250,10,0" VerticalAlignment="Top" Width="130"/>
+        <Button Content="Iskoristi" Name="btnUse" HorizontalAlignment="Left" Height="35" Margin="10,250,0,0" VerticalAlignment="Top" Width="130"  Command ="{Binding makeTreatmantCommand}"/>
+        <Button Content="Izadji" Name="btnClose"  HorizontalAlignment="Right" Height="35" Margin="0,250,10,0" VerticalAlignment="Top" Width="130" Command ="{Binding cancelCommand}"/>
 
     </Grid>
 </Window>

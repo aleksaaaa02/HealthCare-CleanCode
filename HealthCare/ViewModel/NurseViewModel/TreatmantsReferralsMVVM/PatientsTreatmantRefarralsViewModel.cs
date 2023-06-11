@@ -3,24 +3,30 @@ using HealthCare.Application;
 using HealthCare.Service;
 using HealthCare.Model;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace HealthCare.ViewModel.NurseViewModel.TreatmantsReferralsMVVM
 {
     public class PatientsTreatmantRefarralsViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         public TreatmentService treatmentService => Injector.GetService<TreatmentService>();
         public DoctorService doctorService => Injector.GetService<DoctorService>();
         public TherapyService therapyService => Injector.GetService<TherapyService>();
+        public MedicationService medicationService => Injector.GetService<MedicationService>();
 
         private TreatmentReferral _treatmentReferral;
         public PatientsTreatmantRefarralsViewModel(TreatmentReferral referral) {
-            treatmentReferral = referral;
-            Id = referral.Id;
-            Days = referral.DaysOfTreatment;
-            Doctor = doctorService.Get(referral.DoctorJMBG).Name + " "
+            _treatmentReferral = referral;
+            _id = referral.Id;
+            _days = referral.DaysOfTreatment;
+            _doctor = doctorService.Get(referral.DoctorJMBG).Name + " "
                      + doctorService.Get(referral.DoctorJMBG).LastName;
-            Therapy = string.Join(",", therapyService.Get(referral.TherapyID).InitialMedication);
+            List<string> medications = new List<string>();
+            foreach (int id in therapyService.Get(referral.TherapyID).InitialMedication)
+                medications.Add(medicationService.Get(id).Name);
+
+            _therapy = string.Join(",", medications);
         }
 
         public TreatmentReferral treatmentReferral {
@@ -41,26 +47,20 @@ namespace HealthCare.ViewModel.NurseViewModel.TreatmantsReferralsMVVM
         private int _days;
         public int Days {
             get => _days;
-            set {
-                _days = value;
-            }
+            set { _days = value;}
         }
 
         private string _doctor;
         public string Doctor {
             get => _doctor;
-            set {
-                _doctor = value;
-            }
+            set {_doctor = value;}
         }
 
         private string _therapy;
         public string Therapy
         {
             get => _therapy;
-            set {
-                _therapy = value;
-            }
+            set {_therapy = value;}
         }
 
         private ObservableCollection<TreatmentReferral> _referrals;
