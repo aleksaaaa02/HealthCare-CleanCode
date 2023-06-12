@@ -17,7 +17,7 @@ namespace HealthCare.View.PatientView
     /// <summary>
     /// Interaction logic for SurveyDoctorView.xaml
     /// </summary>
-    public partial class SurveyDoctorView : Window
+    public partial class SurveyDoctorView : UserControl
     {
         public SurveyDoctorView()
         {

@@ -96,6 +96,24 @@
                             </StackPanel>
                         </Grid>
                     </Button>
+
+                    <Button x:Name="btnHospitalSurvey" Style="{StaticResource menuButton}" Click="btnHospitalSurvey_Click">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <fa:IconBlock Icon="Poll" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Ocenjivanje bolnice" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </Grid>
+                    </Button>
+
+                    <Button x:Name="btnDoctorSurvey" Style="{StaticResource menuButton}" Click="btnDoctorSurvey_Click">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <fa:IconBlock Icon="Poll" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Ocenjivanje doktora" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </Grid>
+                    </Button>
                 </StackPanel>
                 <Button x:Name="btnLogout" Style="{StaticResource menuButton}" Grid.Row="2" Click="Button_Click_3">
                         <Grid>

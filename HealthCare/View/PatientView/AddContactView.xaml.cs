@@ -1,7 +1,6 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.ViewModel.PatientViewModell.ChatViewModel;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,15 +16,14 @@ using System.Windows.Shapes;
 namespace HealthCare.View.PatientView
 {
     /// <summary>
-    /// Interaction logic for SurveyHospitalView.xaml
+    /// Interaction logic for AddContactView.xaml
     /// </summary>
-    public partial class SurveyHospitalView : UserControl
+    public partial class AddContactView : Window
     {
-
-
-        public SurveyHospitalView()
+        public AddContactView(ChatViewModel previousModel)
         {
             InitializeComponent();
+            DataContext = new AddContactViewModel(previousModel);
         }
     }
 }

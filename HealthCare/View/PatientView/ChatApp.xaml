@@ -44,13 +44,16 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition Height="60"></RowDefinition>
             </Grid.RowDefinitions>
-
-            <Label Content="Contacts"
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Contacts"
                    Foreground="Gray"
                    FontWeight="Normal"
                    VerticalAlignment="Center"
                    Margin="8,0,0,0"/>
-            
+                <Button Command="{Binding OpenAddContactWindow}" Background="Transparent" BorderBrush="Transparent"  HorizontalAlignment="Right">
+                    <fa:IconBlock Icon="Plus" FontSize="20" Foreground="Gray" Margin="5,0,0,0"/>
+                </Button>
+            </StackPanel>
             <ListView ItemsSource="{Binding Contacts}"
                       SelectedItem="{Binding SelectedContact}"
                       Background="Transparent"
@@ -61,12 +64,9 @@
             <StackPanel Grid.Row="2"
                         Orientation="Horizontal"
                         Background="#292b2f">
-                <Border CornerRadius="25"
-                        Width="30" Height="30"
-                        Background="#3bbf6b"
-                        Margin="18,0,0,0"/>
+                <fa:IconBlock Icon="User" FontSize="30" Margin="10 0 0 0" Foreground="{Binding LoggedColorBrush}"/>
                 <StackPanel VerticalAlignment="Center">
-                    <Label Content="Username"
+                    <Label Content="{Binding LoggedUser.Name}"
                                Foreground="White"
                                FontWeight="SemiBold"
                                Margin="0,-5,0,-5"/>
@@ -95,7 +95,7 @@
                 <Grid HorizontalAlignment="Stretch"
                       Margin="8">
 
-                    <Label Content="@Username"
+                    <Label Content="{Binding OtherUsername}"
                            Foreground="White"
                            FontWeight="Bold"
                            Margin="5,0,5,0"

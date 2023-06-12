@@ -52,7 +52,7 @@ namespace HealthCare.ViewModel.PatientViewModell
         public Appointment SelectedAppointment
         {
             get { return selectedAppointment; }
-            set { selectedAppointment = value; MessageBox.Show("a"); }
+            set { selectedAppointment = value;}
         }
 
 
@@ -75,7 +75,7 @@ namespace HealthCare.ViewModel.PatientViewModell
 
             Surveys.Add(new Survey
             {
-                TopicName = "GENERAL",
+                TopicName = "DOKTOR_GENERAL",
                 DoctorJMBG = "",
                 Description = "Kako ste zadovoljni generalnim kvalitetom usluge bolince?",
                 SelectedRating = 1,
@@ -85,7 +85,7 @@ namespace HealthCare.ViewModel.PatientViewModell
 
             Surveys.Add(new Survey
             {
-                TopicName = "PREPORUCILI",
+                TopicName = "DOKTOR_PREPORUCILI",
                 DoctorJMBG = "",
                 Description = "Da li biste predlozili bolnicu svojim prijateljima?",
                 SelectedRating = 1,

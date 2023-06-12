@@ -17,6 +17,7 @@ namespace HealthCare.Model
 
         public DoctorService doctorService => Injector.GetService<DoctorService>();
 
+        public NurseService nurseService => Injector.GetService<NurseService>();
 
         
 
@@ -53,7 +54,12 @@ namespace HealthCare.Model
             set
             {
                     string otherJMBG = _contact.Participants.Where(x => x != Context.Current.JMBG).First();
-                    _otherUsername = doctorService.Get(otherJMBG).Username;
+                    User otherUser = doctorService.TryGet(otherJMBG);
+                    if (otherUser == null)
+                    {
+                        otherUser = nurseService.TryGet(otherJMBG);
+                    }
+                    _otherUsername = otherUser.Username;
                     DoctorColorBrush = CalculateDoctorColor();
                     OnPropertyChanged(nameof(OtherUsername));
             }
@@ -127,7 +133,27 @@ namespace HealthCare.Model
         private string CalculateOtherUsername()
         {
             string otherJMBG = _contact.Participants.Where(x => x != Context.Current.JMBG).First();
-            return doctorService.Get(otherJMBG).Username;
+
+            User otherUser = doctorService.TryGet(otherJMBG);
+            if (otherUser == null)
+            {
+                otherUser = nurseService.TryGet(otherJMBG);
+            }
+
+
+            string otherUsername = otherUser.Username;
+            return otherUsername;
+        }
+
+        public User GetOtherUser()
+        {
+            string otherJMBG = _contact.Participants.Where(x => x != Context.Current.JMBG).First();
+            User otherUser = doctorService.TryGet(otherJMBG);
+            if (otherUser == null)
+            {
+                otherUser = nurseService.TryGet(otherJMBG);
+            }
+            return otherUser;
         }
 
         public void RecalculateAll()
@@ -149,9 +175,11 @@ namespace HealthCare.Model
 
         private SolidColorBrush CalculateDoctorColor()
         {
-            string otherJMBG = _contact.Participants.FirstOrDefault(x => x != Context.Current.JMBG);
-            string doctorColor = doctorService.Get(otherJMBG)?.Color ?? "#FF0000";
-            Color color = (Color)ColorConverter.ConvertFromString(doctorColor);
+
+            User otherUser = GetOtherUser();
+            string userColor = otherUser.Color;
+            
+            Color color = (Color)ColorConverter.ConvertFromString(userColor);
             SolidColorBrush brush = new SolidColorBrush(color);
             return brush;
         }
@@ -161,8 +189,11 @@ namespace HealthCare.Model
             List<Message> messages = messageService.GetByContact(contact.ID);
             foreach (Message message in messages)
             {
-                message.SenderName = doctorService.Get(contact.Participants.FirstOrDefault(item => item != Context.Current.JMBG)).Username;
-
+                string senderName = doctorService.TryGet(contact.Participants.FirstOrDefault(item => item != Context.Current.JMBG)).Username;
+                if(senderName == null)
+                {
+                    senderName = nurseService.TryGet(contact.Participants.FirstOrDefault(item => item != Context.Current.JMBG)).Username;
+                }
             }
             Messages = new ObservableCollection<Message>(messages);
         }
