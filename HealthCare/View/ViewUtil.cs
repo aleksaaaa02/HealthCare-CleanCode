@@ -114,9 +114,10 @@ namespace HealthCare.View
             return string.Join(delimiter, arr);
         }
 
-        public static string ToString(DateTime date)
+        public static string ToString(DateTime date, bool shortFormat = false)
         {
-            return date.ToString(Formats.DATETIME);
+            var format = shortFormat ? Formats.SHORTDATETIME : Formats.DATETIME;
+            return date.ToString(format);
         }
     }
 }
