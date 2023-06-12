@@ -15,6 +15,7 @@ namespace HealthCare.Model
             Blocked = blocked;
             MedicalRecord = medicalRecord;
             NotificationHours = 0;
+            Color = ColorRandomizer.GetRandomColor();
         }
 
         public Patient(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber,
@@ -25,6 +26,7 @@ namespace HealthCare.Model
             Blocked = blocked;
             MedicalRecord = medicalRecord;
             NotificationHours = notificationHours;
+            Color = ColorRandomizer.GetRandomColor();
         }
 
         public Patient()
@@ -66,10 +68,11 @@ namespace HealthCare.Model
             Username = values[6];
             Password = values[7];
             Gender = SerialUtil.ParseEnum<Gender>(values[8]);
-            Blocked = bool.Parse(values[9]);
+            Color = values[9];
+            Blocked = bool.Parse(values[10]);
             MedicalRecord = new MedicalRecord();
-            MedicalRecord.Deserialize(Util.SubArray(values, 10, 4));
-            NotificationHours = int.Parse(values[14]);
+            MedicalRecord.Deserialize(Util.SubArray(values, 11, 4));
+            NotificationHours = int.Parse(values[15]);
         }
     }
 }

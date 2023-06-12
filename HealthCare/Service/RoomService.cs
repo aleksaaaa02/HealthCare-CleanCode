@@ -6,6 +6,8 @@ namespace HealthCare.Service
 {
     public class RoomService : NumericService<Room>
     {
+        public static readonly int PATIENTCARE_CAPACITY = 3;
+
         public RoomService(IRepository<Room> repository) : base(repository)
         {
         }

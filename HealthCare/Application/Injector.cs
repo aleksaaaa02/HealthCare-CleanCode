@@ -26,12 +26,28 @@ namespace HealthCare.Application
                     GetFileRepository<SpecialistReferral>(Paths.SPECIALIST_REFERRALS))
             },
             {
+                typeof(ContactService), new ContactService(
+                    GetFileRepository<Contact>(Paths.CONTACTS))
+            },
+            {
+                typeof(MessageService), new MessageService(
+                    GetFileRepository<Message>(Paths.MESSAGES))
+            },
+            {
+                typeof(SurveyService), new SurveyService(
+                    GetFileRepository<Survey>(Paths.SURVEYS))
+            },
+            {
                 typeof(UserNotificationService), new UserNotificationService(
                     GetFileRepository<UserNotification>(Paths.USER_NOTIFICATIONS_REFERRALS))
             },
             {
                 typeof(TreatmentReferralService), new TreatmentReferralService(
                     GetFileRepository<TreatmentReferral>(Paths.TREATMENT_REFERRALS))
+            },
+            {
+                typeof(NurseService), new NurseService(
+                    GetFileRepository<User>(Paths.NURSES))
             },
             {
                 typeof(BasicRenovationService), new BasicRenovationService(
@@ -70,6 +86,10 @@ namespace HealthCare.Application
                     GetFileRepository<Doctor>(Paths.DOCTORS))
             },
             {
+                typeof(TreatmentService), new TreatmentService(
+                    GetFileRepository<Treatment>(Paths.TREATMENTS))
+            },
+            {
                 typeof(LoginService), new LoginService(
                     GetFileRepository<Patient>(Paths.PATIENTS),
                     GetFileRepository<Doctor>(Paths.DOCTORS),
@@ -78,6 +98,11 @@ namespace HealthCare.Application
             {
                 typeof(RoomService), new RoomService(
                     GetFileRepository<Room>(Paths.ROOMS))
+            },
+            {
+                typeof(AbsenceRequestService), new AbsenceRequestService(
+                    GetFileRepository<AbsenceRequest>(Paths.ABSENCE_REQUESTS)
+                    )
             },
             {
                 typeof(PrescriptionService), new Dictionary<string, object>()
