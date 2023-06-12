@@ -29,7 +29,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
             set 
             {
                 _areApproved = value;
-                Load();
+                LoadAll();
             }
         }
 
@@ -39,19 +39,27 @@ namespace HealthCare.ViewModel.ManagerViewModel
         {
             Items = new ObservableCollection<AbsenceRequestViewModel>();
 
-            ApproveRequestCommand = new ApproveRequestCommand(this);
-            DeclineRequestCommand = new DeclineRequestCommand(this);
+            ApproveRequestCommand = new ManageRequestCommand(this, true);
+            DeclineRequestCommand = new ManageRequestCommand(this, false);
             ExitCommand = new CancelCommand(view);
-            Load();
+            LoadAll();
         }
 
-        private void Load()
+        public void LoadAll()
         {
             Items.Clear();
             Injector.GetService<AbsenceRequestService>()
-                .GetAll().Where(r => r.IsApproved == AreApproved)
+                .GetAll().Where(r => !r.IsApproved || AreApproved)
+                .OrderBy(r => !r.IsApproved).ThenBy(r => r.Id)
                 .Select(r => new AbsenceRequestViewModel(r))
                 .ToList().ForEach(model => Items.Add(model));
+        }
+
+        public int TryGetSelectedId()
+        {
+            if (SelectedRequest is null)
+                throw new ValidationException("Molimo izaberite zahtev za odsustvo.");
+            return SelectedRequest.Id;
         }
     }
 }

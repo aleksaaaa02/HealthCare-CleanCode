@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.ManagerView"
         mc:Ignorable="d"
-        Title="AbsenceRequestListingView" MinHeight="500" MinWidth="550"
+        Title="Upravljanje zahtevima" MinHeight="500" MinWidth="550"
         SizeToContent="WidthAndHeight">
     <Window.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource RoundedButton}">
@@ -36,7 +36,7 @@
         <Label Content="Zahtevi za odsustvo" Style="{StaticResource SmallHeader}"
                Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="50 0 50 10"/>
 
-        <Label Content="Složeno renoviranje:" Margin="5 0 5 10" Grid.Row="1" />
+        <Label Content="Odobrena odsustva:" Margin="5 0 5 10" Grid.Row="1" />
         <CheckBox Name="cbComplex" Margin="5 0 5 10" Grid.Row="1" Grid.Column="1"
                HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding AreApproved}"/>
         
