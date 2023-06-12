@@ -133,14 +133,7 @@ namespace HealthCare.Model
         private string CalculateOtherUsername()
         {
             string otherJMBG = _contact.Participants.Where(x => x != Context.Current.JMBG).First();
-
-            User otherUser = doctorService.TryGet(otherJMBG);
-            if (otherUser == null)
-            {
-                otherUser = nurseService.TryGet(otherJMBG);
-            }
-
-
+            User otherUser = GetOtherUser();
             string otherUsername = otherUser.Username;
             return otherUsername;
         }
@@ -189,11 +182,12 @@ namespace HealthCare.Model
             List<Message> messages = messageService.GetByContact(contact.ID);
             foreach (Message message in messages)
             {
-                string senderName = doctorService.TryGet(contact.Participants.FirstOrDefault(item => item != Context.Current.JMBG)).Username;
-                if(senderName == null)
+                User otherUser = doctorService.TryGet(contact.Participants.FirstOrDefault(item => item != Context.Current.JMBG));
+                if (otherUser == null)
                 {
-                    senderName = nurseService.TryGet(contact.Participants.FirstOrDefault(item => item != Context.Current.JMBG)).Username;
+                    otherUser = nurseService.TryGet(contact.Participants.FirstOrDefault(item => item != Context.Current.JMBG));
                 }
+                message.SenderName = otherUser.Username;
             }
             Messages = new ObservableCollection<Message>(messages);
         }
