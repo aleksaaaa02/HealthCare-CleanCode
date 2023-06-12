@@ -1,4 +1,6 @@
-﻿using HealthCare.Model;
+﻿using System.Collections.Generic;
+using System.Linq;
+using HealthCare.Model;
 using HealthCare.Repository;
 
 namespace HealthCare.Service
@@ -7,6 +9,11 @@ namespace HealthCare.Service
     {
         public AbsenceRequestService(IRepository<AbsenceRequest> repository) : base(repository)
         {
+        }
+
+        public IEnumerable<AbsenceRequest> GetDoctorRequests(string doctorJMBG)
+        {
+            return GetAll().Where(x => x.RequesterJMBG == doctorJMBG);
         }
     }
 }

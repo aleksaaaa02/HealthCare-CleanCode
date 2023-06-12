@@ -6,23 +6,22 @@
         xmlns:local="clr-namespace:HealthCare.View.DoctorView.AbsenceRequestView"
         xmlns:validationRules="clr-namespace:HealthCare.View.DoctorView.ValidationRules"
         mc:Ignorable="d"
-        Title="AbsenceRequestView" Height="400" Width="600">
+        Title="AbsenceRequestView" Height="500" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.1*"/>
-            <RowDefinition Height="0.7*"/>
-            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.05*"/>
+            <RowDefinition Height="0.95*"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="Zahtev za slobodne dane" FontSize="18" FontWeight="Bold" TextAlignment="Center" Padding="0 5"/>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Margin="0 0 0 20">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.3*"/>
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Orientation="Vertical" Margin="5">
+            <StackPanel Grid.Column="0" Orientation="Vertical" Margin="10">
                 <Label Height="30" VerticalContentAlignment="Center" Content="Razlog odsustva:"/>
                 <TextBox Height="30" Text="{Binding AbsenceReason}"/>
-                
+
                 <Label Height="30" VerticalContentAlignment="Center" Margin="0 20 0 0" Content="Pocetak odsustva (Minimum 2 dana unapred):"/>
                 <DatePicker Focusable="False" Height="30" VerticalContentAlignment="Center" SelectedDate="{Binding AbsenceStartingDate}"/>
 
@@ -36,23 +35,60 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
-            </StackPanel>
-            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5">
+
+                <Button Width="150" Height="30" Content="Posalji zahtev" Command="{Binding MakeAbsenceRequestCommand}" Margin="0 50 0 0">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=tbDays, Path=(Validation.HasError)}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
 
             </StackPanel>
-        </Grid>
-        <Grid Grid.Row="2">
-            <Button Width="150" Height="40" Content="Posalji zahtev" Command="{Binding MakeAbsenceRequestCommand}" Margin="226,18,224,19">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ElementName=tbDays, Path=(Validation.HasError)}" Value="True">
-                                <Setter Property="IsEnabled" Value="False"></Setter>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
+            <Grid Grid.Column="1" Margin="5">
+                <ListView x:Name="PatientListView" ItemsSource="{Binding DoctorRequests}" SelectionMode="Single">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="ID" Width="50"  DisplayMemberBinding="{Binding Id}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Padding="0 0 20 0"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="Status" Width="100"  DisplayMemberBinding="{Binding IsApproved}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Padding="0 0 20 0"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="Pocetni Datum" Width="150"  DisplayMemberBinding="{Binding Start}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Padding="0 0 20 0"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="Krajnji Datum" Width="100"  DisplayMemberBinding="{Binding End}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Padding="0 0 20 0"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

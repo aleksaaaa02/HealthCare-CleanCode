@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using HealthCare.ViewModel.DoctorViewModel.AbsenceRequest;
+using HealthCare.ViewModel.DoctorViewModel.AbsenceRequests;
 
 namespace HealthCare.View.DoctorView.AbsenceRequestView
 {
