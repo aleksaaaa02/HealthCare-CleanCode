@@ -47,12 +47,10 @@ namespace HealthCare.ViewModel.NurseViewModel.TreatmantsReferralsMVVM
             cancelCommand = new CancelCommand(window);
 
             makeTreatmantCommand = new RelayCommand(o=> {
-                MessageBox.Show("da");
                 if (_treatment == null || _treatment.RoomId == 0){
                     ViewUtil.ShowWarning("Izaberite uput i sobu");
                     return;
                 }
-                MessageBox.Show("pp");
                 _treatmentService.Add(_treatment);
                 TreatmentReferral updated = _treatmentReferralService.Get(_treatment.ReferralId);
                 updated.IsUsed = true;

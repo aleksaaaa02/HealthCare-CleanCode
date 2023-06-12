@@ -32,5 +32,6 @@ namespace HealthCare.Application.Common
         public const string DOCTORS = RESOURCE_ROOT + "doctors.csv";
         public const string NURSES = RESOURCE_ROOT + "nurses.csv";
         public const string ROOMS = RESOURCE_ROOT + "rooms.csv";
+        public const string VISITS = RESOURCE_ROOT + "visits.csv";
     }
 }

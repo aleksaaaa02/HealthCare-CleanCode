@@ -4,7 +4,6 @@ using HealthCare.Service;
 using HealthCare.View;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Net.Sockets;
 
 namespace HealthCare.ViewModel.NurseViewModel.RoomsMVVM
 {

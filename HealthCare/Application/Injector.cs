@@ -26,6 +26,10 @@ namespace HealthCare.Application
                     GetFileRepository<SpecialistReferral>(Paths.SPECIALIST_REFERRALS))
             },
             {
+                typeof(VisitService), new VisitService(
+                    GetFileRepository<Visit>(Paths.VISITS))
+            },
+            {
                 typeof(UserNotificationService), new UserNotificationService(
                     GetFileRepository<UserNotification>(Paths.USER_NOTIFICATIONS_REFERRALS))
             },

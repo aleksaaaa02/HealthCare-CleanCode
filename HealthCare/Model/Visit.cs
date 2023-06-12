@@ -13,6 +13,17 @@ namespace HealthCare.Model
         public string Observations { get; set; }
         public DateTime VisitTime { get; set; }
         public int TreatmentId { get; set; }
+
+        public Visit() { }
+
+        public Visit(double Temperature, int SystolicPressure, int DiastolicPressure, string Observations, DateTime VisitTime, int TreatmentId) {
+            this.Temperature = Temperature;
+            this.SystolicPressure = SystolicPressure;
+            this.DiastolicPressure = DiastolicPressure;
+            this.Observations = Observations;
+            this.VisitTime = VisitTime;
+            this.TreatmentId = TreatmentId;
+        }
         
         public override object Key { get => Id; set => Id = (int) value; }
 
