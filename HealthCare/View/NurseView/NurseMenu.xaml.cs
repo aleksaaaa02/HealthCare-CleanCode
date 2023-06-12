@@ -3,6 +3,7 @@ using System.Windows;
 using HealthCare.View.NurseView.ReferralView;
 using HealthCare.View.ReceptionView;
 using HealthCare.View.UrgentAppointmentView;
+using HealthCare.View.PatientView;
 
 namespace HealthCare.View.NurseView
 {
@@ -50,6 +51,11 @@ namespace HealthCare.View.NurseView
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             _window.Show();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            new ChatApp().Show();
         }
     }
 }

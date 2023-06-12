@@ -25,5 +25,6 @@
             </MenuItem>
         </Menu>
         <Button Content="Logout" Name="btnLogout"  HorizontalAlignment="Left" Height="35" Margin="220,160,0,0" VerticalAlignment="Top" Width="50" Click="btnLogout_Click" />
+        <Button Content="Otvori chat"  HorizontalAlignment="Left" Margin="19,168,0,0" VerticalAlignment="Top" Height="19" Width="65" Click="Button_Click"/>
     </Grid>
 </Window>
