@@ -1,42 +1,49 @@
-﻿<Window x:Class="HealthCare.View.DoctorView.TreatmentView.DoctorTreatmentsView"
+﻿<Window x:Class="HealthCare.View.DoctorView.TreatmentView.DoctorTreatmentView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.DoctorView.TreatmentView"
         mc:Ignorable="d"
-        Title="DoctorTreatmentsView" Height="600" Width="900">
+        Title="DoctorTreatmentView" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.85*"/>
             <RowDefinition Height="0.15*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Margin="5">
-            <ListView x:Name="PatientListView" ItemsSource="{Binding Patients}" SelectedItem="{Binding SelectedPatient}" SelectionMode="Single">
+            <ListView x:Name="PatientListView" ItemsSource="{Binding Treatments}" SelectedItem="{Binding SelectedTreatment}" SelectionMode="Single">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="JMBG" Width="150" DisplayMemberBinding="{Binding JMBG}">
+                        <GridViewColumn Header="JMBG Pacijenta" Width="120" DisplayMemberBinding="{Binding PatientJMBG}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Padding="0 0 20 0"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Ime i Prezime" Width="200"  DisplayMemberBinding="{Binding NameAndLastName}">
+                        <GridViewColumn Header="Ime i Prezime" Width="150"  DisplayMemberBinding="{Binding PatientNameAndLastName}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Padding="0 0 20 0"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Datum rodjenja" Width="150"  DisplayMemberBinding="{Binding Birthday}">
+                        <GridViewColumn Header="Broj sobe" Width="80"  DisplayMemberBinding="{Binding RoomId}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Padding="0 0 20 0"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Pol" Width="150"  DisplayMemberBinding="{Binding Gender}">
+                        <GridViewColumn Header="Pocetak lecenja" Width="120"  DisplayMemberBinding="{Binding Start}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Padding="0 0 20 0"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Trajanje u danima" Width="120"  DisplayMemberBinding="{Binding End}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Padding="0 0 20 0"/>
@@ -48,9 +55,8 @@
             </ListView>
         </Grid>
 
-        <Grid Grid.Row="1">
-
-        </Grid>
-
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="5 0">
+            <Button Content="Vizita" Width="100" Height="30" Command="{Binding PayPatientVisitCommand}"/>
+        </StackPanel>
     </Grid>
 </Window>

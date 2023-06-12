@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace HealthCare.View.DoctorView.TreatmentView
 {
     /// <summary>
-    /// Interaction logic for DoctorTreatmentsView.xaml
+    /// Interaction logic for DoctorTreatmentVisitView.xaml
     /// </summary>
-    public partial class DoctorTreatmentsView : Window
+    public partial class DoctorTreatmentVisitView : Window
     {
-        public DoctorTreatmentsView()
+        public DoctorTreatmentVisitView()
         {
             InitializeComponent();
         }

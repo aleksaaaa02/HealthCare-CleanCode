@@ -36,6 +36,7 @@ public class DoctorMainViewModel : ViewModelBase
         ApplyFilterCommand = new ApplyFilterCommand(this);
         ShowPatientSearchCommand = new ShowPatientSearchViewCommand();
         StartExaminationCommand = new StartExaminationCommand(this);
+        ShowTreatmentsCommand = new ShowTreatmentCommand();
         Update();
     }
 
@@ -48,6 +49,7 @@ public class DoctorMainViewModel : ViewModelBase
     public ICommand ShowPatientSearchCommand { get; }
     public ICommand StartExaminationCommand { get; }
     public ICommand ResetFilterCommand { get; }
+    public ICommand ShowTreatmentsCommand { get; } 
     public ICommand LogOutCommand { get; }
 
     public DateTime StartDate
