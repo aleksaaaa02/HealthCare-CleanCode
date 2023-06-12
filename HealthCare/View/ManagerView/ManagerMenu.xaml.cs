@@ -41,7 +41,7 @@ namespace HealthCare.View.ManagerView
 
         private void Button_Analytics(object sender, RoutedEventArgs e)
         {
-
+            new SurveyAnalyticsView().ShowDialog();
         }
 
         private void Button_Logout(object sender, RoutedEventArgs e)
