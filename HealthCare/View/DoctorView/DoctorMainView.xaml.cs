@@ -19,5 +19,10 @@ namespace HealthCare.View.DoctorView
         {
             _loginWindow.Show();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            new ChatApp().Show();
+        }
     }
 }

@@ -29,6 +29,22 @@ namespace HealthCare.Model
             Username = userName;
             Password = password;
             Gender = gender;
+            Color = ColorRandomizer.GetRandomColor();
+        }
+
+        public User(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address,
+            string userName, string password, Gender gender, String color)
+        {
+            Name = name;
+            LastName = lastName;
+            JMBG = jMBG;
+            BirthDate = birthDate;
+            PhoneNumber = phoneNumber;
+            Address = address;
+            Username = userName;
+            Password = password;
+            Gender = gender;
+            Color = color;
         }
 
         public string Name { get; set; }
@@ -41,6 +57,8 @@ namespace HealthCare.Model
         public string Password { get; set; }
         public Gender Gender { get; set; }
 
+        public String Color { get; set; }
+
         public override object Key
         {
             get => JMBG;
@@ -52,7 +70,7 @@ namespace HealthCare.Model
             return new string[]
             {
                 Name, LastName, JMBG, Util.ToString(BirthDate),
-                PhoneNumber, Address, Username, Password, Gender.ToString()
+                PhoneNumber, Address, Username, Password, Gender.ToString(), Color
             };
         }
 
@@ -67,6 +85,7 @@ namespace HealthCare.Model
             Username = values[6];
             Password = values[7];
             Gender = SerialUtil.ParseEnum<Gender>(values[8]);
+            Color = values[9];
         }
     }
 }
