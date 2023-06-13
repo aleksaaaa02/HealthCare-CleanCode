@@ -16,18 +16,6 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
 {
     public class ChatViewModel : ViewModelBase
     {
-        private ObservableCollection<Message> _messages;
-
-        public ObservableCollection<Message> Messages
-        {
-            get { return _messages; }
-            set
-            {
-                _messages = value;
-                OnPropertyChanged();
-            }
-        }
-
         private ObservableCollection<ContactViewModel> contacts;
 
 
@@ -148,7 +136,30 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
 
 
                     };
-                    _selectedContact.Messages.Add(new MessageViewModel(message));
+                    MessageViewModel messageViewModel = new MessageViewModel(message);
+                    
+                    if(SelectedContact.Messages.Count>0)
+                    {
+                        
+                        Message lastMessage = SelectedContact.Messages.Last()._Message;
+                        if (message.SenderJMBG == lastMessage.SenderJMBG &&  isSameMinute(message.Time,lastMessage.Time))
+                        {
+                            messageViewModel.IsFirst = false;
+                        }
+                        else
+                        {
+                            messageViewModel.IsFirst = true;
+                        }
+                    }
+                    else
+                    {
+                        messageViewModel.IsFirst = true;
+                    }
+
+
+
+
+                    _selectedContact.Messages.Add(messageViewModel);
                     messageService.Add(message);
                 }
                 Message = "";
@@ -182,6 +193,19 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             Color color = (Color)ColorConverter.ConvertFromString(loggedColor);
             SolidColorBrush brush = new SolidColorBrush(color);
             return brush;
+        }
+
+
+
+        public bool isSameMinute(DateTime message1Timestamp, DateTime message2Timestamp)
+        {
+
+            return message1Timestamp.Year == message2Timestamp.Year &&
+                  message1Timestamp.Month == message2Timestamp.Month &&
+                  message1Timestamp.Day == message2Timestamp.Day &&
+                  message1Timestamp.Hour == message2Timestamp.Hour &&
+                  message1Timestamp.Minute == message2Timestamp.Minute;
+
         }
     }
 }

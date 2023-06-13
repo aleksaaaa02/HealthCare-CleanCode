@@ -209,7 +209,7 @@ namespace HealthCare.Model
         }
 
 
-        bool isSameMinute(DateTime message1Timestamp, DateTime message2Timestamp)
+        public bool isSameMinute(DateTime message1Timestamp, DateTime message2Timestamp)
         {
             
             return message1Timestamp.Year == message2Timestamp.Year &&
