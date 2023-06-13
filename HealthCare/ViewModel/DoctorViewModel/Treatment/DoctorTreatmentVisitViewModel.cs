@@ -57,6 +57,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Treatment
 
             ContinueTreatmentCommand = new IncreaseTreatmentDurationCommand(this, _treatment);
             RemoveMedicationFromTherapyCommand = new RemoveMedicationFromTherapyCommand(this, _therapy);
+            AddMedicationToTherapyCommand = new ShowAddTherapyDialogCommand(this, _therapy);
 
             _therapyMedications = new ObservableCollection<TherapyPrescriptionViewModel>();
             Update();

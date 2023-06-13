@@ -93,7 +93,7 @@
                 </ListView>
             </Grid>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
-                <Button Content="Dodaj lek u terapiju" Height="40" Width="125" Margin="10 0 0 0"/>
+                <Button Command="{Binding AddMedicationToTherapyCommand}"  Content="Dodaj lek u terapiju" Height="40" Width="125" Margin="10 0 0 0"/>
                 <Button Command="{Binding RemoveMedicationFromTherapyCommand}" Content="Ukloni lek iz terapije"  Height="40" Width="125" Margin="10 0 0 0"/>
             </StackPanel>
         </Grid>
