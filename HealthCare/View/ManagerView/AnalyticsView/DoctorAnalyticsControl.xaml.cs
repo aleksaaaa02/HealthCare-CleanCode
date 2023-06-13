@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthCare.ViewModel.ManagerViewModel.AnalyticViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,14 +16,17 @@ using System.Windows.Shapes;
 
 namespace HealthCare.View.ManagerView.AnalyticsView
 {
-    /// <summary>
-    /// Interaction logic for DoctorAnalyticsControl.xaml
-    /// </summary>
     public partial class DoctorAnalyticsControl : UserControl
     {
-        public DoctorAnalyticsControl()
+        private DoctorAnalyticsViewModel _model;
+        public DoctorAnalyticsControl(DoctorAnalyticsViewModel model)
         {
             InitializeComponent();
+            _model = model;
+        }
+        private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            _model.ShowDoctorCommentsCommand.Execute(this);
         }
     }
 }

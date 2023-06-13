@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthCare.View.ManagerView.AnalyticsView;
+using System;
 using System.ComponentModel;
 using System.Windows;
 
@@ -41,7 +42,7 @@ namespace HealthCare.View.ManagerView
 
         private void Button_Analytics(object sender, RoutedEventArgs e)
         {
-            new SurveyAnalyticsView().ShowDialog();
+            new AnalyticsMainView().ShowDialog();
         }
 
         private void Button_Logout(object sender, RoutedEventArgs e)

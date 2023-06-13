@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HealthCare.Model;
+using HealthCare.ViewModel.ManagerViewModel.AnalyticViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,16 +14,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HealthCare.View.ManagerView
+namespace HealthCare.View.ManagerView.AnalyticsView
 {
-    /// <summary>
-    /// Interaction logic for SurveyAnalyticsView.xaml
-    /// </summary>
-    public partial class SurveyAnalyticsView : Window
+    public partial class SurveyCommentsView : Window
     {
-        public SurveyAnalyticsView()
+        public SurveyCommentsView(List<Survey> surveys)
         {
             InitializeComponent();
+
+            DataContext = new SurveyCommentsViewModel(surveys);
         }
     }
 }

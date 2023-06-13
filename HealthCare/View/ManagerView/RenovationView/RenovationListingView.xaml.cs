@@ -25,7 +25,7 @@ namespace HealthCare.View.ManagerView
             _basicRenovationService = Injector.GetService<BasicRenovationService>();
             _roomSchedule = Injector.GetService<RoomSchedule>();
 
-            DataContext = new RenovationViewModel();
+            DataContext = new RenovationListingViewModel();
 
             btnRenovate.IsEnabled = true;
             btnJoin.IsEnabled = false;

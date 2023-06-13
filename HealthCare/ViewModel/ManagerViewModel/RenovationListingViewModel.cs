@@ -5,9 +5,9 @@ using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {
-    public class RenovationViewModel
+    public class RenovationListingViewModel
     {
-        public RenovationViewModel()
+        public RenovationListingViewModel()
         {
             Items = new ObservableCollection<RoomViewModel>();
             LoadAll();

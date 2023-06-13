@@ -23,5 +23,10 @@ namespace HealthCare.Service
         {
             return GetAll().FindAll(x => x.Description.Equals(topicName));
         }
+
+        public List<Survey> GetHospitalSurveys()
+        {
+            return GetForUser("");
+        }
     }
 }
