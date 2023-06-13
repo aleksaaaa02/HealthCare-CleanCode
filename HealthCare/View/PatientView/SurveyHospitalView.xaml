@@ -12,10 +12,22 @@
         <viewmodel:SurveyHospitalViewModel/>
     </UserControl.DataContext>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.ColumnSpan="2">
         <ScrollViewer>
             <ItemsControl ItemsSource="{Binding Surveys}"
                   ItemTemplate="{StaticResource SurveySectionTemplate}" />
         </ScrollViewer>
-        <Button Content="Posalji" Command="{Binding SubmitSurvey}"  Margin="10,10,0,0" VerticalAlignment="Top" Width="75"/>
+        </Grid>
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+            <Button Content="Posalji" Command="{Binding SubmitSurvey}"  Margin="10,15,0,0" VerticalAlignment="Top" Width="75"/>
+        </Grid>
     </Grid>
 </UserControl>

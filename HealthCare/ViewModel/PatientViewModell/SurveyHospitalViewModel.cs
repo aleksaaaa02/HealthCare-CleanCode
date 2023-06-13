@@ -76,10 +76,9 @@ namespace HealthCare.ViewModel.PatientViewModell
 
             SubmitSurvey = new RelayCommand(o =>
             {
-                //check if there is a survey with 0 rating
                 if (!checkAllSurveys())
                 {
-                    ViewUtil.ShowWarning("Niste popunili anketu >:(");
+                    ViewUtil.ShowWarning("Niste popunili anketu");
                 }
                 else
                 {

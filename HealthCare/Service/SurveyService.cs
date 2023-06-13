@@ -22,7 +22,7 @@ namespace HealthCare.Service
 
         public List<Survey> GetForTopic(string topicName)
         {
-            return GetAll().FindAll(x => x.TopicName.Equals(topicName));
+            return GetAll().FindAll(x => x.Description.Equals(topicName));
         }
 
         public double GetAverageDoctor(string userJMBG)
