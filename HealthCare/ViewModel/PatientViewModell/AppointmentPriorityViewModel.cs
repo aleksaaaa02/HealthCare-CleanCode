@@ -1,53 +1,174 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using HealthCare.Application;
+﻿using HealthCare.Application;
 using HealthCare.Application.Common;
+using HealthCare.Command;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.Service.ScheduleService;
+using HealthCare.View;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace HealthCare.ViewModel.PatientViewModell
 {
-    public class PriorityAppointmentViewModel
+    public class AppointmentPriorityViewModel
     {
-        private readonly DoctorService _doctorService;
-        private readonly PatientService _patientService;
-        private readonly Schedule _schedule;
+        private AppointmentService appointmentService { get; set; }
 
-        public PriorityAppointmentViewModel()
+        private Schedule schedule { get; set; }
+
+        private DoctorService doctorService { get; set; }
+
+        private PatientService patientService { get; set; }
+        public List<Doctor> Doctors {get; set;}
+        public Doctor SelectedDoctor    {get;set;}
+        public DateTime EndDate {get;    set;}    
+        public int HourStart    {get; set;}
+ 
+        public int HourEnd  {get; set;}
+        public int MinuteStart  {get; set;}
+        public int MinuteEnd    {get; set; }
+        public bool IsDoctorPriority {    get; set;     }
+
+        public ObservableCollection<Appointment> resultAppointments { get; set; }
+        public ObservableCollection<Appointment> ResultAppointments
         {
-            _patientService = Injector.GetService<PatientService>();
-            _doctorService = Injector.GetService<DoctorService>();
-            _schedule = Injector.GetService<Schedule>();
-
-            Doctors = new ObservableCollection<Doctor>();
-            Appointments = new ObservableCollection<Appointment>();
-            LoadDoctors(_doctorService.GetAll());
-        }
-
-        public ObservableCollection<Doctor> Doctors { get; set; }
-        public ObservableCollection<Appointment> Appointments { get; set; }
-
-        public void LoadDoctors(List<Doctor> doctors)
-        {
-            Doctors.Clear();
-            foreach (Doctor doctor in doctors)
+            get => resultAppointments;
+            set
             {
-                Doctors.Add(doctor);
+                resultAppointments = value;
+                OnPropertyChanged(nameof(ResultAppointments));
             }
+        }
+        public Appointment SelectedAppointment  {   get; set; }
+        public RelayCommand ShowAppointmentCommand { get; set; }
+        public RelayCommand ChangePriorityCommand { get; set; }
+        public RelayCommand CreateAppointmentCommand { get; set; }
+
+        public AppointmentPriorityViewModel()
+        {
+            appointmentService = Injector.GetService<AppointmentService>();
+            doctorService = Injector.GetService<DoctorService>();
+            patientService = Injector.GetService<PatientService>();
+            Doctors = doctorService.GetAll();
+            schedule = Injector.GetService<Schedule>();
+            ResultAppointments = new ObservableCollection<Appointment>();
+            EndDate = DateTime.Now;
+
+            ShowAppointmentCommand = new RelayCommand(o => {
+                calculateAppointments();
+            });
+
+            CreateAppointmentCommand = new RelayCommand( o =>
+            {
+                createAppointment();
+            } );
+
+            ChangePriorityCommand = new RelayCommand(o =>
+            {
+                string priority = o as string;
+                ChangePriority(priority);
+            });
+
+        }
+  
+        public void ChangePriority(string priority)
+        {
+            if (priority.Equals("Doctor"))
+            {
+                IsDoctorPriority = true;
+                return;
+            }
+            IsDoctorPriority = false;
+            return;
+        }
+        
+        
+        
+        public bool ValidateAllData()
+        {
+
+            Patient patient = (Patient)Context.Current;
+            if (patient.Blocked)
+            {
+                return false;
+            }
+
+            if (EndDate == null || HourStart==null || MinuteStart == null || MinuteStart == null || MinuteEnd == null || SelectedDoctor == null)
+            {
+                return false;
+            }
+            else
+            {
+                DateTime currentDate = DateTime.Now;
+                DateTime selectedDate = EndDate;
+                selectedDate = selectedDate.AddHours(HourStart);
+                selectedDate = selectedDate.AddMinutes(MinuteStart);
+                if (selectedDate < currentDate)
+                {
+                    return false;
+                }
+            }
+
+            if (HourStart > HourEnd || (HourStart == HourEnd && MinuteStart >= MinuteEnd))
+            {
+                return false;
+            }
+            
+            return true;
         }
 
         public void LoadAppointments(List<Appointment> appointments)
         {
-            Appointments.Clear();
-            foreach (Appointment appointment in appointments)
+            
+            ResultAppointments.Clear();
+            List<Appointment> list = new List<Appointment>();
+            foreach(Appointment appointment in appointments)
             {
-                Appointments.Add(appointment);
+                ResultAppointments.Add(appointment);
             }
+        }
+
+        public void SelectAppointment(int selectedID)
+        {
+            Appointment appointment = ResultAppointments.Where(x => x.AppointmentID == selectedID).First();
+            if (appointment == null) return;
+            SelectedAppointment = appointment;
+        }
+
+        public void calculateAppointments()
+        {
+            if (!ValidateAllData()) return;
+            string priority;
+            if (IsDoctorPriority) priority = "Doctor";
+            else priority = "Date";
+
+            getAppointments(EndDate, HourStart, MinuteStart, HourEnd, MinuteEnd, SelectedDoctor, priority);
+
+        }
+
+        public void createAppointment()
+        {
+            if (SelectedAppointment == null) {
+
+                return;
+            }
+
+            if (!schedule.IsAvailable(SelectedAppointment))
+            {
+                return;
+            }
+            
+            schedule.Add(SelectedAppointment);
+            WriteAction("CREATE");
+            IsUserBlocked();
         }
 
         public void getAppointments(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd,
@@ -58,8 +179,7 @@ namespace HealthCare.ViewModel.PatientViewModell
             Appointment resultAppointment;
             if (priority == "Date")
             {
-                resultAppointment =
-                    GetAppointmentByDateAndDoctor(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd, doctor);
+                resultAppointment = GetAppointmentByDateAndDoctor(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd, doctor);
                 if (resultAppointment == null)
                 {
                     resultAppointment = GetAppointmentByDate(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd);
@@ -67,12 +187,10 @@ namespace HealthCare.ViewModel.PatientViewModell
             }
             else
             {
-                resultAppointment =
-                    GetAppointmentByDateAndDoctor(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd, doctor);
+                resultAppointment = GetAppointmentByDateAndDoctor(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd, doctor);
                 if (resultAppointment == null)
                 {
-                    resultAppointment =
-                        GetAppointmentByDoctor(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd, doctor);
+                    resultAppointment = GetAppointmentByDoctor(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd, doctor);
                 }
             }
 
@@ -99,7 +217,7 @@ namespace HealthCare.ViewModel.PatientViewModell
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
                 Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
-                if (_schedule.IsAvailable(appointment))
+                if (schedule.IsAvailable(appointment))
                 {
                     return appointment;
                 }
@@ -127,7 +245,7 @@ namespace HealthCare.ViewModel.PatientViewModell
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
                 Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
-                if (_schedule.IsAvailable(appointment))
+                if (schedule.IsAvailable(appointment))
                 {
                     appointments.Add(appointment);
                 }
@@ -141,7 +259,7 @@ namespace HealthCare.ViewModel.PatientViewModell
         public Appointment GetAppointmentByDate(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd,
             int minutesEnd)
         {
-            List<Doctor> doctors = _doctorService.GetAll();
+            List<Doctor> doctors = doctorService.GetAll();
             foreach (Doctor doctor in doctors)
             {
                 DateTime startDate = DateTime.Today;
@@ -152,7 +270,7 @@ namespace HealthCare.ViewModel.PatientViewModell
                 {
                     TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
                     Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
-                    if (_schedule.IsAvailable(appointment))
+                    if (schedule.IsAvailable(appointment))
                     {
                         return appointment;
                     }
@@ -180,7 +298,7 @@ namespace HealthCare.ViewModel.PatientViewModell
             {
                 TimeSlot timeSlot = new TimeSlot(startDate, new TimeSpan(0, 15, 0));
                 Appointment appointment = new Appointment(patient.JMBG, doctor.JMBG, timeSlot, false);
-                if (_schedule.IsAvailable(appointment))
+                if (schedule.IsAvailable(appointment))
                 {
                     return appointment;
                 }
@@ -188,12 +306,17 @@ namespace HealthCare.ViewModel.PatientViewModell
                 startDate = startDate.AddMinutes(15);
                 if (startDate.Hour >= hoursEnd && startDate.Minute >= minutesEnd)
                 {
-                    startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart,
-                        minutesStart, 0);
+                    startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart, minutesStart, 0);
                 }
             }
 
             return null;
+        }
+        public void WriteAction(string action)
+        {
+            string stringtocsv = Context.Current.JMBG + "|" + action + "|" + Util.ToString(DateTime.Now) +
+                                 Environment.NewLine;
+            File.AppendAllText(Paths.PATIENT_LOGS, stringtocsv);
         }
 
         public void IsUserBlocked()
@@ -229,8 +352,18 @@ namespace HealthCare.ViewModel.PatientViewModell
                     patient.Blocked = false;
                 }
 
-                _patientService.Update(patient);
+                patientService.Update(patient);
             }
         }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
     }
 }
