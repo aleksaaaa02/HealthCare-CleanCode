@@ -21,7 +21,7 @@
         <Label Content="Zapazanja:" Name="lblObservations" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Name="tbObservations" Margin="10,91,10,93" TextWrapping="Wrap" Text="{Binding Observations}" VerticalAlignment="Top" Height="150" Width="480"/>
 
-        <Button Content="Unesi" Name="btnAdd" HorizontalAlignment="Left" Margin="10,260,0,0" Width="120" Height="30"  VerticalAlignment="Top" Command="{Binding visitCommand}"/>
-        <Button Content="Izadji" Name="btnClose" HorizontalAlignment="Right" Margin="0,260,10,0" Width="120" Height="30"  VerticalAlignment="Top" Command="{Binding cancelCommand}"/>
+        <Button Content="Unesi" Name="btnAdd" HorizontalAlignment="Left" Margin="10,260,0,0" Width="120" Height="30"  VerticalAlignment="Top" Command="{Binding VisitCommand}"/>
+        <Button Content="Izadji" Name="btnClose" HorizontalAlignment="Right" Margin="0,260,10,0" Width="120" Height="30"  VerticalAlignment="Top" Command="{Binding CancelCommand}"/>
     </Grid>
 </Window>

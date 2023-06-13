@@ -23,7 +23,7 @@
             </ListView.View>
         </ListView>
 
-        <Button Content="Vizita" Name="btnVisit" HorizontalAlignment="Left" Height="35" Margin="10,350,0,0" VerticalAlignment="Top" Width="100" Command = "{Binding visitCommand}"/>
-        <Button Content="Izadji" Name="btnClose"  HorizontalAlignment="Right" Height="35" Margin="0,350,10,0" VerticalAlignment="Top" Width="100" Command ="{Binding cancelCommand}"/>
+        <Button Content="Vizita" Name="btnVisit" HorizontalAlignment="Left" Height="35" Margin="10,350,0,0" VerticalAlignment="Top" Width="100" Command = "{Binding VisitCommand}"/>
+        <Button Content="Izadji" Name="btnClose"  HorizontalAlignment="Right" Height="35" Margin="0,350,10,0" VerticalAlignment="Top" Width="100" Command ="{Binding CancelCommand}"/>
     </Grid>
 </Window>

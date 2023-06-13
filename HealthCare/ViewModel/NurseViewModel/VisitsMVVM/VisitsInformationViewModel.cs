@@ -2,74 +2,50 @@
 using HealthCare.Command;
 using HealthCare.Model;
 using HealthCare.Service;
-using HealthCare.View.NurseView.VisitsView;
 using HealthCare.View;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace HealthCare.ViewModel.NurseViewModel.VisitsMVVM
 {
-    public class VisitsInformationViewModel:ViewModelBase
+    public class VisitsInformationViewModel : ViewModelBase
     {
-        private Visit _visit;
-        private readonly VisitService _visitService;
-        public CancelCommand cancelCommand { get; set; }
-        public RelayCommand visitCommand { get; set; }
+        public CancelCommand CancelCommand { get; set; }
+        public RelayCommand VisitCommand { get; set; }
+
         public VisitsInformationViewModel(Visit visit, Window window) {
-            _visitService = Injector.GetService<VisitService>();
-            _visit = visit;
-            cancelCommand = new CancelCommand(window);
-            visitCommand = new RelayCommand(o => {
-                if (Temperature == 0 || SystolicPressure == 0 || DiastolicPressure == 0) {
-                    ViewUtil.ShowWarning("Unesite polja.");
-                    return;
-                }
+            Observations = "";
 
-                if (Temperature < 0 || SystolicPressure < 0 || DiastolicPressure < 0) {
-                    ViewUtil.ShowWarning("Vrednosti moraju biti pozitivni brojevi.");
-                    return;
-                }
+            CancelCommand = new CancelCommand(window);
+            VisitCommand = new RelayCommand(o => {
+                if (!Validate()) return;
+                visit.Temperature = Temperature;
+                visit.SystolicPressure = SystolicPressure;
+                visit.DiastolicPressure = DiastolicPressure;
+                Injector.GetService<VisitService>().Add(visit);
 
-                _visit.Temperature = Temperature;
-                _visit.SystolicPressure = SystolicPressure;
-                _visit.DiastolicPressure = DiastolicPressure;
-                _visitService.Add(_visit);
                 ViewUtil.ShowInformation("Uspesno ste obavili vizitu");
                 window.Close();
             });
         }
 
-        private double _temperature;
-        public double Temperature
-        {
-            get => _temperature;
-            set => _temperature = value;
-        }
+        public double Temperature { get; set; }
+        public int SystolicPressure { get; set; }
+        public int DiastolicPressure { get; set; }
+        public string Observations { get; set; }
 
-        private int _systolicPressure;
-        public int SystolicPressure
-        {
-            get => _systolicPressure;
-            set => _systolicPressure = value;
-        }
+        private bool Validate() {
+            if (Temperature == 0 || SystolicPressure == 0 || DiastolicPressure == 0)
+            {
+                ViewUtil.ShowWarning("Unesite polja.");
+                return false;
+            }
 
-        private int _diastolicPressure;
-        public int DiastolicPressure
-        {
-            get => _diastolicPressure;
-            set => _diastolicPressure = value;
-        }
-
-        private string _observations;
-        public string Observations
-        {
-            get => _observations;
-            set => _observations = value;
+            if (Temperature < 0 || SystolicPressure < 0 || DiastolicPressure < 0)
+            {
+                ViewUtil.ShowWarning("Vrednosti moraju biti pozitivni brojevi.");
+                return false;
+            }
+            return true;
         }
     }
 }
