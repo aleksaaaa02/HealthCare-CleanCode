@@ -89,10 +89,10 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             set
             {
                 _selectedContact = value;
-                foreach (Message message in _selectedContact.Messages.Where(x => x.SenderJMBG != Context.Current.JMBG))
+                foreach (MessageViewModel message in _selectedContact.Messages.Where(x => x._Message.SenderJMBG != Context.Current.JMBG))
                 {
-                    message.Seen = true;
-                    messageService.Update(message);
+                    message._Message.Seen = true;
+                    messageService.Update(message._Message);
                 }
                 _selectedContact.RecalculateAll();
                 OtherUsername = _selectedContact.OtherUsername;
@@ -137,22 +137,18 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             {
                 if (_selectedContact != null)
                 {
-                    String messageSenderName = doctorService.TryGet(Context.Current.JMBG).Username;
-                    if(messageSenderName == null) { 
-                        messageSenderName = nurseService.TryGet(Context.Current.JMBG).Username;
-                    }
+
                     Message message = new Message()
                     {
                         contactID = _selectedContact.contact.ID,
                         MessageText = Message,
                         SenderJMBG = Context.Current.JMBG,
                         Time = DateTime.Now,
-                        SenderName = messageSenderName,
                         Seen = false
 
 
                     };
-                    _selectedContact.Messages.Add(message);
+                    _selectedContact.Messages.Add(new MessageViewModel(message));
                     messageService.Add(message);
                 }
                 Message = "";

@@ -23,8 +23,6 @@ namespace HealthCare.Model
         public int contactID { get; set; }
 
         public String SenderJMBG { get; set; }
-
-        public String SenderName { get; set; }
         public String MessageText { get; set; }
         public DateTime Time { get; set; }
 

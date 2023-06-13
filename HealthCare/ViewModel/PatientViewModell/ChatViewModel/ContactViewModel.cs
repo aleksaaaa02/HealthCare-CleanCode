@@ -1,5 +1,7 @@
 ﻿using HealthCare.Application;
 using HealthCare.Service;
+using HealthCare.ViewModel.PatientViewModell.ChatViewModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -65,8 +67,8 @@ namespace HealthCare.Model
             }
         }
 
-        private ObservableCollection<Message> _messages;
-        public ObservableCollection<Message> Messages
+        private ObservableCollection<MessageViewModel> _messages;
+        public ObservableCollection<MessageViewModel> Messages
         {
             get { 
                 return _messages; 
@@ -157,7 +159,7 @@ namespace HealthCare.Model
 
         public int CalculateUnreadMessages()
         {
-            return Messages.Count(m => !m.Seen && m.SenderJMBG != Context.Current.JMBG);
+            return Messages.Count(m => !m._Message.Seen && m._Message.SenderJMBG != Context.Current.JMBG);
         }
 
         private string CalculateLastMassage()
@@ -179,17 +181,43 @@ namespace HealthCare.Model
 
         private void LoadMessages()
         {
-            List<Message> messages = messageService.GetByContact(contact.ID);
-            foreach (Message message in messages)
+            List<MessageViewModel> messages = new List<MessageViewModel>();
+            int counter = 0;
+            foreach (Message message in messageService.GetByContact(contact.ID))
             {
-                User otherUser = doctorService.TryGet(contact.Participants.FirstOrDefault(item => item != Context.Current.JMBG));
-                if (otherUser == null)
+                MessageViewModel messageViewModel = new MessageViewModel(message);
+                if(counter==0)
                 {
-                    otherUser = nurseService.TryGet(contact.Participants.FirstOrDefault(item => item != Context.Current.JMBG));
+                    messageViewModel.IsFirst = true;
                 }
-                message.SenderName = otherUser.Username;
+                else 
+                { 
+                    if(isSameMinute(messageViewModel._Message.Time, messages[counter-1]._Message.Time) && messages[counter-1]._Message.SenderJMBG==messageViewModel._Message.SenderJMBG)
+                    {
+                        messageViewModel.IsFirst = false;
+                    }
+                    else
+                    {
+                        messageViewModel.IsFirst = true;
+                    }
+                }
+
+                messages.Add(messageViewModel);
+                counter++;
             }
-            Messages = new ObservableCollection<Message>(messages);
+            Messages = new ObservableCollection<MessageViewModel>(messages);
+        }
+
+
+        bool isSameMinute(DateTime message1Timestamp, DateTime message2Timestamp)
+        {
+            
+            return message1Timestamp.Year == message2Timestamp.Year &&
+                  message1Timestamp.Month == message2Timestamp.Month &&
+                  message1Timestamp.Day == message2Timestamp.Day &&
+                  message1Timestamp.Hour == message2Timestamp.Hour &&
+                  message1Timestamp.Minute == message2Timestamp.Minute;
+
         }
 
     }

@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.PatientView"
         xmlns:viewmodel="clr-namespace:HealthCare.ViewModel.PatientViewModell.ChatViewModel"
-        mc:Ignorable="d"
-        Title="AddContactView" Height="450" Width="300">
+        mc:Ignorable="d" Height="450" Width="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
