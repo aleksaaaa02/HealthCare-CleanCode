@@ -3,6 +3,7 @@ using HealthCare.Command;
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.Service.UserService;
 using HealthCare.View;
 
 namespace HealthCare.ViewModel.DoctorViewModel.Referrals.Commands;

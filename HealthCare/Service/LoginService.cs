@@ -2,6 +2,10 @@
 using HealthCare.Exceptions;
 using HealthCare.Model;
 using HealthCare.Repository;
+using HealthCare.Service.UserService;
+using System;
+using System.Collections.Generic;
+using System.Windows.Documents;
 
 namespace HealthCare.Service
 {
@@ -17,18 +21,16 @@ namespace HealthCare.Service
     {
         private const string ADMIN_USER = "admin";
         private const string ADMIN_PASS = "admin";
-        private readonly IRepository<Doctor> _doctorRepository;
-        private readonly IRepository<User> _nurseRepository;
-        private readonly IRepository<Patient> _patientRepository;
+        private readonly Dictionary<Role, IUserService> _userServices;
 
-        public LoginService(
-            IRepository<Patient> patientRepository,
-            IRepository<Doctor> doctorRepository,
-            IRepository<User> nurseRepository)
+        public LoginService()
         {
-            _patientRepository = patientRepository;
-            _doctorRepository = doctorRepository;
-            _nurseRepository = nurseRepository;
+            _userServices = new Dictionary<Role, IUserService>
+            {
+                { Role.Patient, Injector.GetService<PatientService>() },
+                { Role.Doctor, Injector.GetService<DoctorService>() },
+                { Role.Nurse, Injector.GetService<NurseService>() }
+            };
         }
 
         public Role Login(string username, string password)
@@ -50,15 +52,10 @@ namespace HealthCare.Service
 
         private (User, Role) GetUser(string username)
         {
-            User? user;
-            user = _patientRepository.Load().Find(u => u.Username == username);
-            if (user != null) return (user, Role.Patient);
-
-            user = _doctorRepository.Load().Find(u => u.Username == username);
-            if (user != null) return (user, Role.Doctor);
-
-            user = _nurseRepository.Load().Find(u => u.Username == username);
-            if (user != null) return (user, Role.Nurse);
+            foreach (Role r in Enum.GetValues(typeof(Role)))
+                if (_userServices[r].GetAllUsers()
+                    .Find(u => u.Username == username) is User user)
+                    return (user, r);
 
             throw new UsernameNotFoundException();
         }

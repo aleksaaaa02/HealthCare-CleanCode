@@ -1,6 +1,7 @@
 ﻿using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.Service.UserService;
 
 namespace HealthCare.ViewModel.NurseViewModel.VisitsMVVM
 {

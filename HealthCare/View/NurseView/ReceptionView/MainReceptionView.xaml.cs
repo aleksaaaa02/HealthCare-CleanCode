@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using HealthCare.Application;
 using HealthCare.Model;
-using HealthCare.Service;
 using HealthCare.Service.ScheduleService;
+using HealthCare.Service.UserService;
 using HealthCare.View.NurseView;
 
 namespace HealthCare.View.ReceptionView

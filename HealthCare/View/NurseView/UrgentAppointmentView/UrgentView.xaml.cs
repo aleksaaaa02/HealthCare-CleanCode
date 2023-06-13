@@ -7,6 +7,7 @@ using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.Service.ScheduleService;
+using HealthCare.Service.UserService;
 using HealthCare.ViewModel.NurseViewModel;
 
 namespace HealthCare.View.UrgentAppointmentView
