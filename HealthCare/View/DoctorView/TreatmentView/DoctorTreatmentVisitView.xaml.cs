@@ -1,27 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using HealthCare.Model;
+using HealthCare.ViewModel.DoctorViewModel.Treatment;
 
 namespace HealthCare.View.DoctorView.TreatmentView
 {
-    /// <summary>
-    /// Interaction logic for DoctorTreatmentVisitView.xaml
-    /// </summary>
     public partial class DoctorTreatmentVisitView : Window
     {
-        public DoctorTreatmentVisitView()
+        public DoctorTreatmentVisitView(Treatment treatment)
         {
             InitializeComponent();
+            DataContext = new DoctorTreatmentVisitViewModel(treatment);
         }
     }
 }

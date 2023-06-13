@@ -9,6 +9,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Treatment
     public class TreatmentViewModel : ViewModelBase
     {
         private readonly Model.Treatment _treatment;
+        public int TreatmentId => _treatment.Id;
         public string PatientNameAndLastName { get; }
         public string PatientJMBG { get; }
         public int RoomId => _treatment.RoomId;
