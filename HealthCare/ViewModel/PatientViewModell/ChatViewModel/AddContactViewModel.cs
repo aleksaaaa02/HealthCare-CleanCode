@@ -52,7 +52,11 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             {
                 if (selectedUser != null)
                 {
-
+                    if(selectedUser.JMBG==Context.Current.JMBG)
+                    {
+                        ViewUtil.ShowError("Ne mozete dodati sebe");
+                        return;
+                    }
                     int count = contactService.GetForUser(Context.Current.JMBG).Count(contact => contact.Participants.Contains(Context.Current.JMBG) && contact.Participants.Contains(selectedUser.JMBG));
 
                     if (count > 0)

@@ -3,3 +3,14 @@
 3,,PREPORUCILI,Da li biste predlozili bolnicu svojim prijateljima?,5,Eurovision 2023
 4,5819482930941,GENERAL,Kako ste zadovoljni generalnim kvalitetom usluge bolince?,1,
 5,5819482930941,PREPORUCILI,Da li biste predlozili bolnicu svojim prijateljima?,3,
+6,,HOSPITAL_GENERAL,Kako ste zadovoljni generalnim kvalitetom usluge bolince?,3,
+7,,HOSPITAL_CISTOCA,Kako ste zadovoljni cistocom bolnice?,2,
+8,5819482930941,DOKTOR_GENERAL,Kako ste zadovoljni generalnim kvalitetom usluge bolince?,3,
+9,5819482930941,DOKTOR_PREPORUCILI,Da li biste predlozili bolnicu svojim prijateljima?,5,
+10,5819482930941,DOKTOR_GENERAL,Kako ste zadovoljni generalnim kvalitetom usluge bolince?,5,
+11,5819482930941,DOKTOR_PREPORUCILI,Da li biste predlozili bolnicu svojim prijateljima?,5,
+12,5819482930941,DOKTOR_GENERAL,Kako ste zadovoljni generalnim kvalitetom usluge bolince?,5,Dodatni komentar 1
+13,5819482930941,DOKTOR_PREPORUCILI,Da li biste predlozili bolnicu svojim prijateljima?,4,Dodatni komentar 2
+14,,HOSPITAL_GENERAL,Kako ste zadovoljni generalnim kvalitetom usluge bolince?,3,Final
+15,,HOSPITAL_CISTOCA,Kako ste zadovoljni cistocom bolnice?,5,Test
+16,,HOSPITAL_PREPORUCILI,Da li biste predlozili bolnicu svojim prijateljima?,2,POG
