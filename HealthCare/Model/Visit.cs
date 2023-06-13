@@ -1,6 +1,7 @@
 ﻿using HealthCare.Application.Common;
 using HealthCare.Repository;
 using System;
+using System.Windows.Media.TextFormatting;
 
 namespace HealthCare.Model
 {
@@ -47,6 +48,10 @@ namespace HealthCare.Model
 
         public bool isMorningVisit() {
             return DateTime.Now < DateTime.Now.Date.AddHours(12);
+        }
+
+        public bool isToday() {
+            return this.VisitTime.Date == DateTime.Now.Date;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using HealthCare.Model;
 using HealthCare.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,8 +12,9 @@ namespace HealthCare.Service
         {
         }
 
-        public List<Visit> getVisits(bool isMorning) {
-            return GetAll().Where(x => x.isMorningVisit() == isMorning).ToList();
+        public List<Visit> getVisits() {
+            bool isMorning = DateTime.Now < DateTime.Now.Date.AddHours(12);
+            return GetAll().Where(x => x.isMorningVisit() == isMorning && x.isToday()).ToList();
         }
         
     }

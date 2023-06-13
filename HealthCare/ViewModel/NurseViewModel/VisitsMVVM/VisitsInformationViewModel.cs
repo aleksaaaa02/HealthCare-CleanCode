@@ -29,6 +29,12 @@ namespace HealthCare.ViewModel.NurseViewModel.VisitsMVVM
                     ViewUtil.ShowWarning("Unesite polja.");
                     return;
                 }
+
+                if (Temperature < 0 || SystolicPressure < 0 || DiastolicPressure < 0) {
+                    ViewUtil.ShowWarning("Vrednosti moraju biti pozitivni brojevi.");
+                    return;
+                }
+
                 _visit.Temperature = Temperature;
                 _visit.SystolicPressure = SystolicPressure;
                 _visit.DiastolicPressure = DiastolicPressure;

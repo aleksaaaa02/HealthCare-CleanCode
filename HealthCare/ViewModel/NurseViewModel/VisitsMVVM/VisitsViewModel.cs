@@ -17,6 +17,7 @@ namespace HealthCare.ViewModel.NurseViewModel.VisitsMVVM
     {
         private ObservableCollection<TreatmentsViewModel> _treatments;
         private readonly TreatmentService _treatmentService;
+        private readonly VisitService _visitService;
         public ObservableCollection<TreatmentsViewModel> Treatments {
             get => _treatments;
             set => _treatments = value;
@@ -28,7 +29,8 @@ namespace HealthCare.ViewModel.NurseViewModel.VisitsMVVM
             get => _selected;
             set {
                 _selected = value;
-                _visit = new Visit(0, 0, 0, "", DateTime.Now, _selected.Id);
+                if (_selected is not null)
+                    _visit = new Visit(0, 0, 0, "", DateTime.Now, _selected.Id);
             }
         }
 
@@ -45,6 +47,7 @@ namespace HealthCare.ViewModel.NurseViewModel.VisitsMVVM
         public RelayCommand visitCommand { get; set; }
         public VisitsViewModel(Window window) {
             _treatmentService = Injector.GetService<TreatmentService>();
+            _visitService = Injector.GetService<VisitService>();
             Treatments = new ObservableCollection<TreatmentsViewModel>();
             cancelCommand = new CancelCommand(window);
             visitCommand = new RelayCommand(o => {
@@ -53,13 +56,16 @@ namespace HealthCare.ViewModel.NurseViewModel.VisitsMVVM
                     return;
                 }
                 new VisitInformationView(_visit).ShowDialog();
+                loadTreatments();
+
             });
             loadTreatments();
         }
 
         public List<TreatmentsViewModel> starting = new List<TreatmentsViewModel>();
         public void loadTreatments() {
-            List<Treatment> treatments = _treatmentService.getCurrent();
+            List<Visit> done = _visitService.getVisits();
+            List<Treatment> treatments = _treatmentService.getCurrent().Where(x => done.All(v => v.TreatmentId != x.Id)).ToList();
             Treatments.Clear();
             foreach (Treatment treatment in treatments) {
                 TreatmentsViewModel model = new TreatmentsViewModel(treatment);
