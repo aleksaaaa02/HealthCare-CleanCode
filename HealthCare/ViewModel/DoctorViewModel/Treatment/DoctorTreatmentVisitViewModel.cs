@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 using HealthCare.Application;
 using HealthCare.Model;
@@ -44,7 +45,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Treatment
         public ICommand AddMedicationToTherapyCommand { get; }
         public ICommand RemoveMedicationFromTherapyCommand { get; }
 
-        public DoctorTreatmentVisitViewModel(Model.Treatment treatment)
+        public DoctorTreatmentVisitViewModel(Window window, Model.Treatment treatment)
         {
             _prescriptionService = Injector.GetService<PrescriptionService>(Injector.THERAPY_PRESCRIPTION_S);
             _treatment = treatment;
@@ -58,7 +59,7 @@ namespace HealthCare.ViewModel.DoctorViewModel.Treatment
             ContinueTreatmentCommand = new IncreaseTreatmentDurationCommand(this, _treatment);
             RemoveMedicationFromTherapyCommand = new RemoveMedicationFromTherapyCommand(this, _therapy);
             AddMedicationToTherapyCommand = new ShowAddTherapyDialogCommand(this, _therapy);
-
+            ReleasePatientCommand = new ReleasePatientCommand(window, _treatment);
             _therapyMedications = new ObservableCollection<TherapyPrescriptionViewModel>();
             Update();
         }

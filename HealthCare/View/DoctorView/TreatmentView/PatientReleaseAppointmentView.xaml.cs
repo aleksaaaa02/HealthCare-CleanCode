@@ -4,12 +4,13 @@ using HealthCare.ViewModel.DoctorViewModel.Treatment;
 
 namespace HealthCare.View.DoctorView.TreatmentView
 {
-    public partial class DoctorTreatmentVisitView : Window
+
+    public partial class PatientReleaseAppointmentView : Window
     {
-        public DoctorTreatmentVisitView(Treatment treatment)
+        public PatientReleaseAppointmentView(Treatment treatment)
         {
             InitializeComponent();
-            DataContext = new DoctorTreatmentVisitViewModel(this, treatment);
+            DataContext = new PatientReleaseAppointmentViewModel(this, treatment);
         }
     }
 }
