@@ -25,6 +25,11 @@ namespace HealthCare.Service
             return GetAll().FindAll(x => x.Description.Equals(topicName));
         }
 
+        public List<Survey> GetHospitalSurveys()
+        {
+            return GetForUser("");
+        }
+
         public double GetAverageDoctor(string userJMBG)
         {
             List<Survey> list = GetForUser(userJMBG);
@@ -41,6 +46,5 @@ namespace HealthCare.Service
             if (counter == 0 || totalRating == 0) return 0;
             return Math.Round(totalRating / counter,2);
         }
-
     }
 }
