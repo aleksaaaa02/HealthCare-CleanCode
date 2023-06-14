@@ -13,23 +13,23 @@ public class PatientSearchViewModel : ViewModelBase
 {
     private readonly AppointmentService _appointmentService;
 
-    private readonly ObservableCollection<PatientViewModel> _patients;
+    private readonly ObservableCollection<PatientDTO> _patients;
     private readonly PatientService _patientService;
 
-    private PatientViewModel _selectedPatient;
+    private PatientDTO _selectedPatient;
 
     public PatientSearchViewModel()
     {
         _appointmentService = Injector.GetService<AppointmentService>();
         _patientService = Injector.GetService<PatientService>();
-        _patients = new ObservableCollection<PatientViewModel>();
+        _patients = new ObservableCollection<PatientDTO>();
         ShowEditPatientCommand = new ShowPatientInfoCommand(this, true);
         Update();
     }
 
-    public IEnumerable<PatientViewModel> Patients => _patients;
+    public IEnumerable<PatientDTO> Patients => _patients;
 
-    public PatientViewModel SelectedPatient
+    public PatientDTO SelectedPatient
     {
         get => _selectedPatient;
         set
@@ -47,7 +47,7 @@ public class PatientSearchViewModel : ViewModelBase
         foreach (var patientJMBG in _appointmentService.GetExaminedPatients(Context.Current.JMBG))
         {
             var patient = _patientService.Get(patientJMBG);
-            _patients.Add(new PatientViewModel(patient));
+            _patients.Add(new PatientDTO(patient));
         }
     }
 }

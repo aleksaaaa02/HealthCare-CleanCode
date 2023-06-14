@@ -6,11 +6,11 @@ using HealthCare.WPF.Common;
 
 namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments
 {
-    public class TreatmentViewModel : ViewModelBase
+    public class TreatmentDTO : ViewModelBase
     {
         private readonly Treatment _treatment;
 
-        public TreatmentViewModel(Treatment treatment)
+        public TreatmentDTO(Treatment treatment)
         {
             _treatment = treatment;
             TreatmentReferral referral = Injector.GetService<TreatmentReferralService>().Get(treatment.ReferralId);

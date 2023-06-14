@@ -16,14 +16,14 @@ namespace HealthCare.WPF.DoctorGUI.AppointmentSchedule;
 
 public class MakeAppointmentViewModel : ViewModelBase
 {
-    private readonly ObservableCollection<PatientViewModel> _patients;
+    private readonly ObservableCollection<PatientDTO> _patients;
     private readonly PatientService _patientService;
     private readonly Patient _selected;
     private int _duration = 15;
     private int _hours;
     private bool _isOperation;
     private int _minutes;
-    private PatientViewModel _selectedPatient;
+    private PatientDTO _selectedPatient;
 
     private DateTime _startDate = DateTime.Today;
 
@@ -33,7 +33,7 @@ public class MakeAppointmentViewModel : ViewModelBase
 
         CancelCommand = new CancelCommand(window);
         SubmitCommand = new AddNewAppointmentDoctorCommand(this, doctorViewModel, window, edit);
-        _patients = new ObservableCollection<PatientViewModel>();
+        _patients = new ObservableCollection<PatientDTO>();
         Update();
     }
 
@@ -48,7 +48,7 @@ public class MakeAppointmentViewModel : ViewModelBase
         _selected = _patientService.Get(appointment.PatientJMBG);
     }
 
-    public IEnumerable<PatientViewModel> Patients => _patients;
+    public IEnumerable<PatientDTO> Patients => _patients;
 
     public ICommand CancelCommand { get; }
     public ICommand SubmitCommand { get; }
@@ -115,7 +115,7 @@ public class MakeAppointmentViewModel : ViewModelBase
         }
     }
 
-    public PatientViewModel SelectedPatient
+    public PatientDTO SelectedPatient
     {
         get => _selectedPatient;
         set
@@ -130,8 +130,8 @@ public class MakeAppointmentViewModel : ViewModelBase
         _patients.Clear();
         foreach (var patient in _patientService.GetAll())
         {
-            if (_selected == patient) SelectedPatient = new PatientViewModel(patient);
-            _patients.Add(new PatientViewModel(patient));
+            if (_selected == patient) SelectedPatient = new PatientDTO(patient);
+            _patients.Add(new PatientDTO(patient));
         }
     }
 }

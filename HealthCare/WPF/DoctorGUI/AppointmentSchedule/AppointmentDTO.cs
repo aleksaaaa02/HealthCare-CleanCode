@@ -6,13 +6,13 @@ using HealthCare.WPF.Common;
 
 namespace HealthCare.WPF.DoctorGUI.AppointmentSchedule;
 
-public class AppointmentViewModel : ViewModelBase
+public class AppointmentDTO : ViewModelBase
 {
     private readonly Appointment _appointment;
     private readonly Doctor _doctor;
     private readonly Patient _patient;
 
-    public AppointmentViewModel(Appointment appointment)
+    public AppointmentDTO(Appointment appointment)
     {
         _appointment = appointment;
         _patient = Injector.GetService<PatientService>().Get(appointment.PatientJMBG);

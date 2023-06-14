@@ -4,12 +4,12 @@ using HealthCare.WPF.Common;
 
 namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Pharmacy;
 
-public class MedicationViewModel : ViewModelBase
+public class MedicationDTO : ViewModelBase
 {
     private readonly Medication _medication;
     private bool _initialTherapy;
 
-    public MedicationViewModel(Medication medication)
+    public MedicationDTO(Medication medication)
     {
         _medication = medication;
         _initialTherapy = false;

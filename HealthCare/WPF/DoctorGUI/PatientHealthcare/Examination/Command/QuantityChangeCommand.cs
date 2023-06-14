@@ -6,9 +6,9 @@ namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Examination.Command;
 
 public class QuantityChangeCommand : CommandBase
 {
-    private readonly EquipmentViewModel _equipmentViewModel;
+    private readonly EquipmentDTO _equipmentViewModel;
 
-    public QuantityChangeCommand(EquipmentViewModel equipmentViewModel)
+    public QuantityChangeCommand(EquipmentDTO equipmentViewModel)
     {
         _equipmentViewModel = equipmentViewModel;
     }

@@ -24,7 +24,7 @@ namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments
         private readonly TreatmentReferral _treatmentReferral;
         private DateTime _end;
 
-        private ObservableCollection<TherapyPrescriptionViewModel> _therapyMedications;
+        private ObservableCollection<TherapyPrescriptionDTO> _therapyMedications;
 
         public DoctorTreatmentVisitViewModel(Window window, Treatment treatment)
         {
@@ -41,11 +41,11 @@ namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments
             RemoveMedicationFromTherapyCommand = new RemoveMedicationFromTherapyCommand(this, _therapy);
             AddMedicationToTherapyCommand = new ShowAddTherapyDialogCommand(this, _therapy);
             ReleasePatientCommand = new ReleasePatientCommand(window, _treatment);
-            _therapyMedications = new ObservableCollection<TherapyPrescriptionViewModel>();
+            _therapyMedications = new ObservableCollection<TherapyPrescriptionDTO>();
             Update();
         }
 
-        public TherapyPrescriptionViewModel SelectedPrescription { get; set; }
+        public TherapyPrescriptionDTO SelectedPrescription { get; set; }
         public string PatientJMBG { get; set; }
         public string PatientNameAndLastName { get; set; }
         public DateTime Start { get; set; }
@@ -62,7 +62,7 @@ namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments
 
         public string AdditionalExamination { get; set; }
         public int DurationIncreaseDays { get; set; }
-        public IEnumerable<TherapyPrescriptionViewModel> TherapyMedication => _therapyMedications;
+        public IEnumerable<TherapyPrescriptionDTO> TherapyMedication => _therapyMedications;
 
 
         public ICommand ReleasePatientCommand { get; }
@@ -85,7 +85,7 @@ namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments
             foreach (var prescriptionID in _therapy.InitialMedication)
             {
                 Prescription prescription = _prescriptionService.Get(prescriptionID);
-                _therapyMedications.Add(new TherapyPrescriptionViewModel(prescription));
+                _therapyMedications.Add(new TherapyPrescriptionDTO(prescription));
             }
         }
     }

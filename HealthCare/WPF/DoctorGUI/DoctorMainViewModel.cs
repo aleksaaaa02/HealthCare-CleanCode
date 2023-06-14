@@ -17,15 +17,15 @@ namespace HealthCare.WPF.DoctorGUI;
 
 public class DoctorMainViewModel : ViewModelBase
 {
-    private readonly ObservableCollection<AppointmentViewModel> _appointments;
+    private readonly ObservableCollection<AppointmentDTO> _appointments;
     private readonly AppointmentService _appointmentService;
     private int _numberOfDays = 3;
-    private AppointmentViewModel _selectedAppointment;
+    private AppointmentDTO _selectedAppointment;
     private DateTime _startDate = DateTime.Now;
 
     public DoctorMainViewModel(Window window)
     {
-        _appointments = new ObservableCollection<AppointmentViewModel>();
+        _appointments = new ObservableCollection<AppointmentDTO>();
 
         _appointmentService = Injector.GetService<AppointmentService>();
 
@@ -44,7 +44,7 @@ public class DoctorMainViewModel : ViewModelBase
         Update();
     }
 
-    public IEnumerable<AppointmentViewModel> Appointments => _appointments;
+    public IEnumerable<AppointmentDTO> Appointments => _appointments;
     public ICommand CreateAppointmentViewCommand { get; }
     public ICommand EditAppointmentCommand { get; }
     public ICommand DeleteAppointmentCommand { get; }
@@ -77,7 +77,7 @@ public class DoctorMainViewModel : ViewModelBase
         }
     }
 
-    public AppointmentViewModel SelectedAppointment
+    public AppointmentDTO SelectedAppointment
     {
         get => _selectedAppointment;
         set
@@ -90,13 +90,13 @@ public class DoctorMainViewModel : ViewModelBase
     public void ApplyFilterOnAppointments(List<Appointment> appointments)
     {
         _appointments.Clear();
-        foreach (var appointment in appointments) _appointments.Add(new AppointmentViewModel(appointment));
+        foreach (var appointment in appointments) _appointments.Add(new AppointmentDTO(appointment));
     }
 
     public void Update()
     {
         _appointments.Clear();
         foreach (var appointment in _appointmentService.GetByDoctor(Context.Current.JMBG))
-            _appointments.Add(new AppointmentViewModel(appointment));
+            _appointments.Add(new AppointmentDTO(appointment));
     }
 }

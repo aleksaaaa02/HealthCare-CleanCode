@@ -12,7 +12,7 @@ namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Referral;
 
 public class TreatmentReferralViewModel : ViewModelBase
 {
-    private readonly ObservableCollection<MedicationViewModel> _medications;
+    private readonly ObservableCollection<MedicationDTO> _medications;
     private readonly MedicationService _medicationService;
 
     public readonly Patient ExaminedPatient;
@@ -22,7 +22,7 @@ public class TreatmentReferralViewModel : ViewModelBase
     public TreatmentReferralViewModel(Patient patient)
     {
         _medicationService = Injector.GetService<MedicationService>();
-        _medications = new ObservableCollection<MedicationViewModel>();
+        _medications = new ObservableCollection<MedicationDTO>();
         ExaminedPatient = patient;
         _additionalExamination = " ";
         DaysOfTreatment = 0;
@@ -32,7 +32,7 @@ public class TreatmentReferralViewModel : ViewModelBase
         Update();
     }
 
-    public IEnumerable<MedicationViewModel> Medications => _medications;
+    public IEnumerable<MedicationDTO> Medications => _medications;
 
     public ICommand MakeTreatmentReferralCommand { get; }
 
@@ -59,6 +59,6 @@ public class TreatmentReferralViewModel : ViewModelBase
     public void Update()
     {
         _medications.Clear();
-        foreach (var medication in _medicationService.GetAll()) _medications.Add(new MedicationViewModel(medication));
+        foreach (var medication in _medicationService.GetAll()) _medications.Add(new MedicationDTO(medication));
     }
 }

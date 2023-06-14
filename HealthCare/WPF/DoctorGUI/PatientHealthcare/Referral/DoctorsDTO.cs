@@ -3,12 +3,12 @@ using HealthCare.WPF.Common;
 
 namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Referral;
 
-public class DoctorsViewModel : ViewModelBase
+public class DoctorsDTO : ViewModelBase
 {
     private readonly Doctor _doctor;
 
 
-    public DoctorsViewModel(Doctor doctor)
+    public DoctorsDTO(Doctor doctor)
     {
         _doctor = doctor;
     }

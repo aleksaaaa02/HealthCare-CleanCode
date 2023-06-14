@@ -12,14 +12,14 @@ namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.MedicalPrescription;
 
 public class PrescriptionViewModel : ViewModelBase
 {
-    private readonly ObservableCollection<MedicationViewModel> _medications;
+    private readonly ObservableCollection<MedicationDTO> _medications;
     private readonly MedicationService _medicationService;
 
     public PrescriptionViewModel()
     {
         _medicationService = Injector.GetService<MedicationService>();
         BeforeMeal = true;
-        _medications = new ObservableCollection<MedicationViewModel>();
+        _medications = new ObservableCollection<MedicationDTO>();
     }
 
     public PrescriptionViewModel(Patient patient) : this()
@@ -36,9 +36,9 @@ public class PrescriptionViewModel : ViewModelBase
         Update();
     }
 
-    public MedicationViewModel SelectedMedication { get; set; }
+    public MedicationDTO SelectedMedication { get; set; }
 
-    public IEnumerable<MedicationViewModel> Medications => _medications;
+    public IEnumerable<MedicationDTO> Medications => _medications;
 
     public bool BeforeMeal { get; set; }
     public bool DuringMeal { get; set; }
@@ -53,6 +53,6 @@ public class PrescriptionViewModel : ViewModelBase
     private void Update()
     {
         _medications.Clear();
-        foreach (var medication in _medicationService.GetAll()) _medications.Add(new MedicationViewModel(medication));
+        foreach (var medication in _medicationService.GetAll()) _medications.Add(new MedicationDTO(medication));
     }
 }

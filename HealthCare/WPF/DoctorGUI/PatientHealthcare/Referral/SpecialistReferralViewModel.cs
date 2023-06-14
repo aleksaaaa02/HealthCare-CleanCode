@@ -11,12 +11,12 @@ namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Referral;
 
 public class SpecialistReferralViewModel : ViewModelBase
 {
-    private readonly ObservableCollection<DoctorsViewModel> _doctors;
+    private readonly ObservableCollection<DoctorsDTO> _doctors;
     private readonly DoctorService _doctorService;
     public readonly Patient ExaminedPatient;
     private bool _isSpecializationReferral;
 
-    private DoctorsViewModel _selectedDoctor;
+    private DoctorsDTO _selectedDoctor;
     private string _specialization;
 
     public SpecialistReferralViewModel(Patient patient)
@@ -27,11 +27,11 @@ public class SpecialistReferralViewModel : ViewModelBase
         MakeSpecialistReferralCommand = new AddSpecialistReferralCommand(this);
 
 
-        _doctors = new ObservableCollection<DoctorsViewModel>();
+        _doctors = new ObservableCollection<DoctorsDTO>();
         Update();
     }
 
-    public IEnumerable<DoctorsViewModel> Doctors => _doctors;
+    public IEnumerable<DoctorsDTO> Doctors => _doctors;
 
     public string Specialization
     {
@@ -43,7 +43,7 @@ public class SpecialistReferralViewModel : ViewModelBase
         }
     }
 
-    public DoctorsViewModel SelectedDoctor
+    public DoctorsDTO SelectedDoctor
     {
         get => _selectedDoctor;
         set
@@ -68,6 +68,6 @@ public class SpecialistReferralViewModel : ViewModelBase
     private void Update()
     {
         _doctors.Clear();
-        foreach (var doctor in _doctorService.GetAll()) _doctors.Add(new DoctorsViewModel(doctor));
+        foreach (var doctor in _doctorService.GetAll()) _doctors.Add(new DoctorsDTO(doctor));
     }
 }

@@ -10,22 +10,22 @@ namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments
 {
     public class DoctorTreatmentViewModel : ViewModelBase
     {
-        private ObservableCollection<TreatmentViewModel> _treatments;
+        private ObservableCollection<TreatmentDTO> _treatments;
         private TreatmentService _treatmentService;
 
 
         public DoctorTreatmentViewModel()
         {
             _treatmentService = Injector.GetService<TreatmentService>();
-            _treatments = new ObservableCollection<TreatmentViewModel>();
+            _treatments = new ObservableCollection<TreatmentDTO>();
             PayPatientVisitCommand = new VisitPatientCommand(this);
 
             Update();
         }
 
-        public IEnumerable<TreatmentViewModel> Treatments => _treatments;
+        public IEnumerable<TreatmentDTO> Treatments => _treatments;
 
-        public TreatmentViewModel? SelectedTreatment { get; set; }
+        public TreatmentDTO? SelectedTreatment { get; set; }
         public ICommand PayPatientVisitCommand { get; }
 
 
@@ -34,7 +34,7 @@ namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments
             _treatments.Clear();
             foreach (var treatment in _treatmentService.GetAll())
             {
-                _treatments.Add(new TreatmentViewModel(treatment));
+                _treatments.Add(new TreatmentDTO(treatment));
             }
         }
     }

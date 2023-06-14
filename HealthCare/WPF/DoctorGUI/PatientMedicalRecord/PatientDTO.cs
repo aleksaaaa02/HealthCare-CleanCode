@@ -3,11 +3,11 @@ using HealthCare.WPF.Common;
 
 namespace HealthCare.WPF.DoctorGUI.PatientMedicalRecord;
 
-public class PatientViewModel : ViewModelBase
+public class PatientDTO : ViewModelBase
 {
     private readonly Patient _patient;
 
-    public PatientViewModel(Patient patient)
+    public PatientDTO(Patient patient)
     {
         _patient = patient;
     }

@@ -14,7 +14,7 @@ namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Examination
         private readonly EquipmentService _equipmentService;
         private readonly InventoryService _inventoryService;
         private readonly int _roomId;
-        private readonly ObservableCollection<EquipmentViewModel> _usedDynamicEquipment;
+        private readonly ObservableCollection<EquipmentDTO> _usedDynamicEquipment;
 
         private int _itemQuantity;
 
@@ -23,7 +23,7 @@ namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Examination
             _inventoryService = Injector.GetService<InventoryService>(Injector.EQUIPMENT_INVENTORY_S);
             _equipmentService = Injector.GetService<EquipmentService>();
             _roomId = roomId;
-            _usedDynamicEquipment = new ObservableCollection<EquipmentViewModel>();
+            _usedDynamicEquipment = new ObservableCollection<EquipmentDTO>();
 
             ResetEquipmentCommand = new ResetEquipmentQuantityCommand(this);
             EndExaminationCommand = new EndEquipmentQuantityEditingCommand(window, this);
@@ -31,7 +31,7 @@ namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Examination
             Update();
         }
 
-        public IEnumerable<EquipmentViewModel> UsedDynamicEquipment => _usedDynamicEquipment;
+        public IEnumerable<EquipmentDTO> UsedDynamicEquipment => _usedDynamicEquipment;
 
         public int ItemQuantity
         {
@@ -54,7 +54,7 @@ namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Examination
             {
                 var equipment = _equipmentService.Get(inventoryItem.ItemId);
                 if (equipment.IsDynamic)
-                    _usedDynamicEquipment.Add(new EquipmentViewModel(equipment, inventoryItem));
+                    _usedDynamicEquipment.Add(new EquipmentDTO(equipment, inventoryItem));
             }
         }
     }

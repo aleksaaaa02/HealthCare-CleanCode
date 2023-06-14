@@ -5,13 +5,13 @@ using HealthCare.WPF.DoctorGUI.PatientHealthcare.Examination.Command;
 
 namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Examination
 {
-    public class EquipmentViewModel : ViewModelBase
+    public class EquipmentDTO : ViewModelBase
     {
         private readonly Equipment _equipment;
         private readonly InventoryItem _inventoryItem;
         private int _currentQuantity;
 
-        public EquipmentViewModel(Equipment equipment, InventoryItem inventoryItem)
+        public EquipmentDTO(Equipment equipment, InventoryItem inventoryItem)
         {
             _equipment = equipment;
             _inventoryItem = inventoryItem;

@@ -4,12 +4,12 @@ using HealthCare.WPF.Common;
 
 namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.MedicalPrescription
 {
-    public class TherapyPrescriptionViewModel : ViewModelBase
+    public class TherapyPrescriptionDTO : ViewModelBase
     {
         private readonly Medication _medication;
         private readonly Prescription _prescription;
 
-        public TherapyPrescriptionViewModel(Prescription prescription)
+        public TherapyPrescriptionDTO(Prescription prescription)
         {
             _prescription = prescription;
             _medication = Injector.GetService<MedicationService>().Get(_prescription.MedicationId);
