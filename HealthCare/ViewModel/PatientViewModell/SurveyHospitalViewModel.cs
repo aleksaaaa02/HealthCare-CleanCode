@@ -48,7 +48,7 @@ namespace HealthCare.ViewModel.PatientViewModell
 
             Surveys.Add(new Survey
             {
-                TopicName = "HOSPITAL_GENERAL",
+                TopicName = "GENERALNO",
                 DoctorJMBG = "",
                 Description = "Kako ste zadovoljni generalnim kvalitetom usluge bolince?",
                 SelectedRating = 0,
@@ -57,7 +57,7 @@ namespace HealthCare.ViewModel.PatientViewModell
 
             Surveys.Add(new Survey
             {
-                TopicName = "HOSPITAL_CISTOCA",
+                TopicName = "ČISTOĆA",
                 DoctorJMBG = "",
                 Description = "Kako ste zadovoljni cistocom bolnice?",
                 SelectedRating = 0,
@@ -66,7 +66,7 @@ namespace HealthCare.ViewModel.PatientViewModell
 
             Surveys.Add(new Survey
             {
-                TopicName = "HOSPITAL_PREPORUCILI",
+                TopicName = "PREPORUKA",
                 DoctorJMBG = "",
                 Description = "Da li biste predlozili bolnicu svojim prijateljima?",
                 SelectedRating = 0,
