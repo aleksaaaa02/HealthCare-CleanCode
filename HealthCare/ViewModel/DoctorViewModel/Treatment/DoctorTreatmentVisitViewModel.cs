@@ -6,6 +6,7 @@ using System.Windows.Input;
 using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.Service.UserService;
 using HealthCare.View;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 
