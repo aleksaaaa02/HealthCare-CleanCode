@@ -53,9 +53,10 @@ namespace HealthCare.ViewModel.DoctorViewModel.Treatment
                 throw new ValidationException("Datum mora biti u buducnosti");
             }
 
-            TimeSpan timeSpan = new TimeSpan(_viewModel.Hours, _viewModel.Minutes, 0);
+            TimeSpan appointmentDuration = new TimeSpan(0, 15, 0);
             TreatmentReferral referral = _treatmentReferralService.Get(_treatment.ReferralId);
-            Appointment appointment = new Appointment(referral.PatientJMBG, referral.DoctorJMBG, new TimeSlot(date, timeSpan), false);
+            date = date.AddHours(_viewModel.Hours).AddMinutes(_viewModel.Minutes);
+            Appointment appointment = new Appointment(referral.PatientJMBG, referral.DoctorJMBG, new TimeSlot(date, appointmentDuration), false);
             if (!_schedule.IsAvailable(appointment))
             {
                 throw new ValidationException("Nazalost uneti termin nije slobodan");
