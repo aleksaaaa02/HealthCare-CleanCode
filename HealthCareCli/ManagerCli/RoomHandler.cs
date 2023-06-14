@@ -1,10 +1,9 @@
-﻿using HealthCare.Application.Common;
-using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.View;
+﻿using HealthCare.Application;
+using HealthCare.Application.Common;
+using HealthCare.Application.Exceptions;
+using HealthCare.Core.Interior;
+using HealthCare.WPF.Common;
 using HealthCareCli.CliUtil;
-using HealthCare.Exceptions;
 
 namespace HealthCareCli.Manager
 {

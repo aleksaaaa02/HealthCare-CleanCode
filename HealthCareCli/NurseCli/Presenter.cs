@@ -1,12 +1,8 @@
-﻿using HealthCare.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HealthCare.Application;
-using HealthCare.Service.UserService;
-using HealthCare.View;
+﻿using HealthCare.Application;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
+using HealthCare.WPF.Common;
 
 namespace HealthCareCli.NurseCli
 {

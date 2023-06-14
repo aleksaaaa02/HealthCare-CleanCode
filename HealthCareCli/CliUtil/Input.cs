@@ -1,5 +1,5 @@
 ﻿using HealthCare.Application.Common;
-using HealthCare.Exceptions;
+using HealthCare.Application.Exceptions;
 
 namespace HealthCareCli.CliUtil
 {
@@ -17,9 +17,11 @@ namespace HealthCareCli.CliUtil
         public static int ReadInt(string prompt, string err = defaultError)
         {
             int number;
-            if (!int.TryParse(ReadLine(prompt), out number)) {
+            if (!int.TryParse(ReadLine(prompt), out number))
+            {
                 throw new ValidationException(err);
             }
+
             return number;
         }
 
@@ -28,8 +30,9 @@ namespace HealthCareCli.CliUtil
             try
             {
                 return Util.ParseDate(ReadLine(prompt), Formats.SHORTDATETIME);
-            } catch (FormatException) 
-            { 
+            }
+            catch (FormatException)
+            {
                 throw new ValidationException(err);
             }
         }

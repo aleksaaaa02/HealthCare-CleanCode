@@ -1,10 +1,7 @@
 ﻿using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Exceptions;
-using HealthCare.Service.UserService;
+using HealthCare.Application.Exceptions;
+using HealthCare.Core.Scheduling.Examination;
 using HealthCareCli.CliUtil;
-using HealthCare.Service.ScheduleService;
-using HealthCare.View;
 using HealthCareCli.NurseCli;
 
 namespace HealthCareCli.Nurse
@@ -12,6 +9,7 @@ namespace HealthCareCli.Nurse
     public class NurseHandler
     {
         private readonly AppointmentHandler _appointmentHandler;
+
         public void Show()
         {
             string input;
@@ -40,7 +38,8 @@ namespace HealthCareCli.Nurse
             }
         }
 
-        private void HandleUrgentAppointments() {
+        private void HandleUrgentAppointments()
+        {
             try
             {
                 string patientJmbg = _appointmentHandler.GetPatient();
@@ -54,7 +53,8 @@ namespace HealthCareCli.Nurse
 
                 _appointmentHandler.AddUrgent(appointment);
                 Console.WriteLine("Uspesno ste zakazali termin.");
-            } catch (ValidationException ve)
+            }
+            catch (ValidationException ve)
             {
                 Console.WriteLine(ve.Message);
             }

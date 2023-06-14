@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HealthCare.Application;
-using HealthCare.Exceptions;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.ScheduleService;
-using HealthCare.Service.UserService;
+﻿using HealthCare.Application;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Scheduling.Schedules;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
 
 namespace HealthCareCli.DoctorCli
 {
     public class AppointmentHandler
     {
         private readonly AppointmentService _appointmentService;
-        private readonly Schedule _schedule;
         private readonly PatientService _patientService;
+        private readonly Schedule _schedule;
+
         public AppointmentHandler()
         {
             _appointmentService = Injector.GetService<AppointmentService>();
@@ -44,6 +39,7 @@ namespace HealthCareCli.DoctorCli
                 _schedule.Add(appointment);
                 return true;
             }
+
             return false;
         }
 
@@ -84,6 +80,7 @@ namespace HealthCareCli.DoctorCli
                 _appointmentService.Add(appointment);
                 return true;
             }
+
             _appointmentService.Add(appointment);
             return false;
         }

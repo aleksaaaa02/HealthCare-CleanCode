@@ -1,27 +1,22 @@
-﻿using HealthCare.Model;
-using HealthCare.ViewModel.PatientViewModell;
+﻿using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Users.Model;
+using HealthCare.WPF.PatientGUI.Scheduling;
 using HealthCareCli.CliUtil;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace HealthCareCli.PatientCli
 {
     public class PriorityAppointmentHandler
     {
-        AppointmentPriorityViewModel viewModel = new AppointmentPriorityViewModel();
-        
+        CreatePriorityAppointmentViewModel viewModel = new CreatePriorityAppointmentViewModel();
+
         public void Show()
         {
             DateTime date;
             int startHours, startMinutes, endHours, endMinutes;
             string priority;
 
-            while (true) {
+            while (true)
+            {
                 while (true)
                 {
                     date = DefaultHandler.HandleDateTimeChoice("Unesite krajnji datum(DD - MM - YYYY): ");
@@ -38,6 +33,7 @@ namespace HealthCareCli.PatientCli
                     {
                         break;
                     }
+
                     Console.WriteLine("Neispravan format vremena. Molimo Vas pokusajte ponovo");
                 }
 
@@ -49,26 +45,31 @@ namespace HealthCareCli.PatientCli
                     {
                         break;
                     }
+
                     Console.WriteLine("Neispravan format vremena. Molimo Vas pokusajte ponovo");
                 }
 
 
                 while (true)
                 {
-                    Console.WriteLine("\nIzaberite doktora (Upisite rednji broj koji se nalazi ispred zeljenog doktora)");
+                    Console.WriteLine(
+                        "\nIzaberite doktora (Upisite rednji broj koji se nalazi ispred zeljenog doktora)");
                     int counter = 0;
                     List<Doctor> doctors = viewModel.Doctors;
-                    foreach(Doctor doctor in doctors)
+                    foreach (Doctor doctor in doctors)
                     {
-                        Console.WriteLine(counter + ". " + doctor.Name + " " + doctor.LastName + " Specijalizacija: " + doctor.Specialization +" Prosecna ocena: " + doctor.Rating);
+                        Console.WriteLine(counter + ". " + doctor.Name + " " + doctor.LastName + " Specijalizacija: " +
+                                          doctor.Specialization + " Prosecna ocena: " + doctor.Rating);
                         counter++;
                     }
+
                     int selectedDoctorIndex;
                     if (!int.TryParse(Console.ReadLine(), out selectedDoctorIndex))
                     {
                         Console.WriteLine("Neispravan broj");
                         continue;
                     }
+
                     if (selectedDoctorIndex >= doctors.Count)
                     {
                         Console.WriteLine("Neispravan broj");
@@ -77,10 +78,7 @@ namespace HealthCareCli.PatientCli
 
                     viewModel.SelectedDoctor = doctors[selectedDoctorIndex];
                     break;
-
                 }
-
-
 
 
                 while (true)
@@ -107,8 +105,8 @@ namespace HealthCareCli.PatientCli
                 viewModel.MinuteStart = startMinutes;
                 viewModel.HourEnd = endHours;
                 viewModel.MinuteEnd = endMinutes;
-                if (priority == "Doctor") viewModel.IsDoctorPriority=true;
-                else viewModel.IsDoctorPriority = false ;
+                if (priority == "Doctor") viewModel.IsDoctorPriority = true;
+                else viewModel.IsDoctorPriority = false;
 
                 if (!viewModel.ValidateAllData())
                 {
@@ -116,24 +114,29 @@ namespace HealthCareCli.PatientCli
                     continue;
                 }
 
-                viewModel.CalculateAppointments();
-                
+                viewModel.calculateAppointments();
+
                 while (true)
                 {
-                    Console.WriteLine("\nIzaberite pregled (Upisite rednji broj koji se nalazi ispred zeljenog doktora)");
+                    Console.WriteLine(
+                        "\nIzaberite pregled (Upisite rednji broj koji se nalazi ispred zeljenog doktora)");
                     int counter = 0;
                     List<Appointment> appointments = viewModel.ResultAppointments.ToList();
                     foreach (Appointment appointment in appointments)
                     {
-                        Console.WriteLine(appointment.AppointmentID + ". Datum:" + appointment.TimeSlot.Start.ToString() + " Trajanje " + appointment.TimeSlot.Duration.ToString());
+                        Console.WriteLine(appointment.AppointmentID + ". Datum:" +
+                                          appointment.TimeSlot.Start.ToString() + " Trajanje " +
+                                          appointment.TimeSlot.Duration.ToString());
                         counter++;
                     }
+
                     int selectedAppointmendIndex;
                     if (!int.TryParse(Console.ReadLine(), out selectedAppointmendIndex))
                     {
                         Console.WriteLine("Neispravan broj");
                         continue;
                     }
+
                     if (selectedAppointmendIndex >= appointments.Count)
                     {
                         Console.WriteLine("Neispravan broj");
@@ -141,13 +144,12 @@ namespace HealthCareCli.PatientCli
                     }
 
                     viewModel.SelectedAppointment = appointments[selectedAppointmendIndex];
-                    viewModel.CreateAppointment();
+                    viewModel.createAppointment();
                     Console.WriteLine("Uspesno kreiran pregled");
                     break;
-
                 }
-                break;
 
+                break;
             }
         }
     }

@@ -1,9 +1,9 @@
-﻿using HealthCare.Service.RenovationService;
+﻿using HealthCare.Application;
+using HealthCare.Application.Exceptions;
+using HealthCare.Core.Interior.Renovation.Model;
+using HealthCare.Core.Interior.Renovation.Service;
+using HealthCare.Core.Scheduling;
 using HealthCareCli.CliUtil;
-using HealthCare.Exceptions;
-using HealthCare.Model;
-using HealthCare.Application;
-using HealthCare.Model.Renovation;
 using HealthCareCli.Exceptions;
 using HealthCareCli.Manager;
 
@@ -31,7 +31,8 @@ namespace HealthCareCli.Renovation
 
                 if (splitting) HandleSplitting(slot);
                 else HandleJoining(slot);
-            } catch (ExitSignal)
+            }
+            catch (ExitSignal)
             {
                 Console.WriteLine("Prekid operacije.");
             }
@@ -74,7 +75,7 @@ namespace HealthCareCli.Renovation
                 Console.WriteLine("Tip renoviranja\n");
                 Console.WriteLine("1 spajanje");
                 Console.WriteLine("2 deljenje\n");
-                
+
                 try
                 {
                     int choice = Input.ReadInt("Izbor: ", "Nepostojeća opcija.");
@@ -82,7 +83,8 @@ namespace HealthCareCli.Renovation
                         throw new ValidationException("Nepostojeća opcija.");
 
                     return choice == 2;
-                } catch (ValidationException ve)
+                }
+                catch (ValidationException ve)
                 {
                     Console.WriteLine(ve.Message);
                 }

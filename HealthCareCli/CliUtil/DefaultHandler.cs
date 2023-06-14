@@ -1,5 +1,5 @@
-﻿using HealthCare.Exceptions;
-using HealthCare.Model;
+﻿using HealthCare.Application.Exceptions;
+using HealthCare.Core.Scheduling;
 
 namespace HealthCareCli.CliUtil
 {
@@ -44,6 +44,7 @@ namespace HealthCareCli.CliUtil
                     {
                         return input;
                     }
+
                     Console.WriteLine($"Unos mora biti izmedju {lowerBound} i {upperBound}");
                 }
                 catch (ValidationException ve)

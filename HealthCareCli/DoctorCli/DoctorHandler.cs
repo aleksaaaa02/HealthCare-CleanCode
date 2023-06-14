@@ -1,15 +1,17 @@
 ﻿using HealthCare.Application;
-using HealthCareCli.CliUtil;
 using HealthCare.Application.Common;
-using HealthCare.Exceptions;
-using HealthCare.Model;
-using HealthCare.Service.UserService;
+using HealthCare.Application.Exceptions;
+using HealthCare.Core.Scheduling;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Users.Model;
+using HealthCareCli.CliUtil;
 
 namespace HealthCareCli.DoctorCli
 {
     public class DoctorHandler
     {
         private static readonly AppointmentHandler _appointmentHandler = new AppointmentHandler();
+
         public void Show()
         {
             string input;
@@ -65,7 +67,7 @@ namespace HealthCareCli.DoctorCli
                     duration = GetDuration();
                 }
             }
-            catch(ValidationException ve)
+            catch (ValidationException ve)
             {
                 Console.WriteLine(ve.Message);
                 return;
@@ -76,17 +78,17 @@ namespace HealthCareCli.DoctorCli
             TrySave(appointment);
         }
 
-       
 
         private void HandleReadAppointment()
         {
-            Console.WriteLine($"{"ID", 4} {"Ime pacijenta", 15} {"Prezime pacijenta", 20} {"Id sobe", 6} {"Operacija?", 10} {"Vreme (datum  satnica|trajanje)", 40}");
+            Console.WriteLine(
+                $"{"ID",4} {"Ime pacijenta",15} {"Prezime pacijenta",20} {"Id sobe",6} {"Operacija?",10} {"Vreme (datum  satnica|trajanje)",40}");
             foreach (Appointment a in _appointmentHandler.GetDoctorAppointments())
             {
                 Patient p = _appointmentHandler.GetPatientFromAppointment(a.PatientJMBG);
-                Console.WriteLine($"{a.AppointmentID,4} {p.Name, 15} {p.LastName,20} {a.RoomID,6} {a.IsOperation,10} {a.TimeSlot,40}");
+                Console.WriteLine(
+                    $"{a.AppointmentID,4} {p.Name,15} {p.LastName,20} {a.RoomID,6} {a.IsOperation,10} {a.TimeSlot,40}");
             }
-
         }
 
         private void HandleUpdateAppointment()
@@ -99,8 +101,10 @@ namespace HealthCareCli.DoctorCli
                 {
                     break;
                 }
+
                 Console.WriteLine("Ne postoji pregled/operacija sa unetim ID-em");
             }
+
             Appointment appointment = _appointmentHandler.GetAppointment(appointmentID);
 
             string input;
@@ -181,6 +185,7 @@ namespace HealthCareCli.DoctorCli
                 Console.WriteLine($"Pregled/Operacija sa ID-om {input} ne postoji!");
                 return;
             }
+
             Console.WriteLine($"Pregled/Operacija sa ID-om {input} uspesno obrisana!");
         }
 
@@ -204,8 +209,10 @@ namespace HealthCareCli.DoctorCli
                 {
                     break;
                 }
+
                 Console.WriteLine("Pacijent nije pronadjen u sistemu!");
             }
+
             return patientJMBG;
         }
 
@@ -233,7 +240,8 @@ namespace HealthCareCli.DoctorCli
             {
                 try
                 {
-                    DateTime date = DefaultHandler.HandleDateTimeChoice($"Unesite datum u formatu {Formats.SHORTDATETIME} :");
+                    DateTime date =
+                        DefaultHandler.HandleDateTimeChoice($"Unesite datum u formatu {Formats.SHORTDATETIME} :");
                     int hours = DefaultHandler.HandleIntRanged("Unesite u koliko sati (00-23): ", 0, 23);
                     int minutes = DefaultHandler.HandleIntRanged("Unesite u koliko minuta (0-59): ", 0, 59);
                     date = date.AddMinutes(minutes).AddHours(hours);
@@ -251,6 +259,7 @@ namespace HealthCareCli.DoctorCli
             int minutes = DefaultHandler.HandleInt("Unesite trajanje u minutima: ");
             return new TimeSpan(0, minutes, 0);
         }
+
         private static void TrySave(Appointment appointment, bool isNew = true)
         {
             if (isNew)
@@ -260,6 +269,7 @@ namespace HealthCareCli.DoctorCli
                     Console.WriteLine("Pregled/Operacija nije uspesno sacuvana, termin nije slobodan!");
                     return;
                 }
+
                 Console.WriteLine("Pregled/Operacija uspeno sacuvana!");
                 return;
             }
@@ -269,6 +279,7 @@ namespace HealthCareCli.DoctorCli
                 Console.WriteLine("Pregled/Operacija nije uspesno sacuvana, termin nije slobodan!");
                 return;
             }
+
             Console.WriteLine("Pregled/Operacija uspeno sacuvana!");
         }
     }

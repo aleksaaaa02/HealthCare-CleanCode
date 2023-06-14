@@ -1,14 +1,11 @@
 ﻿using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service.ScheduleService;
-using HealthCare.Service.UserService;
+using HealthCare.Application.Exceptions;
+using HealthCare.Core.Scheduling;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Scheduling.Schedules;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
 using HealthCareCli.CliUtil;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HealthCare.Exceptions;
 
 namespace HealthCareCli.NurseCli
 {
@@ -85,7 +82,6 @@ namespace HealthCareCli.NurseCli
             }
 
             return appointment;
-
         }
 
         public void AddUrgent(Appointment appointment)
