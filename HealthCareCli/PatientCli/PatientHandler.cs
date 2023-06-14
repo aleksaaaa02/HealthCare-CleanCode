@@ -1,12 +1,7 @@
 ﻿using HealthCare.Application;
 using HealthCareCli.CliUtil;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace HealthCareCli.Patient
+namespace HealthCareCli.PatientCli
 {
     public class PatientHandler
     {
@@ -17,7 +12,7 @@ namespace HealthCareCli.Patient
             {
                 Console.WriteLine("============ OPCIJE ============\n");
                 Console.WriteLine($"Prijavljeni korisnik: {Context.Current.Name} {Context.Current.LastName}\n");
-                // Console.WriteLine("1 Funkcionalnost");
+                Console.WriteLine("1 Zakazivanje sa prioritetom");
                 Console.WriteLine("q Odjava");
 
                 input = Input.ReadLine("\nOpcija: ").ToLower();
@@ -25,7 +20,7 @@ namespace HealthCareCli.Patient
                 switch (input)
                 {
                     case "1":
-                        // HandleFunkcionalnost();
+                        new PriorityAppointmentHandler().Show();
                         break;
                     case "q":
                         Context.Reset();

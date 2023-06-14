@@ -5,7 +5,7 @@ using HealthCareCli.CliUtil;
 using HealthCareCli.Exceptions;
 using HealthCareCli.Manager;
 using HealthCareCli.Nurse;
-using HealthCareCli.Patient;
+using HealthCareCli.PatientCli;
 using HealthCareCli.Renovation;
 
 namespace HealthCareCli
