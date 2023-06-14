@@ -11,5 +11,10 @@ namespace HealthCare.View.DoctorView.PrescriptionView
             InitializeComponent();
             DataContext = new PrescriptionViewModel(patient);
         }
+        public PrescriptionView(Therapy therapy)
+        {
+            InitializeComponent();
+            DataContext = new PrescriptionViewModel(therapy);
+        }
     }
 }
