@@ -2,6 +2,7 @@
 using HealthCare.Command;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.Service.UserService;
 using HealthCare.View.PatientView;
 using HealthCare.ViewModel;
 using System;
