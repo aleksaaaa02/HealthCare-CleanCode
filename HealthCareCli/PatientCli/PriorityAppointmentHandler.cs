@@ -114,7 +114,7 @@ namespace HealthCareCli.PatientCli
                     continue;
                 }
 
-                viewModel.calculateAppointments();
+                viewModel.CalculateAppointments();
 
                 while (true)
                 {
@@ -144,7 +144,7 @@ namespace HealthCareCli.PatientCli
                     }
 
                     viewModel.SelectedAppointment = appointments[selectedAppointmendIndex];
-                    viewModel.createAppointment();
+                    viewModel.CreateAppointment();
                     Console.WriteLine("Uspesno kreiran pregled");
                     break;
                 }
