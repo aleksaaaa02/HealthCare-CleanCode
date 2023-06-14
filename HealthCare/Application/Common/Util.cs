@@ -7,9 +7,9 @@ namespace HealthCare.Application.Common
 {
     public static class Util
     {
-        public static DateTime ParseDate(string str)
+        public static DateTime ParseDate(string str, string dateFormat = Formats.DATETIME)
         {
-            return DateTime.ParseExact(str, Formats.DATETIME, CultureInfo.InvariantCulture);
+            return DateTime.ParseExact(str, dateFormat, CultureInfo.InvariantCulture);
         }
 
         public static TimeSpan ParseDuration(string str)

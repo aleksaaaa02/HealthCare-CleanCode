@@ -97,7 +97,7 @@ namespace HealthCare.Core.Scheduling.Schedules
                 TimeSlot slot = new TimeSlot(end, duration);
 
                 if (end > DateTime.Now && end < urgent.TimeSlot.Start &&
-                    _doctorSchedule.IsAvailable(doctorJMBG, slot))
+                    _doctorSchedule.IsAvailable(doctorJMBG, slot) && !appointment.IsUrgent)
                     urgent.TimeSlot.Start = end;
             }
 

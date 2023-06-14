@@ -39,7 +39,7 @@ namespace HealthCare.Core.Scheduling.Schedules
         public List<Appointment> GetPostponable(TimeSpan duration, string doctorJmbg)
         {
             var postponable = _appointmentService.GetByDoctor(doctorJmbg)
-                .Where(x => x.TimeSlot.Start > DateTime.Now).ToList();
+                .Where(x => x.TimeSlot.Start > DateTime.Now && !x.IsUrgent).ToList();
             return FilterPostponable(duration, postponable);
         }
 

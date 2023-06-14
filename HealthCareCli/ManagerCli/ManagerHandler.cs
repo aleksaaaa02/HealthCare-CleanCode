@@ -1,18 +1,18 @@
 ﻿using HealthCare.Application;
 using HealthCareCli.CliUtil;
+using HealthCareCli.Renovation;
 
-namespace HealthCareCli.Nurse
+namespace HealthCareCli.Manager
 {
-    public class NurseHandler
+    public class ManagerHandler
     {
         public void Show()
         {
             string input;
             while (true)
             {
-                Console.WriteLine("============ OPCIJE ============\n");
-                Console.WriteLine($"Prijavljeni korisnik: {Context.Current.Name} {Context.Current.LastName}\n");
-                // Console.WriteLine("1 Funkcionalnost");
+                Console.WriteLine("============ MENADŽER ============\n");
+                Console.WriteLine("1 Složeno renoviranje");
                 Console.WriteLine("q Odjava");
 
                 input = Input.ReadLine("\nOpcija: ").ToLower();
@@ -20,7 +20,7 @@ namespace HealthCareCli.Nurse
                 switch (input)
                 {
                     case "1":
-                        // HandleFunkcionalnost();
+                        new RenovationHandler().Handle();
                         break;
                     case "q":
                         Context.Reset();
