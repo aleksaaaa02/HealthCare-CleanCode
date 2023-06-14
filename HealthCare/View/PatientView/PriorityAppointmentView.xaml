@@ -4,7 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.AppointmentView"
+        xmlns:viewmodel="clr-namespace:HealthCare.ViewModel.PatientViewModell"
         mc:Ignorable="d" Height="450" Width="800">
+    <UserControl.DataContext>
+        <viewmodel:AppointmentPriorityViewModel/>
+    </UserControl.DataContext>
+    
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.5*"/>
@@ -21,18 +26,18 @@
         <Grid Grid.Row="1">
             <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Unesite datum i vreme pregleda" VerticalAlignment="Top" Width="259" FontSize="16"/>
             <TextBlock HorizontalAlignment="Left" Margin="21,62,0,0" TextWrapping="Wrap" Text="Krajnji datum" VerticalAlignment="Top"/>
-            <DatePicker x:Name="tbDate" HorizontalAlignment="Left" Margin="114,58,0,0" VerticalAlignment="Top"/>
+            <DatePicker SelectedDate="{Binding EndDate}" x:Name="tbDate" HorizontalAlignment="Left" Margin="114,58,0,0" VerticalAlignment="Top"/>
             <TextBlock HorizontalAlignment="Left" Margin="21,106,0,0" TextWrapping="Wrap" Text="Sati pocetak:" VerticalAlignment="Top"/>
             <TextBlock HorizontalAlignment="Left" Margin="176,103,0,0" TextWrapping="Wrap" Text="Minuti pocetak" VerticalAlignment="Top"/>
             <TextBlock HorizontalAlignment="Left" Margin="176,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Minuti kraj:" Width="80"/>
             <TextBlock HorizontalAlignment="Left" Margin="176,103,0,0" TextWrapping="Wrap" Text="Minuti pocetak" VerticalAlignment="Top"/>
             <TextBlock HorizontalAlignment="Left" Margin="21,140,0,0" TextWrapping="Wrap" Text="Sati kraj:" VerticalAlignment="Top"/>
-            <TextBox x:Name="tbHoursStart" HorizontalAlignment="Left" Margin="103,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="TbHoursStart_TextChanged" Text="0"/>
-            <TextBox x:Name="tbMinutesStart" HorizontalAlignment="Left" Margin="276,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="TbMinutesStart_TextChanged" Text="0"/>
-            <TextBox x:Name="tbHoursEnd" HorizontalAlignment="Left" Margin="103,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="TbHoursEnd_TextChanged" Text="23"/>
-            <TextBox x:Name="tbMinutesEnd" HorizontalAlignment="Left" Margin="276,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="TbMinutesEnd_TextChanged" Text="59"/>
-            <RadioButton x:Name="radioDoktor" Content="Doktor" HorizontalAlignment="Left" Margin="241,63,0,0" VerticalAlignment="Top"/>
-            <RadioButton x:Name="radioDatum" Content="Datum" HorizontalAlignment="Left" Margin="325,62,0,0" VerticalAlignment="Top"/>
+            <TextBox Text="{Binding HourStart}" x:Name="tbHoursStart" HorizontalAlignment="Left" Margin="103,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="TbHoursStart_TextChanged"/>
+            <TextBox Text="{Binding MinuteStart}"  x:Name="tbMinutesStart" HorizontalAlignment="Left" Margin="276,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="TbMinutesStart_TextChanged"/>
+            <TextBox Text="{Binding HourEnd}" x:Name="tbHoursEnd" HorizontalAlignment="Left" Margin="103,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="TbHoursEnd_TextChanged"/>
+            <TextBox Text="{Binding MinuteEnd}" x:Name="tbMinutesEnd" HorizontalAlignment="Left" Margin="276,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextChanged="TbMinutesEnd_TextChanged"/>
+            <RadioButton x:Name="radioDoktor" Command="{Binding ChangePriorityCommand}" CommandParameter="Doctor"  Content="Doktor" HorizontalAlignment="Left" Margin="241,63,0,0" VerticalAlignment="Top"/>
+            <RadioButton x:Name="radioDatum" Command="{Binding ChangePriorityCommand}" CommandParameter="Date" Content="Datum" HorizontalAlignment="Left" Margin="325,62,0,0" VerticalAlignment="Top"/>
 
         </Grid>
 
@@ -42,7 +47,7 @@
                 <RowDefinition Height="0.8*"/>
             </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Izaberite doktora" VerticalAlignment="Top" FontSize="16"/>
-            <ListView x:Name="doctorListView" Grid.Row="1" Margin="10" ItemsSource="{Binding Doctors}">
+            <ListView x:Name="doctorListView" Grid.Row="1" Margin="10" ItemsSource="{Binding Doctors}" SelectedItem="{Binding SelectedDoctor}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn  Header="Ime" DisplayMemberBinding="{Binding Name}"/>
@@ -58,7 +63,7 @@
                 <RowDefinition Height="0.8*"/>
             </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Text="Izaberite pregled" VerticalAlignment="Center" FontSize="16"/>
-            <ListView x:Name="appointmentListView" Grid.Row="1" ItemsSource="{Binding Appointments}">
+            <ListView x:Name="appointmentListView" Grid.Row="1" ItemsSource="{Binding ResultAppointments}" SelectedItem="{Binding SelectedAppointment}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn  Header="Appointment ID" DisplayMemberBinding="{Binding AppointmentID}"/>
@@ -71,8 +76,8 @@
         </Grid>
 
         <Grid Grid.Row="3" Grid.ColumnSpan="2">
-            <Button x:Name="btnShow" Content="Prikazi preglede" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" RenderTransformOrigin="-0.701,-0.27" Click="BtnShow_Click" Width="95"/>
-            <Button x:Name="btnCreate" Content="Kreiraj pregled" HorizontalAlignment="Left" Margin="131,0,0,0" VerticalAlignment="Center" Width="90" Click="BtnCreate_Click"/>
+            <Button x:Name="btnShow" Content="Prikazi preglede" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Command="{Binding ShowAppointmentCommand}" RenderTransformOrigin="-0.701,-0.27" Width="95"/>
+            <Button x:Name="btnCreate" Content="Kreiraj pregled" HorizontalAlignment="Left" Margin="131,0,0,0" VerticalAlignment="Center" Width="90" Command="{Binding CreateAppointmentCommand}"/>
         </Grid>
     </Grid>
 </UserControl>
