@@ -34,6 +34,16 @@ namespace HealthCare.View.ManagerView
             new RenovationListingView().ShowDialog();
         }
 
+        private void Button_AbsenceRequests(object sender, RoutedEventArgs e)
+        {
+            new AbsenceRequestListingView().ShowDialog();
+        }
+
+        private void Button_Analytics(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void Button_Logout(object sender, RoutedEventArgs e)
         {
             Close();
@@ -44,5 +54,6 @@ namespace HealthCare.View.ManagerView
         {
             _loginWindow.Show();
         }
+
     }
 }

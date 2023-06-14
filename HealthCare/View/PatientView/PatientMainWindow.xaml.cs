@@ -57,5 +57,15 @@ namespace HealthCare.View.PatientView
         {
             mainContentGrid.Content = control;
         }
+
+        private void btnHospitalSurvey_Click(object sender, RoutedEventArgs e)
+        {
+            mainContentGrid.Content = new SurveyHospitalView();
+        }
+
+        private void btnDoctorSurvey_Click(object sender, RoutedEventArgs e)
+        {
+            mainContentGrid.Content = new SurveyDoctorView();
+        }
     }
 }
