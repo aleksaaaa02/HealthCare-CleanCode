@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HealthCare.View.PatientView"
         mc:Ignorable="d"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         Title="NurseMenu" Height="250" Width="300" Closing="Window_Closing">
     <Grid>
         <Menu DockPanel.Dock="Top">
@@ -23,8 +24,25 @@
             <MenuItem Header="_Poruci">
                 <MenuItem Header="_Porucivanje lekova" Click="mnuOrder_Click"/>
             </MenuItem>
+            <MenuItem Header="_Vizite">
+                <MenuItem Header="_Obavi vizitu" Click="mnuVisit_Click"/>
+            </MenuItem>
         </Menu>
         <Button Content="Logout" Name="btnLogout"  HorizontalAlignment="Left" Height="35" Margin="220,160,0,0" VerticalAlignment="Top" Width="50" Click="btnLogout_Click" />
-        <Button Content="Otvori chat"  HorizontalAlignment="Left" Margin="19,168,0,0" VerticalAlignment="Top" Height="19" Width="65" Click="Button_Click"/>
+
+
+        <Button Height="40" Width="70"  Click="Button_Click" Background="#89cff0" Margin="30,120,0,0" HorizontalAlignment="Left" BorderBrush="Wheat">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+
+            </Button.Resources>
+            <StackPanel Orientation="Horizontal">
+             <TextBlock Text="Chat" Margin="0 0 0 3" Foreground="White"/>
+            <fa:IconBlock Icon="Message" FontSize="16" Margin="5 0 0 0" Foreground="White"/>
+                
+            </StackPanel>
+        </Button>
     </Grid>
 </Window>

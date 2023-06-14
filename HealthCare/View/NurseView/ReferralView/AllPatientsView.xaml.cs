@@ -32,12 +32,20 @@ namespace HealthCare.View.NurseView.ReferralView
             _patient = (Patient)lvPatients.SelectedItem;
         }
 
-        private void btnShow_Click(object sender, RoutedEventArgs e)
+        private void btnShowPatientsReferral_Click(object sender, RoutedEventArgs e)
         {
             if (!Validate())
                 return;
 
             new PatientsReferralsView(_patient).ShowDialog();
+        }
+
+        private void btnShowTreatmantReferral_Click(object sender, RoutedEventArgs e)
+        {
+            if (!Validate())
+                return;
+
+            new TreatmantReferralsView(_patient).ShowDialog();
         }
 
         private void btnPrescribe_Click(object sender, RoutedEventArgs e)
