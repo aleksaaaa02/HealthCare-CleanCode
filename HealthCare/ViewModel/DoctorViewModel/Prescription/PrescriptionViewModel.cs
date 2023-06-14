@@ -5,6 +5,7 @@ using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
+using HealthCare.ViewModel.DoctorViewModel.Treatment;
 
 namespace HealthCare.ViewModel.DoctorViewModel.Prescriptions;
 
@@ -13,13 +14,22 @@ public class PrescriptionViewModel : ViewModelBase
     private readonly ObservableCollection<MedicationViewModel> _medications;
     private readonly MedicationService _medicationService;
 
-    public PrescriptionViewModel(Patient patient)
+    public PrescriptionViewModel()
     {
         _medicationService = Injector.GetService<MedicationService>();
         BeforeMeal = true;
         _medications = new ObservableCollection<MedicationViewModel>();
-
+    }
+    public PrescriptionViewModel(Patient patient) : this()
+    {
         MakePrescriptionCommand = new AddPrescriptionCommand(patient, this);
+
+        Update();
+    }
+
+    public PrescriptionViewModel(Therapy therapy) : this()
+    {
+        MakePrescriptionCommand = new AddMedicationToTreatmentCommand(this, therapy);
 
         Update();
     }
