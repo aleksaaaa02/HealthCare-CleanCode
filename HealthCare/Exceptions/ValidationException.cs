@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace HealthCare.Exceptions
 {
-    internal class ValidationException : Exception
+    public class ValidationException : Exception
     {
         public ValidationException() : this("Uneseni neispravni podaci. Pokusajte ponovo.")
         {
