@@ -42,8 +42,9 @@ namespace HealthCareCli
         {
             string username, password;
 
-            username = Input.ReadLine("Korisničko ime: ");
+            username = Input.ReadLine("\nKorisničko ime: ");
             password = Input.ReadLine("Lozinka: ");
+            Console.WriteLine();
 
             try
             {

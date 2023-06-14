@@ -29,9 +29,9 @@ namespace HealthCare.WPF.PatientGUI.Scheduling
             ResultAppointments = new ObservableCollection<Appointment>();
             EndDate = DateTime.Now;
 
-            ShowAppointmentCommand = new RelayCommand(o => { calculateAppointments(); });
+            ShowAppointmentCommand = new RelayCommand(o => { CalculateAppointments(); });
 
-            CreateAppointmentCommand = new RelayCommand(o => { createAppointment(); });
+            CreateAppointmentCommand = new RelayCommand(o => { CreateAppointment(); });
 
             ChangePriorityCommand = new RelayCommand(o =>
             {
@@ -127,16 +127,16 @@ namespace HealthCare.WPF.PatientGUI.Scheduling
             SelectedAppointment = appointment;
         }
 
-        public void calculateAppointments()
+        public void CalculateAppointments()
         {
             if (!ValidateAllData()) return;
             string priority;
             if (IsDoctorPriority) priority = "Doctor";
             else priority = "Date";
-            getAppointments(EndDate, HourStart, MinuteStart, HourEnd, MinuteEnd, SelectedDoctor, priority);
+            GetAppointments(EndDate, HourStart, MinuteStart, HourEnd, MinuteEnd, SelectedDoctor, priority);
         }
 
-        public void createAppointment()
+        public void CreateAppointment()
         {
             if (SelectedAppointment == null) return;
             if (!schedule.IsAvailable(SelectedAppointment)) return;
@@ -145,7 +145,7 @@ namespace HealthCare.WPF.PatientGUI.Scheduling
             IsUserBlocked();
         }
 
-        public void getAppointments(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd,
+        public void GetAppointments(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd,
             Doctor doctor, string priority)
         {
             endDate = endDate.AddHours(hoursEnd);
