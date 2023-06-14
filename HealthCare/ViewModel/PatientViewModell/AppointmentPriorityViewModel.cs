@@ -64,12 +64,12 @@ namespace HealthCare.ViewModel.PatientViewModell
             EndDate = DateTime.Now;
 
             ShowAppointmentCommand = new RelayCommand(o => {
-                calculateAppointments();
+                CalculateAppointments();
             });
 
             CreateAppointmentCommand = new RelayCommand( o =>
             {
-                createAppointment();
+                CreateAppointment();
             } );
 
             ChangePriorityCommand = new RelayCommand(o =>
@@ -134,7 +134,7 @@ namespace HealthCare.ViewModel.PatientViewModell
             SelectedAppointment = appointment;
         }
 
-        public void calculateAppointments()
+        public void CalculateAppointments()
         {
             if (!ValidateAllData()) return;
             string priority;
@@ -144,7 +144,7 @@ namespace HealthCare.ViewModel.PatientViewModell
 
         }
 
-        public void createAppointment()
+        public void CreateAppointment()
         {
             if (SelectedAppointment == null)  return;
             if (!schedule.IsAvailable(SelectedAppointment)) return;        
@@ -176,14 +176,15 @@ namespace HealthCare.ViewModel.PatientViewModell
                 }
             }
 
-            LoadAppointments(resultAppointment != null ? new List<Appointment> { resultAppointment } : GetAppointmentByDoctor(doctor));
+            LoadAppointments(resultAppointment != null ? new List<Appointment> { resultAppointment } : GetAppointmentByDoctor(doctor, hoursStart, minutesStart));
         }
 
         public Appointment GetAppointmentByDoctor(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor)
         {
             endDate = endDate.AddHours(hoursEnd);
             endDate = endDate.AddMinutes(minutesEnd);
-            DateTime startDate = DateTime.Today.AddMinutes(15);
+            DateTime startDate = DateTime.Today.AddMinutes(minutesStart);
+            startDate = startDate.AddHours(hoursStart);
             Patient patient = (Patient)Context.Current;
 
             while (startDate < endDate)
@@ -209,10 +210,11 @@ namespace HealthCare.ViewModel.PatientViewModell
             return null;
         }
 
-        public List<Appointment> GetAppointmentByDoctor(Doctor doctor)
+        public List<Appointment> GetAppointmentByDoctor(Doctor doctor,int hoursStart,int minutesStart)
         {
             DateTime startDate = DateTime.Today;
-            startDate = startDate.AddMinutes(15);
+            startDate = startDate.AddHours(hoursStart);
+            startDate = startDate.AddMinutes(minutesStart);
             List<Appointment> appointments = new List<Appointment>();
             Patient patient = (Patient)Context.Current;
             while (appointments.Count() < 3)
