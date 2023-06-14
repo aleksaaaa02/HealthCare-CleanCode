@@ -13,94 +13,11 @@ namespace HealthCare.View.AppointmentView
 {
     public partial class PriorityAppointmentView : UserControl
     {
-        private readonly AppointmentService _appointmentService;
-        private readonly Schedule _schedule;
-
-        PriorityAppointmentViewModel model;
-
         public PriorityAppointmentView()
         {
             InitializeComponent();
-            _appointmentService = Injector.GetService<AppointmentService>();
-            _schedule = Injector.GetService<Schedule>();
-
-            model = new PriorityAppointmentViewModel();
-            DataContext = model;
         }
 
-        public bool IsValidData()
-        {
-            Patient patient = (Patient)Context.Current;
-            if (patient.Blocked)
-            {
-                ViewUtil.ShowWarning("Zao nam je, ali vas profil je blokiran");
-                return false;
-            }
-
-            int hoursStart = int.Parse(tbHoursStart.Text);
-            int minutesStart = int.Parse(tbMinutesStart.Text);
-
-            int hoursEnd = int.Parse(tbHoursEnd.Text);
-            int minutesEnd = int.Parse(tbMinutesEnd.Text);
-
-            if (!tbDate.SelectedDate.HasValue)
-            {
-                ViewUtil.ShowWarning("Molimo Vas izaberite datum");
-                return false;
-            }
-            else
-            {
-                DateTime currentDate = DateTime.Now;
-                DateTime selectedDate = tbDate.SelectedDate.Value;
-                selectedDate = selectedDate.AddHours(hoursStart);
-                selectedDate = selectedDate.AddMinutes(minutesStart);
-                if (selectedDate < currentDate)
-                {
-                    ViewUtil.ShowWarning("Izaberite ispravan datum pregleda");
-                    return false;
-                }
-            }
-
-            if (doctorListView.SelectedItems.Count != 1)
-            {
-                ViewUtil.ShowWarning("Molimo Vas izaberite doktora");
-                return false;
-            }
-
-            if (hoursStart > hoursEnd || (hoursStart == hoursEnd && minutesStart >= minutesEnd))
-            {
-                ViewUtil.ShowWarning("Molimo Vas izaberite ispravan vremenski interval");
-                return false;
-            }
-
-            return true;
-        }
-
-        private void BtnShow_Click(object sender, RoutedEventArgs e)
-        {
-            if (!IsValidData()) return;
-            DateTime endDate = tbDate.SelectedDate.Value;
-            Doctor doctor = (Doctor)doctorListView.SelectedItem;
-            Appointment resultAppointment;
-            int hoursStart = int.Parse(tbHoursStart.Text);
-            int hoursEnd = int.Parse(tbHoursEnd.Text);
-            int minutesStart = int.Parse(tbMinutesStart.Text);
-            int minutesEnd = int.Parse(tbMinutesEnd.Text);
-
-            if (radioDatum.IsChecked == true)
-            {
-                model.getAppointments(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd, doctor, "Date");
-            }
-            else if (radioDoktor.IsChecked == true)
-            {
-                model.getAppointments(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd, doctor, "Doctor");
-            }
-            else
-            {
-                ViewUtil.ShowWarning("Izaberite prioritet");
-                return;
-            }
-        }
 
         private void TbHoursStart_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -168,30 +85,8 @@ namespace HealthCare.View.AppointmentView
 
         private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
-            if (appointmentListView.SelectedItems.Count != 1)
-            {
-                ViewUtil.ShowWarning("Niste izabrali pregled");
-                return;
-            }
-
-            Appointment appointment = (Appointment)appointmentListView.SelectedItem;
-            if (!_schedule.IsAvailable(appointment))
-            {
-                ViewUtil.ShowWarning("Doktor ili pacijent je zauzet u unetom terminu");
-                return;
-            }
-
-            _schedule.Add(appointment);
-            ViewUtil.ShowInformation("Uspesno dodat pregled");
-            WriteAction("CREATE");
-            model.IsUserBlocked();
+           
         }
 
-        public void WriteAction(string action)
-        {
-            string stringtocsv = Context.Current.JMBG + "|" + action + "|" + Util.ToString(DateTime.Now) +
-                                 Environment.NewLine;
-            File.AppendAllText(Paths.PATIENT_LOGS, stringtocsv);
-        }
     }
 }

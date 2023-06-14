@@ -112,7 +112,7 @@ namespace HealthCare.ViewModel.PatientViewModell
 
             Surveys.Add(new Survey
             {
-                TopicName = "PREPORUKA,
+                TopicName = "PREPORUKA",
                 DoctorJMBG = "",
                 Description = "Da li biste predlozili doktora svojim prijateljima?",
                 SelectedRating = 0,

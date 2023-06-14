@@ -1,5 +1,6 @@
 ﻿using HealthCare.Application;
 using HealthCare.Service;
+using HealthCare.Service.UserService;
 using HealthCare.ViewModel.ManagerViewModel.AnalyticViewModel.Command;
 using HealthCare.ViewModel.ManagerViewModel.Command;
 using HealthCare.ViewModel.ManagerViewModel.DataViewModel;
