@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using HealthCare.Application;
 using HealthCare.Service;
+using HealthCare.Service.UserService;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModel.DoctorViewModel.PatientInformation.Commands;
 

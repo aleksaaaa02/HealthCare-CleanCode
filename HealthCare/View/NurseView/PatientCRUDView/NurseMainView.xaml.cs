@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using HealthCare.Application;
 using HealthCare.Application.Common;
 using HealthCare.Model;
-using HealthCare.Service;
+using HealthCare.Service.UserService;
 using HealthCare.ViewModel.NurseViewModel;
 
 namespace HealthCare.View.NurseView

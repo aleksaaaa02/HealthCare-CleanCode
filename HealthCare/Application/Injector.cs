@@ -7,6 +7,7 @@ using HealthCare.Repository;
 using HealthCare.Service;
 using HealthCare.Service.RenovationService;
 using HealthCare.Service.ScheduleService;
+using HealthCare.Service.UserService;
 
 namespace HealthCare.Application
 {
@@ -44,10 +45,6 @@ namespace HealthCare.Application
             {
                 typeof(TreatmentReferralService), new TreatmentReferralService(
                     GetFileRepository<TreatmentReferral>(Paths.TREATMENT_REFERRALS))
-            },
-            {
-                typeof(NurseService), new NurseService(
-                    GetFileRepository<User>(Paths.NURSES))
             },
             {
                 typeof(BasicRenovationService), new BasicRenovationService(
@@ -90,14 +87,16 @@ namespace HealthCare.Application
                     GetFileRepository<Treatment>(Paths.TREATMENTS))
             },
             {
-                typeof(LoginService), new LoginService(
-                    GetFileRepository<Patient>(Paths.PATIENTS),
-                    GetFileRepository<Doctor>(Paths.DOCTORS),
-                    GetFileRepository<User>(Paths.NURSES))
+                typeof(VisitService), new VisitService(
+                    GetFileRepository<Visit>(Paths.VISITS))
             },
             {
                 typeof(RoomService), new RoomService(
                     GetFileRepository<Room>(Paths.ROOMS))
+            },
+            {
+                typeof(NurseService), new NurseService(
+                    GetFileRepository<User>(Paths.NURSES))
             },
             {
                 typeof(AbsenceRequestService), new AbsenceRequestService(
@@ -139,6 +138,7 @@ namespace HealthCare.Application
             _services[typeof(JoiningRenovationService)] = new JoiningRenovationService(
                 GetFileRepository<JoiningRenovation>(Paths.JOINING_RENOVATIONS));
 
+            _services[typeof(LoginService)] = new LoginService();
             _services[typeof(PatientSchedule)] = new PatientSchedule();
             _services[typeof(DoctorSchedule)] = new DoctorSchedule();
             _services[typeof(RoomSchedule)] = new RoomSchedule();

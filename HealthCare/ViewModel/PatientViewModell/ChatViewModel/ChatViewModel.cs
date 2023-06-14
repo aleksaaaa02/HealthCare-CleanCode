@@ -2,6 +2,7 @@
 using HealthCare.Command;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.Service.UserService;
 using HealthCare.View.PatientView;
 using HealthCare.ViewModel;
 using System;
@@ -16,18 +17,6 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
 {
     public class ChatViewModel : ViewModelBase
     {
-        private ObservableCollection<Message> _messages;
-
-        public ObservableCollection<Message> Messages
-        {
-            get { return _messages; }
-            set
-            {
-                _messages = value;
-                OnPropertyChanged();
-            }
-        }
-
         private ObservableCollection<ContactViewModel> contacts;
 
 
@@ -89,10 +78,10 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             set
             {
                 _selectedContact = value;
-                foreach (Message message in _selectedContact.Messages.Where(x => x.SenderJMBG != Context.Current.JMBG))
+                foreach (MessageViewModel message in _selectedContact.Messages.Where(x => x._Message.SenderJMBG != Context.Current.JMBG))
                 {
-                    message.Seen = true;
-                    messageService.Update(message);
+                    message._Message.Seen = true;
+                    messageService.Update(message._Message);
                 }
                 _selectedContact.RecalculateAll();
                 OtherUsername = _selectedContact.OtherUsername;
@@ -137,22 +126,41 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             {
                 if (_selectedContact != null)
                 {
-                    String messageSenderName = doctorService.TryGet(Context.Current.JMBG).Username;
-                    if(messageSenderName == null) { 
-                        messageSenderName = nurseService.TryGet(Context.Current.JMBG).Username;
-                    }
+
                     Message message = new Message()
                     {
                         contactID = _selectedContact.contact.ID,
                         MessageText = Message,
                         SenderJMBG = Context.Current.JMBG,
                         Time = DateTime.Now,
-                        SenderName = messageSenderName,
                         Seen = false
 
 
                     };
-                    _selectedContact.Messages.Add(message);
+                    MessageViewModel messageViewModel = new MessageViewModel(message);
+                    
+                    if(SelectedContact.Messages.Count>0)
+                    {
+                        
+                        Message lastMessage = SelectedContact.Messages.Last()._Message;
+                        if (message.SenderJMBG == lastMessage.SenderJMBG &&  isSameMinute(message.Time,lastMessage.Time))
+                        {
+                            messageViewModel.IsFirst = false;
+                        }
+                        else
+                        {
+                            messageViewModel.IsFirst = true;
+                        }
+                    }
+                    else
+                    {
+                        messageViewModel.IsFirst = true;
+                    }
+
+
+
+
+                    _selectedContact.Messages.Add(messageViewModel);
                     messageService.Add(message);
                 }
                 Message = "";
@@ -186,6 +194,19 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             Color color = (Color)ColorConverter.ConvertFromString(loggedColor);
             SolidColorBrush brush = new SolidColorBrush(color);
             return brush;
+        }
+
+
+
+        public bool isSameMinute(DateTime message1Timestamp, DateTime message2Timestamp)
+        {
+
+            return message1Timestamp.Year == message2Timestamp.Year &&
+                  message1Timestamp.Month == message2Timestamp.Month &&
+                  message1Timestamp.Day == message2Timestamp.Day &&
+                  message1Timestamp.Hour == message2Timestamp.Hour &&
+                  message1Timestamp.Minute == message2Timestamp.Minute;
+
         }
     }
 }
