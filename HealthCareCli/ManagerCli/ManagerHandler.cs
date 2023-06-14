@@ -1,12 +1,5 @@
 ﻿using HealthCare.Application;
-using HealthCare.Service.RenovationService;
 using HealthCareCli.CliUtil;
-using HealthCareCli.Renovation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCareCli.Manager
 {

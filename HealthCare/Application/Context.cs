@@ -1,5 +1,5 @@
-﻿using HealthCare.Exceptions;
-using HealthCare.Model;
+﻿using HealthCare.Application.Exceptions;
+using HealthCare.Core.Users.Model;
 
 namespace HealthCare.Application
 {
