@@ -3,19 +3,8 @@ using HealthCare.Model;
 using HealthCare.Exceptions;
 using HealthCare.Service.UserService;
 using HealthCareCli.CliUtil;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.CodeDom;
-using System.IO.Packaging;
-using System.Windows;
 using HealthCare.Service.ScheduleService;
-using System.Xml.Serialization;
 using HealthCare.View;
-using HealthCare.Application.Common;
-using System.Numerics;
 
 namespace HealthCareCli.Nurse
 {
