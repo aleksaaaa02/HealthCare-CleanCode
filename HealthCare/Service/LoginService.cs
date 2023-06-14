@@ -53,9 +53,9 @@ namespace HealthCare.Service
         private (User, Role) GetUser(string username)
         {
             foreach (Role r in Enum.GetValues(typeof(Role)))
-                if (_userServices[r].GetAllUsers()
-                    .Find(u => u.Username == username) is User user)
-                    return (user, r);
+                if (!r.Equals(Role.Manager) && 
+                    _userServices[r].GetAllUsers().Find(u => u.Username == username) is User u)
+                    return (u, r);
 
             throw new UsernameNotFoundException();
         }

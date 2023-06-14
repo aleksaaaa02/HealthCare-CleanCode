@@ -17,5 +17,10 @@ namespace HealthCare.Application
         {
             _current = null;
         }
+
+        public static bool IsLoggedIn()
+        {
+            return _current is not null;
+        }
     }
 }

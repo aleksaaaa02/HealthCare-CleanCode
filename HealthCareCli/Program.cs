@@ -1,16 +1,12 @@
-﻿
-
-using HealthCare.Application;
+﻿using HealthCare.Application;
 using HealthCare.Exceptions;
 using HealthCare.Service;
-using HealthCare.View.ManagerView;
-using HealthCare.View.NurseView;
-using HealthCareCli.ConsoleUtil;
-using HealthCareCli.Exception;
+using HealthCareCli.CliUtil;
 using HealthCareCli.Exceptions;
-using HealthCareCli.Menu;
-using HealthCareCli.Util;
-using System.Windows.Forms;
+using HealthCareCli.Manager;
+using HealthCareCli.Nurse;
+using HealthCareCli.Patient;
+using HealthCareCli.Renovation;
 
 namespace HealthCareCli
 {
@@ -18,41 +14,49 @@ namespace HealthCareCli
     {
         public static void Main()
         {
-            Role loginRole = Role.Manager;
-            try
-            {
-                while (true)
-                {
-                    if (Context.Current is null)
-                        loginRole = LoginHandler();
-                    else
-                        MenuHandler(loginRole);
-                }
-            } catch (ExitSignal)
-            {
-                Console.WriteLine("Exit.");
-            }
-        }
-
-        private static Role LoginHandler()
-        {
-            string username, password;
+            string input;
             while (true)
             {
-                username = Input.ReadLine("Username: ");
-                password = Input.ReadLine("Username: ");
+                Console.WriteLine("============ OPCIJE ============\n");
+                Console.WriteLine("1 Prijava");
+                Console.WriteLine("q Exit");
 
-                try
+                input = Input.ReadLine("\nOpcija: ").ToLower();
+
+                switch (input)
                 {
-                    return Injector.GetService<LoginService>().Login(username, password);
-                } catch (LoginException ex)
-                {
-                    Console.WriteLine(ex.Message);
+                    case "1":
+                        Role? loginRole = LoginHandler();
+                        if (loginRole != null)
+                            MenuHandler(loginRole);
+                        break;
+                    case "q":
+                        return;
+                    default:
+                        Console.WriteLine("Nepostojeća opcija. Pokušajte ponovo.\n");
+                        break;
                 }
             }
         }
 
-        private static void MenuHandler(Role loginRole)
+        private static Role? LoginHandler()
+        {
+            string username, password;
+
+            username = Input.ReadLine("Korisničko ime: ");
+            password = Input.ReadLine("Lozinka: ");
+
+            try
+            {
+                return Injector.GetService<LoginService>().Login(username, password);
+            } catch (LoginException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
+
+        private static void MenuHandler(Role? loginRole)
         {
             switch (loginRole)
             {

@@ -1,7 +1,7 @@
 ﻿using HealthCare.Application.Common;
 using System.ComponentModel.DataAnnotations;
 
-namespace HealthCareCli.ConsoleUtil
+namespace HealthCareCli.CliUtil
 {
     public static class Input
     {
@@ -10,7 +10,7 @@ namespace HealthCareCli.ConsoleUtil
         public static string ReadLine(string prompt)
         {
             Console.Write(prompt);
-            return Console.ReadLine() ?? "";
+            return (Console.ReadLine() ?? "").Trim();
         }
 
         public static int ReadInt(string prompt, string err = defaultError)

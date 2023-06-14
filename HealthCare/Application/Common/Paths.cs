@@ -2,7 +2,7 @@ namespace HealthCare.Application.Common
 {
     public abstract class Paths
     {
-        private const string RESOURCE_ROOT = "../../../Resource/";
+        private const string RESOURCE_ROOT = "../../../../Data/";
         public const string USER_NOTIFICATIONS_REFERRALS = RESOURCE_ROOT + "user_notifications.csv";
         public const string REGULAR_PRESCRIPTIONS = RESOURCE_ROOT + "regular_prescriptions.csv";
         public const string THERAPY_PRESCRIPTIONS = RESOURCE_ROOT + "therapy_prescriptions.csv";
