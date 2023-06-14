@@ -3,7 +3,7 @@ using HealthCare.Application;
 using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
 using HealthCare.WPF.Common.Command;
 
-namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments.Command
+namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments.Visiting.Command
 {
     public class ReleasePatientCommand : CommandBase
     {

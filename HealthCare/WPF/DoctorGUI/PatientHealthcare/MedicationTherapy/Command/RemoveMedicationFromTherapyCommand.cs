@@ -3,7 +3,7 @@ using HealthCare.Application.Exceptions;
 using HealthCare.Core.PatientHealthcare.Pharmacy;
 using HealthCare.WPF.Common;
 using HealthCare.WPF.Common.Command;
-using HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments;
+using HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments.Visiting;
 
 namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.MedicationTherapy.Command
 {

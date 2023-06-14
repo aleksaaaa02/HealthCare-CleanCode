@@ -4,8 +4,9 @@ using HealthCare.Application.Exceptions;
 using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
 using HealthCare.WPF.Common;
 using HealthCare.WPF.Common.Command;
+using HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments.Visiting;
 
-namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments.Command
+namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments.Visiting.Command
 {
     public class IncreaseTreatmentDurationCommand : CommandBase
     {

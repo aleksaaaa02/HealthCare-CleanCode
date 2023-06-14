@@ -1,7 +1,7 @@
 ﻿using HealthCare.Core.PatientHealthcare.Pharmacy;
 using HealthCare.WPF.Common.Command;
 using HealthCare.WPF.DoctorGUI.PatientHealthcare.MedicalPrescription;
-using HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments;
+using HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments.Visiting;
 
 namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.MedicationTherapy.Command
 {

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
 
-namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments
+namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments.Visiting
 {
     public partial class DoctorTreatmentVisitView : Window
     {

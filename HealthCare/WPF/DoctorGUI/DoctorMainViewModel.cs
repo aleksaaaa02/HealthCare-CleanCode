@@ -10,7 +10,7 @@ using HealthCare.WPF.DoctorGUI.AbsenceRequesting;
 using HealthCare.WPF.DoctorGUI.AppointmentSchedule;
 using HealthCare.WPF.DoctorGUI.AppointmentSchedule.Command;
 using HealthCare.WPF.DoctorGUI.PatientHealthcare.Examination.Command;
-using HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments.Command;
+using HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments;
 using HealthCare.WPF.DoctorGUI.PatientMedicalRecord.Command;
 
 namespace HealthCare.WPF.DoctorGUI;

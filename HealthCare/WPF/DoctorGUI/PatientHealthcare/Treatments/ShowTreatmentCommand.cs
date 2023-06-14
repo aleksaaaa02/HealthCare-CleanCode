@@ -1,6 +1,6 @@
 ﻿using HealthCare.WPF.Common.Command;
 
-namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments.Command
+namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments
 {
     public class ShowTreatmentCommand : CommandBase
     {

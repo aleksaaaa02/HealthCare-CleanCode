@@ -17,5 +17,10 @@ namespace HealthCare.Core.PatientHealthcare.HealthcareTreatment
             bool isMorning = DateTime.Now < DateTime.Now.Date.AddHours(12);
             return GetAll().Where(x => x.isMorningVisit() == isMorning && x.isToday()).ToList();
         }
+
+        public List<Visit> GetVisitsForTreatment(int treatmentID)
+        {
+            return GetAll().Where(x => x.TreatmentId == treatmentID).ToList();
+        }
     }
 }

@@ -11,9 +11,9 @@ using HealthCare.Core.Users.Service;
 using HealthCare.WPF.Common;
 using HealthCare.WPF.DoctorGUI.PatientHealthcare.MedicalPrescription;
 using HealthCare.WPF.DoctorGUI.PatientHealthcare.MedicationTherapy.Command;
-using HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments.Command;
+using HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments.Visiting.Command;
 
-namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments
+namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments.Visiting
 {
     public class DoctorTreatmentVisitViewModel : ViewModelBase
     {
@@ -22,9 +22,11 @@ namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments
         private readonly Therapy _therapy;
         private readonly Treatment _treatment;
         private readonly TreatmentReferral _treatmentReferral;
+        private readonly VisitService _visitService;
         private DateTime _end;
 
         private ObservableCollection<TherapyPrescriptionDTO> _therapyMedications;
+        private ObservableCollection<VisitDTO> _visits;
 
         public DoctorTreatmentVisitViewModel(Window window, Treatment treatment)
         {
@@ -33,7 +35,7 @@ namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments
             _treatmentReferral = Injector.GetService<TreatmentReferralService>().Get(treatment.ReferralId);
             _patient = Injector.GetService<PatientService>().Get(_treatmentReferral.PatientJMBG);
             _therapy = Injector.GetService<TherapyService>().Get(_treatmentReferral.TherapyID);
-
+            _visitService = Injector.GetService<VisitService>();
 
             LoadInformation(treatment);
 
@@ -42,7 +44,9 @@ namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments
             AddMedicationToTherapyCommand = new ShowAddTherapyDialogCommand(this, _therapy);
             ReleasePatientCommand = new ReleasePatientCommand(window, _treatment);
             _therapyMedications = new ObservableCollection<TherapyPrescriptionDTO>();
+            _visits = new ObservableCollection<VisitDTO>();
             Update();
+            UpdateVisitListView();
         }
 
         public TherapyPrescriptionDTO SelectedPrescription { get; set; }
@@ -63,7 +67,7 @@ namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments
         public string AdditionalExamination { get; set; }
         public int DurationIncreaseDays { get; set; }
         public IEnumerable<TherapyPrescriptionDTO> TherapyMedication => _therapyMedications;
-
+        public IEnumerable<VisitDTO> Visits => _visits;
 
         public ICommand ReleasePatientCommand { get; }
         public ICommand ContinueTreatmentCommand { get; }
@@ -86,6 +90,15 @@ namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments
             {
                 Prescription prescription = _prescriptionService.Get(prescriptionID);
                 _therapyMedications.Add(new TherapyPrescriptionDTO(prescription));
+            }
+        }
+
+        private void UpdateVisitListView()
+        {
+            _visits.Clear();
+            foreach (var visit in _visitService.GetVisitsForTreatment(_treatment.Id))
+            {
+                _visits.Add(new VisitDTO(visit));
             }
         }
     }

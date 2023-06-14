@@ -4,7 +4,7 @@ using System.Windows.Input;
 using HealthCare.Application;
 using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
 using HealthCare.WPF.Common;
-using HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments.Command;
+using HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments.Visiting.Command;
 
 namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments
 {

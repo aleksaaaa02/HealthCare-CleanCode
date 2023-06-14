@@ -2,7 +2,7 @@
 using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
 using HealthCare.WPF.DoctorGUI.PatientHealthcare.MedicationTherapy.Command;
 
-namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments
+namespace HealthCare.WPF.DoctorGUI.PatientHealthcare.Treatments.Visiting
 {
     public partial class PatientReleaseAppointmentView : Window
     {
