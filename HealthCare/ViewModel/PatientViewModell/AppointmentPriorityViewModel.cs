@@ -4,6 +4,7 @@ using HealthCare.Command;
 using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.Service.ScheduleService;
+using HealthCare.Service.UserService;
 using HealthCare.View;
 using System;
 using System.Collections.Generic;
