@@ -68,5 +68,29 @@ namespace HealthCareCli.CliUtil
                 }
             }
         }
+
+        public static bool TryParseTime(string timeInput, out int hours, out int minutes)
+        {
+            hours = 0;
+            minutes = 0;
+
+            if (string.IsNullOrWhiteSpace(timeInput))
+            {
+                return false;
+            }
+
+            string[] parts = timeInput.Split(':');
+            if (parts.Length != 2 || !int.TryParse(parts[0], out hours) || !int.TryParse(parts[1], out minutes))
+            {
+                return false;
+            }
+
+            if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

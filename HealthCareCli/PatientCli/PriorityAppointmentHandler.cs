@@ -14,8 +14,7 @@ namespace HealthCareCli.PatientCli
     public class PriorityAppointmentHandler
     {
         AppointmentPriorityViewModel viewModel = new AppointmentPriorityViewModel();
-
-
+        
         public void Show()
         {
             DateTime date;
@@ -35,7 +34,7 @@ namespace HealthCareCli.PatientCli
                 {
                     Console.Write("Unesite pocetno vreme (HH:MM): ");
                     string startTimeInput = Console.ReadLine();
-                    if (TryParseTime(startTimeInput, out startHours, out startMinutes))
+                    if (DefaultHandler.TryParseTime(startTimeInput, out startHours, out startMinutes))
                     {
                         break;
                     }
@@ -46,7 +45,7 @@ namespace HealthCareCli.PatientCli
                 {
                     Console.Write("Unesite krajnje vreme (HH:MM): ");
                     string endTimeInput = Console.ReadLine();
-                    if (TryParseTime(endTimeInput, out endHours, out endMinutes))
+                    if (DefaultHandler.TryParseTime(endTimeInput, out endHours, out endMinutes))
                     {
                         break;
                     }
@@ -88,22 +87,20 @@ namespace HealthCareCli.PatientCli
                 {
                     Console.Write("\nUnesite rednji broj prioriteta:\n1.Doktor\n2.Datum\n");
                     string inputPriority = Console.ReadLine();
-                    if(inputPriority == "1")
+                    if (inputPriority == "1")
                     {
                         priority = "Doctor";
                         break;
                     }
-                    else if(inputPriority == "2")
+
+                    if (inputPriority == "2")
                     {
                         priority = "Date";
                         break;
                     }
-                    else
-                    {
 
-                    }
+                    Console.WriteLine("Neispravan unos.");
                 }
-
 
                 viewModel.EndDate = date;
                 viewModel.HourStart = startHours;
@@ -152,31 +149,6 @@ namespace HealthCareCli.PatientCli
                 break;
 
             }
-        }
-        
-
-        private bool TryParseTime(string timeInput, out int hours, out int minutes)
-        {
-            hours = 0;
-            minutes = 0;
-
-            if (string.IsNullOrWhiteSpace(timeInput))
-            {
-                return false;
-            }
-
-            string[] parts = timeInput.Split(':');
-            if (parts.Length != 2 || !int.TryParse(parts[0], out hours) || !int.TryParse(parts[1], out minutes))
-            {
-                return false;
-            }
-
-            if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59)
-            {
-                return false;
-            }
-
-            return true;
         }
     }
 }
