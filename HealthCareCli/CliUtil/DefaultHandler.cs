@@ -32,5 +32,41 @@ namespace HealthCareCli.CliUtil
                 }
             }
         }
+
+        public static int HandleIntRanged(string prompt, int lowerBound, int upperBound)
+        {
+            while (true)
+            {
+                try
+                {
+                    int input = Input.ReadInt(prompt);
+                    if (input >= lowerBound && input <= upperBound)
+                    {
+                        return input;
+                    }
+                    Console.WriteLine($"Unos mora biti izmedju {lowerBound} i {upperBound}");
+                }
+                catch (ValidationException ve)
+                {
+                    Console.WriteLine(ve.Message);
+                }
+            }
+        }
+
+        public static int HandleInt(string prompt)
+        {
+            while (true)
+            {
+                try
+                {
+                    int input = Input.ReadInt(prompt);
+                    return input;
+                }
+                catch (ValidationException ve)
+                {
+                    Console.WriteLine(ve.Message);
+                }
+            }
+        }
     }
 }

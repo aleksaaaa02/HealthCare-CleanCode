@@ -2,6 +2,7 @@
 using HealthCare.Exceptions;
 using HealthCare.Service;
 using HealthCareCli.CliUtil;
+using HealthCareCli.DoctorCli;
 using HealthCareCli.Exceptions;
 using HealthCareCli.Manager;
 using HealthCareCli.Nurse;
@@ -68,6 +69,9 @@ namespace HealthCareCli
                     break;
                 case Role.Manager:
                     new ManagerHandler().Show();
+                    break;
+                case Role.Doctor:
+                    new DoctorHandler().Show();
                     break;
                 default:
                     Console.WriteLine("Nije implementirano.");
