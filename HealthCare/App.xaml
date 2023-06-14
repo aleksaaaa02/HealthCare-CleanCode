@@ -63,9 +63,12 @@
                 </Style.Triggers>
             </Style>
 
-
-
-
+            <Style x:Key="RatingStar" TargetType="{x:Type fa:IconBlock}">
+                <Setter Property="Icon" Value="Star" />
+                <Setter Property="IconFont" Value="Solid" />
+                <Setter Property="Foreground" Value="Gold"/>
+                <Setter Property="FontSize" Value="10"/>
+            </Style>
 
             <Style x:Key="menuButton" TargetType="Button">
                 <Setter Property="Height" Value="50"/>
