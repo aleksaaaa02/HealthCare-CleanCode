@@ -3,9 +3,9 @@ using System.Linq;
 using HealthCare.Model;
 using HealthCare.Repository;
 
-namespace HealthCare.Service
+namespace HealthCare.Service.UserService
 {
-    public class DoctorService : Service<Doctor>
+    public class DoctorService : Service<Doctor>, IUserService
     {
         public DoctorService(IRepository<Doctor> repository) : base(repository)
         {
@@ -25,6 +25,11 @@ namespace HealthCare.Service
         public List<string> GetSpecializations()
         {
             return GetAll().Select(x => x.Specialization).Distinct().ToList();
+        }
+
+        public List<User> GetAllUsers()
+        {
+            return GetAll().Cast<User>().ToList();
         }
     }
 }

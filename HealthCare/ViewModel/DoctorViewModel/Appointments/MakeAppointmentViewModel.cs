@@ -6,7 +6,7 @@ using System.Windows.Input;
 using HealthCare.Application;
 using HealthCare.Command;
 using HealthCare.Model;
-using HealthCare.Service;
+using HealthCare.Service.UserService;
 using HealthCare.ViewModel.DoctorViewModel.Appointments.Commands;
 using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModels.DoctorViewModel;

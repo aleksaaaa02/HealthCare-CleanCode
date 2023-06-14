@@ -1,5 +1,6 @@
 ﻿using HealthCare.Application;
 using HealthCare.Service;
+using HealthCare.Service.UserService;
 using HealthCare.ViewModel.PatientViewModell.ChatViewModel;
 using System;
 using System.Collections.Generic;

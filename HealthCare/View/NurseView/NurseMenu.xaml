@@ -24,6 +24,9 @@
             <MenuItem Header="_Poruci">
                 <MenuItem Header="_Porucivanje lekova" Click="mnuOrder_Click"/>
             </MenuItem>
+            <MenuItem Header="_Vizite">
+                <MenuItem Header="_Obavi vizitu" Click="mnuVisit_Click"/>
+            </MenuItem>
         </Menu>
         <Button Content="Logout" Name="btnLogout"  HorizontalAlignment="Left" Height="35" Margin="220,160,0,0" VerticalAlignment="Top" Width="50" Click="btnLogout_Click" />
 
