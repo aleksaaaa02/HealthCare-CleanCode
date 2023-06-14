@@ -42,7 +42,6 @@ namespace HealthCareCli.PatientCli
                     Console.WriteLine("Neispravan format vremena. Molimo Vas pokusajte ponovo");
                 }
 
-                // Input validation for end time (hours and minutes)
                 while (true)
                 {
                     Console.Write("Unesite krajnje vreme (HH:MM): ");
@@ -62,7 +61,7 @@ namespace HealthCareCli.PatientCli
                     List<Doctor> doctors = viewModel.Doctors;
                     foreach(Doctor doctor in doctors)
                     {
-                        Console.WriteLine(counter + ". " + doctor.Name + " " + doctor.LastName + " Specijalizacija: " + doctor.Specialization +" Prosecna ocena:" + doctor.Rating);
+                        Console.WriteLine(counter + ". " + doctor.Name + " " + doctor.LastName + " Specijalizacija: " + doctor.Specialization +" Prosecna ocena: " + doctor.Rating);
                         counter++;
                     }
                     int selectedDoctorIndex;
@@ -129,7 +128,7 @@ namespace HealthCareCli.PatientCli
                     List<Appointment> appointments = viewModel.ResultAppointments.ToList();
                     foreach (Appointment appointment in appointments)
                     {
-                        Console.WriteLine(appointment.AppointmentID + " Datum:" + appointment.TimeSlot.Start.ToString() + " Trajanje" + appointment.TimeSlot.Duration.ToString());
+                        Console.WriteLine(appointment.AppointmentID + ". Datum:" + appointment.TimeSlot.Start.ToString() + " Trajanje " + appointment.TimeSlot.Duration.ToString());
                         counter++;
                     }
                     int selectedAppointmendIndex;
