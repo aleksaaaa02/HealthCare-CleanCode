@@ -47,10 +47,6 @@ namespace HealthCare.Application
                     GetFileRepository<TreatmentReferral>(Paths.TREATMENT_REFERRALS))
             },
             {
-                typeof(NurseService), new NurseService(
-                    GetFileRepository<User>(Paths.NURSES))
-            },
-            {
                 typeof(BasicRenovationService), new BasicRenovationService(
                     GetFileRepository<RenovationBase>(Paths.BASIC_RENOVATIONS))
             },
