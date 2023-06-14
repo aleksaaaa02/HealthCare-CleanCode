@@ -17,7 +17,16 @@ namespace HealthCareCli.Renovation
         {
             try
             {
-                TimeSlot slot = DefaultHandler.HandleTimeSlotChoice();
+                TimeSlot slot;
+                while (true)
+                {
+                    slot = DefaultHandler.HandleTimeSlotChoice();
+                    if (slot.Start > DateTime.Now)
+                        break;
+
+                    Console.WriteLine("Renovacija ne može da bude u prošlosti.");
+                }
+
                 bool splitting = GetRenovationType();
 
                 if (splitting) HandleSplitting(slot);

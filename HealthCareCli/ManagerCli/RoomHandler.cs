@@ -10,6 +10,13 @@ namespace HealthCareCli.Manager
 {
     public class RoomHandler
     {
+        public string RoomHeader => $"{"BR",3} {"ID",3} {"NAZIV",15} {"TIP",15}";
+
+        public string RoomToString(int i, Room r)
+        {
+            return $"{i,3} {r.Id,3} {r.Name,15} {ViewUtil.Translate(r.Type),15}";
+        }
+
         public Room HandleRoomCreation()
         {
             string name = Input.ReadLine("Naziv sobe: ");
@@ -25,9 +32,9 @@ namespace HealthCareCli.Manager
 
             while (true)
             {
-                Console.WriteLine();
+                Console.WriteLine(RoomHeader);
                 foreach (var (r, i) in Util.WithIndex(rooms))
-                    Console.WriteLine($"{i} {r.Id} {r.Name} {ViewUtil.Translate(r.Type)}");
+                    Console.WriteLine(RoomToString(i, r));
 
                 try
                 {

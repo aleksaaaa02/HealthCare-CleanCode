@@ -1,10 +1,5 @@
 ﻿using HealthCare.Exceptions;
 using HealthCare.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthCareCli.CliUtil
 {
@@ -12,9 +7,15 @@ namespace HealthCareCli.CliUtil
     {
         public static TimeSlot HandleTimeSlotChoice()
         {
-            DateTime start = HandleDateTimeChoice("Početni datum: ");
-            DateTime end = HandleDateTimeChoice("Krajnji datum: ");
-            return new TimeSlot(start, end);
+            while (true)
+            {
+                DateTime start = HandleDateTimeChoice("Početni datum: ");
+                DateTime end = HandleDateTimeChoice("Krajnji datum: ");
+                if (start < end)
+                    return new TimeSlot(start, end);
+
+                Console.WriteLine("Krajnji datum mora da bude pre početnog");
+            }
         }
 
         public static DateTime HandleDateTimeChoice(string prompt)
