@@ -53,8 +53,7 @@ namespace HealthCareCli.Renovation
                     int choice = Input.ReadInt("Izbor: ", "Nepostojeca opcija.");
                     if (choice != 1 && choice != 2)
                         throw new ValidationException("Nepostojeca opcija.");
-
-                    return choice == 2;
+                    return new Room();
                 }
                 catch (ValidationException ve)
                 {
