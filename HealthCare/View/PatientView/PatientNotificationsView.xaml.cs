@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using HealthCare.Application;
 using HealthCare.Model;
-using HealthCare.Service;
+using HealthCare.Service.UserService;
 using HealthCare.ViewModel.PatientViewModell;
 
 namespace HealthCare.View.PatientView

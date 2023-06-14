@@ -3,6 +3,7 @@ using System.Windows.Documents;
 using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.Service.UserService;
 
 namespace HealthCare.View.NurseView
 {

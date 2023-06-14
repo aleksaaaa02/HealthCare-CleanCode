@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Windows;
 using HealthCare.Application.Common;
 using HealthCare.Serialize;
 
@@ -11,7 +12,7 @@ namespace HealthCare.Model
         {
             Specialization = "";
             Random rnd = new Random();
-            Rating = rnd.Next(1, 6);
+            Rating = 0;
         }
 
         public Doctor(string name, string lastName, string jMBG, DateTime birthDate, string phoneNumber, string address,
@@ -20,7 +21,7 @@ namespace HealthCare.Model
         {
             Specialization = specialization;
             Random rnd = new Random();
-            Rating = rnd.Next(1, 6);
+            Rating = 0;
             Color = ColorRandomizer.GetRandomColor();
         }
 
@@ -30,11 +31,11 @@ namespace HealthCare.Model
         {
             Specialization = specialization;
             Random rnd = new Random();
-            Rating = rnd.Next(1, 6);
+            Rating = 0;
         }
 
         public string Specialization { get; set; }
-        public int Rating { get; set; }
+        public double Rating { get; set; }
 
         public bool IsCapable(string NeededSpecialization)
         {
@@ -44,7 +45,7 @@ namespace HealthCare.Model
         public override string[] Serialize()
         {
             string[] userValues = base.Serialize();
-            return userValues.Concat(new string[] { Specialization, Rating.ToString(), Color }).ToArray();
+            return userValues.Concat(new string[] { Specialization, Rating.ToString()}).ToArray();
         }
 
         public override void Deserialize(string[] values)
@@ -58,9 +59,9 @@ namespace HealthCare.Model
             Username = values[6];
             Password = values[7];
             Gender = SerialUtil.ParseEnum<Gender>(values[8]);
-            Specialization = values[9];
-            Rating = int.Parse(values[10]);
-            Color = values[11];
+            Color = values[9];
+            Specialization = values[10];
+            Rating = double.Parse(values[11]);
         }
     }
 }

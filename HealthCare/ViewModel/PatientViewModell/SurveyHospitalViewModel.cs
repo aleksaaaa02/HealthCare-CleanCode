@@ -2,6 +2,7 @@
 using HealthCare.Command;
 using HealthCare.Model;
 using HealthCare.Service;
+using HealthCare.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -47,37 +48,51 @@ namespace HealthCare.ViewModel.PatientViewModell
 
             Surveys.Add(new Survey
             {
-                TopicName = "HOSPITAL_GENERAL",
+                TopicName = "GENERALNO",
                 DoctorJMBG = "",
                 Description = "Kako ste zadovoljni generalnim kvalitetom usluge bolince?",
-                SelectedRating = 1,
+                SelectedRating = 0,
                 AdditionalComment = ""
             });
 
             Surveys.Add(new Survey
             {
-                TopicName = "HOSPITAL_CISTOCA",
+                TopicName = "ČISTOĆA",
                 DoctorJMBG = "",
                 Description = "Kako ste zadovoljni cistocom bolnice?",
-                SelectedRating = 1,
+                SelectedRating = 0,
                 AdditionalComment = ""
             });
 
             Surveys.Add(new Survey
             {
-                TopicName = "HOSPITAL_PREPORUCILI",
+                TopicName = "PREPORUKA",
                 DoctorJMBG = "",
                 Description = "Da li biste predlozili bolnicu svojim prijateljima?",
-                SelectedRating = 1,
+                SelectedRating = 0,
                 AdditionalComment = ""
             });
 
 
             SubmitSurvey = new RelayCommand(o =>
             {
-                foreach (Survey survey in Surveys)
+                if (!checkAllSurveys())
                 {
-                    surveyService.Add(survey);
+                    ViewUtil.ShowWarning("Niste popunili anketu");
+                }
+                else
+                {
+                    ViewUtil.ShowInformation("Uspesno ste popunili anketu");
+                    foreach (Survey survey in Surveys)
+                    {
+                        Survey newSurvey = new Survey();
+                        newSurvey.TopicName = survey.TopicName;
+                        newSurvey.Description = survey.Description;
+                        newSurvey.AdditionalComment = survey.AdditionalComment;
+                        newSurvey.SelectedRating = survey.SelectedRating;
+                        newSurvey.DoctorJMBG = survey.DoctorJMBG;
+                        surveyService.Add(newSurvey);
+                    }
                 }
             });
 

@@ -1,6 +1,8 @@
-﻿
-using HealthCare.Model;
+﻿using HealthCare.Model;
 using HealthCare.Repository;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HealthCare.Service
 {
@@ -8,6 +10,10 @@ namespace HealthCare.Service
     {
         public TreatmentService(IRepository<Treatment> repository) : base(repository)
         {
+        }
+
+        public List<Treatment> getCurrent() {
+            return GetAll().Where(x => x.TreatmentDuration.Contains(DateTime.Now)).ToList();
         }
     }
 }

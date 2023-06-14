@@ -37,6 +37,8 @@ public class DoctorMainViewModel : ViewModelBase
         ShowPatientSearchCommand = new ShowPatientSearchViewCommand();
         StartExaminationCommand = new StartExaminationCommand(this);
         ShowTreatmentsCommand = new ShowTreatmentCommand();
+        ShowAbsenceRequestViewCommand = new ShowAbsenceRequestViewCommand();
+
         Update();
     }
 
@@ -51,6 +53,7 @@ public class DoctorMainViewModel : ViewModelBase
     public ICommand ResetFilterCommand { get; }
     public ICommand ShowTreatmentsCommand { get; } 
     public ICommand LogOutCommand { get; }
+    public ICommand ShowAbsenceRequestViewCommand { get; }
 
     public DateTime StartDate
     {

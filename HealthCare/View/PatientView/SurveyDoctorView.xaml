@@ -24,12 +24,17 @@
                 <ItemsControl ItemsSource="{Binding Surveys}"
                       ItemTemplate="{StaticResource SurveySectionTemplate}" />
             </ScrollViewer>
-            <Button Content="Posalji" Command="{Binding SubmitSurvey}" Grid.Row="1" Margin="10,10,0,0" VerticalAlignment="Top" Width="75"/>
-            <ListView ItemsSource="{Binding Appointments}" SelectedItem="{Binding Path=SelectedAppointment}">
+            <Grid Grid.ColumnSpan="2" Grid.Row="2">
+                <Button Content="Posalji" Command="{Binding SubmitSurvey}" Grid.Row="1" Margin="10,15,0,0" VerticalAlignment="Top" Width="75"/>
+            </Grid>
+            <ListView ItemsSource="{Binding Doctors}" Margin="20 0 0 0" SelectedItem="{Binding Path=SelectedDoctor}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn  Header="DoktorJMBG" DisplayMemberBinding="{Binding DoctorJMBG}"/>
-                        <GridViewColumn  Header="Vreme" DisplayMemberBinding="{Binding TimeSlot.Start}"/>
+                        <GridViewColumn  Header="Appointment ID" DisplayMemberBinding="{Binding AppointmentID}"/>
+                        <GridViewColumn  Header="Vreme" DisplayMemberBinding="{Binding Time}"/>
+                        <GridViewColumn  Header="Ime" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn  Header="Prezime" DisplayMemberBinding="{Binding LastName}"/>
+                        
                     </GridView>
                 </ListView.View>
             </ListView>
