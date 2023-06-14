@@ -16,7 +16,8 @@ namespace HealthCare.Service.ScheduleService
             _appointmentService = Injector.GetService<AppointmentService>();
             _availabilityValidators = new List<IAvailable<string>>
             {
-                new DoctorAppointmentAvailable()
+                new DoctorAppointmentAvailable(),
+                new DoctorAbsenceRequestAvailable()
             };
         }
 

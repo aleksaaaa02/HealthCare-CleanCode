@@ -23,6 +23,9 @@
                 <Button Width="Auto" Height="40" Margin="10" Content="Ukloni Pregled/Operaciju" Command="{Binding DeleteAppointmentCommand}"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="Prikazi pacijenta" Command="{Binding ShowDetailedPatientInfoCommand}"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="Pretrazi pacijente" Command="{Binding ShowPatientSearchCommand}"/>
+                <Button Width="Auto" Height="40" Margin="10" Content="Bolnicka lecenja" Command="{Binding ShowTreatmentsCommand}"/>
+                <Button Width="Auto" Height="40" Margin="10" Content="Zahtev za slobodne dane" Command="{Binding ShowAbsenceRequestViewCommand}"/>
+              
                 <Label Margin="0 15"/>
                 <Button Width="Auto" Height="40" Margin="10" Content="Otvori chat" Click="Button_Click"/>
                 <Button x:Name="LogOut" Width="Auto" Height="40" Margin="10" Content="Odjava" Command="{Binding LogOutCommand}"/>

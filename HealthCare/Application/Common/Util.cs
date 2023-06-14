@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 namespace HealthCare.Application.Common
 {
@@ -30,6 +33,11 @@ namespace HealthCare.Application.Common
             T[] result = new T[length];
             Array.Copy(data, index, result, 0, length);
             return result;
+        }
+
+        public static IEnumerable<(T item, int i)> WithIndex<T>(IEnumerable<T> data)
+        {
+            return data.Select((item, i) => (item, i));
         }
     }
 }

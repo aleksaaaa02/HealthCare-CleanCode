@@ -26,7 +26,7 @@ namespace HealthCareCli.Manager
                 switch (input)
                 {
                     case "1":
-                        new RenovationHandler().Show();
+                        new RenovationHandler().Handle();
                         break;
                     case "q":
                         Context.Reset();
