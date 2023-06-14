@@ -1,5 +1,5 @@
 ﻿using HealthCare.Application.Common;
-using System.ComponentModel.DataAnnotations;
+using HealthCare.Exceptions;
 
 namespace HealthCareCli.CliUtil
 {
