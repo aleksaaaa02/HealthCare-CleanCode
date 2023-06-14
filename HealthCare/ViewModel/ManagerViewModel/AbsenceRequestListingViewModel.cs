@@ -1,15 +1,12 @@
 ﻿using HealthCare.Application;
 using HealthCare.Command;
 using HealthCare.Exceptions;
+using HealthCare.Model;
 using HealthCare.Service;
 using HealthCare.ViewModel.ManagerViewModel.Command;
 using HealthCare.ViewModel.ManagerViewModel.DataViewModel;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -21,7 +18,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
         public ICommand DeclineRequestCommand { get; }
         public ICommand ExitCommand { get; }
         public ObservableCollection<AbsenceRequestViewModel> Items { get; }
-
+        private readonly AbsenceRequestService _absenceRequestService;
         private bool _areApproved = false;
         public bool AreApproved 
         {
@@ -38,6 +35,7 @@ namespace HealthCare.ViewModel.ManagerViewModel
         public AbsenceRequestListingViewModel(Window view) 
         {
             Items = new ObservableCollection<AbsenceRequestViewModel>();
+            _absenceRequestService = Injector.GetService<AbsenceRequestService>();
 
             ApproveRequestCommand = new ManageRequestCommand(this, true);
             DeclineRequestCommand = new ManageRequestCommand(this, false);
@@ -48,18 +46,24 @@ namespace HealthCare.ViewModel.ManagerViewModel
         public void LoadAll()
         {
             Items.Clear();
-            Injector.GetService<AbsenceRequestService>()
+            _absenceRequestService
                 .GetAll().Where(r => !r.IsApproved || AreApproved)
                 .OrderBy(r => !r.IsApproved).ThenBy(r => r.Id)
                 .Select(r => new AbsenceRequestViewModel(r))
                 .ToList().ForEach(model => Items.Add(model));
         }
 
-        public int TryGetSelectedId()
+        public AbsenceRequest TryGetSelectedRequest()
         {
             if (SelectedRequest is null)
                 throw new ValidationException("Molimo izaberite zahtev za odsustvo.");
-            return SelectedRequest.Id;
+
+            var request = _absenceRequestService.Get(SelectedRequest.Id);
+
+            if (_absenceRequestService.OverlappingOther(request))
+                throw new ValidationException("Izabrani zahtev se preklapa sa drugim odobrenim zahtevom za odsustvo.");
+
+            return request;
         }
     }
 }

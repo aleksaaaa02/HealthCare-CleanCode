@@ -1,4 +1,4 @@
-﻿using HealthCare.Application;
+using HealthCare.Application;
 using HealthCare.Command;
 using HealthCare.Model;
 using HealthCare.Service;
@@ -102,9 +102,9 @@ namespace HealthCare.ViewModel.PatientViewModell
 
             Surveys.Add(new Survey
             {
-                TopicName = "DOKTOR_GENERAL",
+                TopicName = "GENERALNO",
                 DoctorJMBG = "",
-                Description = "Kako ste zadovoljni generalnim kvalitetom usluge bolince?",
+                Description = "Kako ste zadovoljni generalnim kvalitetom usluge?",
                 SelectedRating = 0,
                 AdditionalComment = ""
             });
@@ -112,9 +112,9 @@ namespace HealthCare.ViewModel.PatientViewModell
 
             Surveys.Add(new Survey
             {
-                TopicName = "DOKTOR_PREPORUCILI",
+                TopicName = "PREPORUKA,
                 DoctorJMBG = "",
-                Description = "Da li biste predlozili bolnicu svojim prijateljima?",
+                Description = "Da li biste predlozili doktora svojim prijateljima?",
                 SelectedRating = 0,
                 AdditionalComment = ""
             });
