@@ -5,8 +5,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
 using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service;
+using HealthCare.Core.NotificationSystem;
+using HealthCare.Core.PatientHealthcare.Pharmacy;
+using HealthCare.Core.Users.Model;
 using HealthCare.View;
 using HealthCare.View.PatientView;
 

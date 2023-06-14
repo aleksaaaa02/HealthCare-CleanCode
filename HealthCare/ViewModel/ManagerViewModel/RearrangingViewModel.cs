@@ -2,8 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service;
+using HealthCare.Core.Interior;
+using HealthCare.Core.PhysicalAssets;
+using HealthCare.ViewModel.ManagerViewModel.DataViewModel;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {

@@ -1,46 +1,37 @@
-﻿using HealthCare.Application;
-using HealthCare.Command;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.ScheduleService;
-using HealthCare.View;
-using HealthCare.ViewModel.NurseViewModel.RoomsMVVM;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using HealthCare.Application;
+using HealthCare.Core.Interior;
+using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
+using HealthCare.Core.Scheduling;
+using HealthCare.Core.Scheduling.Schedules;
+using HealthCare.Core.Users.Model;
+using HealthCare.GUI.Command;
+using HealthCare.View;
+using HealthCare.ViewModel.NurseViewModel.RoomsMVVM;
 
 namespace HealthCare.ViewModel.NurseViewModel.TreatmantsReferralsMVVM
 {
     public class TreatmantReferralViewModel : ViewModelBase
     {
         private readonly TreatmentReferralService _treatmentReferralService;
-        public ObservableCollection<PatientsTreatmantRefarralsViewModel> Referrals { get; }
-
-        private Treatment _treatment;
-        private PatientsTreatmantRefarralsViewModel _selected;
-        public PatientsTreatmantRefarralsViewModel Selected {
-            get => _selected;
-            set {
-                _selected = value;
-                if (_selected is not null)
-                {
-                    _treatment = new Treatment(0,value.Id,new TimeSlot(DateTime.Now, new TimeSpan(value.Days,0,0,0)));
-                    loadRooms(_treatment);
-                }
-            }
-        }
 
         private Patient _patient;
-        public CancelCommand cancelCommand { get; set; }
-        public RelayCommand makeTreatmantCommand { get; set; }
-        public TreatmantReferralViewModel(Patient patient,Window window){
+        private PatientsTreatmantRefarralsViewModel _selected;
+
+        private Treatment _treatment;
+
+        public TreatmantReferralViewModel(Patient patient, Window window)
+        {
             _patient = patient;
             _treatmentReferralService = Injector.GetService<TreatmentReferralService>();
             Rooms = new ObservableCollection<RoomsViewModel>();
             Referrals = new ObservableCollection<PatientsTreatmantRefarralsViewModel>();
 
             cancelCommand = new CancelCommand(window);
-            makeTreatmantCommand = new RelayCommand( o => {
+            makeTreatmantCommand = new RelayCommand(o =>
+            {
                 if (_treatment is null || SelectedRoom is null)
                 {
                     ViewUtil.ShowWarning("Izaberite uput i sobu");
@@ -58,10 +49,31 @@ namespace HealthCare.ViewModel.NurseViewModel.TreatmantsReferralsMVVM
             loadReferrals();
         }
 
+        public ObservableCollection<PatientsTreatmantRefarralsViewModel> Referrals { get; }
+
+        public PatientsTreatmantRefarralsViewModel Selected
+        {
+            get => _selected;
+            set
+            {
+                _selected = value;
+                if (_selected is not null)
+                {
+                    _treatment = new Treatment(0, value.Id,
+                        new TimeSlot(DateTime.Now, new TimeSpan(value.Days, 0, 0, 0)));
+                    loadRooms(_treatment);
+                }
+            }
+        }
+
+        public CancelCommand cancelCommand { get; set; }
+        public RelayCommand makeTreatmantCommand { get; set; }
+
         public ObservableCollection<RoomsViewModel> Rooms { get; }
         public RoomsViewModel? SelectedRoom { get; set; }
 
-        public void loadReferrals() {
+        public void loadReferrals()
+        {
             Referrals.Clear();
             Rooms.Clear();
 

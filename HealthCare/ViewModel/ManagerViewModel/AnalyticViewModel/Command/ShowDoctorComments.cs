@@ -1,15 +1,9 @@
-﻿using HealthCare.Application;
-using HealthCare.Command;
-using HealthCare.Service;
+﻿using System.Linq;
+using HealthCare.Application;
+using HealthCare.Core.PatientSatisfaction;
+using HealthCare.GUI.Command;
 using HealthCare.View.ManagerView.AnalyticsView;
-using HealthCare.ViewModel.ManagerViewModel.AnalyticViewModel;
 using HealthCare.ViewModel.ManagerViewModel.DataViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace HealthCare.ViewModel.ManagerViewModel.AnalyticViewModel.Command
 {

@@ -1,5 +1,5 @@
-﻿using HealthCare.ViewModel.NurseViewModel.VisitsMVVM;
-using System.Windows;
+﻿using System.Windows;
+using HealthCare.ViewModel.NurseViewModel.VisitsMVVM;
 
 namespace HealthCare.View.NurseView.VisitsView
 {

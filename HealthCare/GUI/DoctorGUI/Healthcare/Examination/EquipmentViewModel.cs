@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
+using HealthCare.Core.PhysicalAssets;
 using HealthCare.GUI.DoctorGUI.Healthcare.Examination.Command;
-using HealthCare.Model;
 using HealthCare.ViewModel;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.Examination

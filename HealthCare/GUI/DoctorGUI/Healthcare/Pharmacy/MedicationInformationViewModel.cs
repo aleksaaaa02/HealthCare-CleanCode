@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using HealthCare.Core.PatientHealthcare.Pharmacy;
 using HealthCare.ViewModel;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.Pharmacy;
 
 public class MedicationInformationViewModel : ViewModelBase
 {
-    private readonly Model.Medication _medication;
+    private readonly Medication _medication;
     private readonly ObservableCollection<string> _medicationIngredients;
     private string _description;
     private int _id;
     private string _name;
 
-    public MedicationInformationViewModel(Model.Medication medication)
+    public MedicationInformationViewModel(Medication medication)
     {
         _medication = medication;
         _medicationIngredients = new ObservableCollection<string>();

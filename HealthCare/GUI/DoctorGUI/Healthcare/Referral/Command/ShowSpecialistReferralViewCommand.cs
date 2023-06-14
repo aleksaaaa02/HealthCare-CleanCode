@@ -1,5 +1,5 @@
-﻿using HealthCare.Command;
-using HealthCare.Model;
+﻿using HealthCare.Core.Users.Model;
+using HealthCare.GUI.Command;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.Referral.Command;
 

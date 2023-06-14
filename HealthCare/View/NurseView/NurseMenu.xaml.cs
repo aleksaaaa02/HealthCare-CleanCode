@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel;
 using System.Windows;
+using HealthCare.View.NurseView.MedicationView;
+using HealthCare.View.NurseView.PatientCRUDView;
+using HealthCare.View.NurseView.ReceptionView;
 using HealthCare.View.NurseView.ReferralView;
+using HealthCare.View.NurseView.UrgentAppointmentView;
 using HealthCare.View.NurseView.VisitsView;
-using HealthCare.View.ReceptionView;
-using HealthCare.View.UrgentAppointmentView;
 using HealthCare.View.PatientView;
 
 namespace HealthCare.View.NurseView
@@ -48,6 +50,7 @@ namespace HealthCare.View.NurseView
         {
             new OrderMedicationView().ShowDialog();
         }
+
         private void mnuVisit_Click(object sender, RoutedEventArgs e)
         {
             new VisitView().ShowDialog();

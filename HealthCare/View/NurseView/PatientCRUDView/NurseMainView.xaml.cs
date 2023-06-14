@@ -5,11 +5,12 @@ using System.Windows;
 using System.Windows.Controls;
 using HealthCare.Application;
 using HealthCare.Application.Common;
-using HealthCare.Model;
-using HealthCare.Service.UserService;
+using HealthCare.Core.PatientHealthcare;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
 using HealthCare.ViewModel.NurseViewModel;
 
-namespace HealthCare.View.NurseView
+namespace HealthCare.View.NurseView.PatientCRUDView
 {
     public partial class NurseMainView : Window
     {

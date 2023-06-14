@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
-using HealthCare.Model;
+using HealthCare.Core.Users.Model;
 
 namespace HealthCare.GUI.DoctorGUI.PatientMedicalRecord
 {

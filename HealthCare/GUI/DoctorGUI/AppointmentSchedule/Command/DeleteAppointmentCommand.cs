@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using HealthCare.Application;
-using HealthCare.Command;
-using HealthCare.Service;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.GUI.Command;
 using HealthCare.View;
 
 namespace HealthCare.GUI.DoctorGUI.AppointmentSchedule.Command;

@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
+using HealthCare.Core.Scheduling.Examination;
 
 namespace HealthCare.GUI.DoctorGUI.AppointmentSchedule
 {
@@ -12,7 +13,7 @@ namespace HealthCare.GUI.DoctorGUI.AppointmentSchedule
             DataContext = new MakeAppointmentViewModel(viewModel, this);
         }
 
-        public MakeAppointmentView(DoctorMainViewModel viewModel, Model.Appointment appointment)
+        public MakeAppointmentView(DoctorMainViewModel viewModel, Appointment appointment)
         {
             InitializeComponent();
             DataContext = new MakeAppointmentViewModel(appointment, viewModel, this);

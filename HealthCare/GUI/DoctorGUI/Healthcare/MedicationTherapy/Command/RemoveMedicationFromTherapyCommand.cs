@@ -1,9 +1,8 @@
 ﻿using HealthCare.Application;
-using HealthCare.Command;
+using HealthCare.Core.PatientHealthcare.Pharmacy;
 using HealthCare.Exceptions;
+using HealthCare.GUI.Command;
 using HealthCare.GUI.DoctorGUI.Healthcare.PatientTreatment;
-using HealthCare.Model;
-using HealthCare.Service;
 using HealthCare.View;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.MedicationTherapy.Command

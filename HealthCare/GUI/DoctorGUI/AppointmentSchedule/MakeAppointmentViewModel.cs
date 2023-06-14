@@ -4,11 +4,12 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using HealthCare.Application;
-using HealthCare.Command;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
+using HealthCare.GUI.Command;
 using HealthCare.GUI.DoctorGUI.AppointmentSchedule.Command;
 using HealthCare.GUI.DoctorGUI.PatientMedicalRecord;
-using HealthCare.Model;
-using HealthCare.Service.UserService;
 using HealthCare.ViewModel;
 
 namespace HealthCare.GUI.DoctorGUI.AppointmentSchedule;

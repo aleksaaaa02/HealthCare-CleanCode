@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Windows;
 using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Model.Renovation;
-using HealthCare.Service.RenovationService;
-using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
+using HealthCare.Core.Interior;
+using HealthCare.Core.Interior.Renovation.Model;
+using HealthCare.Core.Interior.Renovation.Service;
+using HealthCare.Core.Scheduling;
+using HealthCare.ViewModel.ManagerViewModel.DataViewModel;
 
 namespace HealthCare.View.ManagerView.RenovationView
 {

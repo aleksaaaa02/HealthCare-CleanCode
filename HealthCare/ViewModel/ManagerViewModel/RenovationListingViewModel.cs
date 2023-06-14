@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using HealthCare.Application;
-using HealthCare.Service;
-using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
+using HealthCare.Core.Interior;
+using HealthCare.ViewModel.ManagerViewModel.DataViewModel;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {

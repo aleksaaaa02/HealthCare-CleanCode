@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using HealthCare.Model;
+using HealthCare.Core.Users.Model;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.Referral
 {

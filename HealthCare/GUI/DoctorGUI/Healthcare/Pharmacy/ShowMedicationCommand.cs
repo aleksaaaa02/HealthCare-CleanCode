@@ -1,5 +1,5 @@
-﻿using HealthCare.Command;
-using HealthCare.Model;
+﻿using HealthCare.Core.PatientHealthcare.Pharmacy;
+using HealthCare.GUI.Command;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.Pharmacy;
 

@@ -1,8 +1,7 @@
-﻿using HealthCare.View.PatientView;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 
-namespace HealthCare.View
+namespace HealthCare.View.PatientView
 {
     /// <summary>
     /// Interaction logic for ChatApp.xaml
@@ -16,7 +15,7 @@ namespace HealthCare.View
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if(e.LeftButton == MouseButtonState.Pressed)
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
                 DragMove();
             }

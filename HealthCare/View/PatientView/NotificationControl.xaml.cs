@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using HealthCare.Model;
+using HealthCare.Core.NotificationSystem;
 
 namespace HealthCare.View.PatientView
 {

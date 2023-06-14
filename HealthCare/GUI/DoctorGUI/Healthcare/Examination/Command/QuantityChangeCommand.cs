@@ -1,5 +1,5 @@
-﻿using HealthCare.Command;
-using HealthCare.Exceptions;
+﻿using HealthCare.Exceptions;
+using HealthCare.GUI.Command;
 using HealthCare.View;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.Examination.Command;

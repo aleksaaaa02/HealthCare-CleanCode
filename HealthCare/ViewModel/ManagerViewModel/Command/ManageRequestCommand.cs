@@ -1,15 +1,15 @@
 ﻿using HealthCare.Application;
-using HealthCare.Command;
+using HealthCare.Core.HumanResources;
 using HealthCare.Exceptions;
-using HealthCare.Service;
+using HealthCare.GUI.Command;
 using HealthCare.View;
 
 namespace HealthCare.ViewModel.ManagerViewModel.Command
 {
     public class ManageRequestCommand : CommandBase
     {
-        private readonly AbsenceRequestListingViewModel _model;
         private readonly bool _approve;
+        private readonly AbsenceRequestListingViewModel _model;
 
         public ManageRequestCommand(AbsenceRequestListingViewModel model, bool approve)
         {

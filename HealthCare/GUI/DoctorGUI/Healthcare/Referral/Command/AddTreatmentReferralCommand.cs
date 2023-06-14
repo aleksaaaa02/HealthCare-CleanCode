@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using HealthCare.Application;
-using HealthCare.Command;
+using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
+using HealthCare.Core.PatientHealthcare.Pharmacy;
+using HealthCare.Core.Users.Model;
 using HealthCare.Exceptions;
+using HealthCare.GUI.Command;
 using HealthCare.GUI.DoctorGUI.Healthcare.MedicationTherapy;
-using HealthCare.Model;
-using HealthCare.Service;
 using HealthCare.View;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.Referral.Command;

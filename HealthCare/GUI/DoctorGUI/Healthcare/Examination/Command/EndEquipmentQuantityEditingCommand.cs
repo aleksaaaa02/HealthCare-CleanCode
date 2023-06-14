@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using HealthCare.Application;
-using HealthCare.Command;
-using HealthCare.Service;
+using HealthCare.Core.PhysicalAssets;
+using HealthCare.GUI.Command;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.Examination.Command;
 

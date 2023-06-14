@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using HealthCare.Core.Users.Model;
 using HealthCare.GUI.DoctorGUI.PatientMedicalRecord.Command;
-using HealthCare.Model;
 using HealthCare.View;
 using HealthCare.ViewModel;
 

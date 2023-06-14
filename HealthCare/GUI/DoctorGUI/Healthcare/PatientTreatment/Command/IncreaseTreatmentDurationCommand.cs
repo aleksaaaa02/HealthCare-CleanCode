@@ -1,18 +1,18 @@
 ﻿using System;
 using HealthCare.Application;
-using HealthCare.Command;
+using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
 using HealthCare.Exceptions;
-using HealthCare.Service;
+using HealthCare.GUI.Command;
 using HealthCare.View;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.PatientTreatment.Command
 {
     public class IncreaseTreatmentDurationCommand : CommandBase
     {
-        private readonly Model.Treatment _treatment;
+        private readonly Treatment _treatment;
         private readonly DoctorTreatmentVisitViewModel _viewModel;
 
-        public IncreaseTreatmentDurationCommand(DoctorTreatmentVisitViewModel viewModel, Model.Treatment treatment)
+        public IncreaseTreatmentDurationCommand(DoctorTreatmentVisitViewModel viewModel, Treatment treatment)
         {
             _treatment = treatment;
             _viewModel = viewModel;

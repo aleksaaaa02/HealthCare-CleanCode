@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Windows;
 using HealthCare.Application;
-using HealthCare.Command;
+using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
+using HealthCare.Core.Scheduling;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Scheduling.Schedules;
 using HealthCare.Exceptions;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.ScheduleService;
+using HealthCare.GUI.Command;
 using HealthCare.View;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.MedicationTherapy.Command
@@ -13,14 +14,14 @@ namespace HealthCare.GUI.DoctorGUI.Healthcare.MedicationTherapy.Command
     public class MakeAppointmentFromReleaseCommand : CommandBase
     {
         private readonly Schedule _schedule;
-        private readonly Model.Treatment _treatment;
+        private readonly Treatment _treatment;
         private readonly TreatmentReferralService _treatmentReferralService;
         private readonly PatientReleaseAppointmentViewModel _viewModel;
         private readonly Window _window;
         private Appointment _appointment;
 
         public MakeAppointmentFromReleaseCommand(PatientReleaseAppointmentViewModel viewModel, Window window,
-            Model.Treatment treatment)
+            Treatment treatment)
         {
             _treatmentReferralService = Injector.GetService<TreatmentReferralService>();
             _schedule = Injector.GetService<Schedule>();

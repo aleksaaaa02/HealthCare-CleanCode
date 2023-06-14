@@ -1,9 +1,8 @@
 ﻿using HealthCare.Application;
-using HealthCare.Command;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Users.Service;
 using HealthCare.Exceptions;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.UserService;
+using HealthCare.GUI.Command;
 using HealthCare.View;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.Referral.Command;

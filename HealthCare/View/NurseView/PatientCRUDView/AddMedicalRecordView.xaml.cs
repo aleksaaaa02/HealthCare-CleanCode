@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Documents;
-using HealthCare.Model;
-using HealthCare.View.ReceptionView;
+using HealthCare.Core.PatientHealthcare;
+using HealthCare.View.NurseView.ReceptionView;
 
-namespace HealthCare.View.NurseView
+namespace HealthCare.View.NurseView.PatientCRUDView
 {
     public partial class AddMedicalRecordView : Window
     {

@@ -1,4 +1,5 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Users.Model;
 
 namespace HealthCare.ViewModel.NurseViewModel.DataViewModel
 {

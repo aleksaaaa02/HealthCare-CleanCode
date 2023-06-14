@@ -2,13 +2,13 @@
 using System.Windows;
 using System.Windows.Controls;
 using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.ScheduleService;
+using HealthCare.Core.NotificationSystem;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Scheduling.Schedules;
 using HealthCare.ViewModel.NurseViewModel;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 
-namespace HealthCare.View.UrgentAppointmentView
+namespace HealthCare.View.NurseView.UrgentAppointmentView
 {
     public partial class PostponableAppointmentsView : Window
     {

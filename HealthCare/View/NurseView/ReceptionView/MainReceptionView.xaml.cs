@@ -1,11 +1,11 @@
 ﻿using System.Windows;
 using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service.ScheduleService;
-using HealthCare.Service.UserService;
-using HealthCare.View.NurseView;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Scheduling.Schedules;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
 
-namespace HealthCare.View.ReceptionView
+namespace HealthCare.View.NurseView.ReceptionView
 {
     public partial class MainReceptionView : Window
     {

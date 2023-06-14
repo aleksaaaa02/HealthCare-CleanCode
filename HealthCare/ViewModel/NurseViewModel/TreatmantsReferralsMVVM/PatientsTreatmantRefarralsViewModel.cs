@@ -1,17 +1,15 @@
-﻿using System.ComponentModel;
+﻿using System.Linq;
 using HealthCare.Application;
-using HealthCare.Service;
-using HealthCare.Model;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
-using System.Linq;
-using HealthCare.Service.UserService;
+using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
+using HealthCare.Core.PatientHealthcare.Pharmacy;
+using HealthCare.Core.Users.Service;
 
 namespace HealthCare.ViewModel.NurseViewModel.TreatmantsReferralsMVVM
 {
     public class PatientsTreatmantRefarralsViewModel
     {
-        public PatientsTreatmantRefarralsViewModel(TreatmentReferral referral) {
+        public PatientsTreatmantRefarralsViewModel(TreatmentReferral referral)
+        {
             var doctorService = Injector.GetService<DoctorService>();
             var therapyService = Injector.GetService<TherapyService>();
             var medicationService = Injector.GetService<MedicationService>();

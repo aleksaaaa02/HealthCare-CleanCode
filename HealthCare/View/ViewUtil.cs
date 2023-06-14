@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using HealthCare.Application.Common;
-using HealthCare.Model;
+using HealthCare.Core.Interior;
+using HealthCare.Core.PatientHealthcare.Pharmacy;
+using HealthCare.Core.PhysicalAssets;
+using HealthCare.Core.Users.Model;
 
 namespace HealthCare.View
 {

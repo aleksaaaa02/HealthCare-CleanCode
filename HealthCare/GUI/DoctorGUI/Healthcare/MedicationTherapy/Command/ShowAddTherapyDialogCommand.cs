@@ -1,7 +1,7 @@
-﻿using HealthCare.Command;
+﻿using HealthCare.Core.PatientHealthcare.Pharmacy;
+using HealthCare.GUI.Command;
 using HealthCare.GUI.DoctorGUI.Healthcare.MedicalPrescription;
 using HealthCare.GUI.DoctorGUI.Healthcare.PatientTreatment;
-using HealthCare.Model;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.MedicationTherapy.Command
 {

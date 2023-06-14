@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using HealthCare.Application;
-using HealthCare.Service;
+using HealthCare.Core.PatientHealthcare.Pharmacy;
+using HealthCare.Core.PhysicalAssets;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 
 namespace HealthCare.ViewModel.NurseViewModel

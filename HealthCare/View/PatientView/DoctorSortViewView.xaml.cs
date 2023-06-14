@@ -1,6 +1,5 @@
 ﻿using System.Windows.Controls;
-using HealthCare.Model;
-using HealthCare.View.AppointmentView;
+using HealthCare.Core.Users.Model;
 using HealthCare.ViewModel.PatientViewModell;
 
 namespace HealthCare.View.PatientView

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Windows;
 using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service;
+using HealthCare.Core.NotificationSystem;
 using HealthCare.ViewModel.PatientViewModell;
 
 namespace HealthCare.View.PatientView

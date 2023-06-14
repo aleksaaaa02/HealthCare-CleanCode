@@ -1,6 +1,6 @@
-﻿using HealthCare.Model;
+﻿using System.Windows;
+using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
 using HealthCare.ViewModel.NurseViewModel.VisitsMVVM;
-using System.Windows;
 
 namespace HealthCare.View.NurseView.VisitsView
 {
@@ -9,7 +9,7 @@ namespace HealthCare.View.NurseView.VisitsView
         public VisitInformationView(Visit visit)
         {
             InitializeComponent();
-            DataContext = new VisitsInformationViewModel(visit,this);
+            DataContext = new VisitsInformationViewModel(visit, this);
         }
     }
 }

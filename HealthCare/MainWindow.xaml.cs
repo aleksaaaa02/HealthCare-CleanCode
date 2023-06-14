@@ -1,9 +1,10 @@
 using System.ComponentModel;
 using System.Windows;
 using HealthCare.Application;
+using HealthCare.Core.NotificationSystem;
+using HealthCare.Core.Users.Service;
 using HealthCare.Exceptions;
 using HealthCare.GUI.DoctorGUI;
-using HealthCare.Service;
 using HealthCare.View;
 using HealthCare.View.ManagerView;
 using HealthCare.View.NurseView;
@@ -43,7 +44,7 @@ namespace HealthCare
                         break;
                     case Role.Doctor:
                         ShowNotifications();
-                        new DoctorMainView(this).Show();                      
+                        new DoctorMainView(this).Show();
                         break;
                     case Role.Nurse:
                         new NurseMenu(this).Show();

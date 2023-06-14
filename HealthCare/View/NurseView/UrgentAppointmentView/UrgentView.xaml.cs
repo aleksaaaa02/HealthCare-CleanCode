@@ -4,13 +4,15 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.ScheduleService;
-using HealthCare.Service.UserService;
+using HealthCare.Core.NotificationSystem;
+using HealthCare.Core.Scheduling;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Scheduling.Schedules;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
 using HealthCare.ViewModel.NurseViewModel;
 
-namespace HealthCare.View.UrgentAppointmentView
+namespace HealthCare.View.NurseView.UrgentAppointmentView
 {
     public partial class UrgentView : Window
     {

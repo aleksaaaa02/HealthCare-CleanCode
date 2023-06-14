@@ -1,8 +1,8 @@
 ﻿using HealthCare.Application;
-using HealthCare.Command;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
+using HealthCare.GUI.Command;
 using HealthCare.GUI.DoctorGUI.Healthcare.Examination;
-using HealthCare.Model;
-using HealthCare.Service.UserService;
 using HealthCare.View;
 using HealthCare.ViewModel;
 

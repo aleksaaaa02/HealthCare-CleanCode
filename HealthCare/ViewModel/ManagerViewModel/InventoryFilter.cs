@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using HealthCare.Model;
+using HealthCare.Core.Interior;
+using HealthCare.Core.PhysicalAssets;
 using HealthCare.View;
+using HealthCare.ViewModel.ManagerViewModel.DataViewModel;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {

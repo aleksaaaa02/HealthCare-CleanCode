@@ -4,14 +4,13 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using HealthCare.Application;
+using HealthCare.Core.Scheduling.Examination;
 using HealthCare.GUI.DoctorGUI.AbsenceRequesting;
 using HealthCare.GUI.DoctorGUI.AppointmentSchedule;
 using HealthCare.GUI.DoctorGUI.AppointmentSchedule.Command;
 using HealthCare.GUI.DoctorGUI.Healthcare.Examination.Command;
 using HealthCare.GUI.DoctorGUI.Healthcare.PatientTreatment.Command;
 using HealthCare.GUI.DoctorGUI.PatientMedicalRecord.Command;
-using HealthCare.Model;
-using HealthCare.Service;
 using HealthCare.ViewModel;
 
 namespace HealthCare.GUI.DoctorGUI;

@@ -1,6 +1,5 @@
 ﻿using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service;
+using HealthCare.Core.PatientHealthcare.Pharmacy;
 using HealthCare.View;
 using HealthCare.ViewModel;
 

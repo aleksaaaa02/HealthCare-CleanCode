@@ -1,6 +1,6 @@
-﻿using HealthCare.Model;
+﻿using System.Windows;
+using HealthCare.Core.Users.Model;
 using HealthCare.ViewModel.NurseViewModel.TreatmantsReferralsMVVM;
-using System.Windows;
 
 namespace HealthCare.View.NurseView.ReferralView
 {

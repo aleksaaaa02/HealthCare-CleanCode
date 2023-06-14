@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Windows;
 using HealthCare.Application;
-using HealthCare.Command;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.ScheduleService;
-using HealthCare.Service.UserService;
+using HealthCare.Core.Scheduling;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Scheduling.Schedules;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
+using HealthCare.GUI.Command;
 using HealthCare.View;
 
 namespace HealthCare.GUI.DoctorGUI.AppointmentSchedule.Command;

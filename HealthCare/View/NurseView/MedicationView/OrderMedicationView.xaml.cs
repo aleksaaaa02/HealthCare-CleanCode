@@ -2,12 +2,11 @@
 using System.Windows;
 using System.Windows.Controls;
 using HealthCare.Application;
+using HealthCare.Core.PhysicalAssets;
 using HealthCare.Exceptions;
-using HealthCare.Model;
-using HealthCare.Service;
 using HealthCare.ViewModel.NurseViewModel;
 
-namespace HealthCare.View.NurseView
+namespace HealthCare.View.NurseView.MedicationView
 {
     public partial class OrderMedicationView : Window
     {

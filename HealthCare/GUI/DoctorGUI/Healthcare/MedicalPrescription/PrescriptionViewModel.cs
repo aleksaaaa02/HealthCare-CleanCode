@@ -2,10 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using HealthCare.Application;
+using HealthCare.Core.PatientHealthcare.Pharmacy;
+using HealthCare.Core.Users.Model;
 using HealthCare.GUI.DoctorGUI.Healthcare.MedicationTherapy.Command;
 using HealthCare.GUI.DoctorGUI.Healthcare.Pharmacy;
-using HealthCare.Model;
-using HealthCare.Service;
 using HealthCare.ViewModel;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.MedicalPrescription;
@@ -29,7 +29,7 @@ public class PrescriptionViewModel : ViewModelBase
         Update();
     }
 
-    public PrescriptionViewModel(Model.Therapy therapy) : this()
+    public PrescriptionViewModel(Therapy therapy) : this()
     {
         MakePrescriptionCommand = new AddMedicationToTreatmentCommand(this, therapy);
 

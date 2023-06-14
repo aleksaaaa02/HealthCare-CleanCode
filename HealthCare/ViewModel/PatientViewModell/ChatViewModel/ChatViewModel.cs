@@ -1,116 +1,39 @@
-﻿using HealthCare.Application;
-using HealthCare.Command;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.UserService;
-using HealthCare.View.PatientView;
-using HealthCare.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Windows;
 using System.Windows.Media;
+using HealthCare.Application;
+using HealthCare.Core.Communication;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
+using HealthCare.GUI.Command;
+using HealthCare.View.PatientView;
 
 namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
 {
     public class ChatViewModel : ViewModelBase
     {
-        private ObservableCollection<ContactViewModel> contacts;
-
-
-        public ObservableCollection<ContactViewModel> Contacts
-        {
-            get { return contacts; }
-            set { contacts = value;
-                OnPropertyChanged(nameof(Contacts));
-            }
-        }
-
-
-
         public readonly DoctorService doctorService;
-
-        private User loggedUser;
-        public User LoggedUser
-        {
-            get => loggedUser;
-            set
-            {
-                { 
-                    loggedUser = value; OnPropertyChanged();
-                    LoggedColorBrush = CalculateLoggedColor();
-
-                }
-            }
-        }
-
-        private SolidColorBrush loggedColorBrush;
-        public SolidColorBrush LoggedColorBrush
-        {
-            get { return loggedColorBrush; }
-            set
-            {
-                loggedColorBrush = value;
-                OnPropertyChanged(nameof(LoggedColorBrush));
-                
-            }
-        }
-
-
-
-        public ContactService contactService;
 
         public readonly MessageService messageService;
 
         public readonly NurseService nurseService;
-        public RelayCommand SendCommand { get; set; }
-        public RelayCommand OpenAddContactWindow { get; set; }
-
-        public event EventHandler ScrollToBottom;
-
-        private ContactViewModel _selectedContact;
-
-        public ContactViewModel SelectedContact
-        {
-            get { return _selectedContact; }
-            set
-            {
-                _selectedContact = value;
-                foreach (MessageViewModel message in _selectedContact.Messages.Where(x => x._Message.SenderJMBG != Context.Current.JMBG))
-                {
-                    message._Message.Seen = true;
-                    messageService.Update(message._Message);
-                }
-                _selectedContact.RecalculateAll();
-                OtherUsername = _selectedContact.OtherUsername;
-                OnPropertyChanged(nameof(SelectedContact));
-            }
-        }
-
-        private string otherUsername;
-
-        public string OtherUsername
-        {
-            get { return otherUsername; }
-            set { otherUsername = value;
-                OnPropertyChanged();
-            }
-        }
 
 
         private string _message;
 
-        public string Message
-        {
-            get { return _message; }
-            set
-            {
-                _message = value;
-                OnPropertyChanged();
-            }
-        }
+        private ContactViewModel _selectedContact;
+        private ObservableCollection<ContactViewModel> contacts;
+
+
+        public ContactService contactService;
+
+        private SolidColorBrush loggedColorBrush;
+
+        private User loggedUser;
+
+        private string otherUsername;
 
         public ChatViewModel()
         {
@@ -126,7 +49,6 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             {
                 if (_selectedContact != null)
                 {
-
                     Message message = new Message()
                     {
                         contactID = _selectedContact.contact.ID,
@@ -134,16 +56,14 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
                         SenderJMBG = Context.Current.JMBG,
                         Time = DateTime.Now,
                         Seen = false
-
-
                     };
                     MessageViewModel messageViewModel = new MessageViewModel(message);
-                    
-                    if(SelectedContact.Messages.Count>0)
+
+                    if (SelectedContact.Messages.Count > 0)
                     {
-                        
                         Message lastMessage = SelectedContact.Messages.Last()._Message;
-                        if (message.SenderJMBG == lastMessage.SenderJMBG &&  isSameMinute(message.Time,lastMessage.Time))
+                        if (message.SenderJMBG == lastMessage.SenderJMBG &&
+                            isSameMinute(message.Time, lastMessage.Time))
                         {
                             messageViewModel.IsFirst = false;
                         }
@@ -158,13 +78,11 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
                     }
 
 
-
-
                     _selectedContact.Messages.Add(messageViewModel);
                     messageService.Add(message);
                 }
-                Message = "";
 
+                Message = "";
             });
 
             OpenAddContactWindow = new RelayCommand(o =>
@@ -174,7 +92,84 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             });
         }
 
-        
+
+        public ObservableCollection<ContactViewModel> Contacts
+        {
+            get { return contacts; }
+            set
+            {
+                contacts = value;
+                OnPropertyChanged(nameof(Contacts));
+            }
+        }
+
+        public User LoggedUser
+        {
+            get => loggedUser;
+            set
+            {
+                {
+                    loggedUser = value;
+                    OnPropertyChanged();
+                    LoggedColorBrush = CalculateLoggedColor();
+                }
+            }
+        }
+
+        public SolidColorBrush LoggedColorBrush
+        {
+            get { return loggedColorBrush; }
+            set
+            {
+                loggedColorBrush = value;
+                OnPropertyChanged(nameof(LoggedColorBrush));
+            }
+        }
+
+        public RelayCommand SendCommand { get; set; }
+        public RelayCommand OpenAddContactWindow { get; set; }
+
+        public ContactViewModel SelectedContact
+        {
+            get { return _selectedContact; }
+            set
+            {
+                _selectedContact = value;
+                foreach (MessageViewModel message in _selectedContact.Messages.Where(x =>
+                             x._Message.SenderJMBG != Context.Current.JMBG))
+                {
+                    message._Message.Seen = true;
+                    messageService.Update(message._Message);
+                }
+
+                _selectedContact.RecalculateAll();
+                OtherUsername = _selectedContact.OtherUsername;
+                OnPropertyChanged(nameof(SelectedContact));
+            }
+        }
+
+        public string OtherUsername
+        {
+            get { return otherUsername; }
+            set
+            {
+                otherUsername = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Message
+        {
+            get { return _message; }
+            set
+            {
+                _message = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event EventHandler ScrollToBottom;
+
 
         public void loadContacts()
         {
@@ -185,6 +180,7 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
                 ContactViewModel a = new ContactViewModel(contact);
                 contactViewModels.Add(a);
             }
+
             Contacts = new ObservableCollection<ContactViewModel>(contactViewModels);
         }
 
@@ -197,16 +193,13 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
         }
 
 
-
         public bool isSameMinute(DateTime message1Timestamp, DateTime message2Timestamp)
         {
-
             return message1Timestamp.Year == message2Timestamp.Year &&
-                  message1Timestamp.Month == message2Timestamp.Month &&
-                  message1Timestamp.Day == message2Timestamp.Day &&
-                  message1Timestamp.Hour == message2Timestamp.Hour &&
-                  message1Timestamp.Minute == message2Timestamp.Minute;
-
+                   message1Timestamp.Month == message2Timestamp.Month &&
+                   message1Timestamp.Day == message2Timestamp.Day &&
+                   message1Timestamp.Hour == message2Timestamp.Hour &&
+                   message1Timestamp.Minute == message2Timestamp.Minute;
         }
     }
 }

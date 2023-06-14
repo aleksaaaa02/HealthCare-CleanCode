@@ -1,7 +1,7 @@
 ﻿using HealthCare.Application;
-using HealthCare.Command;
+using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
 using HealthCare.Exceptions;
-using HealthCare.Service;
+using HealthCare.GUI.Command;
 using HealthCare.View;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.PatientTreatment.Command
@@ -10,7 +10,7 @@ namespace HealthCare.GUI.DoctorGUI.Healthcare.PatientTreatment.Command
     {
         private readonly TreatmentService _treatmentService;
         private readonly DoctorTreatmentViewModel _viewModel;
-        private Model.Treatment _treatment;
+        private Treatment _treatment;
 
         public VisitPatientCommand(DoctorTreatmentViewModel viewModel)
         {

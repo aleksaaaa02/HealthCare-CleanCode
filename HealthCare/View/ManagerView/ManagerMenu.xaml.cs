@@ -1,7 +1,8 @@
-﻿using HealthCare.View.ManagerView.AnalyticsView;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Windows;
+using HealthCare.View.ManagerView.AnalyticsView;
+using HealthCare.View.ManagerView.RenovationView;
 
 namespace HealthCare.View.ManagerView
 {
@@ -55,6 +56,5 @@ namespace HealthCare.View.ManagerView
         {
             _loginWindow.Show();
         }
-
     }
 }

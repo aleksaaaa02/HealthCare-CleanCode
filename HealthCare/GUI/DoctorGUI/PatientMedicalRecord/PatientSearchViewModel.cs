@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using HealthCare.Application;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Users.Service;
 using HealthCare.GUI.DoctorGUI.PatientMedicalRecord.Command;
-using HealthCare.Service;
-using HealthCare.Service.UserService;
 using HealthCare.ViewModel;
 
 namespace HealthCare.GUI.DoctorGUI.PatientMedicalRecord;

@@ -1,5 +1,5 @@
-﻿using HealthCare.ViewModel.ManagerViewModel.AnalyticViewModel;
-using System.Windows;
+﻿using System.Windows;
+using HealthCare.ViewModel.ManagerViewModel.AnalyticViewModel;
 
 namespace HealthCare.View.ManagerView.AnalyticsView
 {

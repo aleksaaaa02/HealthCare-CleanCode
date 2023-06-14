@@ -1,28 +1,16 @@
-﻿using HealthCare.Application;
-using HealthCare.Service;
-using HealthCare.Service.UserService;
-using HealthCare.ViewModel.ManagerViewModel.AnalyticViewModel.Command;
-using HealthCare.ViewModel.ManagerViewModel.Command;
-using HealthCare.ViewModel.ManagerViewModel.DataViewModel;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
+using HealthCare.Application;
+using HealthCare.Core.Users.Service;
+using HealthCare.ViewModel.ManagerViewModel.AnalyticViewModel.Command;
+using HealthCare.ViewModel.ManagerViewModel.DataViewModel;
 
 namespace HealthCare.ViewModel.ManagerViewModel.AnalyticViewModel
 {
     public class DoctorAnalyticsViewModel
     {
         private readonly DoctorService _doctorService;
-        public ObservableCollection<DoctorSurveyViewModel> SurveyItems { get; }
-        public DoctorSurveyViewModel? SelectedDoctor { get; set; }
-        public ICommand ShowDoctorCommentsCommand { get; }
-        public ICommand LoadBestDoctorsCommand { get; }
-        public ICommand LoadWorstDoctorsCommand { get; }
-        public ICommand LoadAllDoctorsCommand { get; }
 
         public DoctorAnalyticsViewModel()
         {
@@ -34,6 +22,13 @@ namespace HealthCare.ViewModel.ManagerViewModel.AnalyticViewModel
             SurveyItems = new ObservableCollection<DoctorSurveyViewModel>();
             LoadAll();
         }
+
+        public ObservableCollection<DoctorSurveyViewModel> SurveyItems { get; }
+        public DoctorSurveyViewModel? SelectedDoctor { get; set; }
+        public ICommand ShowDoctorCommentsCommand { get; }
+        public ICommand LoadBestDoctorsCommand { get; }
+        public ICommand LoadWorstDoctorsCommand { get; }
+        public ICommand LoadAllDoctorsCommand { get; }
 
         public void LoadAll()
         {

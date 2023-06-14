@@ -4,7 +4,9 @@ using System.Collections.Specialized;
 using System.Linq;
 using HealthCare.Application;
 using HealthCare.Application.Common;
-using HealthCare.Service;
+using HealthCare.Core.Interior;
+using HealthCare.Core.PhysicalAssets;
+using HealthCare.ViewModel.ManagerViewModel.DataViewModel;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {

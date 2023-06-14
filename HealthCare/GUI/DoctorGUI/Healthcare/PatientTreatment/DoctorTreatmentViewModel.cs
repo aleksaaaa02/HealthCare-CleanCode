@@ -2,8 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using HealthCare.Application;
+using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
 using HealthCare.GUI.DoctorGUI.Healthcare.PatientTreatment.Command;
-using HealthCare.Service;
 using HealthCare.ViewModel;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.PatientTreatment

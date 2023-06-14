@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service.ScheduleService;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Scheduling.Schedules;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 
 namespace HealthCare.ViewModel.NurseViewModel

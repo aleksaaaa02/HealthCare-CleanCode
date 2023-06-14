@@ -1,33 +1,38 @@
-﻿using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.UserService;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows.Media;
+using HealthCare.Application;
+using HealthCare.Core.Communication;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
 
 namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
 {
     public class MessageViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
+        private bool isFirst;
+
+        private Message message;
+
+        private string messageText;
+
+        private SolidColorBrush senderColor;
+
+        private string senderName;
+
+        private string time;
+
+        public MessageViewModel(Message messageInput)
+        {
+            _Message = messageInput;
+        }
 
         public DoctorService doctorService => Injector.GetService<DoctorService>();
 
         public NurseService nurseService => Injector.GetService<NurseService>();
 
-        private Message message;
-
         public Message _Message
         {
-            get
-            {
-                return message;
-            }
+            get { return message; }
             set
             {
                 message = value;
@@ -36,14 +41,9 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             }
         }
 
-        private bool isFirst;
-
         public bool IsFirst
         {
-            get
-            {
-                return isFirst;
-            }
+            get { return isFirst; }
             set
             {
                 isFirst = value;
@@ -51,14 +51,9 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             }
         }
 
-        private SolidColorBrush senderColor;
-
         public SolidColorBrush SenderColor
         {
-            get
-            {
-                return senderColor;
-            }
+            get { return senderColor; }
             set
             {
                 senderColor = value;
@@ -66,14 +61,9 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             }
         }
 
-        private string time;
-
         public string Time
         {
-            get
-            {
-                return time;
-            }
+            get { return time; }
             set
             {
                 time = value;
@@ -81,13 +71,9 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             }
         }
 
-        private string senderName;
         public string SenderName
         {
-            get
-            {
-                return senderName;
-            }
+            get { return senderName; }
             set
             {
                 senderName = value;
@@ -95,14 +81,9 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             }
         }
 
-        private string messageText;
-
         public string MessageText
         {
-            get
-            {
-                return messageText;
-            }
+            get { return messageText; }
             set
             {
                 messageText = value;
@@ -110,11 +91,7 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             }
         }
 
-        public MessageViewModel(Message messageInput)
-        {
-            _Message = messageInput;
-            
-        }
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public void recalculateAll()
         {
@@ -130,8 +107,6 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             SenderName = senderUser.Username;
 
 
-
-
             User userSender = doctorService.TryGet(message.SenderJMBG);
             if (userSender == null)
             {
@@ -143,7 +118,6 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             Color color = (Color)ColorConverter.ConvertFromString(userColor);
             SolidColorBrush brush = new SolidColorBrush(color);
             SenderColor = brush;
-
         }
 
         protected virtual void OnPropertyChanged(string propertyName)

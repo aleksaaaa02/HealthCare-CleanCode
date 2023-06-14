@@ -1,5 +1,5 @@
-﻿using HealthCare.ViewModel.ManagerViewModel;
-using System.Windows;
+﻿using System.Windows;
+using HealthCare.ViewModel.ManagerViewModel;
 
 namespace HealthCare.View.ManagerView
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service.UserService;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
 
 namespace HealthCare.ViewModel.NurseViewModel
 {

@@ -2,16 +2,16 @@
 using System.Linq;
 using System.Windows;
 using HealthCare.Application;
+using HealthCare.Core.Interior.Renovation.Model;
+using HealthCare.Core.Interior.Renovation.Service;
+using HealthCare.Core.Scheduling;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Scheduling.Schedules;
 using HealthCare.Exceptions;
-using HealthCare.Model;
-using HealthCare.Model.Renovation;
-using HealthCare.Service.RenovationService;
-using HealthCare.Service.ScheduleService;
-using HealthCare.View.ManagerView.RenovationView;
-using HealthCare.ViewModel.DoctorViewModel.DataViewModel;
 using HealthCare.ViewModel.ManagerViewModel;
+using HealthCare.ViewModel.ManagerViewModel.DataViewModel;
 
-namespace HealthCare.View.ManagerView
+namespace HealthCare.View.ManagerView.RenovationView
 {
     public partial class RenovationListingView : Window
     {

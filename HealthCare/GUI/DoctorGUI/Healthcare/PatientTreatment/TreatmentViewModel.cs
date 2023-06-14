@@ -1,7 +1,7 @@
 ﻿using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.UserService;
+using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
 using HealthCare.View;
 using HealthCare.ViewModel;
 
@@ -9,9 +9,9 @@ namespace HealthCare.GUI.DoctorGUI.Healthcare.PatientTreatment
 {
     public class TreatmentViewModel : ViewModelBase
     {
-        private readonly Model.Treatment _treatment;
+        private readonly Treatment _treatment;
 
-        public TreatmentViewModel(Model.Treatment treatment)
+        public TreatmentViewModel(Treatment treatment)
         {
             _treatment = treatment;
             TreatmentReferral referral = Injector.GetService<TreatmentReferralService>().Get(treatment.ReferralId);

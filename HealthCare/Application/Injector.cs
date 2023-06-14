@@ -1,13 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using HealthCare.Application.Common;
-using HealthCare.Model;
-using HealthCare.Model.Renovation;
-using HealthCare.Repository;
-using HealthCare.Service;
-using HealthCare.Service.RenovationService;
-using HealthCare.Service.ScheduleService;
-using HealthCare.Service.UserService;
+using HealthCare.Core.Communication;
+using HealthCare.Core.HumanResources;
+using HealthCare.Core.Interior;
+using HealthCare.Core.Interior.Renovation.Model;
+using HealthCare.Core.Interior.Renovation.Service;
+using HealthCare.Core.NotificationSystem;
+using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
+using HealthCare.Core.PatientHealthcare.Pharmacy;
+using HealthCare.Core.PatientSatisfaction;
+using HealthCare.Core.PhysicalAssets;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Scheduling.Schedules;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
+using HealthCare.DataManagment.Repository;
 
 namespace HealthCare.Application
 {
@@ -101,7 +109,7 @@ namespace HealthCare.Application
             {
                 typeof(AbsenceRequestService), new AbsenceRequestService(
                     GetFileRepository<AbsenceRequest>(Paths.ABSENCE_REQUESTS)
-                    )
+                )
             },
             {
                 typeof(PrescriptionService), new Dictionary<string, object>()

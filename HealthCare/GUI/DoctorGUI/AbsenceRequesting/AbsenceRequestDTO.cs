@@ -1,6 +1,7 @@
 ﻿using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service.UserService;
+using HealthCare.Core.HumanResources;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
 using HealthCare.View;
 
 namespace HealthCare.GUI.DoctorGUI.AbsenceRequesting
@@ -12,7 +13,7 @@ namespace HealthCare.GUI.DoctorGUI.AbsenceRequesting
         public AbsenceRequestDTO(AbsenceRequest request)
         {
             _request = request;
-            Model.Doctor doctor = Injector.GetService<DoctorService>().Get(request.RequesterJMBG);
+            Doctor doctor = Injector.GetService<DoctorService>().Get(request.RequesterJMBG);
             EmployeeName = doctor.Name + " " + doctor.LastName;
         }
 

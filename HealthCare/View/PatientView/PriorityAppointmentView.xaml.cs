@@ -1,15 +1,7 @@
-﻿using System;
-using System.IO;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using HealthCare.Application;
-using HealthCare.Application.Common;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.ScheduleService;
-using HealthCare.ViewModel.PatientViewModell;
 
-namespace HealthCare.View.AppointmentView
+namespace HealthCare.View.PatientView
 {
     public partial class PriorityAppointmentView : UserControl
     {
@@ -85,8 +77,6 @@ namespace HealthCare.View.AppointmentView
 
         private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
-           
         }
-
     }
 }

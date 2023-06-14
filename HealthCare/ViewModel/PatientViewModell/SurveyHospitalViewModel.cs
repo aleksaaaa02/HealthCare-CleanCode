@@ -1,23 +1,27 @@
-﻿using HealthCare.Application;
-using HealthCare.Command;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.View;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.ComponentModel.Design;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using HealthCare.Application;
+using HealthCare.Core.PatientSatisfaction;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.GUI.Command;
+using HealthCare.View;
 
 namespace HealthCare.ViewModel.PatientViewModell
 {
     public class SurveyHospitalViewModel
     {
+        public AppointmentService appointmentService = Injector.GetService<AppointmentService>();
         private ObservableCollection<Survey> surveys;
+        public SurveyService surveyService = Injector.GetService<SurveyService>();
+
+        public SurveyHospitalViewModel()
+        {
+            Surveys = new ObservableCollection<Survey>();
+            loadSurveys();
+        }
+
         public ObservableCollection<Survey> Surveys
         {
             get => surveys;
@@ -30,22 +34,12 @@ namespace HealthCare.ViewModel.PatientViewModell
                 }
             }
         }
-        
-        public AppointmentService appointmentService = Injector.GetService<AppointmentService>();
-        public SurveyService surveyService = Injector.GetService<SurveyService>();
 
         public RelayCommand SubmitSurvey { get; set; }
-
-        public SurveyHospitalViewModel()
-        {
-            Surveys = new ObservableCollection<Survey>();
-            loadSurveys();
-        }
 
 
         public void loadSurveys()
         {
-
             Surveys.Add(new Survey
             {
                 TopicName = "GENERALNO",
@@ -95,15 +89,11 @@ namespace HealthCare.ViewModel.PatientViewModell
                     }
                 }
             });
-
-
-
-
         }
 
         public bool checkAllSurveys()
         {
-            int unCheckedSurveys = Surveys.Count(m => m.SelectedRating==0);
+            int unCheckedSurveys = Surveys.Count(m => m.SelectedRating == 0);
             if (unCheckedSurveys > 0) return false;
             return true;
         }
@@ -114,8 +104,5 @@ namespace HealthCare.ViewModel.PatientViewModell
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
-
-
 }

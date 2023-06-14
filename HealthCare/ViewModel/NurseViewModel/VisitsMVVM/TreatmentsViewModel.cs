@@ -1,13 +1,14 @@
 ﻿using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.UserService;
+using HealthCare.Core.Interior;
+using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
+using HealthCare.Core.Users.Service;
 
 namespace HealthCare.ViewModel.NurseViewModel.VisitsMVVM
 {
     public class TreatmentsViewModel
     {
-        public TreatmentsViewModel(Treatment treatment) {
+        public TreatmentsViewModel(Treatment treatment)
+        {
             var patientService = Injector.GetService<PatientService>();
             var treatmentReferralService = Injector.GetService<TreatmentReferralService>();
             var roomService = Injector.GetService<RoomService>();

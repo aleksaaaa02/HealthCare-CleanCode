@@ -1,4 +1,4 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Core.Users.Model;
 using HealthCare.ViewModel;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.Referral;

@@ -1,12 +1,4 @@
-﻿using HealthCare.Application;
-using HealthCare.Application.Common;
-using HealthCare.Command;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.ScheduleService;
-using HealthCare.Service.UserService;
-using HealthCare.View;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -14,45 +6,19 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using HealthCare.Application;
+using HealthCare.Application.Common;
+using HealthCare.Core.Scheduling;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Scheduling.Schedules;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
+using HealthCare.GUI.Command;
 
 namespace HealthCare.ViewModel.PatientViewModell
 {
     public class AppointmentPriorityViewModel
     {
-        private AppointmentService appointmentService { get; set; }
-
-        private Schedule schedule { get; set; }
-
-        private DoctorService doctorService { get; set; }
-
-        private PatientService patientService { get; set; }
-        public List<Doctor> Doctors {get; set;}
-        public Doctor SelectedDoctor    {get;set;}
-        public DateTime EndDate {get;    set;}    
-        public int HourStart    {get; set;}
- 
-        public int HourEnd  {get; set;}
-        public int MinuteStart  {get; set;}
-        public int MinuteEnd    {get; set; }
-        public bool IsDoctorPriority {    get; set;     }
-
-        public ObservableCollection<Appointment> resultAppointments { get; set; }
-        public ObservableCollection<Appointment> ResultAppointments
-        {
-            get => resultAppointments;
-            set
-            {
-                resultAppointments = value;
-                OnPropertyChanged(nameof(ResultAppointments));
-            }
-        }
-        public Appointment SelectedAppointment  {   get; set; }
-        public RelayCommand ShowAppointmentCommand { get; set; }
-        public RelayCommand ChangePriorityCommand { get; set; }
-        public RelayCommand CreateAppointmentCommand { get; set; }
-
         public AppointmentPriorityViewModel()
         {
             appointmentService = Injector.GetService<AppointmentService>();
@@ -63,23 +29,51 @@ namespace HealthCare.ViewModel.PatientViewModell
             ResultAppointments = new ObservableCollection<Appointment>();
             EndDate = DateTime.Now;
 
-            ShowAppointmentCommand = new RelayCommand(o => {
-                calculateAppointments();
-            });
+            ShowAppointmentCommand = new RelayCommand(o => { calculateAppointments(); });
 
-            CreateAppointmentCommand = new RelayCommand( o =>
-            {
-                createAppointment();
-            } );
+            CreateAppointmentCommand = new RelayCommand(o => { createAppointment(); });
 
             ChangePriorityCommand = new RelayCommand(o =>
             {
                 string priority = o as string;
                 ChangePriority(priority);
             });
-
         }
-  
+
+        private AppointmentService appointmentService { get; set; }
+
+        private Schedule schedule { get; set; }
+
+        private DoctorService doctorService { get; set; }
+
+        private PatientService patientService { get; set; }
+        public List<Doctor> Doctors { get; set; }
+        public Doctor SelectedDoctor { get; set; }
+        public DateTime EndDate { get; set; }
+        public int HourStart { get; set; }
+
+        public int HourEnd { get; set; }
+        public int MinuteStart { get; set; }
+        public int MinuteEnd { get; set; }
+        public bool IsDoctorPriority { get; set; }
+
+        public ObservableCollection<Appointment> resultAppointments { get; set; }
+
+        public ObservableCollection<Appointment> ResultAppointments
+        {
+            get => resultAppointments;
+            set
+            {
+                resultAppointments = value;
+                OnPropertyChanged(nameof(ResultAppointments));
+            }
+        }
+
+        public Appointment SelectedAppointment { get; set; }
+        public RelayCommand ShowAppointmentCommand { get; set; }
+        public RelayCommand ChangePriorityCommand { get; set; }
+        public RelayCommand CreateAppointmentCommand { get; set; }
+
         public void ChangePriority(string priority)
         {
             if (priority.Equals("Doctor"))
@@ -87,21 +81,21 @@ namespace HealthCare.ViewModel.PatientViewModell
                 IsDoctorPriority = true;
                 return;
             }
+
             IsDoctorPriority = false;
             return;
         }
-        
-        
-        
+
+
         public bool ValidateAllData()
         {
-
             Patient patient = (Patient)Context.Current;
             if (patient.Blocked)
-            return false;
+                return false;
 
-            if (EndDate == null || HourStart==null || MinuteStart == null || MinuteStart == null || MinuteEnd == null || SelectedDoctor == null)
-            return false;
+            if (EndDate == null || HourStart == null || MinuteStart == null || MinuteStart == null ||
+                MinuteEnd == null || SelectedDoctor == null)
+                return false;
             else
             {
                 DateTime currentDate = DateTime.Now;
@@ -111,17 +105,16 @@ namespace HealthCare.ViewModel.PatientViewModell
                 if (selectedDate < currentDate) return false;
             }
 
-            if (HourStart > HourEnd || (HourStart == HourEnd && MinuteStart >= MinuteEnd))  return false;
-            
+            if (HourStart > HourEnd || (HourStart == HourEnd && MinuteStart >= MinuteEnd)) return false;
+
             return true;
         }
 
         public void LoadAppointments(List<Appointment> appointments)
         {
-            
             ResultAppointments.Clear();
             List<Appointment> list = new List<Appointment>();
-            foreach(Appointment appointment in appointments)
+            foreach (Appointment appointment in appointments)
             {
                 ResultAppointments.Add(appointment);
             }
@@ -141,19 +134,19 @@ namespace HealthCare.ViewModel.PatientViewModell
             if (IsDoctorPriority) priority = "Doctor";
             else priority = "Date";
             getAppointments(EndDate, HourStart, MinuteStart, HourEnd, MinuteEnd, SelectedDoctor, priority);
-
         }
 
         public void createAppointment()
         {
-            if (SelectedAppointment == null)  return;
-            if (!schedule.IsAvailable(SelectedAppointment)) return;        
+            if (SelectedAppointment == null) return;
+            if (!schedule.IsAvailable(SelectedAppointment)) return;
             schedule.Add(SelectedAppointment);
             WriteAction("CREATE");
             IsUserBlocked();
         }
 
-        public void getAppointments(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor, string priority)
+        public void getAppointments(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd,
+            Doctor doctor, string priority)
         {
             endDate = endDate.AddHours(hoursEnd);
             endDate = endDate.AddMinutes(minutesEnd);
@@ -161,7 +154,8 @@ namespace HealthCare.ViewModel.PatientViewModell
 
             if (priority == "Date")
             {
-                resultAppointment = GetAppointmentByDateAndDoctor(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd, doctor);
+                resultAppointment =
+                    GetAppointmentByDateAndDoctor(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd, doctor);
                 if (resultAppointment == null)
                 {
                     resultAppointment = GetAppointmentByDate(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd);
@@ -169,17 +163,22 @@ namespace HealthCare.ViewModel.PatientViewModell
             }
             else
             {
-                resultAppointment = GetAppointmentByDoctor(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd, doctor);
+                resultAppointment =
+                    GetAppointmentByDoctor(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd, doctor);
                 if (resultAppointment == null)
                 {
-                    resultAppointment = GetAppointmentByDateAndDoctor(endDate, hoursStart, minutesStart, hoursEnd, minutesEnd, doctor);
+                    resultAppointment = GetAppointmentByDateAndDoctor(endDate, hoursStart, minutesStart, hoursEnd,
+                        minutesEnd, doctor);
                 }
             }
 
-            LoadAppointments(resultAppointment != null ? new List<Appointment> { resultAppointment } : GetAppointmentByDoctor(doctor));
+            LoadAppointments(resultAppointment != null
+                ? new List<Appointment> { resultAppointment }
+                : GetAppointmentByDoctor(doctor));
         }
 
-        public Appointment GetAppointmentByDoctor(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor)
+        public Appointment GetAppointmentByDoctor(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd,
+            int minutesEnd, Doctor doctor)
         {
             endDate = endDate.AddHours(hoursEnd);
             endDate = endDate.AddMinutes(minutesEnd);
@@ -201,7 +200,8 @@ namespace HealthCare.ViewModel.PatientViewModell
 
                     if (startDate.Hour >= hoursEnd && startDate.Minute >= minutesEnd)
                     {
-                        startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart, minutesStart, 0);
+                        startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart,
+                            minutesStart, 0);
                     }
                 }
             }
@@ -230,7 +230,8 @@ namespace HealthCare.ViewModel.PatientViewModell
             return appointments;
         }
 
-        public Appointment GetAppointmentByDate(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd)
+        public Appointment GetAppointmentByDate(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd,
+            int minutesEnd)
         {
             endDate = endDate.AddHours(hoursEnd);
             endDate = endDate.AddMinutes(minutesEnd);
@@ -256,7 +257,8 @@ namespace HealthCare.ViewModel.PatientViewModell
 
                         if (startDate.Hour >= hoursEnd && startDate.Minute >= minutesEnd)
                         {
-                            startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart, minutesStart, 0);
+                            startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart,
+                                minutesStart, 0);
                         }
                     }
                 }
@@ -265,7 +267,8 @@ namespace HealthCare.ViewModel.PatientViewModell
             return null;
         }
 
-        public Appointment GetAppointmentByDateAndDoctor(DateTime endDate, int hoursStart, int minutesStart, int hoursEnd, int minutesEnd, Doctor doctor)
+        public Appointment GetAppointmentByDateAndDoctor(DateTime endDate, int hoursStart, int minutesStart,
+            int hoursEnd, int minutesEnd, Doctor doctor)
         {
             endDate = endDate.AddHours(hoursEnd);
             endDate = endDate.AddMinutes(minutesEnd);
@@ -287,13 +290,15 @@ namespace HealthCare.ViewModel.PatientViewModell
 
                     if (startDate.Hour >= hoursEnd && startDate.Minute >= minutesEnd)
                     {
-                        startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart, minutesStart, 0);
+                        startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day + 1, hoursStart,
+                            minutesStart, 0);
                     }
                 }
             }
 
             return null;
         }
+
         public void WriteAction(string action)
         {
             string stringtocsv = Context.Current.JMBG + "|" + action + "|" + Util.ToString(DateTime.Now) +

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Windows;
 using HealthCare.Application;
+using HealthCare.Core.Interior;
+using HealthCare.Core.PhysicalAssets;
 using HealthCare.Exceptions;
-using HealthCare.Model;
-using HealthCare.Service;
 using HealthCare.ViewModel.ManagerViewModel;
+using HealthCare.ViewModel.ManagerViewModel.DataViewModel;
 
 namespace HealthCare.View.ManagerView
 {

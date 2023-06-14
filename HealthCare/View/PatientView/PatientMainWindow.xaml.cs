@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using HealthCare.Application;
-using HealthCare.View.AppointmentView;
 
 namespace HealthCare.View.PatientView
 {

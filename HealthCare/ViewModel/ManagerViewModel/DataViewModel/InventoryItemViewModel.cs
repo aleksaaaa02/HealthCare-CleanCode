@@ -1,8 +1,9 @@
 ﻿using System.Windows.Media;
-using HealthCare.Model;
+using HealthCare.Core.Interior;
+using HealthCare.Core.PhysicalAssets;
 using HealthCare.View;
 
-namespace HealthCare.ViewModel.ManagerViewModel
+namespace HealthCare.ViewModel.ManagerViewModel.DataViewModel
 {
     public class InventoryItemViewModel
     {

@@ -2,10 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using HealthCare.Application;
+using HealthCare.Core.PatientHealthcare.Pharmacy;
+using HealthCare.Core.Users.Model;
 using HealthCare.GUI.DoctorGUI.Healthcare.Pharmacy;
 using HealthCare.GUI.DoctorGUI.Healthcare.Referral.Command;
-using HealthCare.Model;
-using HealthCare.Service;
 using HealthCare.ViewModel;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.Referral;

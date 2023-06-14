@@ -1,5 +1,5 @@
 ﻿using System.Windows.Media;
-using HealthCare.Model;
+using HealthCare.Core.PatientHealthcare.Pharmacy;
 using HealthCare.View;
 
 namespace HealthCare.ViewModel.NurseViewModel.DataViewModel

@@ -1,23 +1,17 @@
-﻿using HealthCare.Service.RenovationService;
-using HealthCareCli.CliUtil;
-using HealthCare.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HealthCare.Model;
-using HealthCare.Application;
-using HealthCare.Service;
+﻿using HealthCare.Application;
 using HealthCare.Application.Common;
+using HealthCare.Core.Interior;
+using HealthCare.Core.Interior.Renovation.Service;
+using HealthCare.Exceptions;
 using HealthCare.View;
+using HealthCareCli.CliUtil;
 
-namespace HealthCareCli.Renovation
+namespace HealthCareCli.Manager
 {
     public class RenovationHandler
     {
-        private readonly SplittingRenovationService _splittingService;
         private readonly JoiningRenovationService _joiningService;
+        private readonly SplittingRenovationService _splittingService;
 
         public void Handle()
         {
@@ -30,12 +24,10 @@ namespace HealthCareCli.Renovation
 
         private void HandleSplitting()
         {
-
         }
 
         private void HandleJoining()
         {
-
         }
 
         private Room GetRoom()
@@ -69,7 +61,7 @@ namespace HealthCareCli.Renovation
                 Console.WriteLine("Tip renoviranja\n");
                 Console.WriteLine("1 spajanje");
                 Console.WriteLine("2 deljenje\n");
-                
+
                 try
                 {
                     int choice = Input.ReadInt("Izbor: ", "Nepostojeća opcija.");
@@ -77,7 +69,8 @@ namespace HealthCareCli.Renovation
                         throw new ValidationException("Nepostojeća opcija.");
 
                     return choice == 2;
-                } catch (ValidationException ve)
+                }
+                catch (ValidationException ve)
                 {
                     Console.WriteLine(ve.Message);
                 }

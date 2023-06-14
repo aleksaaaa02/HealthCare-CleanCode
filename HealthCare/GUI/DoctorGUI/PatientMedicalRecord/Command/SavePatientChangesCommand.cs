@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using HealthCare.Application;
-using HealthCare.Command;
+using HealthCare.Core.PatientHealthcare;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
 using HealthCare.Exceptions;
-using HealthCare.Model;
-using HealthCare.Service.UserService;
+using HealthCare.GUI.Command;
 using HealthCare.View;
 
 namespace HealthCare.GUI.DoctorGUI.PatientMedicalRecord.Command;

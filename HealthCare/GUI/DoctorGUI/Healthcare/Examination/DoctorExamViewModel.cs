@@ -3,13 +3,13 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using HealthCare.Application;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
 using HealthCare.GUI.DoctorGUI.Healthcare.Examination.Command;
 using HealthCare.GUI.DoctorGUI.Healthcare.MedicalPrescription;
 using HealthCare.GUI.DoctorGUI.Healthcare.Referral.Command;
 using HealthCare.GUI.DoctorGUI.PatientMedicalRecord.Command;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.UserService;
 using HealthCare.ViewModel;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.Examination;

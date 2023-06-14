@@ -1,38 +1,22 @@
-﻿using HealthCare.Application;
-using HealthCare.Command;
-using HealthCare.Exceptions;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.ViewModel.ManagerViewModel.Command;
-using HealthCare.ViewModel.ManagerViewModel.DataViewModel;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using HealthCare.Application;
+using HealthCare.Core.HumanResources;
+using HealthCare.Exceptions;
+using HealthCare.GUI.Command;
+using HealthCare.ViewModel.ManagerViewModel.Command;
+using HealthCare.ViewModel.ManagerViewModel.DataViewModel;
 
 namespace HealthCare.ViewModel.ManagerViewModel
 {
     public class AbsenceRequestListingViewModel : ViewModelBase
     {
-        public ICommand ApproveRequestCommand { get; }
-        public ICommand DeclineRequestCommand { get; }
-        public ICommand ExitCommand { get; }
-        public ObservableCollection<AbsenceRequestViewModel> Items { get; }
         private readonly AbsenceRequestService _absenceRequestService;
         private bool _areApproved = false;
-        public bool AreApproved 
-        {
-            get => _areApproved;
-            set 
-            {
-                _areApproved = value;
-                LoadAll();
-            }
-        }
 
-        public AbsenceRequestViewModel? SelectedRequest { get; set; }
-
-        public AbsenceRequestListingViewModel(Window view) 
+        public AbsenceRequestListingViewModel(Window view)
         {
             Items = new ObservableCollection<AbsenceRequestViewModel>();
             _absenceRequestService = Injector.GetService<AbsenceRequestService>();
@@ -42,6 +26,23 @@ namespace HealthCare.ViewModel.ManagerViewModel
             ExitCommand = new CancelCommand(view);
             LoadAll();
         }
+
+        public ICommand ApproveRequestCommand { get; }
+        public ICommand DeclineRequestCommand { get; }
+        public ICommand ExitCommand { get; }
+        public ObservableCollection<AbsenceRequestViewModel> Items { get; }
+
+        public bool AreApproved
+        {
+            get => _areApproved;
+            set
+            {
+                _areApproved = value;
+                LoadAll();
+            }
+        }
+
+        public AbsenceRequestViewModel? SelectedRequest { get; set; }
 
         public void LoadAll()
         {

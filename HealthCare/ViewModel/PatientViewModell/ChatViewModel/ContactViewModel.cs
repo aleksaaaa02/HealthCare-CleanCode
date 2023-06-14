@@ -1,20 +1,37 @@
-﻿using HealthCare.Application;
-using HealthCare.Service;
-using HealthCare.Service.UserService;
-using HealthCare.ViewModel.PatientViewModell.ChatViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Media;
+using HealthCare.Application;
+using HealthCare.Core.Communication;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
 
-namespace HealthCare.Model
+namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
 {
-    public class ContactViewModel :  INotifyPropertyChanged
+    public class ContactViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        private Contact _contact;
+
+        private SolidColorBrush _doctorColorBrush;
+
+        private ObservableCollection<MessageViewModel> _messages;
+
+
+        private string _otherUsername;
+
+
+        private int _unreadMessages;
+
+        private string lastMessage;
+
+
+        public ContactViewModel(Contact contactInput)
+        {
+            contact = contactInput;
+        }
 
         public MessageService messageService => Injector.GetService<MessageService>();
 
@@ -22,20 +39,9 @@ namespace HealthCare.Model
 
         public NurseService nurseService => Injector.GetService<NurseService>();
 
-        
-
-        public ContactViewModel(Contact contactInput)
-        {
-            contact = contactInput;
-        }
-
-        private Contact _contact;
         public Contact contact
         {
-            get
-            {
-                return _contact;
-            }
+            get { return _contact; }
             set
             {
                 _contact = value;
@@ -45,58 +51,47 @@ namespace HealthCare.Model
             }
         }
 
-
-
-        private string _otherUsername;
         public string OtherUsername
         {
-            get
-            {
-                return _otherUsername;
-            }
+            get { return _otherUsername; }
             set
             {
-                    string otherJMBG = _contact.Participants.Where(x => x != Context.Current.JMBG).First();
-                    User otherUser = doctorService.TryGet(otherJMBG);
-                    if (otherUser == null)
-                    {
-                        otherUser = nurseService.TryGet(otherJMBG);
-                    }
-                    _otherUsername = otherUser.Username;
-                    DoctorColorBrush = CalculateDoctorColor();
-                    OnPropertyChanged(nameof(OtherUsername));
+                string otherJMBG = _contact.Participants.Where(x => x != Context.Current.JMBG).First();
+                User otherUser = doctorService.TryGet(otherJMBG);
+                if (otherUser == null)
+                {
+                    otherUser = nurseService.TryGet(otherJMBG);
+                }
+
+                _otherUsername = otherUser.Username;
+                DoctorColorBrush = CalculateDoctorColor();
+                OnPropertyChanged(nameof(OtherUsername));
             }
         }
 
-        private ObservableCollection<MessageViewModel> _messages;
         public ObservableCollection<MessageViewModel> Messages
         {
-            get { 
-                return _messages; 
-            }
+            get { return _messages; }
             set
             {
                 if (_messages != value)
-                {              
+                {
                     _messages = value;
                     OnPropertyChanged(nameof(Messages));
                 }
             }
         }
 
-        private string lastMessage;
-        public string LastMessage { 
-            get
-            { 
-                return lastMessage; 
-            } 
-            set {
+        public string LastMessage
+        {
+            get { return lastMessage; }
+            set
+            {
                 lastMessage = value;
                 OnPropertyChanged(nameof(LastMessage));
-            } 
+            }
         }
 
-        private SolidColorBrush _doctorColorBrush;
         public SolidColorBrush DoctorColorBrush
         {
             get { return _doctorColorBrush; }
@@ -106,11 +101,6 @@ namespace HealthCare.Model
                 OnPropertyChanged(nameof(DoctorColorBrush));
             }
         }
-
-
-
-
-        private int _unreadMessages;
 
         public int UnreadMessages
         {
@@ -124,6 +114,9 @@ namespace HealthCare.Model
                 }
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -133,6 +126,7 @@ namespace HealthCare.Model
         {
             OtherUsername = CalculateOtherUsername();
         }
+
         private string CalculateOtherUsername()
         {
             string otherJMBG = _contact.Participants.Where(x => x != Context.Current.JMBG).First();
@@ -149,6 +143,7 @@ namespace HealthCare.Model
             {
                 otherUser = nurseService.TryGet(otherJMBG);
             }
+
             return otherUser;
         }
 
@@ -171,10 +166,9 @@ namespace HealthCare.Model
 
         private SolidColorBrush CalculateDoctorColor()
         {
-
             User otherUser = GetOtherUser();
             string userColor = otherUser.Color;
-            
+
             Color color = (Color)ColorConverter.ConvertFromString(userColor);
             SolidColorBrush brush = new SolidColorBrush(color);
             return brush;
@@ -187,13 +181,14 @@ namespace HealthCare.Model
             foreach (Message message in messageService.GetByContact(contact.ID))
             {
                 MessageViewModel messageViewModel = new MessageViewModel(message);
-                if(counter==0)
+                if (counter == 0)
                 {
                     messageViewModel.IsFirst = true;
                 }
-                else 
-                { 
-                    if(isSameMinute(messageViewModel._Message.Time, messages[counter-1]._Message.Time) && messages[counter-1]._Message.SenderJMBG==messageViewModel._Message.SenderJMBG)
+                else
+                {
+                    if (isSameMinute(messageViewModel._Message.Time, messages[counter - 1]._Message.Time) &&
+                        messages[counter - 1]._Message.SenderJMBG == messageViewModel._Message.SenderJMBG)
                     {
                         messageViewModel.IsFirst = false;
                     }
@@ -206,23 +201,18 @@ namespace HealthCare.Model
                 messages.Add(messageViewModel);
                 counter++;
             }
+
             Messages = new ObservableCollection<MessageViewModel>(messages);
         }
 
 
         public bool isSameMinute(DateTime message1Timestamp, DateTime message2Timestamp)
         {
-            
             return message1Timestamp.Year == message2Timestamp.Year &&
-                  message1Timestamp.Month == message2Timestamp.Month &&
-                  message1Timestamp.Day == message2Timestamp.Day &&
-                  message1Timestamp.Hour == message2Timestamp.Hour &&
-                  message1Timestamp.Minute == message2Timestamp.Minute;
-
+                   message1Timestamp.Month == message2Timestamp.Month &&
+                   message1Timestamp.Day == message2Timestamp.Day &&
+                   message1Timestamp.Hour == message2Timestamp.Hour &&
+                   message1Timestamp.Minute == message2Timestamp.Minute;
         }
-
     }
-
-
-    
 }

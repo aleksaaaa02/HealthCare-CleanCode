@@ -1,4 +1,4 @@
-﻿using HealthCare.Model;
+﻿using HealthCare.Core.Users.Model;
 using HealthCare.View;
 using HealthCare.ViewModel;
 

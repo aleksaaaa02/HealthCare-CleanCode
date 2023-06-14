@@ -2,7 +2,7 @@
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 using HealthCare.ViewModel.PatientViewModell;
 
-namespace HealthCare.View.AppointmentView
+namespace HealthCare.View.PatientView
 {
     public partial class PatientRecordView : UserControl
     {

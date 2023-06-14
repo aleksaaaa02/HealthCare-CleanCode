@@ -3,10 +3,9 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using HealthCare.Application;
+using HealthCare.Core.PhysicalAssets;
 using HealthCare.GUI.DoctorGUI.Healthcare.Examination.Command;
-using HealthCare.Service;
 using HealthCare.ViewModel;
-
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.Examination
 {

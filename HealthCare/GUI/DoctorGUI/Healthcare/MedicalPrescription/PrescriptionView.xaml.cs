@@ -1,5 +1,6 @@
 ﻿using System.Windows;
-using HealthCare.Model;
+using HealthCare.Core.PatientHealthcare.Pharmacy;
+using HealthCare.Core.Users.Model;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.MedicalPrescription
 {
@@ -11,7 +12,7 @@ namespace HealthCare.GUI.DoctorGUI.Healthcare.MedicalPrescription
             DataContext = new PrescriptionViewModel(patient);
         }
 
-        public PrescriptionView(Model.Therapy therapy)
+        public PrescriptionView(Therapy therapy)
         {
             InitializeComponent();
             DataContext = new PrescriptionViewModel(therapy);

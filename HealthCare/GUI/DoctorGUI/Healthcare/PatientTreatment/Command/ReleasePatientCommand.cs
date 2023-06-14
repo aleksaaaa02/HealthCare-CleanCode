@@ -1,17 +1,17 @@
 ﻿using System.Windows;
 using HealthCare.Application;
-using HealthCare.Command;
-using HealthCare.Service;
+using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
+using HealthCare.GUI.Command;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.PatientTreatment.Command
 {
     public class ReleasePatientCommand : CommandBase
     {
-        private readonly Model.Treatment _treatment;
+        private readonly Treatment _treatment;
         private readonly TreatmentService _treatmentService;
         private readonly Window _window;
 
-        public ReleasePatientCommand(Window window, Model.Treatment treatment)
+        public ReleasePatientCommand(Window window, Treatment treatment)
         {
             _treatmentService = Injector.GetService<TreatmentService>();
 

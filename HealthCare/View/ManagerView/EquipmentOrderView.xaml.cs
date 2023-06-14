@@ -2,9 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using HealthCare.Application;
+using HealthCare.Core.PhysicalAssets;
 using HealthCare.Exceptions;
-using HealthCare.Model;
-using HealthCare.Service;
 using HealthCare.ViewModel.ManagerViewModel;
 
 namespace HealthCare.View.ManagerView

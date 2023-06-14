@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using HealthCare.Model;
+using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.PatientTreatment
 {

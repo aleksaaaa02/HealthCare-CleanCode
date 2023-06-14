@@ -1,44 +1,26 @@
-﻿using HealthCare.Application;
-using HealthCare.Application.Common;
-using HealthCare.Command;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.UserService;
-using HealthCare.View;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel.Design;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using HealthCare.Application;
+using HealthCare.Core.Communication;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
+using HealthCare.GUI.Command;
+using HealthCare.View;
 
 namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
 {
     public class AddContactViewModel
     {
-        private readonly NurseService nurseService;
-        private readonly DoctorService doctorService;
         private readonly ContactService contactService;
-        public RelayCommand AddContactCommand { get; set; }
+        private readonly DoctorService doctorService;
+        private readonly NurseService nurseService;
 
 
         private ObservableCollection<User> allUsers;
 
-        public ObservableCollection<User> AllUsers
-        {
-            get { return allUsers; }
-            set { allUsers = value; }
-        }
-
         private User selectedUser;
-
-        public User SelectedUser
-        {
-            get { return selectedUser; }
-            set { selectedUser = value; }
-        }
 
 
         public AddContactViewModel(ChatViewModel previousModel)
@@ -53,12 +35,15 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             {
                 if (selectedUser != null)
                 {
-                    if(selectedUser.JMBG==Context.Current.JMBG)
+                    if (selectedUser.JMBG == Context.Current.JMBG)
                     {
                         ViewUtil.ShowError("Ne mozete dodati sebe");
                         return;
                     }
-                    int count = contactService.GetForUser(Context.Current.JMBG).Count(contact => contact.Participants.Contains(Context.Current.JMBG) && contact.Participants.Contains(selectedUser.JMBG));
+
+                    int count = contactService.GetForUser(Context.Current.JMBG).Count(contact =>
+                        contact.Participants.Contains(Context.Current.JMBG) &&
+                        contact.Participants.Contains(selectedUser.JMBG));
 
                     if (count > 0)
                     {
@@ -71,11 +56,9 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
                             {
                                 Participants = new List<String> { Context.Current.JMBG, SelectedUser.JMBG }
                             }
-                            );
+                        );
                         previousModel.loadContacts();
                         ViewUtil.ShowInformation("Uspesno ste dodali kontakt");
-                        
-
                     }
                 }
                 else
@@ -85,6 +68,20 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             });
         }
 
+        public RelayCommand AddContactCommand { get; set; }
+
+        public ObservableCollection<User> AllUsers
+        {
+            get { return allUsers; }
+            set { allUsers = value; }
+        }
+
+        public User SelectedUser
+        {
+            get { return selectedUser; }
+            set { selectedUser = value; }
+        }
+
         public void fillAllUsers()
         {
             List<User> AllUsersList = new List<User>();
@@ -92,10 +89,12 @@ namespace HealthCare.ViewModel.PatientViewModell.ChatViewModel
             {
                 AllUsersList.Add(item);
             }
+
             foreach (var item in doctorService.GetAll())
             {
                 AllUsersList.Add(item);
             }
+
             AllUsers = new ObservableCollection<User>(AllUsersList);
         }
     }

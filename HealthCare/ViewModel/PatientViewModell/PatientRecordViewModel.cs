@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.UserService;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
 using HealthCare.ViewModel.NurseViewModel.DataViewModel;
 
 namespace HealthCare.ViewModel.PatientViewModell

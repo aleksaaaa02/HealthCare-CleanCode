@@ -4,12 +4,13 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using HealthCare.Application;
+using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
+using HealthCare.Core.PatientHealthcare.Pharmacy;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
 using HealthCare.GUI.DoctorGUI.Healthcare.MedicalPrescription;
 using HealthCare.GUI.DoctorGUI.Healthcare.MedicationTherapy.Command;
 using HealthCare.GUI.DoctorGUI.Healthcare.PatientTreatment.Command;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.UserService;
 using HealthCare.View;
 using HealthCare.ViewModel;
 
@@ -20,13 +21,13 @@ namespace HealthCare.GUI.DoctorGUI.Healthcare.PatientTreatment
         private readonly Patient _patient;
         private readonly PrescriptionService _prescriptionService;
         private readonly Therapy _therapy;
-        private readonly Model.Treatment _treatment;
+        private readonly Treatment _treatment;
         private readonly TreatmentReferral _treatmentReferral;
         private DateTime _end;
 
         private ObservableCollection<TherapyPrescriptionViewModel> _therapyMedications;
 
-        public DoctorTreatmentVisitViewModel(Window window, Model.Treatment treatment)
+        public DoctorTreatmentVisitViewModel(Window window, Treatment treatment)
         {
             _prescriptionService = Injector.GetService<PrescriptionService>(Injector.THERAPY_PRESCRIPTION_S);
             _treatment = treatment;
@@ -70,7 +71,7 @@ namespace HealthCare.GUI.DoctorGUI.Healthcare.PatientTreatment
         public ICommand AddMedicationToTherapyCommand { get; }
         public ICommand RemoveMedicationFromTherapyCommand { get; }
 
-        public void LoadInformation(Model.Treatment treatment)
+        public void LoadInformation(Treatment treatment)
         {
             Start = treatment.TreatmentDuration.Start;
             End = treatment.TreatmentDuration.End;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using HealthCare.Application;
-using HealthCare.Service;
+using HealthCare.Core.HumanResources;
 using HealthCare.ViewModel;
 
 namespace HealthCare.GUI.DoctorGUI.AbsenceRequesting

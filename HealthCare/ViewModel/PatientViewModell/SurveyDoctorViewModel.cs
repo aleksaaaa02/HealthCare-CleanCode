@@ -1,25 +1,42 @@
-using HealthCare.Application;
-using HealthCare.Command;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.UserService;
-using HealthCare.View;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Security.RightsManagement;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using HealthCare.Application;
+using HealthCare.Core.PatientSatisfaction;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
+using HealthCare.GUI.Command;
+using HealthCare.View;
 
 namespace HealthCare.ViewModel.PatientViewModell
-{  
+{
     public class SurveyDoctorViewModel
     {
+        private ObservableCollection<Appointment> appointments;
+
+
+        public AppointmentService appointmentService = Injector.GetService<AppointmentService>();
+
+        private ObservableCollection<doctorRow> doctors;
+        public DoctorService doctorService = Injector.GetService<DoctorService>();
+
+        private Appointment selectedAppointment;
+
+        private doctorRow selectedDoctor;
         private ObservableCollection<Survey> surveys;
+        public SurveyService surveyService = Injector.GetService<SurveyService>();
+
+        public SurveyDoctorViewModel()
+        {
+            Surveys = new ObservableCollection<Survey>();
+            Doctors = new ObservableCollection<doctorRow>();
+            loadSurveys();
+            loadAppointments();
+        }
+
         public ObservableCollection<Survey> Surveys
         {
             get => surveys;
@@ -33,8 +50,6 @@ namespace HealthCare.ViewModel.PatientViewModell
             }
         }
 
-
-        private ObservableCollection<Appointment> appointments;
         public ObservableCollection<Appointment> Appointments
         {
             get => appointments;
@@ -48,7 +63,6 @@ namespace HealthCare.ViewModel.PatientViewModell
             }
         }
 
-        private ObservableCollection<doctorRow> doctors;
         public ObservableCollection<doctorRow> Doctors
         {
             get => doctors;
@@ -62,44 +76,27 @@ namespace HealthCare.ViewModel.PatientViewModell
             }
         }
 
-        private doctorRow selectedDoctor;
-
         public doctorRow SelectedDoctor
         {
             get { return selectedDoctor; }
-            set { selectedDoctor = value;
+            set
+            {
+                selectedDoctor = value;
                 OnPropertyChanged(nameof(SelectedDoctor));
             }
         }
 
-        private Appointment selectedAppointment;
-
         public Appointment SelectedAppointment
         {
             get { return selectedAppointment; }
-            set { selectedAppointment = value;}
+            set { selectedAppointment = value; }
         }
-
-
-
-        public AppointmentService appointmentService = Injector.GetService<AppointmentService>();
-        public SurveyService surveyService = Injector.GetService<SurveyService>();
-        public DoctorService doctorService = Injector.GetService<DoctorService>();
 
         public RelayCommand SubmitSurvey { get; set; }
-
-        public SurveyDoctorViewModel()
-        {
-            Surveys = new ObservableCollection<Survey>();
-            Doctors = new ObservableCollection<doctorRow>();
-            loadSurveys();
-            loadAppointments();
-        }
 
 
         public void loadSurveys()
         {
-
             Surveys.Add(new Survey
             {
                 TopicName = "GENERALNO",
@@ -127,6 +124,7 @@ namespace HealthCare.ViewModel.PatientViewModell
                     ViewUtil.ShowWarning("Morate izabrati pregled");
                     return;
                 }
+
                 if (!checkAllSurveys())
                 {
                     ViewUtil.ShowWarning("Morate popuniti sva polja");
@@ -144,15 +142,12 @@ namespace HealthCare.ViewModel.PatientViewModell
                     newSurvey.DoctorJMBG = SelectedDoctor.DoctorJMBG;
                     surveyService.Add(newSurvey);
                 }
+
                 double newRating = surveyService.GetAverageDoctor(SelectedDoctor.DoctorJMBG);
                 Doctor doctor = doctorService.Get(SelectedDoctor.DoctorJMBG);
                 doctor.Rating = newRating;
                 doctorService.Update(doctor);
             });
-
-
-
-
         }
 
         public bool checkAllSurveys()
@@ -165,10 +160,11 @@ namespace HealthCare.ViewModel.PatientViewModell
         public void loadAppointments()
         {
             Appointments = new ObservableCollection<Appointment>(appointmentService.GetByPatient(Context.Current.JMBG));
-            foreach(Appointment appointment in Appointments)
+            foreach (Appointment appointment in Appointments)
             {
                 Doctor doctor = doctorService.Get(appointment.DoctorJMBG);
-                Doctors.Add(new doctorRow(doctor.JMBG, appointment.AppointmentID, appointment.TimeSlot.Start, doctor.Name, doctor.LastName));
+                Doctors.Add(new doctorRow(doctor.JMBG, appointment.AppointmentID, appointment.TimeSlot.Start,
+                    doctor.Name, doctor.LastName));
             }
         }
 
@@ -182,16 +178,11 @@ namespace HealthCare.ViewModel.PatientViewModell
 
     public class doctorRow
     {
-        public string JMBG { get; set; }
-        public string Name { get; set; }
-        public string LastName { get; set; }
+        public doctorRow()
+        {
+        }
 
-        public int AppointmentID { get; set; }
-        public DateTime Time { get; set; }
-        public string DoctorJMBG { get; set; }
-        public doctorRow() { }
-
-        public doctorRow(string doctorJMBG, int appointmentID,DateTime time, string name, string surname)
+        public doctorRow(string doctorJMBG, int appointmentID, DateTime time, string name, string surname)
         {
             DoctorJMBG = doctorJMBG;
             AppointmentID = appointmentID;
@@ -200,5 +191,12 @@ namespace HealthCare.ViewModel.PatientViewModell
             LastName = surname;
         }
 
+        public string JMBG { get; set; }
+        public string Name { get; set; }
+        public string LastName { get; set; }
+
+        public int AppointmentID { get; set; }
+        public DateTime Time { get; set; }
+        public string DoctorJMBG { get; set; }
     }
 }

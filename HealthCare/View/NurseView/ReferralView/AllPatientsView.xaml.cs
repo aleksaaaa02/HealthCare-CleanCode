@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using HealthCare.Model;
+using HealthCare.Core.Users.Model;
 using HealthCare.View.NurseView.PrescriptionView;
 using HealthCare.ViewModel.NurseViewModel;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
 using HealthCare.ViewModel;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.MedicationTherapy.Command
@@ -11,7 +12,7 @@ namespace HealthCare.GUI.DoctorGUI.Healthcare.MedicationTherapy.Command
         private int _hours;
         private int _minutes;
 
-        public PatientReleaseAppointmentViewModel(Window window, Model.Treatment treatment)
+        public PatientReleaseAppointmentViewModel(Window window, Treatment treatment)
         {
             _date = DateTime.Today.AddDays(10);
             MakeAppointmentCommand = new MakeAppointmentFromReleaseCommand(this, window, treatment);

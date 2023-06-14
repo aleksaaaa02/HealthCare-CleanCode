@@ -1,4 +1,4 @@
-﻿using HealthCare.Command;
+﻿using HealthCare.GUI.Command;
 
 namespace HealthCare.GUI.DoctorGUI.AbsenceRequesting
 {

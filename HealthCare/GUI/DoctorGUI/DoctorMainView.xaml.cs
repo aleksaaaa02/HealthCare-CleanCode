@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows;
-using HealthCare.View;
+using HealthCare.View.PatientView;
 
 namespace HealthCare.GUI.DoctorGUI
 {

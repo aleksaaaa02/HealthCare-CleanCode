@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using HealthCare.Model;
+using HealthCare.Core.PatientHealthcare.Pharmacy;
 using HealthCare.View;
 using HealthCare.ViewModel;
 

@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 using HealthCare.Application;
-using HealthCare.Command;
-using HealthCare.Model;
-using HealthCare.Service;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.GUI.Command;
 
 namespace HealthCare.GUI.DoctorGUI.Healthcare.Examination.Command;
 

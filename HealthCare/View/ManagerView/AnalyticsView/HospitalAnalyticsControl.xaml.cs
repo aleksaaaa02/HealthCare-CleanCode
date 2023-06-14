@@ -1,14 +1,13 @@
-﻿using HealthCare.ViewModel.ManagerViewModel.AnalyticViewModel;
-using System;
-using System.Collections.Generic;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
+using HealthCare.ViewModel.ManagerViewModel.AnalyticViewModel;
 
 namespace HealthCare.View.ManagerView.AnalyticsView
 {
     public partial class SurveyListingControl : UserControl
     {
         private readonly SurveyListingViewModel _model;
+
         public SurveyListingControl(SurveyListingViewModel model)
         {
             InitializeComponent();

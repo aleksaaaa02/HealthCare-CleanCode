@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows;
-using HealthCare.Application;
-using HealthCare.Service.ScheduleService;
+﻿using System.Windows;
 using HealthCare.ViewModel.ManagerViewModel;
 
 namespace HealthCare.View.ManagerView

@@ -1,10 +1,10 @@
 ﻿using System;
 using HealthCare.Application;
-using HealthCare.Command;
+using HealthCare.Core.HumanResources;
+using HealthCare.Core.Scheduling;
+using HealthCare.Core.Scheduling.Schedules;
 using HealthCare.Exceptions;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.ScheduleService;
+using HealthCare.GUI.Command;
 using HealthCare.View;
 
 namespace HealthCare.GUI.DoctorGUI.AbsenceRequesting

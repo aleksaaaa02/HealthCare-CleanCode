@@ -1,11 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Documents;
 using HealthCare.Application;
-using HealthCare.Model;
-using HealthCare.Service;
-using HealthCare.Service.UserService;
+using HealthCare.Core.Scheduling.Examination;
+using HealthCare.Core.Users.Model;
+using HealthCare.Core.Users.Service;
 
-namespace HealthCare.View.NurseView
+namespace HealthCare.View.NurseView.ReceptionView
 {
     public partial class NurseAnamnesisView : Window
     {

@@ -1,12 +1,10 @@
 ﻿using HealthCare.Application;
+using HealthCare.Core.Users.Service;
 using HealthCare.Exceptions;
-using HealthCare.Service;
 using HealthCareCli.CliUtil;
-using HealthCareCli.Exceptions;
 using HealthCareCli.Manager;
 using HealthCareCli.Nurse;
 using HealthCareCli.Patient;
-using HealthCareCli.Renovation;
 
 namespace HealthCareCli
 {
@@ -49,7 +47,8 @@ namespace HealthCareCli
             try
             {
                 return Injector.GetService<LoginService>().Login(username, password);
-            } catch (LoginException ex)
+            }
+            catch (LoginException ex)
             {
                 Console.WriteLine(ex.Message);
                 return null;
