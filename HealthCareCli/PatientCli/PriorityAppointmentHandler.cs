@@ -25,13 +25,9 @@ namespace HealthCareCli.PatientCli
             while (true) {
                 while (true)
                 {
-                    Console.Write("Unesite krajnji datum (DD-MM-YYYY): ");
-                    if (DateTime.TryParse(Console.ReadLine(), out date))
-                    {
-                        if (date < DateTime.Now) Console.WriteLine("Datum koji ste uneli je u proslosti, pokusajte ponovo");
-                        break;
-                    }
-                    Console.WriteLine("Neispravan datum. Molimo Vas pokusajte ponovo");
+                    date = DefaultHandler.HandleDateTimeChoice("Unesite krajnji datum(DD - MM - YYYY): ");
+                    if (date >= DateTime.Now) break;
+                    Console.WriteLine("Datum koji ste uneli je u proslosti, pokusajte ponovo.");
                 }
 
 
@@ -158,7 +154,7 @@ namespace HealthCareCli.PatientCli
 
             }
         }
-
+        
 
         private bool TryParseTime(string timeInput, out int hours, out int minutes)
         {
