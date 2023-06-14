@@ -7,8 +7,8 @@ using System.Text;
 using HealthCare.Application;
 using HealthCare.Application.Common;
 using HealthCare.Model;
-using HealthCare.Service;
 using HealthCare.Service.ScheduleService;
+using HealthCare.Service.UserService;
 
 namespace HealthCare.ViewModel.PatientViewModell
 {
