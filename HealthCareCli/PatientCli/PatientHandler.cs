@@ -1,6 +1,5 @@
 ﻿using HealthCare.Application;
 using HealthCareCli.CliUtil;
-using HealthCareCli.Patient;
 
 namespace HealthCareCli.PatientCli
 {
