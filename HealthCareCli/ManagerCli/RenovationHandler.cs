@@ -1,8 +1,10 @@
 ﻿using HealthCare.Application;
 using HealthCare.Application.Exceptions;
+using HealthCare.Core.Interior;
 using HealthCare.Core.Interior.Renovation.Model;
 using HealthCare.Core.Interior.Renovation.Service;
 using HealthCare.Core.Scheduling;
+using HealthCare.Core.Scheduling.Schedules;
 using HealthCareCli.CliUtil;
 using HealthCareCli.Exceptions;
 using HealthCareCli.Manager;
@@ -11,7 +13,13 @@ namespace HealthCareCli.Renovation
 {
     public class RenovationHandler
     {
-        private readonly RoomHandler roomHandler = new RoomHandler();
+        private readonly RoomHandler roomHandler = new();
+        private readonly RoomSchedule roomSchedule;
+
+        public RenovationHandler()
+        {
+            roomSchedule = Injector.GetService<RoomSchedule>();
+        }
 
         public void Handle()
         {
@@ -26,59 +34,76 @@ namespace HealthCareCli.Renovation
 
                     Console.WriteLine("Renovacija ne može da bude u prošlosti.");
                 }
+                Console.WriteLine();
 
                 bool splitting = GetRenovationType();
+                Console.WriteLine();
 
                 if (splitting) HandleSplitting(slot);
                 else HandleJoining(slot);
             }
-            catch (ExitSignal)
+            catch (ValidationException ve)
             {
-                Console.WriteLine("Prekid operacije.");
+                Console.WriteLine(ve.Message + "\n");
             }
         }
 
         private void HandleSplitting(TimeSlot slot)
         {
-            Console.WriteLine("Izaberite sobu za deljenje\n");
+            Console.WriteLine("Izaberite sobu za deljenje");
             var roomId = roomHandler.HandleRoomChoice();
+            if (!roomSchedule.IsAvailable(roomId, slot))
+                throw new ValidationException("Izabrana soba nije slobodna u datom terminu.");
 
-            Console.WriteLine("Unos prve nove sobe");
+            Console.WriteLine("\nUnos prve nove sobe");
             var newRoom1 = roomHandler.HandleRoomCreation();
-            Console.WriteLine("Unos druge nove sobe");
+            Console.WriteLine("\nUnos druge nove sobe");
             var newRoom2 = roomHandler.HandleRoomCreation();
 
             var renovation = new SplittingRenovation(roomId, slot, newRoom1, newRoom2);
             Injector.GetService<SplittingRenovationService>().Add(renovation);
-            Console.WriteLine("Uspešno zakazano deljenje sobe.");
+            Console.WriteLine("\nUspešno zakazano deljenje sobe.\n");
         }
 
         private void HandleJoining(TimeSlot slot)
         {
-            Console.WriteLine("Izbor prve sobe za spajanje");
-            var roomId1 = roomHandler.HandleRoomChoice();
-            Console.WriteLine("Izbor druge sobe za spajanje");
-            var roomId2 = roomHandler.HandleRoomChoice();
+            int roomId1, roomId2;
 
-            Console.WriteLine("Unos sobe koja će biti kreirana");
+            while (true)
+            {
+                Console.WriteLine("Izbor prve sobe za spajanje");
+                roomId1 = roomHandler.HandleRoomChoice();
+                if (!roomSchedule.IsAvailable(roomId1, slot))
+                    throw new ValidationException("Izabrana soba nije slobodna u datom terminu.");
+
+                Console.WriteLine("\nIzbor druge sobe za spajanje");
+                roomId2 = roomHandler.HandleRoomChoice();
+                if (!roomSchedule.IsAvailable(roomId2, slot))
+                    throw new ValidationException("Izabrana soba nije slobodna u datom terminu.");
+
+                if (roomId1 != roomId2) break;
+                Console.WriteLine("Id-jevi soba ne smeju da budu isti.");
+            }
+
+            Console.WriteLine("\nUnos sobe koja će biti kreirana");
             var newRoom = roomHandler.HandleRoomCreation();
 
             var renovation = new JoiningRenovation(roomId1, slot, roomId2, newRoom);
             Injector.GetService<JoiningRenovationService>().Add(renovation);
-            Console.WriteLine("Uspešno zakazano deljenje sobe.");
+            Console.WriteLine("\nUspešno zakazano deljenje sobe.\n");
         }
 
         private bool GetRenovationType()
         {
             while (true)
             {
-                Console.WriteLine("Tip renoviranja\n");
+                Console.WriteLine("Tip renoviranja");
                 Console.WriteLine("1 spajanje");
                 Console.WriteLine("2 deljenje\n");
 
                 try
                 {
-                    int choice = Input.ReadInt("Izbor: ", "Nepostojeća opcija.");
+                    var choice = Input.ReadInt("Izbor: ", "Nepostojeća opcija.");
                     if (choice != 1 && choice != 2)
                         throw new ValidationException("Nepostojeća opcija.");
 

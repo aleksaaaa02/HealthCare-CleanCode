@@ -16,6 +16,7 @@ namespace HealthCareCli.Manager
                 Console.WriteLine("q Odjava");
 
                 input = Input.ReadLine("\nOpcija: ").ToLower();
+                Console.WriteLine();
 
                 switch (input)
                 {
