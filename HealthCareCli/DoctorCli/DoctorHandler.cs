@@ -94,7 +94,7 @@ namespace HealthCareCli.DoctorCli
             int appointmentID;
             while (true)
             {
-                appointmentID = DefaultHandler.HandleInt("Unesite ID Appointmenta koji zelite da izmenite");
+                appointmentID = DefaultHandler.HandleInt("Unesite ID Appointmenta koji zelite da izmenite: ");
                 if (_appointmentHandler.AppointmentExist(appointmentID))
                 {
                     break;
@@ -110,30 +110,20 @@ namespace HealthCareCli.DoctorCli
                 Console.WriteLine("1 Izmeni pacijenta ");
                 Console.WriteLine("2 Izmeni datum i vreme");
                 Console.WriteLine("3 Izmeni trajanje");
-                Console.WriteLine("q Odjava");
+                Console.WriteLine("q Nazad");
 
                 input = Input.ReadLine("\nOpcija: ").ToLower();
 
                 switch (input)
                 {
                     case "1":
-                        PrintAllPatients();
-                        string patientJmbg = GetPatientJMBG();
-                        appointment.PatientJMBG = patientJmbg;
-                        TrySave(appointment, false);
+                        EditAppointmentPatient(appointment);
                         break;
                     case "2":
-                        DateTime newDate = GetDateTime();
-                        appointment.TimeSlot.Start = newDate;
-                        TrySave(appointment, false);
+                        EditAppointmentDateTime(appointment);
                         break;
                     case "3":
-                        if (appointment.IsOperation)
-                        {
-                            TimeSpan duration = GetDuration();
-                            appointment.TimeSlot.Duration = duration;
-                            TrySave(appointment, false);
-                        }
+                        EditAppointmentDuration(appointment);
                         break;
                     case "q":
                         Console.WriteLine("\n\n");
@@ -143,6 +133,34 @@ namespace HealthCareCli.DoctorCli
                         break;
                 }
             }
+        }
+
+        private void EditAppointmentDuration(Appointment appointment)
+        {
+            if (appointment.IsOperation)
+            {
+                TimeSpan duration = GetDuration();
+                appointment.TimeSlot.Duration = duration;
+                TrySave(appointment, false);
+            }
+            else
+            {
+                Console.Write("Trajanje se ne moze izmeniti kod pregleda");
+            }
+        }
+
+        private void EditAppointmentDateTime(Appointment appointment)
+        {
+            DateTime newDate = GetDateTime();
+            appointment.TimeSlot.Start = newDate;
+            TrySave(appointment, false);
+        }
+
+        private void EditAppointmentPatient(Appointment appointment)
+        {
+            string patientJmbg = GetPatientJMBG();
+            appointment.PatientJMBG = patientJmbg;
+            TrySave(appointment, false);
         }
 
         private void HandleDeleteAppointment()
