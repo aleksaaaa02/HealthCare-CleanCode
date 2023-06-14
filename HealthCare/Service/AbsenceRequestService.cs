@@ -1,4 +1,6 @@
-﻿using HealthCare.Application;
+using System.Collections.Generic;
+using System.Linq;
+using HealthCare.Application;
 using HealthCare.Model;
 using HealthCare.Repository;
 using HealthCare.Service.ScheduleService;
@@ -13,6 +15,11 @@ namespace HealthCare.Service
         {
         }
 
+        public IEnumerable<AbsenceRequest> GetDoctorRequests(string doctorJMBG)
+        {
+            return GetAll().Where(x => x.RequesterJMBG == doctorJMBG);
+        }
+        
         public bool OverlappingOther(AbsenceRequest request)
         {
             return GetAll().Any(r => 
