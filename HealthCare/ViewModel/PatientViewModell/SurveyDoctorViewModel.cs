@@ -77,7 +77,7 @@ namespace HealthCare.ViewModel.PatientViewModell
             {
                 TopicName = "DOKTOR_GENERAL",
                 DoctorJMBG = "",
-                Description = "Kako ste zadovoljni generalnim kvalitetom usluge bolince?",
+                Description = "Kako ste zadovoljni generalnim kvalitetom usluge?",
                 SelectedRating = 1,
                 AdditionalComment = ""
             });
@@ -87,7 +87,7 @@ namespace HealthCare.ViewModel.PatientViewModell
             {
                 TopicName = "DOKTOR_PREPORUCILI",
                 DoctorJMBG = "",
-                Description = "Da li biste predlozili bolnicu svojim prijateljima?",
+                Description = "Da li biste predlozili doktora svojim prijateljima?",
                 SelectedRating = 1,
                 AdditionalComment = ""
             });

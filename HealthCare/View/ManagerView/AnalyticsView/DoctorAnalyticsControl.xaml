@@ -35,96 +35,101 @@
             <Button Content="Najlosija 3 doktora" FontWeight="Bold" Command="{Binding SelectedAnalytic.Model.LoadWorstDoctorsCommand}"/>
             <Button Content="Prikaži sve" Command="{Binding SelectedAnalytic.Model.LoadAllDoctorsCommand}"/>
         </DockPanel>
-        
-        <ListView Grid.Row="1" ItemsSource="{Binding SelectedAnalytic.Model.SurveyItems}" SelectedItem="{Binding SelectedAnalytic.Model.SelectedDoctor}" MouseDoubleClick="ListView_MouseDoubleClick">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Doktor" DisplayMemberBinding="{Binding Doctor}" />
-                    <GridViewColumn Header="Prosečna ocena" DisplayMemberBinding="{Binding RatingPresenter}" />
-                    <GridViewColumn Header="Recenzije" >
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <ListView ItemsSource="{Binding Surveys}" BorderBrush="Transparent" Background="Transparent">
-                                    <ListView.ItemContainerStyle>
-                                        <Style TargetType="ListViewItem">
-                                            <Setter Property="Focusable" Value="False"/>
-                                            <Setter Property="IsEnabled" Value="False"/>
-                                            <Setter Property="IsHitTestVisible" Value="False"/>
-                                        </Style>
-                                    </ListView.ItemContainerStyle>
-                                    <ListView.View>
-                                        <GridView ColumnHeaderContainerStyle="{StaticResource headerStyle}">
-                                            <GridViewColumn Header="Naziv stavke" DisplayMemberBinding="{Binding Title}" />
-                                            <GridViewColumn Width="auto" Header="Ocene">
-                                                <GridViewColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <Grid >
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition />
-                                                                <RowDefinition />
-                                                                <RowDefinition />
-                                                                <RowDefinition />
-                                                                <RowDefinition />
-                                                            </Grid.RowDefinitions>
 
-                                                            <DockPanel Style="{StaticResource DockAlign}">
-                                                                <fa:IconBlock Style="{StaticResource RatingStar}"  />
-                                                                <fa:IconBlock Style="{StaticResource RatingStar}"  />
-                                                                <fa:IconBlock Style="{StaticResource RatingStar}"  />
-                                                                <fa:IconBlock Style="{StaticResource RatingStar}"  />
-                                                                <fa:IconBlock Style="{StaticResource RatingStar}"  />
-                                                            </DockPanel>
-                                                            <DockPanel Style="{StaticResource DockAlign}" Grid.Row="1" >
-                                                                <fa:IconBlock Style="{StaticResource RatingStar}"  />
-                                                                <fa:IconBlock Style="{StaticResource RatingStar}"  />
-                                                                <fa:IconBlock Style="{StaticResource RatingStar}"  />
-                                                                <fa:IconBlock Style="{StaticResource RatingStar}"  />
-                                                            </DockPanel>
-                                                            <DockPanel Style="{StaticResource DockAlign}" Grid.Row="2" >
-                                                                <fa:IconBlock Style="{StaticResource RatingStar}"  />
-                                                                <fa:IconBlock Style="{StaticResource RatingStar}"  />
-                                                                <fa:IconBlock Style="{StaticResource RatingStar}"  />
-                                                            </DockPanel>
-                                                            <DockPanel Style="{StaticResource DockAlign}" Grid.Row="3" >
-                                                                <fa:IconBlock Style="{StaticResource RatingStar}"  />
-                                                                <fa:IconBlock Style="{StaticResource RatingStar}"  />
-                                                            </DockPanel>
-                                                            <DockPanel Style="{StaticResource DockAlign}" Grid.Row="4">
-                                                                <fa:IconBlock Style="{StaticResource RatingStar}"  />
-                                                            </DockPanel>
-                                                        </Grid>
-                                                    </DataTemplate>
-                                                </GridViewColumn.CellTemplate>
-                                            </GridViewColumn>
-                                            <GridViewColumn Width="auto" Header="Broj ocena">
-                                                <GridViewColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <Grid>
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition />
-                                                                <RowDefinition />
-                                                                <RowDefinition />
-                                                                <RowDefinition />
-                                                                <RowDefinition />
-                                                            </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="1">
+            <ListView SelectionMode="Single"
+                ItemsSource="{Binding SelectedAnalytic.Model.SurveyItems}" 
+                SelectedItem="{Binding SelectedAnalytic.Model.SelectedDoctor}" 
+                MouseDoubleClick="ListView_MouseDoubleClick">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Doktor" DisplayMemberBinding="{Binding Doctor}" />
+                        <GridViewColumn Header="Prosečna ocena" DisplayMemberBinding="{Binding RatingPresenter}" />
+                        <GridViewColumn Header="Recenzije" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ListView ItemsSource="{Binding Surveys}" BorderBrush="Transparent" Background="Transparent">
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <Setter Property="Focusable" Value="False"/>
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                                <Setter Property="IsHitTestVisible" Value="False"/>
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                        <ListView.View>
+                                            <GridView ColumnHeaderContainerStyle="{StaticResource headerStyle}">
+                                                <GridViewColumn Header="Naziv stavke" DisplayMemberBinding="{Binding Title}" />
+                                                <GridViewColumn Width="auto" Header="Ocene">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid >
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition />
+                                                                    <RowDefinition />
+                                                                    <RowDefinition />
+                                                                    <RowDefinition />
+                                                                    <RowDefinition />
+                                                                </Grid.RowDefinitions>
 
-                                                            <Label Style="{StaticResource GridItem}" Content="{Binding RatingCount[4]}"/>
-                                                            <Label Style="{StaticResource GridItem}" Grid.Row="1" Content="{Binding RatingCount[3]}"/>
-                                                            <Label Style="{StaticResource GridItem}" Grid.Row="2" Content="{Binding RatingCount[2]}"/>
-                                                            <Label Style="{StaticResource GridItem}" Grid.Row="3" Content="{Binding RatingCount[1]}"/>
-                                                            <Label Style="{StaticResource GridItem}" Grid.Row="4" Content="{Binding RatingCount[0]}"/>
-                                                        </Grid>
-                                                    </DataTemplate>
-                                                </GridViewColumn.CellTemplate>
-                                            </GridViewColumn>
-                                        </GridView>
-                                    </ListView.View>
-                                </ListView>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+                                                                <DockPanel Style="{StaticResource DockAlign}">
+                                                                    <fa:IconBlock Style="{StaticResource RatingStar}"  />
+                                                                    <fa:IconBlock Style="{StaticResource RatingStar}"  />
+                                                                    <fa:IconBlock Style="{StaticResource RatingStar}"  />
+                                                                    <fa:IconBlock Style="{StaticResource RatingStar}"  />
+                                                                    <fa:IconBlock Style="{StaticResource RatingStar}"  />
+                                                                </DockPanel>
+                                                                <DockPanel Style="{StaticResource DockAlign}" Grid.Row="1" >
+                                                                    <fa:IconBlock Style="{StaticResource RatingStar}"  />
+                                                                    <fa:IconBlock Style="{StaticResource RatingStar}"  />
+                                                                    <fa:IconBlock Style="{StaticResource RatingStar}"  />
+                                                                    <fa:IconBlock Style="{StaticResource RatingStar}"  />
+                                                                </DockPanel>
+                                                                <DockPanel Style="{StaticResource DockAlign}" Grid.Row="2" >
+                                                                    <fa:IconBlock Style="{StaticResource RatingStar}"  />
+                                                                    <fa:IconBlock Style="{StaticResource RatingStar}"  />
+                                                                    <fa:IconBlock Style="{StaticResource RatingStar}"  />
+                                                                </DockPanel>
+                                                                <DockPanel Style="{StaticResource DockAlign}" Grid.Row="3" >
+                                                                    <fa:IconBlock Style="{StaticResource RatingStar}"  />
+                                                                    <fa:IconBlock Style="{StaticResource RatingStar}"  />
+                                                                </DockPanel>
+                                                                <DockPanel Style="{StaticResource DockAlign}" Grid.Row="4">
+                                                                    <fa:IconBlock Style="{StaticResource RatingStar}"  />
+                                                                </DockPanel>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                                <GridViewColumn Width="auto" Header="Broj ocena">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition />
+                                                                    <RowDefinition />
+                                                                    <RowDefinition />
+                                                                    <RowDefinition />
+                                                                    <RowDefinition />
+                                                                </Grid.RowDefinitions>
+
+                                                                <Label Style="{StaticResource GridItem}" Content="{Binding RatingCount[4]}"/>
+                                                                <Label Style="{StaticResource GridItem}" Grid.Row="1" Content="{Binding RatingCount[3]}"/>
+                                                                <Label Style="{StaticResource GridItem}" Grid.Row="2" Content="{Binding RatingCount[2]}"/>
+                                                                <Label Style="{StaticResource GridItem}" Grid.Row="3" Content="{Binding RatingCount[1]}"/>
+                                                                <Label Style="{StaticResource GridItem}" Grid.Row="4" Content="{Binding RatingCount[0]}"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </ScrollViewer>
     </Grid>
 </UserControl>

@@ -22,11 +22,9 @@ namespace HealthCare.ViewModel.ManagerViewModel.Command
             var service = Injector.GetService<AbsenceRequestService>();
             try
             {
-                var id = _model.TryGetSelectedId();
-
-                var request = service.Get(id);
+                var request = _model.TryGetSelectedRequest();
                 request.IsApproved = _approve;
-                service.Update(request);
+                service.ManageRequest(request);
             }
             catch (ValidationException ve)
             {
