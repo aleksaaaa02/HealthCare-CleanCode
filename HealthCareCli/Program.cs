@@ -1,6 +1,6 @@
 ﻿using HealthCare.Application;
+using HealthCare.Application.Exceptions;
 using HealthCare.Core.Users.Service;
-using HealthCare.Exceptions;
 using HealthCareCli.CliUtil;
 using HealthCareCli.Manager;
 using HealthCareCli.Nurse;

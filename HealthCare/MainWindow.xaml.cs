@@ -1,14 +1,14 @@
 using System.ComponentModel;
 using System.Windows;
 using HealthCare.Application;
-using HealthCare.Core.NotificationSystem;
+using HealthCare.Application.Exceptions;
+using HealthCare.Core.Notifications;
 using HealthCare.Core.Users.Service;
-using HealthCare.Exceptions;
-using HealthCare.GUI.DoctorGUI;
-using HealthCare.View;
-using HealthCare.View.ManagerView;
-using HealthCare.View.NurseView;
-using HealthCare.View.PatientView;
+using HealthCare.WPF.Common;
+using HealthCare.WPF.DoctorGUI;
+using HealthCare.WPF.ManagerGUI;
+using HealthCare.WPF.NurseGUI;
+using HealthCare.WPF.PatientGUI;
 
 namespace HealthCare
 {
@@ -52,7 +52,7 @@ namespace HealthCare
                         break;
                     case Role.Patient:
                         ShowNotifications();
-                        new PatientMainWindow(this).Show();
+                        new PatientMainView(this).Show();
                         break;
                 }
 

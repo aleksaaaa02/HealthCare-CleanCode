@@ -8,11 +8,11 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/GUI/Themes/ContactCard.xaml"/>
-                <ResourceDictionary Source="/GUI/Themes/ChatItem.xaml"/>
-                <ResourceDictionary Source="/GUI/Themes/SearchMessageBox.xaml"/>
-                <ResourceDictionary Source="/GUI/Themes/CustomScrollbar.xaml"/>
-                <ResourceDictionary Source="/GUI/Themes/SurveySection.xaml"/>
+                <ResourceDictionary Source="/WPF/PatientGUI/Communication/Contacts/ContactCardStyle.xaml"/>
+                <ResourceDictionary Source="/WPF/PatientGUI/Communication/Chats/ChatItemStyle.xaml"/>
+                <ResourceDictionary Source="/WPF/PatientGUI/Communication/Chats/SearchMessageBoxStyle.xaml"/>
+                <ResourceDictionary Source="/WPF/Common/CustomScrollbarStyle.xaml"/>
+                <ResourceDictionary Source="/WPF/PatientGUI/PatientSatisfaction/SurveySectionStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
 

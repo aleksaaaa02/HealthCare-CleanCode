@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using HealthCare.DataManagment.Repository;
-using HealthCare.View;
+using HealthCare.WPF.Common;
 
 namespace HealthCare.Core.PatientHealthcare.Pharmacy
 {

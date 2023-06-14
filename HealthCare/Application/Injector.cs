@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using HealthCare.Application.Common;
 using HealthCare.Core.Communication;
 using HealthCare.Core.HumanResources;
 using HealthCare.Core.Interior;
 using HealthCare.Core.Interior.Renovation.Model;
 using HealthCare.Core.Interior.Renovation.Service;
-using HealthCare.Core.NotificationSystem;
+using HealthCare.Core.Notifications;
 using HealthCare.Core.PatientHealthcare.HealthcareTreatment;
 using HealthCare.Core.PatientHealthcare.Pharmacy;
 using HealthCare.Core.PatientSatisfaction;

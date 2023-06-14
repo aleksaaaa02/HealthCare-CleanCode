@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using HealthCare.Application;
+using HealthCare.Application.Exceptions;
 using HealthCare.Core.Users.Model;
-using HealthCare.Exceptions;
 
 namespace HealthCare.Core.Users.Service
 {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using HealthCare.Application;
-using HealthCare.Core.NotificationSystem;
+using HealthCare.Core.Notifications;
 using HealthCare.Core.Scheduling.Examination;
 using HealthCare.Core.Service;
 using HealthCare.DataManagment.Repository;
