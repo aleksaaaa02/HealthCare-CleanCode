@@ -77,11 +77,14 @@ namespace HealthCareCli.DoctorCli
 
         public bool UpdateAppointment(Appointment appointment)
         {
+            _appointmentService.Remove(appointment.AppointmentID);
+
             if (_schedule.IsAvailable(appointment))
             {
-                _appointmentService.Update(appointment);
+                _appointmentService.Add(appointment);
                 return true;
             }
+            _appointmentService.Add(appointment);
             return false;
         }
     }
